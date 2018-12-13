@@ -1,7 +1,17 @@
 {
   "name": "dsnap-registration",
   "version": "0.1.0",
+  "description": "form capturing information of people applying for d-snap benefits",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/18f/dsnap-registration/dsnap-registration.git",
+  },
+  "author": "18F",
+  "contributors": [
+    "Adam Biagianti <adam.biagianti@gsa.gov>"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
   "devDependencies": {
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1"
