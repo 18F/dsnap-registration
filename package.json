@@ -5,13 +5,16 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/18f/dsnap-registration/dsnap-registration.git",
+    "url": "https://github.com/18f/dsnap-registration/dsnap-registration.git"
   },
   "author": "18F",
   "contributors": [
     "Adam Biagianti <adam.biagianti@gsa.gov>"
   ],
   "license": "SEE LICENSE IN LICENSE.md",
+  "engines": {
+    "node" : ">=10.14"
+  },
   "devDependencies": {
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1"
