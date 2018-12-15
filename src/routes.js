@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Header from './components/header';
 import AppContainer from './components/app-container';
-import Collapsible from './components/collapsible';
+import App from './app';
 import NoMatch from './components/no-match';
 
 const Routes = () => (
@@ -13,13 +13,7 @@ const Routes = () => (
         <Route
           exact
           path="/"
-          render={(routerProps) => (
-            <Collapsible
-              {...routerProps}
-              headerContent="example collapsible"
-              text="herein lies the content"
-            />
-          )}
+          component={App}
         />
         <Route exact path="/form" component={() => <div />} />
         <Route component={NoMatch} />
