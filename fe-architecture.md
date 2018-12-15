@@ -89,6 +89,10 @@ Could be useful for routing, validations, knowing when we need to move the wizar
 We'll know a step is complete when all validations on the page pass. This means that the steps themselves
 should have a wizard behavior (although they will lack the previous and next buttons)
 
+Employment info is a bit confusing and has a loop clause:
+  for each household benefit recipient
+    if they select they have one or more jobs
+      show employment screen until they select 'no other jobs'
 
 ## data design
 
@@ -136,13 +140,13 @@ we should just be able to compute total via a reduce op
   - `employer<string>`
   - `totalIncome<number>`
   - `isStateAgency<bool>`
-  - `hasAnotherJob<bool>`
 
 **general**
+  - `languages<string| enum en|sp >`
   - `householdMembers<number>`
-  - `stateEmployee<bool>` (this maybe lives here for validation purposes, rather than in **money**)
+  - `agreeToSign<bool>`?
 
-**applicantInfo** (this is a section)
+**basicInfo** (this is a section)
   - `personal<personal>`
   - `idNumber<string>`
   - `phone<string>|<number?>`
@@ -172,10 +176,14 @@ The number of people in the memberInfo section should correspond to the number i
 
 **money** ( this is a section )
  - `totalOnHand<number>`
- - `incomeRecipients`
- - `employer<employmentInfo>`
+ - `incomeRecipients<array>[ids of recipients]`
+ - `hasJob<bool>`
+ - employment:
+    - `employers<array>[employmentInfo]`
+    - `hasAnotherJob<bool>`
+      - continue to ask for additional employers until hasAnotherJob is false (if null, don't allow submission)
 
     #### questions
-      * how should we encode the income recipients?
+      * how should we encode the income recipients? - just a list of the household members 
       * does having another job trigger more info or additional screens?
 
