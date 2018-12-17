@@ -1,0 +1,5 @@
+---
+applications:
+  - name: dsnap-registration
+    path: build
+    buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
