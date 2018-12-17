@@ -1,0 +1,79 @@
+version: 2
+
+references:
+  container: &container
+    docker:
+      - image: circleci/node:10.14
+    working_directory: ~/repo
+  
+  restore_deps: &restore_deps
+    restore_cache:
+      keys:
+        - yarn-packages-{{ checksum "yarn.lock" }}
+        - yarn-packages-
+
+  save_deps: &save_deps
+    save_cache:
+      paths:
+        - ~/repo/node_modules
+      key: yarn-packages-{{ checksum "yarn.lock" }}
+  
+  install_deps: &install_deps    
+    run:
+      name: install dependencies
+      command: yarn install --frozen-lockfile
+
+  unit_test: &unit_test
+    run:
+      name: front-end tests
+      command: yarn test
+
+jobs:
+  test:
+    <<: *container
+    steps:
+      - checkout
+      - *restore_deps
+      - *install_deps
+      - *save_deps
+      - *unit_test
+      
+  deploy:
+    <<: *container
+    steps:
+      - checkout
+      - run:
+          name: Setup Environment Variables
+          command: echo 'export NODE_ENV="production"' >> $BASH_ENV
+      - *restore_deps
+      - *install_deps
+      - *save_deps
+      - *unit_test
+      - run:
+          name: Install cf cli
+          command: |
+            mkdir -p $HOME/bin
+            export PATH=$HOME/bin:$PATH
+            curl -L "https://cli.run.pivotal.io/stable?release=linux64-binary" | tar xzv -C $HOME/bin
+            cf install-plugin autopilot -f -r CF-Community
+      - run: 
+          name: build assets
+          command: yarn build
+      - run:
+          name: Deploy to dev
+          command: |
+            export PATH=$HOME/bin:$PATH
+            cf login -a https://api.fr.cloud.gov -u $CF_DSNAP_DEV_USER -p $CF_DSNAP_DEV_PASS -o gsa-10x-prototyping -s dsnap_dev
+            cf zero-downtime-push dsnap-registration -f manifest.yml
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: develop
