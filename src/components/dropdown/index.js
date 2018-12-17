@@ -19,13 +19,13 @@ const propTypes = {
 
 class Dropdown extends React.Component {
   mapOptions() {
-    return this.props.options.map((option, index) =>
+    return this.props.options.map((option, index) => (
       <option
         key={`${option.value}-${index}`}
         value={option.value}>
         {option.text}
       </option>
-    );
+    ));
   }
 
   render() {
