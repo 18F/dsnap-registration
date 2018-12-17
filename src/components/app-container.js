@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({ children }) =>
+export default ({ children }) => (
   <div className="bg-primary-lighter width-full height-viewport">
     <div className="grid-container">
       <div className="grid-row">
@@ -10,3 +10,4 @@ export default ({ children }) =>
         </div>
     </div>
   </div>
+);

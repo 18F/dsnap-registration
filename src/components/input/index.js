@@ -21,13 +21,7 @@ const propTypes = {
 };
 
 class Input extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
+  handleChange = (event) => {
     const { value } = event.target;
 
     this.props.onChange(value);
@@ -52,7 +46,9 @@ class Input extends React.Component {
   }
 
   mapErrors() {
-    return this.props.errors && this.props.errors.map((error, index) => {
+    const { errors } = this.props;
+
+    return errors && errors.map((error, index) => {
       return (
         <InputError
           key={`error-${this.props.name}-${index}`}
