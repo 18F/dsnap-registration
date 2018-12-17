@@ -30,7 +30,7 @@ class Dropdown extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <>
         <label className="usa-label" htmlFor={this.props.name}>
           {this.props.labelText}
         </label>
@@ -42,7 +42,7 @@ class Dropdown extends React.Component {
         >
           {this.mapOptions()}
         </select>
-      </React.Fragment>
+      </>
     );
   }
 }
