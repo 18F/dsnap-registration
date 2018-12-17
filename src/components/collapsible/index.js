@@ -8,17 +8,11 @@ const propTypes = {
 };
 
 class Collapsible extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      collapsed: true
-    };
-
-    this.handleClick = this.handleClick.bind(this);
+  state = {
+    collapsed: true
   }
 
-  handleClick(event) {
+  handleClick = (event) => {
     event.preventDefault();
 
     const collapsed = this.state.collapsed;

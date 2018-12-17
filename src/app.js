@@ -5,13 +5,9 @@ import Dropdown from './components/dropdown';
 import Input from './components/input';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      checkbox: true,
-      input: ''
-    };
+  state = {
+    checkbox: true,
+    input: ''
   }
 
   render() {
