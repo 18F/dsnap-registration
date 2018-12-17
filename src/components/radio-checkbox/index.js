@@ -11,13 +11,7 @@ const propTypes = {
 };
 
 class RadioCheckbox extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange() {
+  handleChange = () => {
     this.props.onChange(this.props.value);
   }
 

@@ -1,8 +1,9 @@
 import React from 'react';
 
-const CollapsibleContent = ({ children, collapsed }) =>
+const CollapsibleContent = ({ children, collapsed }) => (
   <div className="usa-accordion-content usa-prose" id="a1" hidden={collapsed}>
     { children }
-  </div>;
+  </div>
+);
 
 export default CollapsibleContent;
