@@ -37,18 +37,19 @@ jobs:
       - *install_deps
       - *save_deps
       - *unit_test
-      
+
+
   deploy:
     <<: *container
     steps:
       - checkout
-      - run:
-          name: Setup Environment Variables
-          command: echo 'export NODE_ENV="production"' >> $BASH_ENV
       - *restore_deps
       - *install_deps
       - *save_deps
       - *unit_test
+      - run:
+          name: Setup Environment Variables
+          command: echo 'export NODE_ENV="production"' >> $BASH_ENV
       - run:
           name: Install cf cli
           command: |
