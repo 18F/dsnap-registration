@@ -44,9 +44,6 @@ jobs:
     steps:
       - checkout
       - *restore_deps
-      - *install_deps
-      - *save_deps
-      - *unit_test
       - run:
           name: Setup Environment Variables
           command: echo 'export NODE_ENV="production"' >> $BASH_ENV
