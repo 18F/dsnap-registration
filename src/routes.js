@@ -5,6 +5,7 @@ import AppContainer from './components/app-container';
 import App from './app';
 import NoMatch from './components/no-match';
 import LocaleContext from './locale-context';
+import Components from './pages/components';
 
 const Routes = ({ t }) => (
   <LocaleContext.Provider value={t}>
@@ -15,6 +16,11 @@ const Routes = ({ t }) => (
           exact
           path="/"
           component={App}
+        />
+        <Route
+          exact
+          path="/components"
+          component={Components}
         />
         <Route exact path="/form" component={() => <div />} />
         <Route component={NoMatch} />
