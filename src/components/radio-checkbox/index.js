@@ -19,7 +19,7 @@ class RadioCheckbox extends React.Component {
     const { type } = this.props;
 
     return (
-      <React.Fragment>
+      <>
         <input
           className={`usa-${type}-input`}
           type={type}
@@ -35,7 +35,7 @@ class RadioCheckbox extends React.Component {
         >
           {this.props.labelText}
         </label>
-      </React.Fragment>
+      </>
     );
   }
 }

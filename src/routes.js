@@ -4,10 +4,11 @@ import Header from './components/header';
 import AppContainer from './components/app-container';
 import App from './app';
 import NoMatch from './components/no-match';
+import LocaleContext from './locale-context';
 
-const Routes = () => (
-  <div>  
-    <Header text="D-SNAP Benefits Registration" />
+const Routes = ({ t }) => (
+  <LocaleContext.Provider value={t}>
+    <Header text={t('general.header')} />
     <AppContainer>
       <Switch>
         <Route
@@ -19,7 +20,7 @@ const Routes = () => (
         <Route component={NoMatch} />
       </Switch>
     </AppContainer>
-  </div>
+  </LocaleContext.Provider>
 );
 
 export default Routes;
