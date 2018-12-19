@@ -18,6 +18,6 @@ describe('<Header />', () => {
   });
 
   it('accepts a single prop for `text`', () => {
-    expect(component.text()).toEqual(props.text);
+    expect(component.find('span.site-title').text()).toEqual(props.text);
   });
 });
