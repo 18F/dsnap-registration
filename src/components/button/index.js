@@ -8,8 +8,7 @@ const propTypes = {
     PropTypes.object
   ]),
   isDisabled: PropTypes.bool,
-  onClick: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
   type: PropTypes.oneOf(['button', 'submit'])
 };
 
@@ -17,15 +16,16 @@ const applyClassNames = names => classNames('usa-button usa-button-primary', nam
 
 const Button = ({
   type = 'submit',
+  children,
   classNames,
   onClick,
-  isDisabled = false
+  disabled = false
 }) => (
   <button
     className={applyClassNames(classNames)}
     type={type}
     onClick={onClick}
-    disabled={isDisabled}
+    disabled={disabled}
   >
     {children}
   </button>

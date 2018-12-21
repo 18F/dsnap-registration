@@ -1,25 +1,60 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Formik } from 'formik';
+import { Formik, Form, connect } from 'formik';
 import Debug from './debug';
+import Button from 'components/button';
 
 const WizardContext = React.createContext();
 
 class Section extends React.Component {
   static propTypes = {
+    handleSubmit: PropTypes.func,
     header: PropTypes.string,
-    initialValues: PropTypes.object
+    initialValues: PropTypes.object,
+    name: PropTypes.string,
+    onDone: PropTypes.func,
+    onSubmit: PropTypes.func,
+    validateOnBlur: PropTypes.bool,
+    validateOnChange: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    validateOnChange: true,
+    validateOnBlur: true
   }
 
   state = {
     step: 0
   }
 
-  next = values =>
-  this.setState(state => ({
-    step: Math.min(state.step + 1, this.props.children.length - 1),
-    values
-  }));
+  next = (values) => {
+    this.setState(state => ({
+      step: Math.min(state.step + 1, this.props.children.length - 1),
+      values
+    }))
+  };
+
+  validate = (values) => {
+    const { props: { validate } } = this.getActiveStep();
+
+    // call the validate method of the child step, if there is one
+    return validate ? validate(values) : {};
+  }
+
+  handleSubmit = (values, actions) => {
+    const isLastStep = this.state.step === React.Children.count(this.props.children) - 1;
+
+    if (isLastStep) {
+      this.props.handleSubmit();
+    } else {
+      actions.setSubmitting(false);
+      this.next();
+    }
+  }
+
+  hasErrors(errors = {}) {
+    return Object.keys(errors).length >= 1;
+  }
 
   getActiveStep() {
     return React.Children.toArray(this.props.children)[this.state.step];
@@ -27,26 +62,29 @@ class Section extends React.Component {
 
   render() {
     const activeStep = this.getActiveStep();
-    const isLastStep = this.state.step === React.Children.count(this.props.children) - 1;
 
-    return (
+    return (      
       <section>
         <h2>{this.props.header}</h2>
         <Formik
-          initialValues={this.props.initialValues}
+          initialValues={this.props.values[this.props.name]}
           onSubmit={this.handleSubmit}
-          render={({ values, handleSubmit, isSubmitting, handleReset }) => {
+          validateOnBlur={this.props.validateOnBlur}
+          validateOnChange={this.props.validateOnChange}
+          validate={this.validate}
+          render={(props) => {
+            const disable = (this.hasErrors(props.errors)) || props.isSubmitting;
+
             return (
-              <div>
+              <Form>
                 { activeStep }
-                <button
-                  type="button"
-                  className="usa-button usa-button-primary"
-                  onClick={isLastStep ? this.props.handleSubmit : this.next}
-                >
-                  next
-                </button>
-              </div>
+                <div className="margin-y-2">
+                  <Button disabled={disable}>
+                    next
+                  </Button>
+                </div>
+                <Debug name={`section ${this.props.name} state`}/>
+              </Form>
             );
           }}
         />
@@ -57,9 +95,7 @@ class Section extends React.Component {
 
 class Step extends React.Component {
   static propTypes = {
-    header: PropTypes.string,
-    // initialValues: PropTypes.object.isRequired,
-    onSubmit: PropTypes.func,
+    title: PropTypes.string.isRequired,
     validate: PropTypes.func
   }
 
@@ -67,16 +103,16 @@ class Step extends React.Component {
     children: null
   }
 
-  handleSubmit = (/** values i guess? */) => {
-    //this.validate() // is this async?
-    this.props.onSubmit() && this.props.onSubmit();
-  }
-
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div>
+        <div className="border-bottom-1px border-base-lighter margin-bottom-4">
+          <h1 className="font-sans-2xl">
+            {this.props.title}
+          </h1>
+        </div>
         {this.props.children}
-      </form>
+      </div>
     )
   }
 }
@@ -98,22 +134,27 @@ class Progress extends React.Component {
 
 class Wizard extends React.Component {
   static Step = Step
-  static Section = Section
+  static Section = connect(Section)
   static Progress = Progress
   static Context = WizardContext.Consumer
   static propTypes = {
-    onDone: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
+    header: PropTypes.string,
+    initialValues: PropTypes.object,
+    name: PropTypes.string,
+    onDone: PropTypes.func,
     onSubmit: PropTypes.func,
-    title: PropTypes.string,
+    validateOnBlur: PropTypes.bool,
+    validateOnChange: PropTypes.bool,
   }
 
-  constructor(props) {
-    super(props);
+  static defaultProps = {
+    validateOnChange: true,
+    validateOnBlur: true
+  }
 
-    this.state = {
-      step: 0,
-      initialValues: props.initialValues
-    };
+  state = {
+    step: 0
   }
 
   next = (values) =>
@@ -123,21 +164,25 @@ class Wizard extends React.Component {
     }));
 
   validate = (values) => {
-    console.log('validate hook called')
-    const activeStep = this.getActiveStep();
+    console.log('validate hook called in wizard')
+    const { props: { validate } } = this.getActiveStep();
 
     // call the validate method of the child step, if there is one
-    return activeStep.props.validate ? activeStep.props.validate(values) : {};
+    return validate ? validate(values) : {};
   }
 
-  handleSubmit = (values, bag) => {
-    console.log('submit hook called');
+  handleSubmit = (values, actions) => {
+    console.log('submit hook called in wizard');
 
+    const isLastStep = this.isLastStep();
     const { onSubmit } = this.props;
 
-    onSubmit && onSubmit(values);
-
-    !this.isLastPage() ? this.next(values) : this.props.onDone(values);
+    if (isLastStep) {
+      this.props.onDone(values);
+    } else {
+      actions.setSubmitting(false);
+      this.next();
+    }
   }
 
   getActiveStep() {
@@ -148,42 +193,38 @@ class Wizard extends React.Component {
     return React.Children.count(this.props.children);
   }
 
-  isLastPage() {
+  isLastStep() {
     return this.state.step + 1 === this.getChildCount();
   }
 
   render() {
     const activeStep = this.getActiveStep();
 
-    const providedState = {
-      ...this.state,
-      ...this.props,
-      advanceSection: this.next,
-    };
-
     return (
-      <WizardContext.Provider value={providedState}>
+      <>
         <h2>{this.props.title}</h2>
         <Wizard.Progress step={this.state.step + 1} steps={this.getChildCount()} />
         <Formik
           initialValues={this.props.initialValues}
           onSubmit={this.handleSubmit}
           validate={this.validate}
-          render={({ values, handleSubmit, isSubmitting, handleReset }) => {
+          render={({ values, handleSubmit, isSubmitting, handleReset, handleChange, errors }) => {
             return (
               <div>
                 {
                   React.cloneElement(activeStep, {
-                    handleSubmit: handleSubmit,
+                    handleSubmit,
+                    values,
+                    errors,
                     ...activeStep.props
                   })
                 }
+                <Debug name="form state" />
               </div>
             );
           }}
         />
-        <Debug />
-      </WizardContext.Provider>
+      </>
     );
   }
 }

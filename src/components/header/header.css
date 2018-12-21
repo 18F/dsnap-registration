@@ -1,8 +1,11 @@
 .usa-logo {
-  margin-left: 1rem;
-  margin-top: 1rem;
+  margin-left: 2rem;
 }
 
 .usa-logo-text {
   font-weight: initial;
+}
+
+.usa-navbar {
+  border-bottom: none;
 }

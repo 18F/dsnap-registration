@@ -11,10 +11,10 @@ const Header = ({ text }) => (
   <>
     <header className="usa-header bg-primary-darker padding-1">
       <div className="usa-navbar">
-        <div className="usa-logo margin-top-0">
+        <div className="usa-logo margin-y-2">
           <Link to="/">
             <em className="usa-logo-text text-white">
-              <span className="site-title">
+              <span className="site-title font-sans-lg">
                 { text }
               </span>
             </em>
