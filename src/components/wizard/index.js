@@ -141,11 +141,7 @@ class Wizard extends React.Component {
   }
 
   getActiveStep() {
-    return this.getChildren()[this.state.step];
-  }
-
-  getChildren() {
-    return React.Children.toArray(this.props.children);
+    return React.Children.toArray(this.props.children)[this.state.step];
   }
 
   getChildCount() {
@@ -157,9 +153,8 @@ class Wizard extends React.Component {
   }
 
   render() {
-    const { children } = this.props;
     const activeStep = this.getActiveStep();
-    const isLastPage = activeStep === this.getChildCount();
+
     const providedState = {
       ...this.state,
       ...this.props,

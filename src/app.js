@@ -6,7 +6,7 @@ import LocaleContext from './locale-context';
 class App extends React.Component {
   handleFormComplete = (values) => {
     console.log('form done!')
-    this.props.history.push('/components');
+    this.props.history.push('/form/complete');
   }
 
   render() {
