@@ -3,23 +3,24 @@ import { FormikConsumer } from 'formik';
 
 const Debug = () => (
   <div className="margin-y-2">
-    <div className="usa-alert usa-alert-paragraph" >
-      <div className="usa-alert-body">
-        <h6 className="usa-alert-heading">Form state</h6>
-        <FormikConsumer>
-          {({ validationSchema, validate, onSubmit, ...rest }) => (
-            <pre
-              className="usa-alert-text"
-              style={{
-                fontSize: '.65rem',
-                padding: '.25rem .5rem',
-                overflowX: 'scroll',
-              }}
-            >
-              {JSON.stringify(rest, null, 2)}
-            </pre>
-          )}
-        </FormikConsumer>
+    <div className="grid-col-8">
+      <h6 className="padding-1 bg-base-darker text-white margin-0 font-sans-md">Form state</h6>
+      <div className="bg-base-lightest"> 
+        <div className="usa-alert-body padding-2">
+          <FormikConsumer>
+            {({ validationSchema, validate, onSubmit, ...rest }) => (
+              <pre
+                className="usa-alert-text"
+                style={{
+                  fontSize: '1rem',
+                  padding: '.25rem .5rem'
+                }}
+              >
+                {JSON.stringify(rest, null, 2)}
+              </pre>
+            )}
+          </FormikConsumer>
+        </div>
       </div>
     </div>
   </div>
