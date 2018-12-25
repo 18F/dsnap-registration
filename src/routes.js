@@ -5,7 +5,8 @@ import AppContainer from './components/app-container';
 import App from './app';
 import NoMatch from './components/no-match';
 import LocaleContext from './locale-context';
-import Components from './pages/components';
+import Components from 'pages/components';
+import FormComplete from 'pages/form-complete';
 
 const Routes = ({ t }) => (
   <LocaleContext.Provider value={t}>
@@ -22,7 +23,7 @@ const Routes = ({ t }) => (
           path="/components"
           component={Components}
         />
-        <Route exact path="/form" component={() => <div />} />
+        <Route path="/form/complete" component={FormComplete} />
         <Route component={NoMatch} />
       </Switch>
     </AppContainer>

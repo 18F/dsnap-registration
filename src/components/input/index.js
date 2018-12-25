@@ -1,19 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { ErrorMessage, connect, getIn } from 'formik';
 import './input.css';
-import InputError from './input-error';
+import InputError from 'components/error';
 
 const propTypes = {
+  autoComplete: PropTypes.oneOf([null, 'off']),
   className: PropTypes.string,
-  errors: PropTypes.arrayOf(
-    PropTypes.shape({
-      message: PropTypes.string,
-    })
-  ),
+  error: PropTypes.string,
   labelClassName: PropTypes.string,
   labelText: PropTypes.string.isRequired,
-  labelSecondaryText: PropTypes.string,
+  explanation: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   type: PropTypes.string,
@@ -21,73 +19,71 @@ const propTypes = {
 };
 
 class Input extends React.Component {
-  handleChange = (event) => {
-    const { value } = event.target;
+  static propTypes = propTypes
 
-    this.props.onChange(value);
+  static defaultProps = {
+    className: null,
+    labelClassName: null,
+    explanation: null,
+    type: 'text'
   }
 
   labelClassName() {
-    return classNames('usa-label', this.props.labelClassName, {
-      'usa-input-error-label': this.props.errors
+    return classNames('usa-label margin-bottom-2', this.props.labelClassName, {
+      'usa-input-error-label': this.hasError()
     });
   }
 
   fieldClassName() {
     return classNames('usa-input', this.props.className, {
-      'usa-input-error': this.props.errors
+      'usa-input-error': this.hasError()
     });
   }
 
   formGroupClassName() {
     return classNames('usa-form-group', {
-      'usa-form-group-error': this.props.errors
+      'usa-form-group-error': this.hasError()
     });
   }
 
-  mapErrors() {
-    const { errors } = this.props;
+  hasError() {
+    const { formik: { errors }, name } = this.props;
 
-    return errors && errors.map((error, index) => {
-      return (
-        <InputError
-          key={`error-${this.props.name}-${index}`}
-          message={error.message}
-        />
-      )
-    });
+    return !!getIn(errors, name)
   }
 
   render() {
+    const { name } = this.props;
+    console.log(this.props)
     return (
+
       <div className={this.formGroupClassName()}>
         <label
           className={this.labelClassName()}
-          htmlFor={this.props.name}
+          htmlFor={name}
         >
-          <b>{this.props.labelText}</b>
-          <p>{this.props.labelSecondaryText}</p>
+          <p className="margin-bottom-1">
+            <b>{this.props.labelText}</b>
+          </p>
+          <span className="text-base">
+            {this.props.explanation}
+          </span>
         </label>
         <input
+          autoComplete={this.props.autoComplete}
           type={this.props.type}
           className={this.fieldClassName()}
-          name={this.props.name}
-          onChange={this.handleChange}
+          name={name}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
           value={this.props.value}
         />
-        { this.mapErrors() }
+        <ErrorMessage name={name}>
+          { message => <InputError message={message} /> }
+        </ErrorMessage>
       </div>
     );
   }
 }
 
-Input.propTypes = propTypes;
-Input.defaultProps = {
-  className: null,
-  labelClassName: null,
-  labelSecondaryText: null,
-  errors: null,
-  type: 'text'
-};
-
-export default Input;
+export default connect(Input);
