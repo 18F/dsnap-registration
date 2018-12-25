@@ -8,14 +8,15 @@ const props = {
   name: 'test-input',
   labelText: 'type here',
   labelClassName: 'test-label-class',
-  onChange: jest.fn()
+  onChange: jest.fn(),
+  formik: { errors: { } }
 };
 
 describe('<Input />', () => {
   let component;
 
   beforeEach(() => {
-    component = shallow(<Input {...props} />);
+    component = shallow(<Input.WrappedComponent {...props} />);
   });
 
   it('renders a label', () => {
@@ -24,9 +25,9 @@ describe('<Input />', () => {
 
   it('renders secondary label text when provided', () => {
     const secondaryText = 'additional info etc.';
-    component = shallow(<Input {...props} labelSecondaryText={secondaryText} />);
+    component = shallow(<Input.WrappedComponent {...props} explanation={secondaryText} />);
 
-    expect(component.find('label').find('p').text()).toBe(secondaryText);
+    expect(component.find('label').find('span').text()).toBe(secondaryText);
   });
 
   it('passes className additions to label', () => {
@@ -38,12 +39,21 @@ describe('<Input />', () => {
   });
 
   it('renders errors when supplied as props', () => {
-    const errors = [{message: 'this field cannot be blank'}];
+    const message = 'this field cannot be blank';
+    const error = {
+      errors: {
+        [props.name]: message
+      }
+    };
 
-    component = shallow(<Input {...props} errors={errors} />);
+    const finalProps = {
+      ...props,
+      formik: error
+    };
 
-    expect(component.find('InputError').length).toBe(1);
-    expect(component.find('InputError').prop('message')).toBe(errors[0].message);
+    component = shallow(<Input.WrappedComponent {...finalProps} />);
+    
+    expect(component.hasClass('usa-form-group-error')).toBe(true);
   });
 
   describe('event handling', () => {
@@ -55,7 +65,7 @@ describe('<Input />', () => {
       component.find('input').simulate('change', eventData);
 
       expect(mock.calls.length).toBe(1);
-      expect(mock.calls[0][0]).toBe(value);
+      expect(mock.calls[0][0]).toBe(eventData);
     });
   });
 });
