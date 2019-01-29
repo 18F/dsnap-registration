@@ -4,7 +4,7 @@ import { FormikConsumer } from 'formik';
 const Debug = ({ name = 'form state' }) => (
   <div className="margin-y-2">
     <div className="grid-col-8">
-      <h6 className="padding-1 bg-base-darker text-white margin-0 font-sans-md">
+      <h6 className="padding-1 padding-x-3 bg-base-darker text-white margin-0 font-sans-md">
         { name }
       </h6>
       <div className="bg-base-lightest"> 

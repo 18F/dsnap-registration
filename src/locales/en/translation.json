@@ -5,8 +5,23 @@
   "errors": {
     "required": "This field is required"
   },
-  "pre-registration": {
-
+  "preregistration": {
+    "header": "Welcome!",
+    "byline": "This site will help you apply for disaster-related food assistance (D-SNAP).",
+    "conditions": {
+      "header": "Apply for this program if:",
+      "body": [
+        "You are not already participating in a food assistance program like SNAP (If you are, read this)",
+        "You lived in one of these areas from [benefit period start date] to [benefit period end date]: [affected county1], [affected county2], [affected county3], [affected county4]",
+        "The disaster damaged your home or self-employment property, delayed, reduced, or stopped your income, caused you to lose food, or created any additional expense for your household",
+        "Your household plans to buy food between [benefit period start date] and [benefit period end date]"
+      ]
+    },
+    "language": {
+      "header": "What language do you prefer?",
+      "action": "Get started",
+      "error": "Please select a language before continuing."
+    }
   },
   "registrant": {
     "applicantName": {
