@@ -63,39 +63,41 @@ class Section extends React.Component {
   render() {
     const activeStep = this.getActiveStep();
 
-    return (      
-      <section>
-        <h2>{this.props.header}</h2>
-        <Formik
-          initialValues={this.props.values[this.props.name]}
-          onSubmit={this.handleSubmit}
-          validateOnBlur={this.props.validateOnBlur}
-          validateOnChange={this.props.validateOnChange}
-          validate={this.validate}
-          render={(props) => {
-            const disable = (this.hasErrors(props.errors)) || props.isSubmitting;
+    return (
+      <WizardContext.Provider value={{ sectionName: this.props.name }}>
+        <section>
+          <h2>{this.props.header}</h2>
+          <Formik
+            initialValues={this.props.values[this.props.name]}
+            onSubmit={this.handleSubmit}
+            validateOnBlur={this.props.validateOnBlur}
+            validateOnChange={this.props.validateOnChange}
+            validate={this.validate}
+            render={(props) => {
+              const disable = (this.hasErrors(props.errors)) || props.isSubmitting;
 
-            return (
-              <Form>
-                { activeStep }
-                <div className="margin-y-2">
-                  <Button disabled={disable}>
-                    next
-                  </Button>
-                </div>
-                <Debug name={`section ${this.props.name} state`}/>
-              </Form>
-            );
-          }}
-        />
-      </section>
+              return (
+                <Form>
+                  { activeStep }
+                  <div className="margin-y-2">
+                    <Button disabled={disable}>
+                      next
+                    </Button>
+                  </div>
+                  <Debug name={`section ${this.props.name} state`}/>
+                </Form>
+              );
+            }}
+          />
+        </section>
+      </WizardContext.Provider>
     );
   }
 };
 
 class Step extends React.Component {
   static propTypes = {
-    title: PropTypes.string,
+    header: PropTypes.string.isRequired,
     validate: PropTypes.func
   }
 
@@ -103,14 +105,14 @@ class Step extends React.Component {
     children: null
   }
 
-  showTitle() {
-    if (!this.props.title) {
+  renderHeader() {
+    if (!this.props.header) {
       return null;
     }
 
     return (
       <h1 className="font-sans-2xl">
-        {this.props.title}
+        {this.props.header}
       </h1>
     );
   }
@@ -119,9 +121,9 @@ class Step extends React.Component {
     return (
       <div>
         <div className="border-bottom-1px border-base-lighter margin-bottom-4">
-          { this.showTitle() }
+          { this.renderHeader() }
         </div>
-        {this.props.children}
+        { this.props.children }
       </div>
     )
   }
@@ -185,7 +187,6 @@ class Wizard extends React.Component {
     console.log('submit hook called in wizard');
 
     const isLastStep = this.isLastStep();
-    const { onSubmit } = this.props;
 
     if (isLastStep) {
       this.props.onDone(values);

@@ -1,7 +1,7 @@
 import address from './address';
 
 export default { 
-  name: {
+  applicantName: {
     firstName: '',
     middleName: '',
     lastName: '',
