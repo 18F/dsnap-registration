@@ -10,9 +10,9 @@ const propTypes = {
 
 const Header = ({ text, className }) => (
   <>
-    <header className={`usa-header ${className}  padding-1`}>
+    <header className={`usa-header ${className} padding-x-1 padding-bottom-2`}>
       <div className="usa-navbar">
-        <div className="usa-logo margin-y-2">
+        <div className="usa-logo">
           <Link to="/">
             <em className="usa-logo-text text-white">
               <span className="site-title font-sans-lg">
