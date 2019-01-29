@@ -6,16 +6,17 @@ const applicable = (applicable = '', value = '') => ({
 const baseData = {
   lostOrInaccessibleIncome: '',
   inaccessibleMoney: '',
-  buyFood: ''
+  buyFood: '',
 };
 
-const applicableData = ['repairs', 'tempShelter', 'evacuation', 'foodLoss',
+const applicableData = [
+  'repairs', 'tempShelter', 'evacuation', 'foodLoss',
   'propertyProtection', 'medicalPersonalInjury', 'funeral',
   'petBoarding', 'itemReplacement', 'heatingFuel', 'cleaningItems',
-  'vehicleDamage', 'storage'
+  'vehicleDamage', 'storage',
 ];
 
 export default {
   ...baseData,
-  ...applicableData.reduce((memo, type) => ({ [type]: applicable(), ...memo }), {});
+  ...applicableData.reduce((memo, type) => ({ [type]: applicable(), ...memo }), {}),
 };
