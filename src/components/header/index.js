@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 import './header.css';
 
 const propTypes = {
+  className: PropTypes.string,
   text: PropTypes.string.isRequired
 };
 
-const Header = ({ text }) => (
+const Header = ({ text, className }) => (
   <>
-    <header className="usa-header bg-primary-darker padding-1">
+    <header className={`usa-header ${className}  padding-1`}>
       <div className="usa-navbar">
         <div className="usa-logo margin-y-2">
           <Link to="/">
@@ -22,14 +23,12 @@ const Header = ({ text }) => (
         </div>
       </div>
     </header>
-    <nav className="site-nav-secondary">
-      <ul>
-        <Link to="/components">component examples</Link>
-      </ul>
-    </nav>
   </>
 );
 
 Header.propTypes = propTypes;
+Header.defaultProps = {
+  className: 'bg-primary-darker'
+};
 
 export default Header;

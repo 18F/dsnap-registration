@@ -95,7 +95,7 @@ class Section extends React.Component {
 
 class Step extends React.Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     validate: PropTypes.func
   }
 
@@ -103,13 +103,23 @@ class Step extends React.Component {
     children: null
   }
 
+  showTitle() {
+    if (!this.props.title) {
+      return null;
+    }
+
+    return (
+      <h1 className="font-sans-2xl">
+        {this.props.title}
+      </h1>
+    );
+  }
+
   render() {
     return (
       <div>
         <div className="border-bottom-1px border-base-lighter margin-bottom-4">
-          <h1 className="font-sans-2xl">
-            {this.props.title}
-          </h1>
+          { this.showTitle() }
         </div>
         {this.props.children}
       </div>
@@ -202,7 +212,7 @@ class Wizard extends React.Component {
 
     return (
       <>
-        <h2>{this.props.title}</h2>
+        { this.props.title ? <h2>{this.props.title}</h2> : null }
         <Wizard.Progress step={this.state.step + 1} steps={this.getChildCount()} />
         <Formik
           initialValues={this.props.initialValues}

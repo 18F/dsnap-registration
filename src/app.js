@@ -5,6 +5,7 @@ import LocaleContext from './locale-context';
 import { Field } from 'formik';
 import Input from 'components/input';
 import registrant from 'models/registrant';
+import PreregistrationSection from './pages/form/pre-registration';
 
 const PREFIX = 'registrant.applicantName';
 
