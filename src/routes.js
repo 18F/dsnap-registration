@@ -6,7 +6,7 @@ import NoMatch from './components/no-match';
 import LocaleContext from './locale-context';
 import FormComplete from 'pages/form-complete';
 import PreregistrationPage from 'pages/form/pre-registration';
-import BasicInfoStep from 'pages/form/basic-info';
+import BasicInfoSection from 'pages/form/basic-info.js';
 
 const Routes = ({ t }) => (
   <LocaleContext.Provider value={t}>
@@ -23,7 +23,7 @@ const Routes = ({ t }) => (
           </Route>
           <Route
             path="/form/basic-info"
-            render={() => <BasicInfoStep name="basicInfo" />}
+            render={() => <BasicInfoSection modelName="basicInfo" />}
           />
           <Route path="/form/complete" component={FormComplete} />
           <Route component={NoMatch} />      
