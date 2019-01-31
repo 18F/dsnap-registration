@@ -3,11 +3,16 @@ import PropTypes from 'prop-types';
 import CollapsibleContent from './collapsible-content';
 
 const propTypes = {
-  headerContent: PropTypes.string.isRequired,
-  text: PropTypes.string,
+  body: PropTypes.string,
+  className: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
+  header: PropTypes.string.isRequired,
+  name: PropTypes.string,
 };
 
 class Collapsible extends React.Component {
+  static propTypes = propTypes;
+  static defaultProps = { body: '' }
+
   state = {
     collapsed: true
   }
@@ -27,25 +32,20 @@ class Collapsible extends React.Component {
       <div className="usa-accordion">
         <h2 className="usa-accordion-heading">
           <button
-            className="usa-accordion-button hover:text-underline"
+            className="usa-accordion-button hover:text-underline bg-mint hover:bg-mint text-white hover:text-white"
             aria-expanded={!collapsed}
-            aria-controls="a1"
+            aria-controls={this.props.name}
             onClick={this.handleClick}
           >
-            <span>{ this.props.headerContent }</span>
+            <span>{ this.props.header }</span>
           </button>
         </h2>
-        <CollapsibleContent collapsed={collapsed}>
-          { this.props.children ? this.props.children : this.props.text }
+        <CollapsibleContent id={this.props.name} collapsed={collapsed}>
+          { this.props.children ? this.props.children : this.props.body }
         </CollapsibleContent>
       </div>
     );
   }
 }
-
-Collapsible.propTypes = propTypes;
-Collapsible.defaultProps = {
-  text: ''
-};
 
 export default Collapsible;
