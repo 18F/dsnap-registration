@@ -11,7 +11,7 @@ class Section extends React.Component {
     handleSubmit: PropTypes.func,
     header: PropTypes.string,
     initialValues: PropTypes.object,
-    name: PropTypes.string,
+    name: PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     onDone: PropTypes.func,
     onSubmit: PropTypes.func,
     validateOnBlur: PropTypes.bool,
@@ -41,15 +41,28 @@ class Section extends React.Component {
     return validate ? validate(values) : {};
   }
 
-  handleSubmit = (values, actions) => {
-    const isLastStep = this.state.step === React.Children.count(this.props.children) - 1;
+  getChildCount() {
+    return React.Children.count(this.props.children);
+  }
 
+  isLastStep() {
+    return this.state.step + 1 === this.getChildCount();
+  }
+
+  handleSubmit = (values, actions) => {
+    const isLastStep = this.isLastStep();
+  
     if (isLastStep) {
-      this.props.handleSubmit();
+      this.props.handleSubmit(values);
     } else {
       actions.setSubmitting(false);
       this.next();
     }
+  }
+
+  handleChange = ownHandler => nextValues => {
+    ownHandler(nextValues);
+    this.props.handleChange(nextValues);
   }
 
   hasErrors(errors = {}) {
@@ -60,30 +73,42 @@ class Section extends React.Component {
     return React.Children.toArray(this.props.children)[this.state.step];
   }
 
+  selectState(...keys) {
+    const { values } = this.props;
+
+    return keys.reduce((memo, key) => {
+      const slice = values[key] || {};
+
+      return { ...memo, [key]: { ...slice } };
+    }, {});
+  }
+
   render() {
     const activeStep = this.getActiveStep();
-
-    return (      
+  
+    return (
       <section>
         <h2>{this.props.header}</h2>
         <Formik
-          initialValues={this.props.values[this.props.name]}
+          initialValues={this.selectState(this.props.name)}
           onSubmit={this.handleSubmit}
           validateOnBlur={this.props.validateOnBlur}
           validateOnChange={this.props.validateOnChange}
           validate={this.validate}
           render={(props) => {
-            const disable = (this.hasErrors(props.errors)) || props.isSubmitting;
+            const disable = this.hasErrors(props.errors) || props.isSubmitting;
 
             return (
-              <Form>
-                { activeStep }
+              <Form onSubmit={props.handleSubmit}>
+                <WizardContext.Provider value={{ sectionName: this.props.name, handleChange: this.handleChange(props.handleChange) }}>
+                  { activeStep }
+                </WizardContext.Provider>
                 <div className="margin-y-2">
                   <Button disabled={disable}>
                     next
                   </Button>
                 </div>
-                <Debug name={`section ${this.props.name} state`}/>
+                <Debug name={`Section ${this.props.name} state`}/>
               </Form>
             );
           }}
@@ -95,7 +120,7 @@ class Section extends React.Component {
 
 class Step extends React.Component {
   static propTypes = {
-    title: PropTypes.string,
+    header: PropTypes.string.isRequired,
     validate: PropTypes.func
   }
 
@@ -103,14 +128,14 @@ class Step extends React.Component {
     children: null
   }
 
-  showTitle() {
-    if (!this.props.title) {
+  renderHeader() {
+    if (!this.props.header) {
       return null;
     }
 
     return (
       <h1 className="font-sans-2xl">
-        {this.props.title}
+        {this.props.header}
       </h1>
     );
   }
@@ -119,9 +144,9 @@ class Step extends React.Component {
     return (
       <div>
         <div className="border-bottom-1px border-base-lighter margin-bottom-4">
-          { this.showTitle() }
+          { this.renderHeader() }
         </div>
-        {this.props.children}
+        { this.props.children }
       </div>
     )
   }
@@ -135,9 +160,9 @@ class Progress extends React.Component {
   
   render() {
     return (
-      <div id="progress">
+      <section id="progress">
         { `Step ${this.props.step} of ${this.props.steps}` }
-      </div>
+      </section>
     );
   }
 }
@@ -183,14 +208,12 @@ class Wizard extends React.Component {
 
   handleSubmit = (values, actions) => {
     console.log('submit hook called in wizard');
-
     const isLastStep = this.isLastStep();
-    const { onSubmit } = this.props;
 
     if (isLastStep) {
       this.props.onDone(values);
     } else {
-      actions.setSubmitting(false);
+      this.formik.setSubmitting(false);
       this.next();
     }
   }
@@ -207,29 +230,35 @@ class Wizard extends React.Component {
     return this.state.step + 1 === this.getChildCount();
   }
 
+  renderTitle() {
+    return this.props.title ?
+      <h2>{this.props.title}</h2> : null;
+  }
+
   render() {
     const activeStep = this.getActiveStep();
 
     return (
       <>
-        { this.props.title ? <h2>{this.props.title}</h2> : null }
+        { this.renderTitle() }
         <Wizard.Progress step={this.state.step + 1} steps={this.getChildCount()} />
         <Formik
           initialValues={this.props.initialValues}
           onSubmit={this.handleSubmit}
           validate={this.validate}
-          render={({ values, handleSubmit, isSubmitting, handleReset, handleChange, errors }) => {
+          render={({ values, handleSubmit, handleChange, errors }) => {
             return (
               <div>
                 {
                   React.cloneElement(activeStep, {
                     handleSubmit,
+                    handleChange,
                     values,
                     errors,
                     ...activeStep.props
                   })
                 }
-                <Debug name="form state" />
+                <Debug name="Complete form state" />
               </div>
             );
           }}

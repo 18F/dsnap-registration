@@ -2,11 +2,11 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './components/header';
 import AppContainer from './components/app-container';
-import App from './app';
 import NoMatch from './components/no-match';
 import LocaleContext from './locale-context';
 import FormComplete from 'pages/form-complete';
 import PreregistrationPage from 'pages/form/pre-registration';
+import BasicInfoSection from 'pages/form/basic-info.js';
 
 const Routes = ({ t }) => (
   <LocaleContext.Provider value={t}>
@@ -22,8 +22,8 @@ const Routes = ({ t }) => (
             <Redirect to="/welcome" />
           </Route>
           <Route
-            path="/form"
-            component={App}
+            path="/form/basic-info"
+            render={() => <BasicInfoSection modelName="basicInfo" />}
           />
           <Route path="/form/complete" component={FormComplete} />
           <Route component={NoMatch} />      

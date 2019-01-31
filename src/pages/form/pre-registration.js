@@ -34,7 +34,7 @@ const renderConditionals = ({ t, name }) =>
 
 class PreregistrationSection extends React.Component {
   handleSubmit = () => {
-    this.props.history.push('/form');
+    this.props.history.push('/form/basic-info');
   }
 
   render() {

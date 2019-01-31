@@ -22,6 +22,7 @@ class Input extends React.Component {
   static propTypes = propTypes
 
   static defaultProps = {
+    autocomplete: 'off',
     className: null,
     labelClassName: null,
     explanation: null,

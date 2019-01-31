@@ -4,10 +4,9 @@ import Wizard from './components/wizard'
 import LocaleContext from './locale-context';
 import { Field } from 'formik';
 import Input from 'components/input';
-import registrant from 'models/registrant';
-import PreregistrationSection from './pages/form/pre-registration';
+import basicInfo from 'models/basic-info';
 
-const PREFIX = 'registrant.applicantName';
+const PREFIX = 'basicInfo.applicantName';
 
 class App extends React.Component {
   handleFormComplete = (values) => {
@@ -20,12 +19,12 @@ class App extends React.Component {
         {(t) => {
           return (              
             <Wizard
-              initialValues={{ registrant }}
+              initialValues={{ basicInfo }}
               onDone={this.handleFormComplete}
             >
-              <Wizard.Section name="registrant">
+              <Wizard.Section name="name">
                 <Wizard.Step
-                  title={t(`${PREFIX}.title`)}
+                  title={t(`${PREFIX}.header`)}
                   validate={({ name }) => {
                     let errors = {};
 
