@@ -1,18 +1,24 @@
-fieldset {
-  border: none;
+html {
+  width: 100%;
 }
 
-ul {
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.bulleted {
   list-style: none;
   padding-left: 1rem;
 }
 
-ul li {
+ul.bulleted li {
   list-style-position: outside;
   text-indent: -1em;
 }
 
-ul li::before {
+ul.bulleted li::before {
   color: #13912d;
   /* unicode for a bullet */
   content: "\2022";

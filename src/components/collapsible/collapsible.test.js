@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import Collapsible from './index';
 
 const defaultProps = {
-  headerContent: 'header',
+  header: 'header',
 };
 const MockComponent = () => <div></div>;
 
@@ -19,14 +19,14 @@ describe('<Collapsible />', () => {
   });
 
   it('falls back to `text` prop when no children are provided', () => {
-    const text = 'sample text';
+    const body = 'sample text';
     const props = {
-      text,
+      body,
       ...defaultProps,
     };
     const component = shallow(<Collapsible {...props} />);
 
-    expect(component.find('CollapsibleContent').prop('children')).toEqual(text);
+    expect(component.find('CollapsibleContent').prop('children')).toEqual(body);
   });
 
   it('defaults to hiding its content', () => {
