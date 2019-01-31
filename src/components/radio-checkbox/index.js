@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   checked: PropTypes.bool,
+  explanation: PropTypes.bool,
   labelText: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

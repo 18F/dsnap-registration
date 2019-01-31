@@ -1,6 +1,6 @@
 import { getIn } from 'formik';
 import i18n from 'i18n';
-import preregistrationValidator from './preregistration';
+import preregistrationValidator from './index';
 
 describe('pre-registration validator', () => {
   it('returns an empty error object when valid', () => {

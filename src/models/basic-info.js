@@ -1,7 +1,7 @@
 import address from './address';
 
-export default { 
-  name: {
+export default () => ({ 
+  applicantName: {
     firstName: '',
     middleName: '',
     lastName: '',
@@ -18,4 +18,4 @@ export default {
   residenceAddress: address(),
   mailingAddress: address(),
   isAddressMailingAddress: true
-};
+});
