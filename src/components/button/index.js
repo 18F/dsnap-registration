@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const propTypes = {
-  classNames: PropTypes.oneOfType([
+  className: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object
   ]),
@@ -17,12 +17,12 @@ const applyClassNames = names => classNames('usa-button usa-button-primary', nam
 const Button = ({
   type = 'submit',
   children,
-  classNames,
+  className,
   onClick,
   disabled = false
 }) => (
   <button
-    className={applyClassNames(classNames)}
+    className={applyClassNames(className)}
     type={type}
     onClick={onClick}
     disabled={disabled}

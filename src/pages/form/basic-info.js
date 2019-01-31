@@ -72,6 +72,5 @@ class BasicInfoSection extends React.Component {
   }
 }
 
-
 export { BasicInfoSection };
 export default withRouter(BasicInfoSection);
