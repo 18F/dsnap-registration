@@ -7,6 +7,7 @@ import LocaleContext from './locale-context';
 import FormComplete from 'pages/form-complete';
 import PreregistrationPage from 'pages/form/pre-registration';
 import BasicInfoSection from 'pages/form/basic-info.js';
+import BasicInfoIntro from 'pages/form/basic-info/intro';
 
 const Routes = ({ t }) => (
   <LocaleContext.Provider value={t}>
@@ -21,10 +22,20 @@ const Routes = ({ t }) => (
           <Route exact path="/">
             <Redirect to="/welcome" />
           </Route>
-          <Route
-            path="/form/basic-info"
-            render={() => <BasicInfoSection modelName="basicInfo" />}
-          />
+          <Route path="/form/basic-info">
+            <Switch>
+              <Route
+                exact
+                path="/form/basic-info"
+                render={() => <BasicInfoSection modelName="basicInfo" />}
+              />
+              <Route
+                exact
+                path="/form/basic-info/intro"
+                component={BasicInfoIntro}
+              />            
+            </Switch>
+          </Route>
           <Route path="/form/complete" component={FormComplete} />
           <Route component={NoMatch} />      
         </Switch>
