@@ -32,7 +32,7 @@ class Collapsible extends React.Component {
       <div className="usa-accordion">
         <h2 className="usa-accordion-heading">
           <button
-            className="usa-accordion-button hover:text-underline bg-mint hover:bg-mint text-white hover:text-white"
+            className="usa-accordion-button hover:text-underline bg-primary-light hover:bg-primary-light"
             aria-expanded={!collapsed}
             aria-controls={this.props.name}
             onClick={this.handleClick}

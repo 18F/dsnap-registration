@@ -5,13 +5,17 @@ import { withNamespaces } from 'react-i18next';
 import 'uswds/dist/css/uswds.css';
 import 'app.css';
 import Routes from './routes';
+import App from 'app';
 import './i18n';
 
-const LocalizedRoutes = withNamespaces()(Routes);
+// inject i18m library functions as props to the App component
+const LocalizedApp = withNamespaces()(App);
 
 ReactDOM.render(
   <BrowserRouter>
-    <LocalizedRoutes />
+    <LocalizedApp>
+      <Routes />
+    </LocalizedApp>
   </BrowserRouter>,
   document.getElementById('root')
 );
