@@ -1,7 +1,7 @@
 import React from 'react';
 import LocaleContext from 'locale-context';
 
-const withFormPage = (Component) =>
+const withLocale = (Component) =>
   class extends React.Component {
     WrappedComponent = Component
 
@@ -16,4 +16,4 @@ const withFormPage = (Component) =>
     }
   }
 
-export default withFormPage;
+export default withLocale;

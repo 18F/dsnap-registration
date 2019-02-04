@@ -24,30 +24,30 @@
       "error": "Please select a language before continuing."
     }
   },
-  "basicInfo": {
-    "intro": {
-      "header": "Before you apply, we'll need some info.",
-      "byline": "This will help us get you benefits faster.",
-      "conditions": {
-        "header": "Here's some info we need:",
-        "body": [
-          "You and your household, addresses, and date of birth",
-          "Phone number to follow-up, which helps you get benefits quicker",
-          "Money from jobs or other sources, and employer info"
-        ]
-      },
-      "immigrants": {
-        "header": "Info for immigrants",
-        "apply": "Applying for these programs will not affect your or your family's immigration status.",
-        "benefit": "If you or someone in your household is not a citizen, you may still be able to receive some benefits.",
-        "reassure": "We ask about citizenship so that we can help you find out what programs you qualify for."
-      },
-      "security": {
-        "copy": "This information is kept confidential and secure as required by law. <1>Learn more</1>"
-      },
-      "copy": "We'll take you through step-by-step",
-      "action": "Start registering"
+  "preparation": {    
+    "header": "Before you apply, we'll need some info.",
+    "byline": "This will help us get you benefits faster.",
+    "conditions": {
+      "header": "Here's some info we need:",
+      "body": [
+        "You and your household, addresses, and date of birth",
+        "Phone number to follow-up, which helps you get benefits quicker",
+        "Money from jobs or other sources, and employer info"
+      ]
     },
+    "immigrants": {
+      "header": "Info for immigrants",
+      "apply": "Applying for these programs will not affect your or your family's immigration status.",
+      "benefit": "If you or someone in your household is not a citizen, you may still be able to receive some benefits.",
+      "reassure": "We ask about citizenship so that we can help you find out what programs you qualify for."
+    },
+    "security": {
+      "copy": "This information is kept confidential and secure as required by law. <1>Learn more</1>"
+    },
+    "copy": "We'll take you through step-by-step",
+    "action": "Start registering"
+  },
+  "basicInfo": {
     "applicantName": {
       "header": "Let’s start with the basics.",
       "firstName": {

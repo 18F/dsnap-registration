@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Switch } from 'react-router-dom';
 import { Formik, Form, connect } from 'formik';
 import Debug from './debug';
 import Button from 'components/button';
+import RouteWithSubRoutes from 'components/route-with-subroutes';
 
 const WizardContext = React.createContext();
 
@@ -24,25 +26,37 @@ class Section extends React.Component {
   }
 
   state = {
-    step: 0
+    step: 0,
+    current: null,
   }
 
   next = (values) => {
     this.setState(state => ({
-      step: Math.min(state.step + 1, this.props.children.length - 1),
+      step: Math.min(state.step + 1, this.getChildCount()),
       values
     }))
   };
 
+  registerStep = (step) => {
+    this.setState({
+      current: step
+    })
+  }
+
   validate = (values) => {
-    const { props: { validate } } = this.getActiveStep();
+    const activeStep = this.getActiveStep();
+    const validate = activeStep && activeStep.props.validate;
 
     // call the validate method of the child step, if there is one
-    return validate ? validate(values) : {};
+    return validate ? validate(values.basicInfo[activeStep.props.modelName]) : {};
+  }
+
+  getActiveStep() {
+    return this.state.current;
   }
 
   getChildCount() {
-    return React.Children.count(this.props.children);
+    return this.props.routes.length;
   }
 
   isLastStep() {
@@ -51,7 +65,7 @@ class Section extends React.Component {
 
   handleSubmit = (values, actions) => {
     const isLastStep = this.isLastStep();
-  
+
     if (isLastStep) {
       this.props.handleSubmit(values);
     } else {
@@ -69,10 +83,6 @@ class Section extends React.Component {
     return Object.keys(errors).length >= 1;
   }
 
-  getActiveStep() {
-    return React.Children.toArray(this.props.children)[this.state.step];
-  }
-
   selectState(...keys) {
     const { values } = this.props;
 
@@ -84,8 +94,8 @@ class Section extends React.Component {
   }
 
   render() {
-    const activeStep = this.getActiveStep();
-  
+    console.log('rendering wizard section', this.props)
+
     return (
       <section>
         <h2>{this.props.header}</h2>
@@ -100,9 +110,24 @@ class Section extends React.Component {
 
             return (
               <Form onSubmit={props.handleSubmit}>
-                <WizardContext.Provider value={{ sectionName: this.props.name, handleChange: this.handleChange(props.handleChange) }}>
-                  { activeStep }
-                </WizardContext.Provider>
+                <Switch>
+                  {
+                    this.props.routes.map((route, index) => {
+                      return (
+                        <RouteWithSubRoutes
+                          key={index}
+                          path={route.path}
+                          route={route}
+                          extraProps={{
+                            sectionName: this.props.name,
+                            handleChange: this.handleChange(props.handleChange),
+                            registerStep: this.registerStep,
+                          }}
+                        />
+                      );
+                    })
+                  }
+                </Switch>
                 <div className="margin-y-2">
                   <Button disabled={disable}>
                     next
@@ -121,11 +146,20 @@ class Section extends React.Component {
 class Step extends React.Component {
   static propTypes = {
     header: PropTypes.string.isRequired,
+    registerStep: PropTypes.func.isRequired,
     validate: PropTypes.func
   }
 
   static defaultProps = {
     children: null
+  }
+
+  componentDidMount() {
+    this.props.registerStep(this);
+  }
+
+  componentWillUnmount() {
+    this.props.registerStep();
   }
 
   renderHeader() {
@@ -189,7 +223,7 @@ class Wizard extends React.Component {
   }
 
   state = {
-    step: 0
+    step: 0,
   }
 
   next = (values) =>
@@ -213,17 +247,13 @@ class Wizard extends React.Component {
     if (isLastStep) {
       this.props.onDone(values);
     } else {
-      this.formik.setSubmitting(false);
+      actions.setSubmitting(false);
       this.next();
     }
   }
 
-  getActiveStep() {
-    return React.Children.toArray(this.props.children)[this.state.step];
-  }
-
   getChildCount() {
-    return React.Children.count(this.props.children);
+    return this.props.config.length;
   }
 
   isLastStep() {
@@ -236,30 +266,41 @@ class Wizard extends React.Component {
   }
 
   render() {
-    const activeStep = this.getActiveStep();
-
     return (
       <>
         { this.renderTitle() }
-        <Wizard.Progress step={this.state.step + 1} steps={this.getChildCount()} />
+        <Wizard.Progress
+          step={this.state.step + 1}
+          steps={this.getChildCount()}
+        />
         <Formik
           initialValues={this.props.initialValues}
           onSubmit={this.handleSubmit}
           validate={this.validate}
           render={({ values, handleSubmit, handleChange, errors }) => {
             return (
-              <div>
-                {
-                  React.cloneElement(activeStep, {
-                    handleSubmit,
-                    handleChange,
-                    values,
-                    errors,
-                    ...activeStep.props
-                  })
-                }
+              <>
+                <Switch>
+                  {
+                    this.props.config.map((section, index) => {
+                      return (
+                        <RouteWithSubRoutes
+                          key={index}
+                          route={section}
+                          path={section.path}
+                          extraProps={{
+                            handleSubmit,
+                            handleChange,
+                            values,
+                            errors,
+                          }}
+                        />
+                      );
+                    })
+                  }
+                </Switch>
                 <Debug name="Complete form state" />
-              </div>
+              </>
             );
           }}
         />
@@ -267,5 +308,7 @@ class Wizard extends React.Component {
     );
   }
 }
+
+export { Wizard };
 
 export default Wizard;

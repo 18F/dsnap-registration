@@ -1,7 +1,8 @@
 import React from 'react';
 import { Form, Formik } from 'formik';
 import { withRouter } from 'react-router-dom';
-import withFormPage from './with-form-page';
+import { helpers } from 'locales';
+import withLocale from 'components/with-locale';
 import preregistration from 'models/preregistration';
 import preregistrationValidator from 'validators/preregistration';
 import Dropdown from 'components/dropdown';
@@ -15,26 +16,9 @@ const languageOptions = [{
   value: 'sp'
 }];
 
-const renderConditionals = ({ t, name }) =>
-  <ul>
-    {
-      t(`${name}.conditions.body`, { returnObjects: true })
-        .map((text, index) => {
-          return (
-            <li
-              className="margin-y-1"
-              key={`${name}.conditions.${index}`}
-            >
-              { t(text) }
-            </li>
-          );
-        })
-    }
-  </ul>
-
 class PreregistrationSection extends React.Component {
   handleSubmit = () => {
-    this.props.history.push('/form/basic-info');
+    this.props.history.push('/get-prepared');
   }
 
   render() {
@@ -59,7 +43,7 @@ class PreregistrationSection extends React.Component {
         <div className="grid-container">
           <section className="margin-x-5">
             <h2>{ t(`${name}.conditions.header`) }</h2>
-            { renderConditionals({ t, name }) }
+            { helpers.renderListT({ name: `${name}.conditions.body` }) }
           </section>
           <Formik
             initialValues={{ preregistration }}
@@ -67,20 +51,18 @@ class PreregistrationSection extends React.Component {
             validate={preregistrationValidator}
             render={({ handleSubmit }) => {
               return (
-                <div className="grid-container margin-x-0">
-                  <Form onSubmit={handleSubmit}>
-                    <Dropdown
-                      labelText={t(`${name}.language.header`)}
-                      name={`${name}.language`}
-                      options={languageOptions}
-                    />
-                    <div className="margin-y-2">
-                      <Button>
-                        {t(`${name}.language.action`)}
-                      </Button>
-                    </div>
-                  </Form>
-                </div>
+                <Form className="grid-container margin-x-0" onSubmit={handleSubmit}>
+                  <Dropdown
+                    labelText={t(`${name}.language.header`)}
+                    name={`${name}.language`}
+                    options={languageOptions}
+                  />
+                  <div className="margin-y-2">
+                    <Button>
+                      {t(`${name}.language.action`)}
+                    </Button>
+                  </div>
+                </Form>
               );
             }}
           />
@@ -90,4 +72,4 @@ class PreregistrationSection extends React.Component {
   }
 }
 
-export default withRouter(withFormPage(PreregistrationSection));
+export default withRouter(withLocale(PreregistrationSection));
