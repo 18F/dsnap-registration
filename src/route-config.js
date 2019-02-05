@@ -17,7 +17,7 @@ export default [{
     },
     {
       path: '/form/basic-info/mailing-address',
-      component: Steps.ResidenceAddress,
+      component: Steps.MailingAddress,
       optional: true,
       next: '/form/basic-info/complete',
     },

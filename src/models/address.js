@@ -1,5 +1,5 @@
 export default () => ({
-  street: '',
+  street1: '',
   street2: '',
   city: '',
   state: '',
