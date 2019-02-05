@@ -6,16 +6,10 @@ export default () => ({
     middleName: '',
     lastName: '',
   },
-  dob: {
-    month: '',
-    day: '',
-    year: '',
-  },
-  sex: '',
   phone: '',
   email: '',
-  county: '',
   residenceAddress: address(),
   mailingAddress: address(),
-  isAddressMailingAddress: true
+  county: '',
+  currentMailingAddress: true
 });

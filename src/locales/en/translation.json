@@ -60,6 +60,40 @@
       "lastName":{
         "label": "What is your last name?"
       }
+    },
+    "addresses": {
+      "header": "Where did you live on the date the disaster struck?",
+      "street1": {
+        "label": "Street address 1"
+      },
+      "street2": {
+        "label": "Street address 2"
+      },
+      "city": {
+        "label": "City"
+      },
+      "state": {
+        "label": "State"
+      },
+      "county": {
+        "label": "County"
+      },
+      "zip": {
+        "label": "zip code"
+      },
+      "currentMailingAddress": {
+        "label": "Is this where you currently receive mail?"
+      },
+      "phone": {
+        "label": "What is your phone number?",
+        "explanation": "This is the best way for us to follow-up regarding your application."
+      },
+      "email": {
+        "label": "What is your email address, if you have one?"
+      }
+    },
+    "mailingAddress": {
+      "header": "Where do you receive mail?"
     }
   },
   "identity": {
