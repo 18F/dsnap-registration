@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Wizard from 'components/wizard';
 import withLocale from 'components/with-locale';
 import UI from 'components/ui';
