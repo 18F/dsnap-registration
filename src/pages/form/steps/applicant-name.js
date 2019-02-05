@@ -26,27 +26,22 @@ class ApplicantName extends React.Component {
         registerStep={this.props.registerStep}
         validate={nameValidator}
       >
-        <fieldset>
-          <FormikField
-            name={`${sectionName}.${modelName}.firstName`}
-            onChange={handleChange}
-            type='input'
-            explanation={t(`${buildNestedKey(sectionName, modelName, 'firstName', 'explanation')}`)}
-            labelText={t(`${buildNestedKey(sectionName, modelName, 'firstName', 'label')}`)}
-          />
-          <FormikField
-            name={`${sectionName}.${modelName}.middleName`}
-            onChange={handleChange}
-            type='input'
-            labelText={t(`${buildNestedKey(sectionName, modelName, 'middleName', 'label')}`)}
-          />
-          <FormikField
-            name={`${sectionName}.${modelName}.lastName`}
-            onChange={handleChange}
-            type='input'
-            labelText={t(`${buildNestedKey(sectionName, modelName, 'lastName', 'label')}`)}
-          />
-        </fieldset>
+        <FormikField
+          name={`${sectionName}.${modelName}.firstName`}
+          onChange={handleChange}
+          explanation={t(`${buildNestedKey(sectionName, modelName, 'firstName', 'explanation')}`)}
+          labelText={t(`${buildNestedKey(sectionName, modelName, 'firstName', 'label')}`)}
+        />
+        <FormikField
+          name={`${sectionName}.${modelName}.middleName`}
+          onChange={handleChange}
+          labelText={t(`${buildNestedKey(sectionName, modelName, 'middleName', 'label')}`)}
+        />
+        <FormikField
+          name={`${sectionName}.${modelName}.lastName`}
+          onChange={handleChange}
+          labelText={t(`${buildNestedKey(sectionName, modelName, 'lastName', 'label')}`)}
+        />
       </Wizard.Step>
     );
   }
