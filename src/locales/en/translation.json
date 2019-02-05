@@ -94,6 +94,15 @@
     },
     "mailingAddress": {
       "header": "Where do you receive mail?"
+    },
+    "offramp": {
+      "header": "Great start, [first name]! Let’s keep going.",
+      "copy": "You are legally allowed to submit your application with your name and address. This will take longer as we will mail you the rest of the paperwork to complete.",
+      "alerts": {
+        "success": "It will be easier and faster to finish applying online now."
+      },
+      "action": "Next",
+      "link": "Stop working now and submit application now"
     }
   },
   "identity": {
