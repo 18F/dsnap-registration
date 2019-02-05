@@ -21,5 +21,10 @@ export default [{
       optional: true,
       next: '/form/basic-info/complete',
     },
+    {
+      path: '/form/basic-info/shortcut',
+      component: Steps.BasicInfoOffRamp,
+      next: '/forms/identity',
+    }
   ]
 }];
