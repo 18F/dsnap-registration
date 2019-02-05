@@ -6,7 +6,8 @@ import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
 
 class ResidenceAddress extends React.Component {
-  static modelName = "addresses"
+  static modelName = 'residenceAddress'
+  static tKey = 'addresses'
 
   static propTypes = {
     handleChange: PropTypes.func,
@@ -16,7 +17,7 @@ class ResidenceAddress extends React.Component {
 
   render() {
     const { handleChange, sectionName, t } = this.props;
-    const { modelName } = ResidenceAddress;
+    const { modelName, tKey } = ResidenceAddress;
 
     return (
       <Wizard.Step
@@ -25,53 +26,53 @@ class ResidenceAddress extends React.Component {
         registerStep={this.props.registerStep}
       >
         <FormikField
-          name={`${sectionName}.${modelName}.residenceAddress.street1`}
+          name={`${sectionName}.${modelName}.street1`}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'street1', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, tKey, 'street1', 'label')}`)}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.residenceAddress.street2`}
+          name={`${sectionName}.${modelName}.street2`}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'street2', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, tKey, 'street2', 'label')}`)}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.residenceAddress.city`}
+          name={`${sectionName}.${modelName}.city`}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'city', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, tKey, 'city', 'label')}`)}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.residenceAddress.state`}
+          name={`${sectionName}.${modelName}.state`}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'state', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, tKey, 'state', 'label')}`)}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.county`}
+          name={`${sectionName}.county`}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'county', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, tKey, 'county', 'label')}`)}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.residenceAddress.zip`}
+          name={`${sectionName}.${modelName}.zip`}
           onChange={handleChange}
           type="number"
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'zip', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}
         />
         <FormikField
           name={`${sectionName}.currentMailingAddress`}
           onChange={handleChange}
           type="checkbox"
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'currentMailingAddress', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, tKey, 'currentMailingAddress', 'label')}`)}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.phone`}
+          name={`${sectionName}.phone`}
           onChange={handleChange}
           type="tel"
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'phone', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, tKey, 'phone', 'label')}`)}
         />
         <FormikField
           type="email"
-          name={`${sectionName}.${modelName}.email`}
+          name={`${sectionName}.email`}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'email', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, tKey, 'email', 'label')}`)}
         />
       </Wizard.Step>
     )
