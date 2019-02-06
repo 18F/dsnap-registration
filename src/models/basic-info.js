@@ -11,5 +11,5 @@ export default () => ({
   residenceAddress: address(),
   mailingAddress: address(),
   county: '',
-  currentMailingAddress: true
+  currentMailingAddress: false
 });

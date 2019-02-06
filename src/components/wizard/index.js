@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Formik, Form, connect } from 'formik';
+import Route404 from 'components/404-route';
 import Debug from './debug';
 import Button from 'components/button';
 import RouteWithSubRoutes from 'components/route-with-subroutes';
@@ -32,10 +33,7 @@ class Section extends React.Component {
   }
 
   next = (values) => {
-    this.setState(state => ({
-      step: Math.min(state.step + 1, this.getChildCount()),
-      values
-    }))
+    this.props.onNext({ data: values });
   };
 
   registerStep = (step) => {
@@ -71,7 +69,7 @@ class Section extends React.Component {
       this.props.handleSubmit(values);
     } else {
       actions.setSubmitting(false);
-      this.next();
+      this.next(values);
     }
   }
 
@@ -123,11 +121,13 @@ class Section extends React.Component {
                             sectionName: this.props.name,
                             handleChange: this.handleChange(props.handleChange),
                             registerStep: this.registerStep,
+                            handleNext: this.props.handleNext
                           }}
                         />
                       );
                     })
                   }
+                  <Route component={Route404} />
                 </Switch>
                 <div className="margin-y-2">
                   <Button disabled={disable}>
@@ -296,11 +296,13 @@ class Wizard extends React.Component {
                             handleChange,
                             values,
                             errors,
+                            onNext: this.props.onNext,
                           }}
                         />
                       );
                     })
                   }
+                  <Route component={Route404} />
                 </Switch>
                 <Debug name="Complete form state" />
               </>
