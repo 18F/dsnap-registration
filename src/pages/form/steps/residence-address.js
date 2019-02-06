@@ -58,11 +58,11 @@ class ResidenceAddress extends React.Component {
         />
         <FormikRadioGroup
           options={[{
-            label: 'Yes',
+            label: t('general.yes'),
             value: true
           },
           {
-            label: 'No',
+            label: t('general.no'),
             value: false
           }]}
           name={`${sectionName}.currentMailingAddress`}
