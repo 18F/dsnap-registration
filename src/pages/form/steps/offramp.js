@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Wizard from 'components/wizard';
 import withLocale from 'components/with-locale';
 import UI from 'components/ui';
 
 class BasicInfoOffRamp extends React.Component {
+  static propTypes = {
+    t: PropTypes.func,
+  }
+
   render() {
     const { t } = this.props;
 
