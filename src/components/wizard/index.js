@@ -5,6 +5,7 @@ import { Formik, Form, connect } from 'formik';
 import Debug from './debug';
 import Button from 'components/button';
 import RouteWithSubRoutes from 'components/route-with-subroutes';
+import withLocale from 'components/with-locale';
 
 const WizardContext = React.createContext();
 
@@ -130,7 +131,7 @@ class Section extends React.Component {
                 </Switch>
                 <div className="margin-y-2">
                   <Button disabled={disable}>
-                    next
+                    { this.props.t('general.next') }
                   </Button>
                 </div>
                 <Debug name={`Section ${this.props.name} state`}/>
@@ -205,7 +206,7 @@ class Progress extends React.Component {
 
 class Wizard extends React.Component {
   static Step = Step
-  static Section = connect(Section)
+  static Section = connect(withLocale(Section))
   static Progress = Progress
   static Context = WizardContext.Consumer
   static propTypes = {

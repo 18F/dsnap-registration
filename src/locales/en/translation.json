@@ -1,6 +1,9 @@
 {
   "general": {
     "header": "D-SNAP Benefits Registration",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No",
     "quit": "Quit registration"
   },
   "errors": {
@@ -84,14 +87,8 @@
       "currentMailingAddress": {
         "label": "Is this where you currently receive mail?",
         "options": [
-          {
-            "label": "Yes",
-            "value": true
-          },
-          {
-            "label": "No",
-            "value": false
-          }
+          { "label": "Yes" },
+          { "label": "No" }
         ]
       },
       "phone": {

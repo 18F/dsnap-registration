@@ -11,7 +11,7 @@ const propTypes = {
   value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired
 };
 
-const valueToBool = value => {
+const valueToBool = (value) => {
   switch(value) {
     case 'true': return true;
     case 'false': return false;
@@ -39,7 +39,7 @@ class RadioCheckbox extends React.Component {
     const boolValue = valueToBool(value);
 
     return (
-      <div className="grid-col-1 border radius-md border-base-light display-inline-block margin-right-2">
+      <div className="border radius-md border-base-light display-inline-block margin-right-2">
         <input
           ref={this.checkbox}
           className={`usa-${type}-input`}
@@ -51,7 +51,7 @@ class RadioCheckbox extends React.Component {
           readOnly
         />
         <label
-          className={`usa-${type}-label margin-left-5 margin-right-3 margin-y-2 font-size-md padding-0 border-base-lighter font-sans-md`}
+          className={`usa-${type}-label margin-left-5 margin-right-3 margin-y-2 font-size-md padding-x-1 font-sans-md border-base-lighter`}
           htmlFor={this.props.name}
           onClick={this.handleChange}
         >
