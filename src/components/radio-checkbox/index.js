@@ -8,8 +8,16 @@ const propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   type: PropTypes.oneOf(['radio', 'checkbox']).isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired
 };
+
+const valueToBool = value => {
+  switch(value) {
+    case 'true': return true;
+    case 'false': return false;
+    default: return !!value;
+  }
+}
 
 class RadioCheckbox extends React.Component {
   /**
@@ -27,22 +35,23 @@ class RadioCheckbox extends React.Component {
   }
 
   render() {
-    const { type } = this.props;
+    const { type, value } = this.props;
+    const boolValue = valueToBool(value);
 
     return (
-      <div className="usa-form-group">
+      <div className="grid-col-1 border radius-md border-base-light display-inline-block margin-right-2">
         <input
           ref={this.checkbox}
           className={`usa-${type}-input`}
           type={type}
-          value={this.props.value}
+          value={this.props.radioValue}
           name={this.props.name}
-          checked={this.props.value}
+          checked={boolValue === this.props.radioValue}
           onChange={this.props.onChange}
           readOnly
         />
         <label
-          className={`usa-${type}-label margin-top-4 font-size-md`}
+          className={`usa-${type}-label margin-left-5 margin-right-3 margin-y-2 font-size-md padding-0 border-base-lighter font-sans-md`}
           htmlFor={this.props.name}
           onClick={this.handleChange}
         >

@@ -45,4 +45,38 @@ class FormikField extends React.Component {
   }
 }
 
+class FormikRadioGroup extends React.Component {
+  static propTypes = {
+    options: PropTypes.array
+  }
+
+  render() {
+    const { options, ...rest } = this.props;
+
+    return (
+      <div className="margin-y-4">
+        <label className="usa-label margin-bottom-2" htmlFor={this.props.name}>
+          <p>
+            <b>{this.props.labelText}</b>
+          </p>
+        </label>
+        {
+          this.props.options.map((option, index) => {
+            return (
+              <FormikField
+                key={`${+new Date}.${option.label}.${index}`}
+                {...rest}
+                type='radio'
+                radioValue={option.value}
+                labelText={option.label}
+              />
+            );
+          })
+        }
+      </div>
+    )
+  }
+}
+
+export { FormikRadioGroup };
 export default FormikField;

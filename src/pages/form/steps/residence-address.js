@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { buildNestedKey } from 'utils';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
-import FormikField from 'components/formik-field';
+import FormikField, { FormikRadioGroup } from 'components/formik-field';
 
 class ResidenceAddress extends React.Component {
   static modelName = 'residenceAddress'
@@ -21,7 +21,7 @@ class ResidenceAddress extends React.Component {
 
     return (
       <Wizard.Step
-        header={t(`${buildNestedKey(sectionName, modelName)}.header`)}
+        header={t(`${buildNestedKey(sectionName, tKey)}.header`)}
         modelName={modelName}
         registerStep={this.props.registerStep}
       >
@@ -56,10 +56,17 @@ class ResidenceAddress extends React.Component {
           type="number"
           labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}
         />
-        <FormikField
+        <FormikRadioGroup
+          options={[{
+            label: 'Yes',
+            value: true
+          },
+          {
+            label: 'No',
+            value: false
+          }]}
           name={`${sectionName}.currentMailingAddress`}
           onChange={handleChange}
-          type="checkbox"
           labelText={t(`${buildNestedKey(sectionName, tKey, 'currentMailingAddress', 'label')}`)}
         />
         <FormikField

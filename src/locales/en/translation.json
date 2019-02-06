@@ -82,7 +82,17 @@
         "label": "zip code"
       },
       "currentMailingAddress": {
-        "label": "Is this where you currently receive mail?"
+        "label": "Is this where you currently receive mail?",
+        "options": [
+          {
+            "label": "Yes",
+            "value": true
+          },
+          {
+            "label": "No",
+            "value": false
+          }
+        ]
       },
       "phone": {
         "label": "What is your phone number?",
