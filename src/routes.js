@@ -1,7 +1,8 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import AppContainer from './components/app-container';
-import NoMatch from './components/no-match';
+import Route404 from 'components/404-route';
+import NoMatch from 'components/no-match';
 import FormComplete from 'pages/form-complete';
 import PreregistrationPage from 'pages/preregistration';
 import PreparePage from 'pages/prepare';
@@ -27,8 +28,9 @@ const Routes = () => (
           render={() => <DSNAPForm config={wizardRouteConfig} /> }
         />
         <Route path="/form/complete" component={FormComplete} />
-        <Route component={NoMatch} />  
+        <Route component={Route404} />
       </Switch>
+      <Route path="/not-found" component={NoMatch} />
     </AppContainer>
   </Switch>
 );
