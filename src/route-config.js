@@ -4,27 +4,32 @@ import Steps from 'pages/form/steps';
 export default [{
   path: '/form/basic-info',
   component: Sections.BasicInfoSection,
-  next: '/form/identity',
   routes: [
     {
       path: '/form/basic-info/applicant-name',
-      component: Steps.ApplicantName,
-      next: '/form/basic-info/address',
+      component: Steps.BasicInfo.ApplicantName,
     },
     {
       path: '/form/basic-info/address',
-      component: Steps.ResidenceAddress,
+      component: Steps.BasicInfo.ResidenceAddress,
     },
     {
       path: '/form/basic-info/mailing-address',
-      component: Steps.MailingAddress,
+      component: Steps.BasicInfo.MailingAddress,
       optional: true,
-      next: '/form/basic-info/complete',
     },
     {
       path: '/form/basic-info/shortcut',
-      component: Steps.BasicInfoOffRamp,
-      next: '/forms/identity',
+      component: Steps.BasicInfo.BasicInfoOffRamp,
+    }
+  ]
+}, {
+  path: '/form/identity',
+  component: Sections.IdentitySection,
+  routes: [
+    {
+      path: '/form/identity/personal-info',
+      component: Steps.Identity.PersonalInfo,
     }
   ]
 }];

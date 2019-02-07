@@ -46,8 +46,12 @@ class Section extends React.Component {
     const activeStep = this.getActiveStep();
     const validate = activeStep && activeStep.props.validate;
 
+    if (!validate) {
+      return {};
+    }
+
     // call the validate method of the child step, if there is one
-    return validate ? validate(values.basicInfo[activeStep.props.modelName]) : {};
+    return validate(values[this.props.name][activeStep.props.modelName]);
   }
 
   getActiveStep() {
@@ -73,8 +77,8 @@ class Section extends React.Component {
     }
   }
 
-  handleChange = ownHandler => nextValues => {
-    ownHandler(nextValues);
+  handleChange = formikHandler => nextValues => {
+    formikHandler(nextValues);
     this.props.handleChange(nextValues);
   }
 
@@ -104,11 +108,11 @@ class Section extends React.Component {
           validateOnBlur={this.props.validateOnBlur}
           validateOnChange={this.props.validateOnChange}
           validate={this.validate}
-          render={(props) => {
-            const disable = this.hasErrors(props.errors) || props.isSubmitting;
+          render={(formikProps) => {
+            const disable = this.hasErrors(formikProps.errors) || formikProps.isSubmitting;
 
             return (
-              <Form onSubmit={props.handleSubmit}>
+              <Form onSubmit={formikProps.handleSubmit}>
                 <Switch>
                   {
                     this.props.routes.map((route, index) => {
@@ -119,7 +123,7 @@ class Section extends React.Component {
                           route={route}
                           extraProps={{
                             sectionName: this.props.name,
-                            handleChange: this.handleChange(props.handleChange),
+                            handleChange: this.handleChange(formikProps.handleChange),
                             registerStep: this.registerStep,
                             handleNext: this.props.handleNext
                           }}

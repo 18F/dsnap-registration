@@ -1,10 +1,13 @@
-export default {
-  dob: {
-    month: '',
-    day: '',
-    year: '',
+export default () => ({
+  personalInfo: {
+    dob: {
+      month: '',
+      day: '',
+      year: '',
+    },
+    sex: '',
+    ssn: '',
+    race: '',
+    stateId: '',
   },
-  sex: '',
-  ssn: '',
-  stateId: '',
-};
+});
