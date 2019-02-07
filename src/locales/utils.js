@@ -19,6 +19,19 @@ const renderListT = ({ name }) => (
   </ul>
 );
 
+const renderLineBreaksT = name => (
+  <>
+    {
+      i18n.t(`${name}`).split('\n').map((text, index) => (
+        <p key={`${name}.${index}`}>
+          {text}
+        </p>
+      ))
+    }
+  </>
+)
+
 export default {
   renderListT,
+  renderLineBreaksT,
 };

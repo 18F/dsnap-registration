@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Trans } from 'react-i18next';
 import { helpers } from 'locales';
 import withLocale from 'components/with-locale';
 import UI from 'components/ui';
 import Collapsible from 'components/collapsible';
 import Button from 'components/button';
-import LockIcon from 'components/icons/lock';
+import SecurityAlert from 'components/security-alert';
 
 class PreparePage extends React.Component {
   static propTypes = {
@@ -38,22 +37,7 @@ class PreparePage extends React.Component {
             </div>
           </Collapsible>
         </div>
-
-        <div className="bg-accent-warm-lighter width-100 padding-2">
-          <div className="grid-container">
-            <div className="grid-row">
-              <div className="grid-col-1 margin-top-05">
-                <LockIcon />
-              </div>
-              <div className="grid-col-11 text-base">
-                <Trans i18nKey={`${tKey}.security.copy`}>
-                  This information is kept confidential and secure as required by law. <a href="https://google.com">Learn more</a>
-                </Trans>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <SecurityAlert />
         <p className="margin-y-4">
           <em>{ t(`${tKey}.copy`) }</em>
         </p>
