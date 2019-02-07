@@ -4,7 +4,8 @@
     "next": "Next",
     "yes": "Yes",
     "no": "No",
-    "quit": "Quit registration"
+    "quit": "Quit registration",
+    "security": "This information is kept confidential and secure as required by law. <1>Learn more</1>"
   },
   "errors": {
     "required": "This field is required"
@@ -43,9 +44,6 @@
       "apply": "Applying for these programs will not affect your or your family's immigration status.",
       "benefit": "If you or someone in your household is not a citizen, you may still be able to receive some benefits.",
       "reassure": "We ask about citizenship so that we can help you find out what programs you qualify for."
-    },
-    "security": {
-      "copy": "This information is kept confidential and secure as required by law. <1>Learn more</1>"
     },
     "copy": "We'll take you through step-by-step",
     "action": "Start registering"
@@ -113,7 +111,39 @@
     }
   },
   "identity": {
-
+    "personalInfo": {
+      "header": "Now, a few more questions about you.",
+      "dob": {
+        "label": "What is your date of birth?",
+        "explanation": "For example: 12 30 1975",
+        "month": "Month",
+        "day": "Day",
+        "year": "Year"
+      },
+      "stateId": {
+        "label": "What is your driver's license or state ID number?",
+        "explanation": "You can leave this blank if you don't know it or don't have one. Providing one will help verify and move you faster in the application process."
+      },
+      "ssn": {
+        "label": "What is your Social Security Number (SSN)?",
+        "explanation": "You can leave this blank if you don't know it or don't have one. Providing one will help verify and move you faster in the application process."
+      },
+      "sex": {
+        "label": "Sex?",
+        "explanation": "As shown in legal documents such as a birth certificate.",
+        "options": {
+          "male": "Male",
+          "female": "Female"
+        }
+      },
+      "race": {
+        "label": "Race?"
+      },
+      "whyAsk": {
+        "header": "Why do we ask?",
+        "copy": "We use your Social Security Number to check information about to find out what you qualify for as we go through these steps.\n With your Social Security Number, we may be able to sign you up for services today.\n You do not have to provide your Social Security Number right now, but if you choose not to, you will be asked to provide documents that prove things like your income sources."
+      }
+    }
   },
   "household": {
 

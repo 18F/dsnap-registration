@@ -2,11 +2,13 @@ import React from 'react';
 import FSMRouter, { MachineConsumer } from 'components/fsm';
 import Wizard from 'components/wizard';
 import basicInfo from 'models/basic-info';
+import identity from 'models/identity';
 import fsmConfig from 'fsm-config';
 
 class DSNAPForm extends React.Component {
   state = {
-    basicInfo: basicInfo()
+    basicInfo: basicInfo(),
+    identity: identity(),
   }
 
   handleFormComplete = (values) => {

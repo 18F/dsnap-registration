@@ -9,6 +9,7 @@ const propTypes = {
   autoComplete: PropTypes.oneOf([null, 'off']),
   className: PropTypes.string,
   error: PropTypes.string,
+  groupClassName: PropTypes.string,
   labelClassName: PropTypes.string,
   labelText: PropTypes.string.isRequired,
   explanation: PropTypes.string,
@@ -30,19 +31,21 @@ class Input extends React.Component {
   }
 
   labelClassName() {
-    return classNames('usa-label margin-bottom-2', this.props.labelClassName, {
-      'usa-input-error-label': this.hasError()
+    return classNames('usa-label', this.props.labelClassName, {
+      'usa-input-error-label': this.hasError(),
+      'margin-bottom-2': !this.props.quietLabel,
+      'margin-bottom-1': this.props.quietLabel,
     });
   }
 
   fieldClassName() {
-    return classNames('usa-input', this.props.className, {
+    return classNames('usa-input tablet:grid-col-6', this.props.className, {
       'usa-input-error': this.hasError()
     });
   }
 
   formGroupClassName() {
-    return classNames('usa-form-group', {
+    return classNames('usa-form-group', this.props.groupClassName, {
       'usa-form-group-error': this.hasError()
     });
   }
@@ -53,20 +56,28 @@ class Input extends React.Component {
     return !!getIn(errors, name)
   }
 
+  // TODO: input components and their wrappers need to be cleaned up
+
   render() {
-    const { name } = this.props;
+    const { name, labelText } = this.props;
     return (
       <div className={this.formGroupClassName()}>
         <label
           className={this.labelClassName()}
           htmlFor={name}
         >
-          <p className="margin-bottom-1">
-            <b>{this.props.labelText}</b>
-          </p>
-          <span className="text-base">
-            {this.props.explanation}
-          </span>
+          {
+            this.props.quietLabel ? labelText :
+            <p className="margin-bottom-1">
+              <b>{labelText}</b>
+            </p>
+          }
+          {
+            this.props.explanation ?
+            <span className="text-base">
+              {this.props.explanation}
+            </span> : null
+          }
         </label>
         <input
           autoComplete={this.props.autoComplete}

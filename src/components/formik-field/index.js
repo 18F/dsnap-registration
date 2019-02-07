@@ -45,38 +45,71 @@ class FormikField extends React.Component {
   }
 }
 
+const FormGroupLabel = ({ labelText }) => (
+  <div className="usa-label margin-bottom-2">
+    <p>
+      <b>{labelText}</b>
+    </p>
+  </div>
+);
+
+const FormGroupExplanation = ({ text }) =>
+  !text ? null :
+  <span className="text-base">
+    {text}
+  </span>;
+
+const FormikInlineFieldGroup = (props) => (
+  <div role="group" className="margin-y-4">
+    <FormGroupLabel labelText={props.labelText} />
+    <FormGroupExplanation text={props.explanation} />
+    <div>
+      { 
+        props.fields.map((field, index) => (
+          <FormikField
+            key={`${field.name}.${index}`}
+            {...field}
+            groupClassName="display-inline-block grid-col-1"
+            className="padding-y-3"
+            quietLabel
+          />
+        ))
+      }
+    </div>
+  </div>
+);
+
 class FormikRadioGroup extends React.Component {
   static propTypes = {
     options: PropTypes.array
   }
 
   render() {
-    const { options, ...rest } = this.props;
+    const { options, explanation, ...rest } = this.props;
 
     return (
-      <div className="margin-y-4">
-        <label className="usa-label margin-bottom-2" htmlFor={this.props.name}>
-          <p>
-            <b>{this.props.labelText}</b>
-          </p>
-        </label>
-        {
-          this.props.options.map((option, index) => {
-            return (
-              <FormikField
-                key={`${+new Date()}.${option.label}.${index}`}
-                {...rest}
-                type='radio'
-                radioValue={option.value}
-                labelText={option.label}
-              />
-            );
-          })
-        }
+      <div role="group" className="margin-y-4">
+        <FormGroupLabel labelText={this.props.labelText} />
+        <FormGroupExplanation text={explanation} />
+        <div className="margin-top-2">
+          {
+            this.props.options.map((option, index) => {
+              return (
+                <FormikField
+                  key={`${+new Date()}.${option.label}.${index}`}
+                  {...rest}
+                  type='radio'
+                  radioValue={option.value}
+                  labelText={option.label}
+                />
+              );
+            })
+          }
+        </div>
       </div>
     )
   }
 }
 
-export { FormikRadioGroup };
+export { FormikRadioGroup, FormikInlineFieldGroup };
 export default FormikField;

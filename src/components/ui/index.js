@@ -9,6 +9,10 @@ class Header extends React.Component {
     type: PropTypes.oneOf([ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
   }
 
+  static defaultProps = {
+    type: 'h1'
+  }
+
   buildHeader(additionalProps) {
     const { children, type } = this.props;
     return React.createElement(`${type}`, { children, ...additionalProps });

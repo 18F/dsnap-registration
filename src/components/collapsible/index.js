@@ -29,7 +29,7 @@ class Collapsible extends React.Component {
     const { collapsed } = this.state;
 
     return(
-      <div className="usa-accordion">
+      <div className="usa-accordion tablet:grid-col-6">
         <h2 className="usa-accordion-heading">
           <button
             className="usa-accordion-button hover:text-underline bg-primary-light hover:bg-primary-light"

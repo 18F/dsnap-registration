@@ -11,11 +11,11 @@ const propTypes = {
   value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired
 };
 
-const valueToBool = (value) => {
+const normalizeValue = (value) => {
   switch(value) {
     case 'true': return true;
     case 'false': return false;
-    default: return !!value;
+    default: return value;
   }
 }
 
@@ -36,7 +36,7 @@ class RadioCheckbox extends React.Component {
 
   render() {
     const { type, value } = this.props;
-    const boolValue = valueToBool(value);
+    const normalizedValue = normalizeValue(value);
 
     return (
       <div className="border radius-md border-base-light display-inline-block margin-right-2">
@@ -46,7 +46,7 @@ class RadioCheckbox extends React.Component {
           type={type}
           value={this.props.radioValue}
           name={this.props.name}
-          checked={boolValue === this.props.radioValue}
+          checked={normalizedValue === this.props.radioValue}
           onChange={this.props.onChange}
           readOnly
         />

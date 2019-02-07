@@ -1,6 +1,9 @@
 import { actions } from 'xstate';
 const { log } = actions;
 
+// TODO: run validation methods in onEntry hook?
+// we only need to do it when state is dirty
+// probably want to store meta information of what steps are 'done'
 const basicInfoState = {
   initial: 'applicant-name',
   states: {
