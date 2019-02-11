@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
-import FormikField, { FormikInlineFieldGroup, FormikRadioGroup } from 'components/formik-field';
+import FormikField, {
+  FormikInlineFieldGroup,
+  FormikRadioGroup
+} from 'components/formik-field';
 import { buildNestedKey } from 'utils';
 import SecurityAlert from 'components/security-alert';
 import Collapsible from 'components/collapsible'
@@ -20,7 +23,6 @@ class PersonalInfo extends React.Component {
   render() {
     const { handleChange, sectionName, t } = this.props;
     const { modelName } = PersonalInfo;
-    console.log(buildNestedKey(sectionName, modelName, 'whyAsk', 'copy'))
     
     return (
       <Wizard.Step

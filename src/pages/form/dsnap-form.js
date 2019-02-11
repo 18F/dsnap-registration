@@ -4,6 +4,7 @@ import Wizard from 'components/wizard';
 import basicInfo from 'models/basic-info';
 import identity from 'models/identity';
 import fsmConfig from 'fsm-config';
+import Button from 'components/button';
 
 class DSNAPForm extends React.Component {
   state = {
@@ -20,14 +21,23 @@ class DSNAPForm extends React.Component {
     return (
       <FSMRouter config={fsmConfig}>
         <MachineConsumer>
-          {(handleNext) => {
+          {(transition) => {
             return (
-              <Wizard
-                initialValues={this.state}
-                onNext={handleNext}
-                onDone={this.handleFormComplete}
-                config={config}
-              />
+              <>
+                <Wizard
+                  initialValues={this.state}
+                  onNext={transition}
+                  onDone={this.handleFormComplete}
+                  config={config}
+                />
+                <Button
+                  type="button"
+                  onClick={() => transition({ command: 'QUIT' })}
+                  link
+                >
+                  Quit registration
+                </Button>
+              </>
             );
           }}
         </MachineConsumer>

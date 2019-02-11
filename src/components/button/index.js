@@ -8,21 +8,27 @@ const propTypes = {
     PropTypes.object
   ]),
   isDisabled: PropTypes.bool,
+  // should the button appear as a link?
+  link: PropTypes.bool,
   onClick: PropTypes.func,
   type: PropTypes.oneOf(['button', 'submit'])
 };
 
-const applyClassNames = names => classNames('usa-button usa-button-primary', names);
+const applyClassNames = (names, isLink) => classNames(names, {
+  'usa-button usa-button-primary': !isLink,
+  'usa-button-link': isLink,
+});
 
 const Button = ({
   type = 'submit',
   children,
   className,
   onClick,
-  disabled = false
+  disabled = false,
+  link = false,
 }) => (
   <button
-    className={applyClassNames(className)}
+    className={applyClassNames(className, link)}
     type={type}
     onClick={onClick}
     disabled={disabled}
