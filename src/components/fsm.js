@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Machine } from 'xstate';
+import { Machine, matchesState } from 'xstate';
 import { getNodes } from 'xstate/lib/graph';
 import { interpret } from 'xstate/lib/interpreter'
 
@@ -22,6 +22,7 @@ class FSMRouter extends React.Component {
   machineState = null
   historySubscriber = null
   historyTransitioning = false
+  stateTransitioning = false
 
   constructor(props) {
     super(props);
@@ -60,15 +61,13 @@ class FSMRouter extends React.Component {
 
     this.service = interpret(machineWithState);
     this.machine = machine;
-
     this.machineState = machine.initialState;
+    
     this.service.onTransition(this.handleXStateTransition);
-    this.historySubscriber = props.history.listen(this.handleHistoryTransition);
-  }
-
-  componentDidMount() {
     this.service.start();
+    
     this.handleHistoryTransition(this.props.location);
+    this.historySubscriber = props.history.listen(this.historyHandler);
   }
 
   componentWillUnmount() {
@@ -80,7 +79,22 @@ class FSMRouter extends React.Component {
     return !!this.routes[maybeRoute];
   }
 
-  handleHistoryTransition = ({ pathname }) => {
+  historyHandler = (location) => {
+    if (this.historyTransitioning) {
+      this.historyTransitioning = false;
+      return;
+    }
+
+    this.handleHistoryTransition(location, true);
+  }
+
+  getCurrentNode(state = this.machineState) {
+    const path = state.tree.paths[0];
+
+    return this.service.machine.getStateNodeByPath(path);
+  }
+
+  handleHistoryTransition = ({ pathname }, debounce = false) => {
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
       return;
@@ -89,24 +103,33 @@ class FSMRouter extends React.Component {
     const matchingRoute = this.hasMatchingRoute(pathname);
 
     if (matchingRoute) {
-      this.historyTransitioning = true;
- 
       const machinePath = formatRouteWithDots(pathname);
 
+      this.stateTransitioning = true;
       this.sendServiceTransition(machinePath);
+ 
+      if (!matchesState(this.machineState, machinePath)) {
+        if (debounce) {
+          this.historyTransitioning = true;
+        }
+
+        const currentNode = this.getCurrentNode();
+    
+        if (currentNode.meta && currentNode.meta.path) {
+          this.props.history.replace(`/form${currentNode.meta.path}`);
+        }
+      }
     }
   }
   
-  // TODO: abstract this shared funcitonality
+  // TODO: abstract this shared functionality
   handleXStateTransition = (state) => {
-    // TODO: one of more of these guards is redundant
-    if (this.historyTransitioning) {
-      this.historyTransitioning = false;
+    if (this.stateTransitioning) {
+      this.stateTransitioning = false;
       return;
     }
 
-    const path = state.tree.paths[0];
-    const currentNode = this.service.machine.getStateNodeByPath(path);
+    const currentNode = this.getCurrentNode(state);
 
     if (currentNode.meta && currentNode.meta.path) {
       this.historyTransitioning = true;
@@ -123,17 +146,6 @@ class FSMRouter extends React.Component {
     // odd
     this.machine.transition(this.machineState, { type: command, ...data }); 
     this.machineState = this.service.send({ type: command, ...data });
-
-    const path = this.machineState.tree.paths[0];
-    const currentNode = this.service.machine.getStateNodeByPath(path);
-
-    if (currentNode.meta && currentNode.meta.path) {
-      this.props.history.push(`/form${currentNode.meta.path}`);
-    } else {
-      // trigger a service state update that doesn't correspond with an
-      // application route
-      this.sendServiceTransition(command);
-    }
   }
 
   render() {

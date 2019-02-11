@@ -66,7 +66,7 @@ const basicInfoState = {
   initial: 'applicant-name',
   onEntry: [
     (context) => console.log('entering basic info', context),
-    (ctx) => { return assign({ ...ctx, currentSection: 'basicInfo' }); }
+    assign({ currentSection: 'basicInfo' })
   ],
   states: {
     'applicant-name': {
@@ -78,10 +78,10 @@ const basicInfoState = {
       },
       onEntry: [
         (context) => console.log('entered applicant-name', context),
-        (ctx) => assign({ ...ctx, currentStep: 'applicantName'})
+        assign({ currentStep: 'applicantName'})
       ],
       onExit: [
-        (ctx) => assign({ ...ctx, previousStep: 'applicantName' })
+        assign({ previousStep: 'applicantName' })
       ]
     },
     address: {
@@ -93,11 +93,10 @@ const basicInfoState = {
       },
       onEntry: [
         () => console.log('entered address'),
-        assign((ctx) => ({ ...ctx, currentStep: 'residenceAddress' }))
+        assign({ currentStep: 'residenceAddress' })
       ],
       onExit: [
-        assign((ctx) => ({ ...ctx, previousStep: 'residenceAddress' })),
-        (context) => console.log('heylllooo', context)
+        assign({ previousStep: 'residenceAddress' }),
       ]
     },
     'mailing-address-branch': {
@@ -111,6 +110,7 @@ const basicInfoState = {
             return context.basicInfo.currentMailingAddress;
           }},
         ],
+        NEXT: 'persist'
       },
       onEntry: (context, event) => console.log('ENTER TRANSITION STATE', context, event)
     },
@@ -118,9 +118,9 @@ const basicInfoState = {
       on: {
         NEXT: {
           target: 'shortcut',
-          actions: log(
-            (ctx, event) => console.log(ctx)
-          )
+          actions: [
+            log((ctx, event) => console.log(ctx))
+          ]
         }
       },
       meta: {
@@ -176,18 +176,10 @@ const formStateConfig = {
   states: {
     'basic-info': basicInfoState,
     identity: identityState,
-    household: {
-
-    },
-    adverse: {
-
-    },
-    resources: {
-
-    },
-    review: {
-
-    },
+    household: {},
+    adverse: {},
+    resources: {},
+    review: {},
     submit: {
       onEntry: [() => console.log('entered submit')]   
     },
