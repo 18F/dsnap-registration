@@ -1,4 +1,4 @@
-import { actions, assign } from 'xstate';
+import { actions, assign, sendParent } from 'xstate';
 import modelState from 'models';
 const { log } = actions;
 
@@ -100,6 +100,11 @@ const basicInfoState = {
       ]
     },
     'mailing-address-branch': {
+      onEntry: [
+        () => sendParent('NEXT')
+      ]
+    },
+    'mailing-address-check': {
       on: {
         '': [
           { target: 'mailing-address', cond: (context) => {
@@ -110,9 +115,10 @@ const basicInfoState = {
             return context.basicInfo.currentMailingAddress;
           }},
         ],
-        NEXT: 'persist'
       },
-      onEntry: (context, event) => console.log('ENTER TRANSITION STATE', context, event)
+      onEntry: [
+        (context) => console.log('entering transition state', context),
+      ]
     },
     'mailing-address': {
       on: {
@@ -169,9 +175,9 @@ const identityState = {
 const formStateConfig = {
   strict: true,
   id: 'form',
-  onEntry: [
-    'initialize'
-  ],
+  context: {
+    ...initialState(),
+  },
   initial: 'basic-info',
   states: {
     'basic-info': basicInfoState,
@@ -206,7 +212,6 @@ const extraActions = {
     assign(initialState());
   },
   persist: (context, { type, ...data }) => {
-    debugger
     const nextState = {
       ...context,
       ...(data || {}),
