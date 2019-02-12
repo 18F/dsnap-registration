@@ -11,7 +11,7 @@ const Debug = ({ name = 'form state' }) => (
         <div className="bg-base-lightest"> 
           <div className="usa-alert-body padding-2">
             <FormikConsumer>
-              {({ validationSchema, validate, onSubmit, values, ...rest }) => (
+              {({ values }) => (
                 <pre
                   className="usa-alert-text"
                   style={{

@@ -121,9 +121,9 @@ class FSMRouter extends React.Component {
       }
     }
   }
-  
-  // TODO: abstract this shared functionality
+
   handleXStateTransition = (state) => {
+    console.log('xstate transition occuring', state);
     if (this.stateTransitioning) {
       this.stateTransitioning = false;
       return;
@@ -142,16 +142,19 @@ class FSMRouter extends React.Component {
   }
 
   transition = ({ command = 'NEXT', data = {} }) => {
-    // seems like we need both of these transiition calls to pass data properly,
-    // odd
-    this.machine.transition(this.machineState, { type: command, ...data }); 
+    debugger
+    // seems like we need both of these transiition calls
+    // to pass data properly, odd
+    this.machineState = this.machine.transition(this.machineState, { type: command, ...data }); 
     this.machineState = this.service.send({ type: command, ...data });
   }
 
   render() {
+    debugger
+    console.log('machine state', this.machineState.context)
     return (
       <MachineContext.Provider value={this.transition}>
-        <MachineStateContext.Provider value={this.machineState}>
+        <MachineStateContext.Provider value={this.machineState.context}>
           { this.props.children }
         </MachineStateContext.Provider>
       </MachineContext.Provider>
@@ -159,6 +162,6 @@ class FSMRouter extends React.Component {
   }
 }
 
-export const MachineState = MachineStateContext.Consumer;
 export const MachineConsumer = MachineContext.Consumer
+export const MachineState = MachineStateContext.Consumer;
 export default withRouter(FSMRouter);

@@ -4,6 +4,7 @@ import Steps from 'pages/form/steps';
 export default [{
   path: '/form/basic-info',
   component: Sections.BasicInfoSection,
+  name: 'basicInfo',
   routes: [
     {
       path: '/form/basic-info/applicant-name',
@@ -16,7 +17,6 @@ export default [{
     {
       path: '/form/basic-info/mailing-address',
       component: Steps.BasicInfo.MailingAddress,
-      optional: true,
     },
     {
       path: '/form/basic-info/shortcut',

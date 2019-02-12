@@ -15,16 +15,17 @@ const initialState = () => {
 
   return {
     ...models,
-    currentSection: '',
-    currentStep: '',
-    previousStep: '',
-    previousSection: '',
+    currentSection: null,
+    currentStep: null,
+    previousStep: null,
+    previousSection: null,
   }
 };
 
 const formNextHandler = target => ({
   NEXT: {
     target,
+    internal: true,
     actions: [
       () => console.log(`transitioning to next step ${target}`),
       'persist'
@@ -64,6 +65,7 @@ const formNextHandler = target => ({
 const basicInfoState = {
   id: 'basic-info',
   initial: 'applicant-name',
+  internal: true,
   onEntry: [
     (context) => console.log('entering basic info', context),
     assign({ currentSection: 'basicInfo' })
@@ -78,7 +80,7 @@ const basicInfoState = {
       },
       onEntry: [
         (context) => console.log('entered applicant-name', context),
-        assign({ currentStep: 'applicantName'})
+        assign({ currentStep: 'applicantName', previousStep: null })
       ],
       onExit: [
         assign({ previousStep: 'applicantName' })
@@ -86,7 +88,7 @@ const basicInfoState = {
     },
     address: {
       on: {
-        ...formNextHandler('mailing-address-branch'),
+        ...formNextHandler('mailing-address'),
       },
       meta: {
         path: '/basic-info/address'
@@ -97,35 +99,40 @@ const basicInfoState = {
       ],
       onExit: [
         assign({ previousStep: 'residenceAddress' }),
+        (context) => actions.send({ type: 'NEXT', ...context })
       ]
     },
     'mailing-address-branch': {
       onEntry: [
-        () => sendParent('NEXT')
-      ]
+        (context) => actions.send({ type: 'NEXT', ...context })
+      ],
+      on: {
+        NEXT: 'mailing-address-check'
+      }
     },
     'mailing-address-check': {
       on: {
         '': [
-          { target: 'mailing-address', cond: (context) => {
+          { target: 'mailing-address', cond: (context, event) => {
             debugger
-            return !context.basicInfo.currentMailingAddress;
+            return context.basicInfo.currentMailingAddress !== 'true';
           }},
-          { target: 'shortcut', cond: (context) => {
-            return context.basicInfo.currentMailingAddress;
+          { target: 'shortcut', cond: (context, event) => {
+            return context.basicInfo.currentMailingAddress === 'true';
           }},
         ],
+        NEXT: {
+          actions: () => console.log('hi')
+        }
       },
-      onEntry: [
-        (context) => console.log('entering transition state', context),
-      ]
     },
     'mailing-address': {
       on: {
         NEXT: {
           target: 'shortcut',
           actions: [
-            log((ctx, event) => console.log(ctx))
+            log((ctx, event) => console.log(ctx)),
+            'persist'
           ]
         }
       },
@@ -175,14 +182,17 @@ const identityState = {
 const formStateConfig = {
   strict: true,
   id: 'form',
+  internal: true,
   context: {
-    ...initialState(),
+    ...initialState()
   },
   initial: 'basic-info',
   states: {
     'basic-info': basicInfoState,
     identity: identityState,
-    household: {},
+    household: {
+      id: 'household'
+    },
     adverse: {},
     resources: {},
     review: {},
@@ -193,32 +203,46 @@ const formStateConfig = {
       invoke: {
         id: 'clearSessionState',
         src: () => new Promise((resolve) => {
-          resolve(localStorage.removeItem(STATE_KEY));
+          localStorage.removeItem(STATE_KEY);
+          resolve(initialState())
         }),
         onDone: {
           target: 'basic-info',
-          actions: 'initialize',
-        }
+          actions: ['initialize']
+        },
       }
     }
   },
   on: {
-    QUIT: '.quit',
+    QUIT: {
+      target: '.quit',
+    }
   },
 };
 
 const extraActions = {
-  initialize: () => {
-    assign(initialState());
+  initialize: (context) => {
+    console.log(context);
+    debugger
+    assign({ ...initialState(), fake: 'hi' })
   },
-  persist: (context, { type, ...data }) => {
+  persist: (context, {type, ...data}) => {
     const nextState = {
       ...context,
-      ...(data || {}),
+      [context.currentSection]: (data[context.currentSection] || modelState[context.currentSection]),
     };
 
+    console.log('persisting next state', nextState)
     localStorage.setItem(STATE_KEY, JSON.stringify(nextState));
-    assign((ctx) => ({...ctx, ...nextState}));
+    debugger
+    assign({
+      [context.currentSection]: (data[context.currentSection] || modelState[context.currentSection])
+    })
+    //     debugger
+    //     console.log('hi?', a, b)
+    //     return 
+    //   } 
+    // });
   }
 };
 

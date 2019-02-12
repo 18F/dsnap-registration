@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEqual from 'lodash.isequal';
 import { Switch, Route } from 'react-router-dom';
 import { Formik, Form, connect } from 'formik';
 import Route404 from 'components/404-route';
@@ -86,24 +87,25 @@ class Section extends React.Component {
     return Object.keys(errors).length >= 1;
   }
 
-  selectState(...keys) {
+  selectState(stateKeys) {
     const { values } = this.props;
 
-    return keys.reduce((memo, key) => {
+    return stateKeys.reduce((memo, key) => {
       const slice = values[key] || {};
 
       return { ...memo, [key]: { ...slice } };
     }, {});
   }
 
-  render() {
-    console.log('rendering wizard section', this.props)
 
+
+  render() { 
     return (
       <section>
         <h2>{this.props.header}</h2>
         <Formik
-          initialValues={this.selectState(this.props.name)}
+          enableReinitialize={false}
+          initialValues={this.selectState([this.props.name])}
           onSubmit={this.handleSubmit}
           validateOnBlur={this.props.validateOnBlur}
           validateOnChange={this.props.validateOnChange}
@@ -233,6 +235,14 @@ class Wizard extends React.Component {
     step: 0,
   }
 
+  componentDidMount() {
+    //debugger
+  }
+
+  componentDidUpdate(nextProps){
+    //d/ebugger
+  }
+
   next = (values) =>
     this.setState(state => ({
       step: Math.min(state.step + 1, this.getChildCount()),
@@ -274,19 +284,20 @@ class Wizard extends React.Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         { this.renderTitle() }
         <Wizard.Progress
           step={this.state.step + 1}
           steps={this.getChildCount()}
         />
         <Formik
+          enableReinitialize={false}
           initialValues={this.props.initialValues}
           onSubmit={this.handleSubmit}
           validate={this.validate}
           render={({ values, handleSubmit, handleChange, errors }) => {
             return (
-              <>
+              <React.Fragment>
                 <Switch>
                   {
                     this.props.config.map((section, index) => {
@@ -300,6 +311,7 @@ class Wizard extends React.Component {
                             handleChange,
                             values,
                             errors,
+                            name: section.name,
                             onNext: this.props.onNext,
                           }}
                         />
@@ -309,11 +321,11 @@ class Wizard extends React.Component {
                   <Route component={Route404} />
                 </Switch>
                 <Debug name="Complete form state" />
-              </>
+              </React.Fragment>
             );
           }}
         />
-      </>
+      </React.Fragment>
     );
   }
 }

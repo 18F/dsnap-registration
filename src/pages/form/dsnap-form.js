@@ -3,12 +3,9 @@ import FSMRouter, { MachineConsumer, MachineState } from 'components/fsm';
 import Wizard from 'components/wizard';
 import fsmConfig from 'fsm-config';
 import Button from 'components/button';
+import withLocale from 'components/with-locale';
 
 class DSNAPForm extends React.Component {
-  handleFormComplete = (values) => {
-    this.setState(state => ({ ...state, ...values }));
-  }
-
   render() {
     const { config } = this.props
     return (
@@ -18,11 +15,11 @@ class DSNAPForm extends React.Component {
             <MachineState>
               {(state) => {
                 return (
-                  <>
+                  <React.Fragment>
                     <Wizard
-                      initialValues={state.context}
+                      initialValues={state}
                       onNext={transition}
-                      onDone={this.handleFormComplete}
+                      onDone={() => ({})}
                       config={config}
                     />
                     <Button
@@ -30,10 +27,10 @@ class DSNAPForm extends React.Component {
                       onClick={() => transition({ command: 'QUIT' })}
                       link
                     >
-                      Quit registration
+                      { this.props.t('general.quit') }
                     </Button>
-                  </>
-                );
+                  </React.Fragment>
+                )
               }}
             </MachineState>
           )}
@@ -43,4 +40,4 @@ class DSNAPForm extends React.Component {
   }
 }
 
-export default DSNAPForm;
+export default withLocale(DSNAPForm);
