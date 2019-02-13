@@ -32,9 +32,25 @@ class Section extends React.Component {
     current: null,
   }
 
+  formStarted = false
+
   next = (values) => {
+    this.formStarted = true;
     this.props.onNext({ data: values });
   };
+
+  onQuit = resetFn => () => {
+    const { formik, values, onQuit } = this.props;
+    
+    if (!this.formStarted) {
+      // call the parent form reset handler
+      formik.resetForm(values);
+      // call the nested formik's resetForm handler
+      resetFn(values);
+    }
+
+    onQuit();
+  }
 
   registerStep = (step) => {
     this.setState({
@@ -86,30 +102,29 @@ class Section extends React.Component {
     return Object.keys(errors).length >= 1;
   }
 
-  selectState(...keys) {
+  selectState(stateKeys) {
     const { values } = this.props;
 
-    return keys.reduce((memo, key) => {
+    return stateKeys.reduce((memo, key) => {
       const slice = values[key] || {};
 
       return { ...memo, [key]: { ...slice } };
     }, {});
   }
 
-  render() {
-    console.log('rendering wizard section', this.props)
-
+  render() { 
     return (
       <section>
         <h2>{this.props.header}</h2>
         <Formik
-          initialValues={this.selectState(this.props.name)}
+          enableReinitialize
+          initialValues={this.selectState([this.props.name])}
           onSubmit={this.handleSubmit}
           validateOnBlur={this.props.validateOnBlur}
           validateOnChange={this.props.validateOnChange}
           validate={this.validate}
           render={(formikProps) => {
-            const disable = this.hasErrors(formikProps.errors) || formikProps.isSubmitting;
+            const disable = this.hasErrors(formikProps.errors) || formikProps.isSubmitting; 
 
             return (
               <Form onSubmit={formikProps.handleSubmit}>
@@ -138,6 +153,13 @@ class Section extends React.Component {
                     { this.props.t('general.next') }
                   </Button>
                 </div>
+                <Button
+                  type="button"
+                  onClick={this.onQuit(formikProps.resetForm)}
+                  link
+                >
+                  { this.props.t('general.quit') }
+                </Button>
                 <Debug name={`Section ${this.props.name} state`}/>
               </Form>
             );
@@ -232,6 +254,7 @@ class Wizard extends React.Component {
   state = {
     step: 0,
   }
+  formStarted = false;
 
   next = (values) =>
     this.setState(state => ({
@@ -274,19 +297,22 @@ class Wizard extends React.Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         { this.renderTitle() }
         <Wizard.Progress
           step={this.state.step + 1}
           steps={this.getChildCount()}
         />
         <Formik
+          enableReinitialize
           initialValues={this.props.initialValues}
           onSubmit={this.handleSubmit}
           validate={this.validate}
           render={({ values, handleSubmit, handleChange, errors }) => {
+            let providedValues = this.formStarted ? values : this.props.initialValues;
+
             return (
-              <>
+              <React.Fragment>
                 <Switch>
                   {
                     this.props.config.map((section, index) => {
@@ -298,9 +324,14 @@ class Wizard extends React.Component {
                           extraProps={{
                             handleSubmit,
                             handleChange,
-                            values,
+                            values: providedValues,
                             errors,
-                            onNext: this.props.onNext,
+                            name: section.name,
+                            onNext: (values) => {
+                              if (!this.formStarted) this.formStarted = true;
+                              this.props.onNext(values);
+                            },
+                            onQuit: this.props.onQuit
                           }}
                         />
                       );
@@ -309,11 +340,11 @@ class Wizard extends React.Component {
                   <Route component={Route404} />
                 </Switch>
                 <Debug name="Complete form state" />
-              </>
+              </React.Fragment>
             );
           }}
         />
-      </>
+      </React.Fragment>
     );
   }
 }

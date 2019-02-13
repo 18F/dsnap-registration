@@ -1,39 +1,37 @@
 import React from 'react';
-import FSMRouter, { MachineConsumer } from 'components/fsm';
+import FSMRouter, { MachineConsumer, MachineState } from 'components/fsm';
 import Wizard from 'components/wizard';
-import basicInfo from 'models/basic-info';
-import identity from 'models/identity';
 import fsmConfig from 'fsm-config';
+import withLocale from 'components/with-locale';
 
 class DSNAPForm extends React.Component {
-  state = {
-    basicInfo: basicInfo(),
-    identity: identity(),
-  }
-
-  handleFormComplete = (values) => {
-    this.setState(state => ({ ...state, ...values }));
-  }
-
   render() {
-    const { config } = this.props
+    const { config } = this.props;
+
     return (
       <FSMRouter config={fsmConfig}>
         <MachineConsumer>
-          {(handleNext) => {
-            return (
-              <Wizard
-                initialValues={this.state}
-                onNext={handleNext}
-                onDone={this.handleFormComplete}
-                config={config}
-              />
-            );
-          }}
+          {(transition) => (
+            <MachineState>
+              {(state) => {
+                return (
+                  <React.Fragment>
+                    <Wizard
+                      initialValues={state}
+                      onNext={transition}
+                      onDone={() => ({})}
+                      onQuit={() => transition({ command: 'QUIT' })}
+                      config={config}
+                    />
+                  </React.Fragment>
+                )
+              }}
+            </MachineState>
+          )}
         </MachineConsumer>
       </FSMRouter>
     );
   }
 }
 
-export default DSNAPForm;
+export default withLocale(DSNAPForm);
