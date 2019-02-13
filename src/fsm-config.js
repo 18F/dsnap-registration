@@ -1,4 +1,4 @@
-import { actions, assign, sendParent } from 'xstate';
+import { actions, assign } from 'xstate';
 import modelState from 'models';
 const { log } = actions;
 

@@ -2,7 +2,6 @@ import React from 'react';
 import FSMRouter, { MachineConsumer, MachineState } from 'components/fsm';
 import Wizard from 'components/wizard';
 import fsmConfig from 'fsm-config';
-import Button from 'components/button';
 import withLocale from 'components/with-locale';
 
 class DSNAPForm extends React.Component {
