@@ -104,7 +104,7 @@ class Section extends React.Component {
       <section>
         <h2>{this.props.header}</h2>
         <Formik
-          enableReinitialize={false}
+          enableReinitialize
           initialValues={this.selectState([this.props.name])}
           onSubmit={this.handleSubmit}
           validateOnBlur={this.props.validateOnBlur}
@@ -291,7 +291,7 @@ class Wizard extends React.Component {
           steps={this.getChildCount()}
         />
         <Formik
-          enableReinitialize={false}
+          enableReinitialize
           initialValues={this.props.initialValues}
           onSubmit={this.handleSubmit}
           validate={this.validate}
