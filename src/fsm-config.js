@@ -29,6 +29,8 @@ const formNextHandler = target => ({
     actions: [
       () => console.log(`transitioning to next step ${target}`),
       'persist',
+      // open question: why doesnt xstate persist the context when an
+      // assign call is made within another function?
       assign((ctx, event) => {
         return {
           [ctx.currentSection]: (event[ctx.currentSection] || modelState[ctx.currentSection])

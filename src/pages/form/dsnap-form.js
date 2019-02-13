@@ -7,7 +7,8 @@ import withLocale from 'components/with-locale';
 
 class DSNAPForm extends React.Component {
   render() {
-    const { config } = this.props
+    const { config } = this.props;
+
     return (
       <FSMRouter config={fsmConfig}>
         <MachineConsumer>
@@ -20,15 +21,9 @@ class DSNAPForm extends React.Component {
                       initialValues={state}
                       onNext={transition}
                       onDone={() => ({})}
+                      onQuit={() => transition({ command: 'QUIT' })}
                       config={config}
                     />
-                    <Button
-                      type="button"
-                      onClick={() => transition({ command: 'QUIT' })}
-                      link
-                    >
-                      { this.props.t('general.quit') }
-                    </Button>
                   </React.Fragment>
                 )
               }}

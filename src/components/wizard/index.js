@@ -33,9 +33,25 @@ class Section extends React.Component {
     current: null,
   }
 
+  formStarted = false
+
   next = (values) => {
+    this.formStarted = true;
     this.props.onNext({ data: values });
   };
+
+  onQuit = resetFn => () => {
+    const { formik, values, onQuit } = this.props;
+    
+    if (!this.formStarted) {
+      // call the parent form reset handler
+      formik.resetForm(values);
+      // call the nested formik's resetForm handler
+      resetFn(values);
+    }
+
+    onQuit();
+  }
 
   registerStep = (step) => {
     this.setState({
@@ -97,8 +113,6 @@ class Section extends React.Component {
     }, {});
   }
 
-
-
   render() { 
     return (
       <section>
@@ -111,7 +125,7 @@ class Section extends React.Component {
           validateOnChange={this.props.validateOnChange}
           validate={this.validate}
           render={(formikProps) => {
-            const disable = this.hasErrors(formikProps.errors) || formikProps.isSubmitting;
+            const disable = this.hasErrors(formikProps.errors) || formikProps.isSubmitting; 
 
             return (
               <Form onSubmit={formikProps.handleSubmit}>
@@ -140,6 +154,13 @@ class Section extends React.Component {
                     { this.props.t('general.next') }
                   </Button>
                 </div>
+                <Button
+                  type="button"
+                  onClick={this.onQuit(formikProps.resetForm)}
+                  link
+                >
+                  { this.props.t('general.quit') }
+                </Button>
                 <Debug name={`Section ${this.props.name} state`}/>
               </Form>
             );
@@ -234,14 +255,7 @@ class Wizard extends React.Component {
   state = {
     step: 0,
   }
-
-  componentDidMount() {
-    //debugger
-  }
-
-  componentDidUpdate(nextProps){
-    //d/ebugger
-  }
+  formStarted = false;
 
   next = (values) =>
     this.setState(state => ({
@@ -296,6 +310,8 @@ class Wizard extends React.Component {
           onSubmit={this.handleSubmit}
           validate={this.validate}
           render={({ values, handleSubmit, handleChange, errors }) => {
+            let providedValues = this.formStarted ? values : this.props.initialValues;
+
             return (
               <React.Fragment>
                 <Switch>
@@ -309,10 +325,14 @@ class Wizard extends React.Component {
                           extraProps={{
                             handleSubmit,
                             handleChange,
-                            values,
+                            values: providedValues,
                             errors,
                             name: section.name,
-                            onNext: this.props.onNext,
+                            onNext: (values) => {
+                              if (!this.formStarted) this.formStarted = true;
+                              this.props.onNext(values);
+                            },
+                            onQuit: this.props.onQuit
                           }}
                         />
                       );
