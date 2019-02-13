@@ -28,7 +28,12 @@ const formNextHandler = target => ({
     internal: true,
     actions: [
       () => console.log(`transitioning to next step ${target}`),
-      'persist'
+      'persist',
+      assign((ctx, event) => {
+        return {
+          [ctx.currentSection]: (event[ctx.currentSection] || modelState[ctx.currentSection])
+        }
+      })
     ]
   }
 });
@@ -65,10 +70,12 @@ const formNextHandler = target => ({
 const basicInfoState = {
   id: 'basic-info',
   initial: 'applicant-name',
-  internal: true,
   onEntry: [
     (context) => console.log('entering basic info', context),
     assign({ currentSection: 'basicInfo' })
+  ],
+  onExit: [
+    assign({ previousSection: 'basic-info' }),
   ],
   states: {
     'applicant-name': {
@@ -88,7 +95,7 @@ const basicInfoState = {
     },
     address: {
       on: {
-        ...formNextHandler('mailing-address'),
+        ...formNextHandler('mailing-address-check'),
       },
       meta: {
         path: '/basic-info/address'
@@ -113,11 +120,10 @@ const basicInfoState = {
     'mailing-address-check': {
       on: {
         '': [
-          { target: 'mailing-address', cond: (context, event) => {
-            debugger
+          { target: 'mailing-address', cond: (context) => {
             return context.basicInfo.currentMailingAddress !== 'true';
           }},
-          { target: 'shortcut', cond: (context, event) => {
+          { target: 'shortcut', cond: (context) => {
             return context.basicInfo.currentMailingAddress === 'true';
           }},
         ],
@@ -130,16 +136,18 @@ const basicInfoState = {
       on: {
         NEXT: {
           target: 'shortcut',
-          actions: [
-            log((ctx, event) => console.log(ctx)),
-            'persist'
-          ]
         }
       },
       meta: {
         path: '/basic-info/mailing-address',
       },
-      onEntry: () => console.log('entered mailAddress')
+      onEntry: [
+        () => console.log('entered mailAddress'),
+        assign({ currentStep: 'mailing-address '})
+      ],
+      onExit: [
+        assign({ previousStep: 'mailing-address' })
+      ],
     },
     shortcut: {
       on: {
@@ -159,7 +167,13 @@ const basicInfoState = {
       meta: {
         path: '/basic-info/shortcut'
       },
-      onEntry: () => console.log('entered offramp')
+      onEntry: [
+        () => console.log('entered offramp'),
+        assign({ currentStep: 'offramp' })
+      ],
+      onExit: [
+        assign({ previousStep: 'offramp'})
+      ]
     }
   },
 };
@@ -182,7 +196,6 @@ const identityState = {
 const formStateConfig = {
   strict: true,
   id: 'form',
-  internal: true,
   context: {
     ...initialState()
   },
@@ -208,7 +221,12 @@ const formStateConfig = {
         }),
         onDone: {
           target: 'basic-info',
-          actions: ['initialize']
+          internal: true,
+          actions: [
+            assign((_, event) => {
+              return { ...event.data }
+            })
+          ]
         },
       }
     }
@@ -221,11 +239,6 @@ const formStateConfig = {
 };
 
 const extraActions = {
-  initialize: (context) => {
-    console.log(context);
-    debugger
-    assign({ ...initialState(), fake: 'hi' })
-  },
   persist: (context, {type, ...data}) => {
     const nextState = {
       ...context,
@@ -234,15 +247,6 @@ const extraActions = {
 
     console.log('persisting next state', nextState)
     localStorage.setItem(STATE_KEY, JSON.stringify(nextState));
-    debugger
-    assign({
-      [context.currentSection]: (data[context.currentSection] || modelState[context.currentSection])
-    })
-    //     debugger
-    //     console.log('hi?', a, b)
-    //     return 
-    //   } 
-    // });
   }
 };
 

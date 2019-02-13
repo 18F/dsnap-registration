@@ -123,7 +123,10 @@ class FSMRouter extends React.Component {
   }
 
   handleXStateTransition = (state) => {
-    console.log('xstate transition occuring', state);
+    console.log('xstate transition machine state', state);
+
+    this.machineState = state;
+
     if (this.stateTransitioning) {
       this.stateTransitioning = false;
       return;
@@ -142,7 +145,6 @@ class FSMRouter extends React.Component {
   }
 
   transition = ({ command = 'NEXT', data = {} }) => {
-    debugger
     // seems like we need both of these transiition calls
     // to pass data properly, odd
     this.machineState = this.machine.transition(this.machineState, { type: command, ...data }); 
@@ -150,8 +152,7 @@ class FSMRouter extends React.Component {
   }
 
   render() {
-    debugger
-    console.log('machine state', this.machineState.context)
+    console.log('fsm render machine state', this.machineState)
     return (
       <MachineContext.Provider value={this.transition}>
         <MachineStateContext.Provider value={this.machineState.context}>
