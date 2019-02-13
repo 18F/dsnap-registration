@@ -1,6 +1,5 @@
 import { actions, assign } from 'xstate';
 import modelState from 'models';
-const { log } = actions;
 
 const STATE_KEY = 'dsnap-registration';
 
