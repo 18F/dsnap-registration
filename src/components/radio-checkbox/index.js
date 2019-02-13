@@ -51,7 +51,7 @@ class RadioCheckbox extends React.Component {
           readOnly
         />
         <label
-          className={`usa-${type}-label margin-left-5 margin-right-3 margin-y-2 font-size-md padding-x-1 font-sans-md border-base-lighter`}
+          className={`usa-${type}-label padding-left-6 padding-right-3 padding-y-2 margin-bottom-0 font-size-md font-sans-md border-base-lighter`}
           htmlFor={this.props.name}
           onClick={this.handleChange}
         >
