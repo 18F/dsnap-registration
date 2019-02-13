@@ -131,7 +131,7 @@ const basicInfoState = {
     },
     'mailing-address': {
       on: {
-        ...formNextHandler('offramp')
+        ...formNextHandler('shortcut')
       },
       meta: {
         path: '/basic-info/mailing-address',
@@ -164,10 +164,10 @@ const basicInfoState = {
       },
       onEntry: [
         () => console.log('entered offramp'),
-        assign({ currentStep: 'offramp' })
+        assign({ currentStep: 'shortcut' })
       ],
       onExit: [
-        assign({ previousStep: 'offramp'})
+        assign({ previousStep: 'shortcut'})
       ]
     }
   },
@@ -176,8 +176,20 @@ const basicInfoState = {
 const identityState = {
   id: 'identity',
   initial: 'personal-info',
+  onEnter: [
+    assign({ currentSection: 'identity' })
+  ],
+  onExit: [
+    assign({ previousSection: 'identity' }),
+  ],
   states: {
     'personal-info': {
+      onEnter: [
+        assign({ currentStep: 'personalInfo' })
+      ],
+      onExit: [
+        assign({ previousStep: 'personalInfo' })
+      ],
       on: {
         NEXT: '#household'
       },
