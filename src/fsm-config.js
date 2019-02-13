@@ -109,34 +109,27 @@ const basicInfoState = {
         (context) => actions.send({ type: 'NEXT', ...context })
       ]
     },
-    'mailing-address-branch': {
-      onEntry: [
-        (context) => actions.send({ type: 'NEXT', ...context })
-      ],
-      on: {
-        NEXT: 'mailing-address-check'
-      }
-    },
     'mailing-address-check': {
       on: {
         '': [
-          { target: 'mailing-address', cond: (context) => {
-            return context.basicInfo.currentMailingAddress !== 'true';
-          }},
-          { target: 'shortcut', cond: (context) => {
-            return context.basicInfo.currentMailingAddress === 'true';
-          }},
+          {
+            target: 'mailing-address',
+            cond: (context) => {
+              return context.basicInfo.currentMailingAddress !== 'true';
+            },
+          },
+          {
+            target: 'shortcut',
+            cond: (context) => {
+              return context.basicInfo.currentMailingAddress === 'true';
+            }
+          },
         ],
-        NEXT: {
-          actions: () => console.log('hi')
-        }
       },
     },
     'mailing-address': {
       on: {
-        NEXT: {
-          target: 'shortcut',
-        }
+        ...formNextHandler('offramp')
       },
       meta: {
         path: '/basic-info/mailing-address',
@@ -240,10 +233,18 @@ const formStateConfig = {
 
 const extraActions = {
   persist: (context, {type, ...data}) => {
-    const nextState = {
-      ...context,
-      [context.currentSection]: (data[context.currentSection] || modelState[context.currentSection]),
-    };
+    const nextState = (() => {
+      // we are transitioning through a null state, which doesn't provide
+      // data to the state machine. so, just write the current context to local storage
+      if (!type) {
+        return context;
+      }
+
+      return {
+        ...context,
+        [context.currentSection]: (data[context.currentSection] || modelState[context.currentSection]),
+      };
+    })();
 
     console.log('persisting next state', nextState)
     localStorage.setItem(STATE_KEY, JSON.stringify(nextState));
