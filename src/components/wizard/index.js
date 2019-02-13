@@ -85,11 +85,12 @@ class Section extends React.Component {
   handleSubmit = (values, actions) => {
     const isLastStep = this.isLastStep();
 
+    this.next(values);
+
     if (isLastStep) {
       this.props.handleSubmit(values);
     } else {
       actions.setSubmitting(false);
-      this.next(values);
     }
   }
 
@@ -254,6 +255,7 @@ class Wizard extends React.Component {
   state = {
     step: 0,
   }
+
   formStarted = false;
 
   next = (values) =>
