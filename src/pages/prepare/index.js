@@ -21,7 +21,7 @@ class PreparePage extends React.Component {
     const { tKey, t } = this.props;
 
     return (   
-      <section className="grid-col-8">
+      <section>
         <UI.Header className="margin-bottom-4 font-sans-xl" type="h1" border>
           {t(`${tKey}.header`)}
         </UI.Header>

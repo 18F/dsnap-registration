@@ -28,6 +28,17 @@ ul.bulleted li::before {
   top: .25rem;
 }
 
+.usa-button-link {
+  background-color: transparent;
+  border: none;
+  color: #005ea2;
+  text-decoration: underline;
+}
+
+.usa-button-link:active, .usa-button-link:hover {
+  color: #162e51;
+}
+
 @media only screen and (max-width: 40rem) {
   .grid-container {
     margin: 0;
