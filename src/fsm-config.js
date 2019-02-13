@@ -148,16 +148,8 @@ const basicInfoState = {
       on: {
         EXIT: {
           target: '#submit',
-          actions: log(
-            (ctx, event) => 'offramping'
-          )
         },
-        NEXT: {
-          target: '#identity',
-          actions: log(
-            (ctx, event) => 'to identity'
-          )
-        }
+        ...formNextHandler('#identity'),
       },
       meta: {
         path: '/basic-info/shortcut'
@@ -176,7 +168,7 @@ const basicInfoState = {
 const identityState = {
   id: 'identity',
   initial: 'personal-info',
-  onEnter: [
+  onEntry: [
     assign({ currentSection: 'identity' })
   ],
   onExit: [
@@ -184,14 +176,14 @@ const identityState = {
   ],
   states: {
     'personal-info': {
-      onEnter: [
+      onEntry: [
         assign({ currentStep: 'personalInfo' })
       ],
       onExit: [
         assign({ previousStep: 'personalInfo' })
       ],
       on: {
-        NEXT: '#household'
+        ...formNextHandler('#household')
       },
       meta: {
         path: '/identity/personal-info',

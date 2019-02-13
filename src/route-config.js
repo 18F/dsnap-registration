@@ -26,6 +26,7 @@ export default [{
 }, {
   path: '/form/identity',
   component: Sections.IdentitySection,
+  name: 'identity',
   routes: [
     {
       path: '/form/identity/personal-info',
