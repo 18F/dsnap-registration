@@ -96,3 +96,4 @@ class Input extends React.Component {
 }
 
 export default connect(Input);
+
