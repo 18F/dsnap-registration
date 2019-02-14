@@ -6,7 +6,7 @@ import './input.css';
 import InputError from 'components/error';
 
 const propTypes = {
-  autoComplete: PropTypes.oneOf([null, 'off']),
+  autoComplete: PropTypes.string,
   className: PropTypes.string,
   error: PropTypes.string,
   groupClassName: PropTypes.string,
@@ -23,7 +23,6 @@ class Input extends React.Component {
   static propTypes = propTypes
 
   static defaultProps = {
-    autocomplete: 'off',
     className: null,
     labelClassName: null,
     explanation: null,
@@ -80,7 +79,7 @@ class Input extends React.Component {
           }
         </label>
         <input
-          autoComplete={this.props.autoComplete}
+          autoComplete="new-password"
           type={this.props.type}
           className={this.fieldClassName()}
           name={name}

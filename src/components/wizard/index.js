@@ -128,7 +128,8 @@ class Section extends React.Component {
             const disable = this.hasErrors(formikProps.errors) || formikProps.isSubmitting; 
 
             return (
-              <Form onSubmit={formikProps.handleSubmit}>
+              <Form onSubmit={formikProps.handleSubmit} autoComplete="fake">
+                <input type="hidden" value="something" name="hidden" style={{ display: 'none' }} />
                 <Switch>
                   {
                     this.props.routes.map((route, index) => {
@@ -224,7 +225,7 @@ class Progress extends React.Component {
   
   render() {
     return (
-      <section id="progress">
+      <section id="progress" className="text-green">
         { `Step ${this.props.step} of ${this.props.steps}` }
       </section>
     );
