@@ -15,15 +15,13 @@ class DSNAPForm extends React.Component {
             <MachineState>
               {(state) => {
                 return (
-                  <React.Fragment>
-                    <Wizard
-                      initialValues={state}
-                      onNext={transition}
-                      onDone={() => ({})}
-                      onQuit={() => transition({ command: 'QUIT' })}
-                      config={config}
-                    />
-                  </React.Fragment>
+                  <Wizard
+                    initialValues={state}
+                    onNext={transition}
+                    onDone={() => ({})}
+                    onQuit={() => transition({ command: 'QUIT' })}
+                    config={config}
+                  />
                 )
               }}
             </MachineState>

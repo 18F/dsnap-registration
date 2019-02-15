@@ -28,7 +28,6 @@ class Section extends React.Component {
   }
 
   state = {
-    step: 0,
     current: null,
   }
 
@@ -52,14 +51,14 @@ class Section extends React.Component {
     onQuit();
   }
 
-  registerStep = (step) => {
+  registerStepComponent = (step) => {
     this.setState({
       current: step
     })
   }
 
   validate = (values) => {
-    const activeStep = this.getActiveStep();
+    const activeStep = this.getActiveStepComponent();
     const validate = activeStep && activeStep.props.validate;
 
     if (!validate) {
@@ -70,7 +69,7 @@ class Section extends React.Component {
     return validate(values[this.props.name][activeStep.props.modelName]);
   }
 
-  getActiveStep() {
+  getActiveStepComponent() {
     return this.state.current;
   }
 
@@ -129,7 +128,12 @@ class Section extends React.Component {
 
             return (
               <Form onSubmit={formikProps.handleSubmit} autoComplete="fake">
-                <input type="hidden" value="something" name="hidden" style={{ display: 'none' }} />
+                <input
+                  type="hidden"
+                  value="something"
+                  name="hidden"
+                  style={{ display: 'none' }}
+                />
                 <Switch>
                   {
                     this.props.routes.map((route, index) => {
@@ -141,7 +145,7 @@ class Section extends React.Component {
                           extraProps={{
                             sectionName: this.props.name,
                             handleChange: this.handleChange(formikProps.handleChange),
-                            registerStep: this.registerStep,
+                            registerStep: this.registerStepComponent,
                             handleNext: this.props.handleNext
                           }}
                         />
@@ -253,17 +257,7 @@ class Wizard extends React.Component {
     validateOnBlur: true
   }
 
-  state = {
-    step: 0,
-  }
-
   formStarted = false;
-
-  next = (values) =>
-    this.setState(state => ({
-      step: Math.min(state.step + 1, this.getChildCount()),
-      values
-    }));
 
   validate = (values) => {
     console.log('validate hook called in wizard')
@@ -281,16 +275,15 @@ class Wizard extends React.Component {
       this.props.onDone(values);
     } else {
       actions.setSubmitting(false);
-      this.next();
     }
   }
 
   getChildCount() {
-    return this.props.config.length;
+    return this.props.totalSteps;
   }
 
   isLastStep() {
-    return this.state.step + 1 === this.getChildCount();
+    return this.props.step === this.props.totalSteps;
   }
 
   renderTitle() {
@@ -299,16 +292,18 @@ class Wizard extends React.Component {
   }
 
   render() {
+    const { step, totalSteps, ...rest } = this.props.initialValues;
+
     return (
       <React.Fragment>
         { this.renderTitle() }
         <Wizard.Progress
-          step={this.state.step + 1}
-          steps={this.getChildCount()}
+          step={step}
+          steps={totalSteps}
         />
         <Formik
           enableReinitialize
-          initialValues={this.props.initialValues}
+          initialValues={rest}
           onSubmit={this.handleSubmit}
           validate={this.validate}
           render={({ values, handleSubmit, handleChange, errors }) => {
