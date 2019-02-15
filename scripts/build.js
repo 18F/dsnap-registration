@@ -55,12 +55,14 @@ checkBrowsers(paths.appPath, isInteractive)
   .then(() => {
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
-    return measureFileSizesBeforeBuild(paths.appBuild);
+    return measureFileSizesBeforeBuild(paths.appBuildPublic);
   })
   .then(previousFileSizes => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
+    // create an empty temp directory for assets
+    createTempBuildDir();
     // Merge with the public folder
     copyPublicFolder();
     // Start the webpack build
@@ -68,6 +70,11 @@ checkBrowsers(paths.appPath, isInteractive)
   })
   .then(
     ({ stats, previousFileSizes, warnings }) => {
+      // copy files into the folder structure our destination server expects
+      copyBuildFiles();
+      copyServerConfigs();
+      removeTempBuildDir();
+
       if (warnings.length) {
         console.log(chalk.yellow('Compiled with warnings.\n'));
         console.log(warnings.join('\n\n'));
@@ -89,7 +96,7 @@ checkBrowsers(paths.appPath, isInteractive)
       printFileSizesAfterBuild(
         stats,
         previousFileSizes,
-        paths.appBuild,
+        paths.appBuildPublic,
         WARN_AFTER_BUNDLE_GZIP_SIZE,
         WARN_AFTER_CHUNK_GZIP_SIZE
       );
@@ -181,8 +188,26 @@ function build(previousFileSizes) {
   });
 }
 
+function createTempBuildDir() {
+  fs.ensureDirSync(paths.appBuildTmp);
+}
+
+function removeTempBuildDir() {
+  fs.removeSync(paths.appBuildTmp);
+}
+
+function copyServerConfigs() {
+  fs.copySync(paths.appBuildPack, paths.appBuild);
+}
+
+function copyBuildFiles() {
+  fs.copySync(paths.appBuildTmp, paths.appBuildPublic, {
+    filter: file => file !== paths.appBuildPublic,
+  });
+}
+
 function copyPublicFolder() {
-  fs.copySync(paths.appPublic, paths.appBuild, {
+  fs.copySync(paths.appPublic, paths.appBuildPublic + '/public', {
     dereference: true,
     filter: file => file !== paths.appHtml,
   });
