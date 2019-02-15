@@ -3,17 +3,13 @@ import modelState from 'models';
 
 const STATE_KEY = 'dsnap-registration';
 
+const currentSectionSelector = context =>
+  context.currentModel;
+
 const initialState = () => {
-  let models; 
-
-  try {
-    models = JSON.parse(localStorage.getItem(STATE_KEY)) || modelState;
-  } catch(error) {
-    models = modelState;
-  }
-
-  return {
-    ...models,
+  const machineState = {
+    ...modelState,
+    currentModel: null,
     currentSection: null,
     currentStep: null,
     previousStep: null,
@@ -28,7 +24,16 @@ const initialState = () => {
      * number of steps
      */
     totalSteps: 2,
+  };
+  let state;
+
+  try {
+    state = JSON.parse(localStorage.getItem(STATE_KEY)) || machineState;
+  } catch(error) {
+    state = machineState;
   }
+
+  return state;
 };
 
 const formNextHandler = target => ({
@@ -78,16 +83,14 @@ const formNextHandler = target => ({
 //   };
 // };
 
-// start user at last filled in step!!!!! thanks aaron
-
-
 const basicInfoState = {
   id: 'basic-info',
-  initial: 'applicant-name',
+  initial: 'idle',
   onEntry: [
     (context) => console.log('entering basic info', context),
     assign({
-      currentSection: 'basicInfo',
+      currentSection: 'basic-info',
+      currentModel: 'basicInfo',
       step: 1,
     })
   ],
@@ -95,6 +98,7 @@ const basicInfoState = {
     assign({ previousSection: 'basic-info' }),
   ],
   states: {
+    idle: {},
     'applicant-name': {
       on: {
         ...formNextHandler('address')
@@ -104,10 +108,10 @@ const basicInfoState = {
       },
       onEntry: [
         (context) => console.log('entered applicant-name', context),
-        assign({ currentStep: 'applicantName', previousStep: null })
+        assign({ currentStep: 'applicant-name', previousStep: null })
       ],
       onExit: [
-        assign({ previousStep: 'applicantName' })
+        assign({ previousStep: 'applicant-name' })
       ]
     },
     address: {
@@ -119,10 +123,10 @@ const basicInfoState = {
       },
       onEntry: [
         () => console.log('entered address'),
-        assign({ currentStep: 'residenceAddress' })
+        assign({ currentStep: 'address' })
       ],
       onExit: [
-        assign({ previousStep: 'residenceAddress' }),
+        assign({ previousStep: 'address' }),
         (context) => actions.send({ type: 'NEXT', ...context })
       ]
     },
@@ -182,10 +186,11 @@ const basicInfoState = {
 
 const identityState = {
   id: 'identity',
-  initial: 'personal-info',
+  initial: 'idle',
   onEntry: [
     assign({
       currentSection: 'identity',
+      currentModel: 'identity',
       step: 2,
     })
   ],
@@ -193,12 +198,13 @@ const identityState = {
     assign({ previousSection: 'identity' }),
   ],
   states: {
+    idle: {},
     'personal-info': {
       onEntry: [
-        assign({ currentStep: 'personalInfo' })
+        assign({ currentStep: 'personal-info' })
       ],
       onExit: [
-        assign({ previousStep: 'personalInfo' })
+        assign({ previousStep: 'personal-info' })
       ],
       on: {
         ...formNextHandler('#household')
@@ -217,8 +223,9 @@ const formStateConfig = {
   context: {
     ...initialState()
   },
-  initial: 'basic-info',
+  initial: 'idle',
   states: {
+    idle: {},
     'basic-info': basicInfoState,
     identity: identityState,
     household: {
@@ -265,9 +272,11 @@ const extraActions = {
         return context;
       }
 
+      const section = currentSectionSelector(context);
+
       return {
         ...context,
-        [context.currentSection]: (data[context.currentSection] || modelState[context.currentSection]),
+        [section]: (data[section] || modelState[section]),
       };
     })();
 
