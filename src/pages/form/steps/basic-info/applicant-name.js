@@ -21,7 +21,7 @@ class ApplicantName extends React.Component {
 
     return (
       <Wizard.Step
-        header={t(`${buildNestedKey(sectionName, modelName)}.header`)}
+        header={t(`${buildNestedKey(sectionName, modelName, 'header')}`)}
         modelName={modelName}
         registerStep={this.props.registerStep}
         validate={nameValidator}

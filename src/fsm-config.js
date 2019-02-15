@@ -18,6 +18,16 @@ const initialState = () => {
     currentStep: null,
     previousStep: null,
     previousSection: null,
+    /**
+     * totalSteps refers to the number of sections a user will move through
+     * while filling out the form. It doesn't necessarily reflect
+     * the number of states the machine can be in.
+     * 
+     * For example, the `quit` state is used internally by the state machine
+     * but is not exposed to the user, and therefore not included in the total
+     * number of steps
+     */
+    totalSteps: 2,
   }
 };
 
@@ -30,22 +40,23 @@ const formNextHandler = target => ({
       'persist',
       // open question: why doesnt xstate persist the context when an
       // assign call is made within another function?
-      assign((ctx, event) => {
-        return {
-          [ctx.currentSection]: (event[ctx.currentSection] || modelState[ctx.currentSection])
-        }
-      })
+      assign((ctx, event) => ({
+        [ctx.currentSection]: (event[ctx.currentSection] || modelState[ctx.currentSection])
+      }))
     ]
   }
 });
 
 // TODO: run validation methods in onEntry hook?
-// validations should maybe be their own step? might be useful when
+// validations should maybe be their own state? might be useful when
 // we need to validate the whole section on?
 /**
  * each step has these sequence of states =>
  *  idle => validate => branch(error | idle) ? 
+ *
  */
+
+
 // we only need to do it when state is dirty
 // probably want to store meta information of what steps are 'done'
 
@@ -67,13 +78,18 @@ const formNextHandler = target => ({
 //   };
 // };
 
+// start user at last filled in step!!!!! thanks aaron
+
 
 const basicInfoState = {
   id: 'basic-info',
   initial: 'applicant-name',
   onEntry: [
     (context) => console.log('entering basic info', context),
-    assign({ currentSection: 'basicInfo' })
+    assign({
+      currentSection: 'basicInfo',
+      step: 1,
+    })
   ],
   onExit: [
     assign({ previousSection: 'basic-info' }),
@@ -168,7 +184,10 @@ const identityState = {
   id: 'identity',
   initial: 'personal-info',
   onEntry: [
-    assign({ currentSection: 'identity' })
+    assign({
+      currentSection: 'identity',
+      step: 2,
+    })
   ],
   onExit: [
     assign({ previousSection: 'identity' }),
@@ -190,6 +209,7 @@ const identityState = {
     },
   }
 };
+
 
 const formStateConfig = {
   strict: true,
