@@ -39,7 +39,10 @@ class RadioCheckbox extends React.Component {
     const normalizedValue = normalizeValue(value);
 
     return (
-      <div className="border radius-md border-base-light display-inline-block margin-right-2">
+      <div
+        className="border radius-md border-base-light display-inline-block margin-right-2"
+        onClick={this.handleChange}
+      >
         <input
           ref={this.checkbox}
           className={`usa-${type}-input`}
@@ -53,7 +56,6 @@ class RadioCheckbox extends React.Component {
         <label
           className={`usa-${type}-label padding-left-6 padding-right-3 padding-y-2 margin-bottom-0 font-size-md font-sans-md border-base-lighter`}
           htmlFor={this.props.name}
-          onClick={this.handleChange}
         >
           {this.props.labelText}
         </label>
