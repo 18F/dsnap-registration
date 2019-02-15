@@ -91,7 +91,7 @@ class FormikRadioGroup extends React.Component {
       <div role="group" className="margin-y-4">
         <FormGroupLabel labelText={this.props.labelText} />
         <FormGroupExplanation text={explanation} />
-        <div className="margin-top-2">
+        <span className="margin-top-2">
           {
             this.props.options.map((option, index) => {
               return (
@@ -105,7 +105,7 @@ class FormikRadioGroup extends React.Component {
               );
             })
           }
-        </div>
+        </span>
       </div>
     )
   }
