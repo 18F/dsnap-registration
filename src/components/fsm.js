@@ -65,8 +65,13 @@ class FSMRouter extends React.Component {
     
     this.service.onTransition(this.handleXStateTransition);
     this.service.start();
-    
-    this.handleHistoryTransition(this.props.location);
+
+    const { context } = this.machineState;
+
+    this.handleHistoryTransition({
+      pathname: `/form/${context.currentSection}/${context.currentStep}`
+    });
+
     this.historySubscriber = props.history.listen(this.historyHandler);
   }
 
