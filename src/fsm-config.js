@@ -10,8 +10,8 @@ const initialState = () => {
   const machineState = {
     ...modelState,
     currentModel: null,
-    currentSection: null,
-    currentStep: null,
+    currentSection: 'basic-info',
+    currentStep: 'applicant-name',
     previousStep: null,
     previousSection: null,
     /**
@@ -280,7 +280,6 @@ const extraActions = {
       };
     })();
 
-    console.log('persisting next state', nextState)
     localStorage.setItem(STATE_KEY, JSON.stringify(nextState));
   }
 };
