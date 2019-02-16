@@ -45,9 +45,13 @@ const formNextHandler = target => ({
       'persist',
       // open question: why doesnt xstate persist the context when an
       // assign call is made within another function?
-      assign((ctx, event) => ({
-        [ctx.currentSection]: (event[ctx.currentSection] || modelState[ctx.currentSection])
-      }))
+      assign((ctx, event) => {
+        const section = currentSectionSelector(ctx);
+
+        return {
+          [section]: (event[section] || modelState[section])
+        };
+      })
     ]
   }
 });
@@ -157,7 +161,7 @@ const basicInfoState = {
       },
       onEntry: [
         () => console.log('entered mailAddress'),
-        assign({ currentStep: 'mailing-address '})
+        assign({ currentStep: 'mailing-address'})
       ],
       onExit: [
         assign({ previousStep: 'mailing-address' })
