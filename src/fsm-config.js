@@ -20,7 +20,7 @@ const initialState = () => {
      * the number of states the machine can be in.
      * 
      * For example, the `quit` state is used internally by the state machine
-     * but is not exposed to the user, and therefore not included in the total
+     * but is not exposed to the user. Therefore, it is not included in the total
      * number of steps
      */
     totalSteps: 2,
@@ -89,7 +89,7 @@ const formNextHandler = target => ({
 
 const basicInfoState = {
   id: 'basic-info',
-  initial: 'idle',
+  initial: 'applicant-name',
   onEntry: [
     (context) => console.log('entering basic info', context),
     assign({
@@ -102,7 +102,6 @@ const basicInfoState = {
     assign({ previousSection: 'basic-info' }),
   ],
   states: {
-    idle: {},
     'applicant-name': {
       on: {
         ...formNextHandler('address')
@@ -190,7 +189,7 @@ const basicInfoState = {
 
 const identityState = {
   id: 'identity',
-  initial: 'idle',
+  initial: 'personal-info',
   onEntry: [
     assign({
       currentSection: 'identity',
@@ -202,7 +201,6 @@ const identityState = {
     assign({ previousSection: 'identity' }),
   ],
   states: {
-    idle: {},
     'personal-info': {
       onEntry: [
         assign({ currentStep: 'personal-info' })
