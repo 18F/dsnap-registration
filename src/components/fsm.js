@@ -128,6 +128,7 @@ class FSMRouter extends React.Component {
         }
       }
     }
+    // TODO: we need to handle invalid machine states here
   }
 
   handleXStateTransition = (state) => {
