@@ -1,5 +1,6 @@
 import basicInfo from './basic-info';
 import identity from './identity';
+import household from './household';
 
 const combine = (obj) =>
   Object.entries(obj).reduce((accum, [ name, statefn ]) => (
@@ -11,7 +12,8 @@ const combine = (obj) =>
 
 const state = combine({
   basicInfo,
-  identity
+  identity,
+  household,
 });
 
 export default state;
