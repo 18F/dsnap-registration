@@ -310,7 +310,7 @@ class Wizard extends React.Component {
             let providedValues = this.formStarted ? values : this.props.initialValues;
 
             return (
-              <React.Fragment>
+              <WizardContext.Provider value={values}>
                 <Switch>
                   {
                     this.props.config.map((section, index) => {
@@ -338,7 +338,7 @@ class Wizard extends React.Component {
                   <Route component={Route404} />
                 </Switch>
                 <Debug name="Complete form state" />
-              </React.Fragment>
+              </WizardContext.Provider>
             );
           }}
         />

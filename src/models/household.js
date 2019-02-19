@@ -1,7 +1,7 @@
 import person from './person';
 
 export default () => ({
-  numMembers: 0,
+  numMembers: '',
   currentMemberIndex: null,
   members: [],
   hasAdditionalMembers: false,
