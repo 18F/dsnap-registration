@@ -16,7 +16,7 @@ class ApplicantName extends React.Component {
   }
 
   render() {
-    const { handleChange, sectionName, t } = this.props;
+    const { handleChange, sectionName, t, registerStep } = this.props;
     const { modelName } = ApplicantName;
 
     return (
