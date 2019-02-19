@@ -23,7 +23,7 @@ const initialState = () => {
      * but is not exposed to the user. Therefore, it is not included in the total
      * number of steps
      */
-    totalSteps: 2,
+    totalSteps: 3,
   };
   let state;
 
@@ -56,38 +56,7 @@ const formNextHandler = target => ({
   }
 });
 
-// TODO: run validation methods in onEntry hook?
-// validations should maybe be their own state? might be useful when
-// we need to validate the whole section on?
-/**
- * each step has these sequence of states =>
- *  idle => validate => branch(error | idle) ? 
- *
- */
-
-
-// we only need to do it when state is dirty
-// probably want to store meta information of what steps are 'done'
-
-// need actor factory for step / section? probably need to flesh out a section
-// more completely to see where abstractions can be made
-// const Actor = (xstateConfigs) => {
-//   const { onEntry, on, id, initial, states, ...rest } = xstateConfigs;
-
-//   return {
-//     id,
-//     initial,
-//     onEntry: [
-//       ...onEntry,
-//       assign({ currentSection: id })
-//     ],
-//     on: { ...on },
-//     states: { ...states },
-//     ...rest
-//   };
-// };
-
-const basicInfoState = {
+const basicInfoChart = {
   id: 'basic-info',
   initial: 'applicant-name',
   onEntry: [
@@ -187,7 +156,7 @@ const basicInfoState = {
   },
 };
 
-const identityState = {
+const identityChart = {
   id: 'identity',
   initial: 'personal-info',
   onEntry: [
@@ -218,6 +187,105 @@ const identityState = {
   }
 };
 
+const householdChart = {
+  id: 'household',
+  initial: 'how-many',
+  onEntry: [
+    assign({
+      currentSection: 'household',
+      currentModel: 'household',
+      step: 3,
+    })
+  ],
+  onExit: [
+    assign({ previousSection: 'household' }),
+  ],
+  strict: true,
+  states: {
+    'how-many': {
+      onEntry: [
+        assign({ currentStep: 'how-many' })
+      ],
+      onExit: [
+        assign({ previousStep: 'how-many' })
+      ],
+      on: {
+        ...formNextHandler('member-info-branch')
+      },
+      meta: {
+        path: '/household/how-many',
+      }
+    },
+    'member-info-branch': {
+      on: {
+        '': [
+          {
+            target: 'member-names', cond: (context) => {
+              return true//Number(context.household.memberCount);
+            }
+          },
+          {
+            target: '#adverse', cond: (context) => {
+              return false;
+            }
+          }
+        ]
+      }
+    },
+    'member-names': {
+      onEntry: [
+        assign({ currentStep: 'member-names' })
+      ],
+      onExit: [
+        assign({ previousStep: 'member-names' })
+      ],
+      on: {
+        ...formNextHandler('get-prepared')
+      },
+      meta: {
+        path: '/household/member-names',
+      }
+    },
+    'get-prepared': {
+      onEntry: [
+        assign({ currentStep: 'get-prepared' })
+      ],
+      onExit: [
+        assign({ previousStep: 'get-prepared' })
+      ],
+      on: {
+        ...formNextHandler('member-details')
+      },
+      meta: {
+        path: '/household/get-prepared',
+      }
+    },
+    'member-details': {
+      onEntry: [
+        assign({ currentStep: 'member-details' })
+      ],
+      onExit: [
+        assign({ previousStep: 'member-details'})
+      ],
+      on: {
+        NEXT: [
+          {
+            target: 'member-details',
+            cond: (context) => context.household.hasAdditionalMembers
+          },
+          {
+            target: '#adverse',
+            cond: (context) => !context.household.hasAdditionalMembers
+          }
+        ],
+      },
+      meta: {
+        path: '/household/member-details',
+      }
+    }
+  }
+};
+
 
 const formStateConfig = {
   strict: true,
@@ -228,12 +296,13 @@ const formStateConfig = {
   initial: 'idle',
   states: {
     idle: {},
-    'basic-info': basicInfoState,
-    identity: identityState,
-    household: {
-      id: 'household'
+    'basic-info': basicInfoChart,
+    identity: identityChart,
+    household: householdChart,
+    adverse: {
+      id: 'adverse',
+      onEntry: [() => console.log('entered adverse section')]
     },
-    adverse: {},
     resources: {},
     review: {},
     submit: {

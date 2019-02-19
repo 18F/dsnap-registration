@@ -146,7 +146,60 @@
     }
   },
   "household": {
-
+    "count": {
+      "header": "Now tell us about people you share food with.",
+      "label": "On [first day of benefit period], how many people in your home did you regularly buy food for and prepare meals with?",
+      "explanation": "Count your roommates if you often buy food and cook together."
+    },
+    "memberNames": {
+      "header": "OK {{ customerName }}, you share meals with {{ count }} people.",
+      "firstName": {
+        "label": "Legal first name"
+      },
+      "middleName": {
+        "label": "Middle name"
+      },
+      "lastName":{
+        "label": "Last name"
+      }
+    },
+    "getPrepared": {
+      "header": "Now, we'll need some info about each person.",
+      "conditions": {
+        "header": "We’ll ask about the following from the people you listed so far:",
+        "body": [
+          "Social Security Number",
+          "Date of birth",
+          "Sex",
+          "Race"
+        ]
+      }
+    },
+    "memberDetails": {
+      "header": "Great! Let’s get more info about {{ firstName }}.",
+      "dob": {
+        "label": "What is {{ firstName }}'s date of birth?",
+        "explanation": "For example: 12 30 1975",
+        "month": "Month",
+        "day": "Day",
+        "year": "Year"
+      },
+      "ssn": {
+        "label": "What is {{ firstName }}'s Social Security Number (SSN)?",
+        "explanation": "You can leave this blank if you don't know it or if they don't have one. Providing one will help verify and move you faster in the application process."
+      },
+      "sex": {
+        "label": "What is {{ firstName }}'s sex?",
+        "explanation": "As shown in legal documents such as a birth certificate.",
+        "options": {
+          "male": "Male",
+          "female": "Female"
+        }
+      },
+      "race": {
+        "label": "What is {{ firstName }}'s race?"
+      }
+    }
   },
   "impact": {
 

@@ -33,4 +33,26 @@ export default [{
       component: Steps.Identity.PersonalInfo,
     }
   ]
+}, {
+  path: '/form/household',
+  component: Sections.HouseholdSection,
+  name: 'household',
+  routes: [
+    {
+      path: '/form/household/how-many',
+      component: Steps.Household.HowMany
+    },
+    {
+      path: '/form/household/member-names',
+      component: Steps.Household.MemberNames,
+    },
+    {
+      path: '/form/household/get-prepared',
+      component: Steps.Household.GetPrepared,
+    },
+    {
+      path: '/form/household/member-details',
+      component: Steps.Household.MemberDetails
+    }
+  ]
 }];
