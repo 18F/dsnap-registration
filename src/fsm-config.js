@@ -246,7 +246,7 @@ const householdChart = {
         assign({ previousStep: 'member-names' })
       ],
       on: {
-        //...formNextHandler('get-prepared')
+        ...formNextHandler('get-prepared')
       },
       meta: {
         path: '/household/member-names',

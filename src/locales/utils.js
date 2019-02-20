@@ -8,7 +8,7 @@ const renderListT = ({ name }) => (
         .map((text, index) => {
           return (
             <li
-              className="margin-y-1"
+              className="margin-y-025"
               key={`${name}.conditions.${index}`}
             >
               { i18n.t(text) }
