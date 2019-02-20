@@ -1,6 +1,8 @@
 import React from 'react';
 import i18n from 'i18n';
 
+// TODO: These can actually just be better-named components
+
 const renderListT = ({ name }) => (
   <ul className="margin-y-0 bulleted">
     {

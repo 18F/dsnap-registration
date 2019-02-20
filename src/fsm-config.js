@@ -1,6 +1,6 @@
 import { actions, assign } from 'xstate';
 import modelState from 'models';
-import { getHouseholdCount } from 'models/household';
+import { getHouseholdCount, hasAdditionalMembers } from 'models/household';
 
 const STATE_KEY = 'dsnap-registration';
 
@@ -61,7 +61,6 @@ const basicInfoChart = {
   id: 'basic-info',
   initial: 'applicant-name',
   onEntry: [
-    (context) => console.log('entering basic info', context),
     assign({
       currentSection: 'basic-info',
       currentModel: 'basicInfo',
@@ -80,7 +79,6 @@ const basicInfoChart = {
         path: '/basic-info/applicant-name'
       },
       onEntry: [
-        (context) => console.log('entered applicant-name', context),
         assign({ currentStep: 'applicant-name', previousStep: null })
       ],
       onExit: [
@@ -95,11 +93,9 @@ const basicInfoChart = {
         path: '/basic-info/address'
       },
       onEntry: [
-        () => console.log('entered address'),
         assign({ currentStep: 'address' })
       ],
       onExit: [
-        () => console.log('exit address step'),
         assign({ previousStep: 'address' }),
         (context) => actions.send({ type: 'NEXT', ...context })
       ]
@@ -130,7 +126,6 @@ const basicInfoChart = {
         path: '/basic-info/mailing-address',
       },
       onEntry: [
-        () => console.log('entered mailAddress'),
         assign({ currentStep: 'mailing-address'})
       ],
       onExit: [
@@ -148,7 +143,6 @@ const basicInfoChart = {
         path: '/basic-info/shortcut'
       },
       onEntry: [
-        () => console.log('entered offramp'),
         assign({ currentStep: 'shortcut' })
       ],
       onExit: [
@@ -200,7 +194,6 @@ const householdChart = {
     })
   ],
   onExit: [
-    () => console.log('houeshold on exit hit?'),
     assign({ previousSection: 'household' }),
   ],
   strict: true,
@@ -274,21 +267,26 @@ const householdChart = {
         assign({ previousStep: 'member-details'})
       ],
       on: {
-        NEXT: [
-          {
-            target: 'member-details',
-            cond: (context) => context.household.hasAdditionalMembers
-          },
-          {
-            target: '#adverse',
-            cond: (context) => !context.household.hasAdditionalMembers
-          }
-        ],
+        ...formNextHandler('member-details-loop')
       },
       meta: {
         path: '/household/member-details',
       }
-    }
+    },
+    'member-details-loop': {
+      on: {
+        '': [
+          {
+            target: 'member-details',
+            cond: (context) => hasAdditionalMembers(context.household),
+          },
+          {
+            target: '#adverse',
+            cond: (context) => !hasAdditionalMembers(context.household),
+          }
+        ],
+      },
+    },
   }
 };
 
