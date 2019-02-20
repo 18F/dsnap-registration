@@ -45,6 +45,7 @@ class PersonalInfo extends React.Component {
             name: `${sectionName}.${modelName}.dob.year`,
             labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.year`),
             onChange: handleChange,
+            className: 'desktop:grid-col-9'
           }]}
         />
         <FormikField

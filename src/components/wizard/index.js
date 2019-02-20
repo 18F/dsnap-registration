@@ -34,8 +34,16 @@ class Section extends React.Component {
   formStarted = false
 
   next = (values) => {
+    const { current } = this.state;
+      // call the onNext handler for the step, if it exists
+    const nextValues = (
+      current &&
+      current.props.onNext &&
+      current.props.onNext(values)
+    ) || values;
+
     this.formStarted = true;
-    this.props.onNext({ data: values });
+    this.props.onNext({ data: nextValues });
   };
 
   onQuit = resetFn => () => {

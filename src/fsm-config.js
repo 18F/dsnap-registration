@@ -1,5 +1,6 @@
 import { actions, assign } from 'xstate';
 import modelState from 'models';
+import { getHouseholdCount } from 'models/household';
 
 const STATE_KEY = 'dsnap-registration';
 
@@ -98,6 +99,7 @@ const basicInfoChart = {
         assign({ currentStep: 'address' })
       ],
       onExit: [
+        () => console.log('exit address step'),
         assign({ previousStep: 'address' }),
         (context) => actions.send({ type: 'NEXT', ...context })
       ]
@@ -198,39 +200,43 @@ const householdChart = {
     })
   ],
   onExit: [
+    () => console.log('houeshold on exit hit?'),
     assign({ previousSection: 'household' }),
   ],
   strict: true,
   states: {
     'how-many': {
-      onEntry: [
-        assign({ currentStep: 'how-many' })
-      ],
-      onExit: [
-        assign({ previousStep: 'how-many' })
-      ],
       on: {
         ...formNextHandler('member-info-branch')
       },
       meta: {
         path: '/household/how-many',
-      }
+      },
+      onEntry: [
+        assign({ currentStep: 'how-many' })
+      ],
+      onExit: [
+        assign({ previousStep: 'how-many' }),
+        (context) => actions.send({ type: 'NEXT', ...context })
+      ],
     },
     'member-info-branch': {
       on: {
         '': [
           {
-            target: 'member-names', cond: (context) => {
-              return true//Number(context.household.memberCount);
+            target: 'member-names',
+            cond: (context) => {
+              return Number(getHouseholdCount(context.household));
             }
           },
           {
-            target: '#adverse', cond: (context) => {
-              return false;
+            target: '#adverse',
+            cond: (context) => {
+              return !Number(getHouseholdCount(context.household));
             }
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     'member-names': {
       onEntry: [
@@ -240,7 +246,7 @@ const householdChart = {
         assign({ previousStep: 'member-names' })
       ],
       on: {
-        ...formNextHandler('get-prepared')
+        //...formNextHandler('get-prepared')
       },
       meta: {
         path: '/household/member-names',

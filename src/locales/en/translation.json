@@ -153,6 +153,8 @@
     },
     "memberNames": {
       "header": "OK {{ customerName }}, you share meals with {{ count }} people.",
+      "byline": "Who are they?",
+      "person": "Person",
       "firstName": {
         "label": "Legal first name"
       },

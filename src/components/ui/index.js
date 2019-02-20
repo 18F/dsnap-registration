@@ -19,9 +19,9 @@ class Header extends React.Component {
   }
 
   className() {
-    const { border } = this.props;
+    const { border, size } = this.props;
 
-    return classnames({
+    return classnames(`font-sans-${size} padding-bottom-05`, {
       'border-bottom-1px': border,
       'border-base-lighter': border,
     });

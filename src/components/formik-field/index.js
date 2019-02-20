@@ -4,6 +4,7 @@ import { Field } from 'formik';
 import Input from 'components/input';
 import Dropdown from 'components/dropdown';
 import RadioCheckbox from 'components/radio-checkbox';
+import classnames from 'classnames';
 
 const inputTypes = (type) => {
   switch(type) {
@@ -65,12 +66,12 @@ const FormikInlineFieldGroup = (props) => (
     <FormGroupExplanation text={props.explanation} />
     <div>
       { 
-        props.fields.map((field, index) => (
+        props.fields.map(({ className, ...field}, index) => (
           <FormikField
             key={`${field.name}.${index}`}
             {...field}
             groupClassName="display-inline-block grid-col-1"
-            className="padding-y-3"
+            className={classnames('padding-y-3', className)}
             quietLabel
           />
         ))

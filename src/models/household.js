@@ -7,7 +7,9 @@ export default () => ({
   hasAdditionalMembers: false,
 });
 
-export const addPeopleToHousehold = (household, { count }) => ({  
+export const getHouseholdCount = (household) => household.numMembers;
+
+export const addPeopleToHousehold = (household, count) => ({
   ...household,
   members: Array.apply(null, { length: count }).map(person),
 });
