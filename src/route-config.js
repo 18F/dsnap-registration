@@ -53,6 +53,14 @@ export default [{
     {
       path: '/form/household/member-details',
       component: Steps.Household.MemberDetails
+    },
+    {
+      path: '/form/household/food-assistance',
+      component: Steps.Household.FoodAssistance
     }
   ]
+}, {
+  path: 'form/adverse',
+  component: Sections.AdverseSection,
+  name: 'adverse',
 }];

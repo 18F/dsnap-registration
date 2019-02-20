@@ -201,6 +201,11 @@
       "race": {
         "label": "What is {{ firstName }}'s race?"
       }
+    },
+    "foodAssistance": {
+      "header": "We need to ask you about food assistance",
+      "label": "Check all people who receive food assistance",
+      "explanation": "more text here"
     }
   },
   "impact": {

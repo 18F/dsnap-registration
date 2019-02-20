@@ -281,12 +281,26 @@ const householdChart = {
             cond: (context) => hasAdditionalMembers(context.household),
           },
           {
-            target: '#adverse',
+            target: 'food-assistance',
             cond: (context) => !hasAdditionalMembers(context.household),
           }
         ],
       },
     },
+    'food-assistance': {
+      onEntry: [
+        assign({ currentStep: 'food-assistance' })
+      ],
+      onExit: [
+        assign({ previousStep: 'food-assistance'})
+      ],
+      meta: {
+        path: '/household/food-assistance'
+      },
+      on: {
+        ...formNextHandler('#adverse')
+      }
+    }
   }
 };
 
@@ -305,7 +319,15 @@ const formStateConfig = {
     household: householdChart,
     adverse: {
       id: 'adverse',
-      onEntry: [() => console.log('entered adverse section')]
+      initial: 'entry',
+      onEntry: [() => console.log('entered adverse section')],
+      states: {
+        'entry': {
+          meta: {
+            path: '/adverse'
+          }
+        }
+      }
     },
     resources: {},
     review: {},

@@ -60,17 +60,17 @@ const FormGroupExplanation = ({ text }) =>
     {text}
   </span>;
 
-const FormikInlineFieldGroup = (props) => (
+const FormikFieldGroup = (props) => (
   <div role="group" className="margin-y-4">
     <FormGroupLabel labelText={props.labelText} />
     <FormGroupExplanation text={props.explanation} />
-    <div>
+    <div className="margin-top-2">
       { 
         props.fields.map(({ className, ...field}, index) => (
           <FormikField
             key={`${field.name}.${index}`}
             {...field}
-            groupClassName="display-inline-block grid-col-1"
+            groupClassName={classnames('grid-col-2', { 'display-inline-block': props.inline })}
             className={classnames('padding-y-3', className)}
             quietLabel
           />
@@ -112,5 +112,5 @@ class FormikRadioGroup extends React.Component {
   }
 }
 
-export { FormikRadioGroup, FormikInlineFieldGroup };
+export { FormikRadioGroup, FormikFieldGroup };
 export default FormikField;

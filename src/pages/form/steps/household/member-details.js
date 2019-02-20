@@ -1,7 +1,8 @@
 import React from 'react';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
-import FormikField, { FormikRadioGroup, FormikInlineFieldGroup } from 'components/formik-field';
+import FormikField, { FormikRadioGroup, FormikFieldGroup } from 'components/formik-field';
+import SecurityAlert from 'components/security-alert';
 import { buildNestedKey } from 'utils';
 import { getCurrentMemberIndex, updateCurrentMemberIndex } from 'models/household';
 
@@ -25,7 +26,8 @@ const MemberDetails = ({ handleChange, sectionName, t, registerStep }) => (
           onNext={incrementCurrentMember}
         >
           <React.Fragment>
-            <FormikInlineFieldGroup
+            <FormikFieldGroup
+              inline
               labelText={t(`${buildNestedKey(sectionName, modelName, 'dob', 'label')}`, { firstName })}
               explanation={t(`${buildNestedKey(sectionName, modelName)}.dob.explanation`)}
               fields={[{
@@ -68,6 +70,7 @@ const MemberDetails = ({ handleChange, sectionName, t, registerStep }) => (
               onChange={handleChange}
             />
           </React.Fragment>
+          <SecurityAlert />
         </Wizard.Step>
       );
     }}
