@@ -24,7 +24,7 @@ const initialState = () => {
      * but is not exposed to the user. Therefore, it is not included in the total
      * number of steps
      */
-    totalSteps: 3,
+    totalSteps: 4,
   };
   let state;
 
@@ -292,13 +292,36 @@ const householdChart = {
         assign({ currentStep: 'food-assistance' })
       ],
       onExit: [
-        assign({ previousStep: 'food-assistance'})
+        assign({ previousStep: 'food-assistance' })
       ],
       meta: {
         path: '/household/food-assistance'
       },
       on: {
-        ...formNextHandler('#adverse')
+        ...formNextHandler('#impact')
+      }
+    }
+  }
+};
+
+const impactChart = {
+  id: 'impact',
+  initial: 'adverse-effects',
+  onEntry: [
+    assign({
+      currentSection: 'impact',
+      currentModel: 'impact',
+      step: 4,
+    })
+  ],
+  onExit: [
+    assign({ previousSection: 'impact' }),
+  ],
+  strict: true,
+  states: {
+    'adverse-effects': {
+      meta: {
+        path: '/impact/adverse-effects'
       }
     }
   }
@@ -317,18 +340,7 @@ const formStateConfig = {
     'basic-info': basicInfoChart,
     identity: identityChart,
     household: householdChart,
-    adverse: {
-      id: 'adverse',
-      initial: 'entry',
-      onEntry: [() => console.log('entered adverse section')],
-      states: {
-        'entry': {
-          meta: {
-            path: '/adverse'
-          }
-        }
-      }
-    },
+    impact: impactChart,
     resources: {},
     review: {},
     submit: {

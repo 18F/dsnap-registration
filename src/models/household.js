@@ -19,7 +19,7 @@ export const addPeopleToHousehold = (household, count) => ({
   members: Array.apply(null, { length: count }).map(person),
 });
 
-export const updateCurrentMemberIndex = (household, currentMemberIndex) => ({
+export const updateCurrentMemberIndex = (household, index) => ({
   ...household,
-  currentMemberIndex
+  currentMemberIndex: index >= household.members.length ? household.members.length - 1 : index
 });

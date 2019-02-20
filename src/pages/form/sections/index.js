@@ -1,11 +1,11 @@
 import BasicInfoSection from './basic-info';
 import IdentitySection from './identity';
 import HouseholdSection from './household';
-import AdverseSection from './adverse';
+import ImpactSection from './impact';
 
 export default {
   BasicInfoSection,
   IdentitySection,
   HouseholdSection,
-  AdverseSection,
+  ImpactSection,
 };

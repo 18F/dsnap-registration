@@ -60,7 +60,7 @@ export default [{
     }
   ]
 }, {
-  path: 'form/adverse',
-  component: Sections.AdverseSection,
+  path: '/form/impact',
+  component: Sections.ImpactSection,
   name: 'adverse',
 }];
