@@ -16,7 +16,7 @@ const applicableData = [
   'vehicleDamage', 'storage',
 ];
 
-export default {
+export default () => ({
   ...baseData,
   ...applicableData.reduce((memo, type) => ({ [type]: applicable(), ...memo }), {}),
-};
+});

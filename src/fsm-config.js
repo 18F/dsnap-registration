@@ -310,6 +310,7 @@ const impactChart = {
   onEntry: [
     assign({
       currentSection: 'impact',
+      currentStep: '',
       currentModel: 'impact',
       step: 4,
     })
@@ -321,7 +322,7 @@ const impactChart = {
   states: {
     'adverse-effects': {
       meta: {
-        path: '/impact/adverse-effects'
+        path: '/impact'
       }
     }
   }

@@ -62,5 +62,6 @@ export default [{
 }, {
   path: '/form/impact',
   component: Sections.ImpactSection,
-  name: 'adverse',
+  name: 'impact',
+  routes: []
 }];

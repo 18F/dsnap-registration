@@ -142,26 +142,29 @@ class Section extends React.Component {
                   name="hidden"
                   style={{ display: 'none' }}
                 />
-                <Switch>
-                  {
-                    this.props.routes.map((route, index) => {
-                      return (
-                        <RouteWithSubRoutes
-                          key={index}
-                          path={route.path}
-                          route={route}
-                          extraProps={{
-                            sectionName: this.props.name,
-                            handleChange: this.handleChange(formikProps.handleChange),
-                            registerStep: this.registerStepComponent,
-                            handleNext: this.props.handleNext
-                          }}
-                        />
-                      );
-                    })
-                  }
-                  <Route component={Route404} />
-                </Switch>
+                {
+                  this.props.routes.length ?
+                  <Switch>
+                    {
+                      this.props.routes.map((route, index) => {
+                        return (
+                          <RouteWithSubRoutes
+                            key={index}
+                            path={route.path}
+                            route={route}
+                            extraProps={{
+                              sectionName: this.props.name,
+                              handleChange: this.handleChange(formikProps.handleChange),
+                              registerStep: this.registerStepComponent,
+                              handleNext: this.props.handleNext
+                            }}
+                          />
+                        );
+                      })
+                    }
+                    <Route component={Route404} />
+                  </Switch> : null
+                }
                 <div className="margin-y-2">
                   <Button disabled={disable}>
                     { this.props.t('general.next') }

@@ -9,10 +9,17 @@ const MachineContext = React.createContext();
 const MachineStateContext = React.createContext();
 
 const formatRouteWithDots = string =>
-  string.replace(/\//g, '.').replace('.', '');
+  string.replace(/\//g, '.').replace(/(^\.|\.$)/g, '');
 
-const computeURLPathFromContext = context =>
-  `/form/${context.currentSection.trim()}/${context.currentStep.trim()}`
+const computeURLPathFromContext = context => {
+  let path = `/form/${context.currentSection.trim()}`;
+
+  if (context.currentStep) {
+    path += `/${context.currentStep.trim()}`;
+  }
+
+  return path;
+};
 
 class FSMRouter extends React.Component {
   static propTypes = {
@@ -73,7 +80,7 @@ class FSMRouter extends React.Component {
 
     this.handleHistoryTransition({
       pathname: computeURLPathFromContext(context)
-    });
+    }, true);
 
     this.historySubscriber = props.history.listen(this.historyHandler);
   }
