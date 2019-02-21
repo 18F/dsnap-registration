@@ -7,10 +7,12 @@ class Header extends React.Component {
     border: PropTypes.bool,
     className: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
     type: PropTypes.oneOf([ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
+    size: PropTypes.oneOf([ 'sm', 'md', 'lg', 'xl', '2xl' ]),
   }
 
   static defaultProps = {
-    type: 'h1'
+    type: 'h1',
+    size: 'md',
   }
 
   buildHeader(additionalProps) {
@@ -19,9 +21,9 @@ class Header extends React.Component {
   }
 
   className() {
-    const { border } = this.props;
+    const { border, size } = this.props;
 
-    return classnames({
+    return classnames(`font-sans-${size} padding-bottom-05`, {
       'border-bottom-1px': border,
       'border-base-lighter': border,
     });

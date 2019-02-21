@@ -153,6 +153,8 @@
     },
     "memberNames": {
       "header": "OK {{ customerName }}, you share meals with {{ count }} people.",
+      "byline": "Who are they?",
+      "person": "Person",
       "firstName": {
         "label": "Legal first name"
       },
@@ -199,6 +201,11 @@
       "race": {
         "label": "What is {{ firstName }}'s race?"
       }
+    },
+    "foodAssistance": {
+      "header": "We need to ask you about food assistance",
+      "label": "Check all people who receive food assistance",
+      "explanation": "more text here"
     }
   },
   "impact": {

@@ -1,23 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 const propTypes = {
   checked: PropTypes.bool,
   explanation: PropTypes.bool,
+  formGroupClassname: PropTypes.string,
   labelText: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   type: PropTypes.oneOf(['radio', 'checkbox']).isRequired,
   value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired
 };
-
-const normalizeValue = (value) => {
-  switch(value) {
-    case 'true': return true;
-    case 'false': return false;
-    default: return value;
-  }
-}
 
 class RadioCheckbox extends React.Component {
   /**
@@ -34,13 +28,38 @@ class RadioCheckbox extends React.Component {
     this.checkbox.current.click();
   }
 
+  normalizeValue() {
+    switch(this.props.value) {
+      case 'true': return true;
+      case 'false': return false;
+      default: return this.props.value;
+    }
+  };
+  
+  isRadio() {
+    return this.props.type === 'radio';
+  }
+  
+  isChecked() {
+    if (this.isRadio()) {
+      return this.normalizeValue() === this.props.radioValue;
+    }
+
+    return this.normalizeValue();
+  }
+  
+  formGroupClassName() {
+    return classnames({
+      'border radius-md border-base-light display-inline-block margin-right-2': this.isRadio()
+    });
+  }
+
   render() {
     const { type, value } = this.props;
-    const normalizedValue = normalizeValue(value);
 
     return (
       <div
-        className="border radius-md border-base-light display-inline-block margin-right-2"
+        className={this.formGroupClassName()}
         onClick={this.handleChange}
       >
         <input
@@ -49,7 +68,7 @@ class RadioCheckbox extends React.Component {
           type={type}
           value={this.props.radioValue}
           name={this.props.name}
-          checked={normalizedValue === this.props.radioValue}
+          checked={this.isChecked()}
           onChange={this.props.onChange}
           readOnly
         />

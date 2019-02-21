@@ -5,10 +5,6 @@ import Wizard from 'components/wizard'
 const modelName = 'basicInfo';
 
 class BasicInfo extends React.Component {
-  handleFormComplete = (values) => {
-    this.setState(state => ({ ...state, ...values }));
-  }
-
   render() {
     const { t, ...rest } = this.props;
 

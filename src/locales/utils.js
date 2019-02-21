@@ -1,6 +1,8 @@
 import React from 'react';
 import i18n from 'i18n';
 
+// TODO: These can actually just be better-named components
+
 const renderListT = ({ name }) => (
   <ul className="margin-y-0 bulleted">
     {
@@ -8,7 +10,7 @@ const renderListT = ({ name }) => (
         .map((text, index) => {
           return (
             <li
-              className="margin-y-1"
+              className="margin-y-025"
               key={`${name}.conditions.${index}`}
             >
               { i18n.t(text) }

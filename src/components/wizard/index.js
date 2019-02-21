@@ -34,8 +34,16 @@ class Section extends React.Component {
   formStarted = false
 
   next = (values) => {
+    const { current } = this.state;
+      // call the onNext handler for the step, if it exists
+    const nextValues = (
+      current &&
+      current.props.onNext &&
+      current.props.onNext(values)
+    ) || values;
+
     this.formStarted = true;
-    this.props.onNext({ data: values });
+    this.props.onNext({ data: nextValues });
   };
 
   onQuit = resetFn => () => {
@@ -134,26 +142,29 @@ class Section extends React.Component {
                   name="hidden"
                   style={{ display: 'none' }}
                 />
-                <Switch>
-                  {
-                    this.props.routes.map((route, index) => {
-                      return (
-                        <RouteWithSubRoutes
-                          key={index}
-                          path={route.path}
-                          route={route}
-                          extraProps={{
-                            sectionName: this.props.name,
-                            handleChange: this.handleChange(formikProps.handleChange),
-                            registerStep: this.registerStepComponent,
-                            handleNext: this.props.handleNext
-                          }}
-                        />
-                      );
-                    })
-                  }
-                  <Route component={Route404} />
-                </Switch>
+                {
+                  this.props.routes.length ?
+                  <Switch>
+                    {
+                      this.props.routes.map((route, index) => {
+                        return (
+                          <RouteWithSubRoutes
+                            key={index}
+                            path={route.path}
+                            route={route}
+                            extraProps={{
+                              sectionName: this.props.name,
+                              handleChange: this.handleChange(formikProps.handleChange),
+                              registerStep: this.registerStepComponent,
+                              handleNext: this.props.handleNext
+                            }}
+                          />
+                        );
+                      })
+                    }
+                    <Route component={Route404} />
+                  </Switch> : null
+                }
                 <div className="margin-y-2">
                   <Button disabled={disable}>
                     { this.props.t('general.next') }
@@ -310,7 +321,7 @@ class Wizard extends React.Component {
             let providedValues = this.formStarted ? values : this.props.initialValues;
 
             return (
-              <React.Fragment>
+              <WizardContext.Provider value={values}>
                 <Switch>
                   {
                     this.props.config.map((section, index) => {
@@ -338,7 +349,7 @@ class Wizard extends React.Component {
                   <Route component={Route404} />
                 </Switch>
                 <Debug name="Complete form state" />
-              </React.Fragment>
+              </WizardContext.Provider>
             );
           }}
         />

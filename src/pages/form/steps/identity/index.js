@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, {
-  FormikInlineFieldGroup,
+  FormikFieldGroup,
   FormikRadioGroup
 } from 'components/formik-field';
 import { buildNestedKey } from 'utils';
@@ -30,7 +30,8 @@ class PersonalInfo extends React.Component {
         registerStep={this.props.registerStep}
         modelName={modelName}
       >
-        <FormikInlineFieldGroup
+        <FormikFieldGroup
+          inline
           labelText={t(`${buildNestedKey(sectionName, modelName)}.dob.label`)}
           explanation={t(`${buildNestedKey(sectionName, modelName)}.dob.explanation`)}
           fields={[{
@@ -45,6 +46,7 @@ class PersonalInfo extends React.Component {
             name: `${sectionName}.${modelName}.dob.year`,
             labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.year`),
             onChange: handleChange,
+            className: 'desktop:grid-col-9'
           }]}
         />
         <FormikField

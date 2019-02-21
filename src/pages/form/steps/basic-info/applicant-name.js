@@ -23,7 +23,7 @@ class ApplicantName extends React.Component {
       <Wizard.Step
         header={t(`${buildNestedKey(sectionName, modelName, 'header')}`)}
         modelName={modelName}
-        registerStep={this.props.registerStep}
+        registerStep={registerStep}
         validate={nameValidator}
       >
         <FormikField
