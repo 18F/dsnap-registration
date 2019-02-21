@@ -13,5 +13,6 @@ export default () => {
     sex: '',
     ssn: '',
     race: '',
+    hasFoodAssistance: "false"
   };
 };

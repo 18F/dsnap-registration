@@ -1,5 +1,6 @@
 import { actions, assign } from 'xstate';
 import modelState from 'models';
+import { getHouseholdCount, hasAdditionalMembers } from 'models/household';
 
 const STATE_KEY = 'dsnap-registration';
 
@@ -23,7 +24,7 @@ const initialState = () => {
      * but is not exposed to the user. Therefore, it is not included in the total
      * number of steps
      */
-    totalSteps: 3,
+    totalSteps: 4,
   };
   let state;
 
@@ -60,7 +61,6 @@ const basicInfoChart = {
   id: 'basic-info',
   initial: 'applicant-name',
   onEntry: [
-    (context) => console.log('entering basic info', context),
     assign({
       currentSection: 'basic-info',
       currentModel: 'basicInfo',
@@ -79,7 +79,6 @@ const basicInfoChart = {
         path: '/basic-info/applicant-name'
       },
       onEntry: [
-        (context) => console.log('entered applicant-name', context),
         assign({ currentStep: 'applicant-name', previousStep: null })
       ],
       onExit: [
@@ -94,7 +93,6 @@ const basicInfoChart = {
         path: '/basic-info/address'
       },
       onEntry: [
-        () => console.log('entered address'),
         assign({ currentStep: 'address' })
       ],
       onExit: [
@@ -128,7 +126,6 @@ const basicInfoChart = {
         path: '/basic-info/mailing-address',
       },
       onEntry: [
-        () => console.log('entered mailAddress'),
         assign({ currentStep: 'mailing-address'})
       ],
       onExit: [
@@ -146,7 +143,6 @@ const basicInfoChart = {
         path: '/basic-info/shortcut'
       },
       onEntry: [
-        () => console.log('entered offramp'),
         assign({ currentStep: 'shortcut' })
       ],
       onExit: [
@@ -203,34 +199,37 @@ const householdChart = {
   strict: true,
   states: {
     'how-many': {
-      onEntry: [
-        assign({ currentStep: 'how-many' })
-      ],
-      onExit: [
-        assign({ previousStep: 'how-many' })
-      ],
       on: {
         ...formNextHandler('member-info-branch')
       },
       meta: {
         path: '/household/how-many',
-      }
+      },
+      onEntry: [
+        assign({ currentStep: 'how-many' })
+      ],
+      onExit: [
+        assign({ previousStep: 'how-many' }),
+        (context) => actions.send({ type: 'NEXT', ...context })
+      ],
     },
     'member-info-branch': {
       on: {
         '': [
           {
-            target: 'member-names', cond: (context) => {
-              return true//Number(context.household.memberCount);
+            target: 'member-names',
+            cond: (context) => {
+              return Number(getHouseholdCount(context.household));
             }
           },
           {
-            target: '#adverse', cond: (context) => {
-              return false;
+            target: '#impact',
+            cond: (context) => {
+              return !Number(getHouseholdCount(context.household));
             }
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
     'member-names': {
       onEntry: [
@@ -268,19 +267,62 @@ const householdChart = {
         assign({ previousStep: 'member-details'})
       ],
       on: {
-        NEXT: [
-          {
-            target: 'member-details',
-            cond: (context) => context.household.hasAdditionalMembers
-          },
-          {
-            target: '#adverse',
-            cond: (context) => !context.household.hasAdditionalMembers
-          }
-        ],
+        ...formNextHandler('member-details-loop')
       },
       meta: {
         path: '/household/member-details',
+      }
+    },
+    'member-details-loop': {
+      on: {
+        '': [
+          {
+            target: 'member-details',
+            cond: (context) => hasAdditionalMembers(context.household),
+          },
+          {
+            target: 'food-assistance',
+            cond: (context) => !hasAdditionalMembers(context.household),
+          }
+        ],
+      },
+    },
+    'food-assistance': {
+      onEntry: [
+        assign({ currentStep: 'food-assistance' })
+      ],
+      onExit: [
+        assign({ previousStep: 'food-assistance' })
+      ],
+      meta: {
+        path: '/household/food-assistance'
+      },
+      on: {
+        ...formNextHandler('#impact')
+      }
+    }
+  }
+};
+
+const impactChart = {
+  id: 'impact',
+  initial: 'adverse-effects',
+  onEntry: [
+    assign({
+      currentSection: 'impact',
+      currentStep: '',
+      currentModel: 'impact',
+      step: 4,
+    })
+  ],
+  onExit: [
+    assign({ previousSection: 'impact' }),
+  ],
+  strict: true,
+  states: {
+    'adverse-effects': {
+      meta: {
+        path: '/impact'
       }
     }
   }
@@ -299,10 +341,7 @@ const formStateConfig = {
     'basic-info': basicInfoChart,
     identity: identityChart,
     household: householdChart,
-    adverse: {
-      id: 'adverse',
-      onEntry: [() => console.log('entered adverse section')]
-    },
+    impact: impactChart,
     resources: {},
     review: {},
     submit: {

@@ -4,6 +4,7 @@ import { Field } from 'formik';
 import Input from 'components/input';
 import Dropdown from 'components/dropdown';
 import RadioCheckbox from 'components/radio-checkbox';
+import classnames from 'classnames';
 
 const inputTypes = (type) => {
   switch(type) {
@@ -59,18 +60,18 @@ const FormGroupExplanation = ({ text }) =>
     {text}
   </span>;
 
-const FormikInlineFieldGroup = (props) => (
+const FormikFieldGroup = (props) => (
   <div role="group" className="margin-y-4">
     <FormGroupLabel labelText={props.labelText} />
     <FormGroupExplanation text={props.explanation} />
-    <div>
+    <div className="margin-top-2">
       { 
-        props.fields.map((field, index) => (
+        props.fields.map(({ className, ...field}, index) => (
           <FormikField
             key={`${field.name}.${index}`}
             {...field}
-            groupClassName="display-inline-block grid-col-1"
-            className="padding-y-3"
+            groupClassName={classnames('grid-col-2', { 'display-inline-block': props.inline })}
+            className={classnames('padding-y-3', className)}
             quietLabel
           />
         ))
@@ -91,7 +92,7 @@ class FormikRadioGroup extends React.Component {
       <div role="group" className="margin-y-4">
         <FormGroupLabel labelText={this.props.labelText} />
         <FormGroupExplanation text={explanation} />
-        <span className="margin-top-2">
+        <div className="margin-top-2">
           {
             this.props.options.map((option, index) => {
               return (
@@ -105,11 +106,11 @@ class FormikRadioGroup extends React.Component {
               );
             })
           }
-        </span>
+        </div>
       </div>
     )
   }
 }
 
-export { FormikRadioGroup, FormikInlineFieldGroup };
+export { FormikRadioGroup, FormikFieldGroup };
 export default FormikField;
