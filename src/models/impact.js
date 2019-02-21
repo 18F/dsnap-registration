@@ -1,4 +1,4 @@
-const applicable = (applicable = '', value = '') => ({
+const applicable = (applicable = false, value = null) => ({
   applicable,
   value,
 });
