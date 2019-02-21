@@ -55,7 +55,7 @@ class RadioCheckbox extends React.Component {
   }
 
   render() {
-    const { type, value } = this.props;
+    const { type } = this.props;
 
     return (
       <div

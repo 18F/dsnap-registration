@@ -5,7 +5,7 @@ import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
 import { buildNestedKey } from 'utils';
 import { getCustomerFirstName } from 'models/basic-info';
-import { getHouseholdCount, getMembers } from 'models/household';
+import { getMembers } from 'models/household';
 import UI from 'components/ui';
 
 const modelName = 'memberNames';
