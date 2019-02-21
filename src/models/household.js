@@ -12,7 +12,7 @@ export const getCurrentMemberIndex = ({ currentMemberIndex }) =>
   typeof currentMemberIndex !== 'number' ? 0 : currentMemberIndex;
 
 export const hasAdditionalMembers = household =>
-  household.currentMemberIndex <= household.members.length - 1;
+  household.currentMemberIndex < household.members.length - 1;
 
 export const addPeopleToHousehold = (household, count) => ({
   ...household,

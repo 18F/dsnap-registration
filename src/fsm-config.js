@@ -223,7 +223,7 @@ const householdChart = {
             }
           },
           {
-            target: '#adverse',
+            target: '#impact',
             cond: (context) => {
               return !Number(getHouseholdCount(context.household));
             }

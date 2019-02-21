@@ -5,7 +5,7 @@ import { FormikFieldGroup } from 'components/formik-field';
 import { buildNestedKey } from 'utils';
 
 const modelName = 'foodAssistance';
-
+// NEED TO ADD REGISTRNT
 const FoodAssistance = ({ handleChange, sectionName, t, registerStep }) =>
   <Wizard.Context>
     { ({ household }) => (
