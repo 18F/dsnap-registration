@@ -62,6 +62,7 @@ class Input extends React.Component {
 
   render() {
     const { name, labelText } = this.props;
+    
     return (
       <div className={this.formGroupClassName()}>
         <label

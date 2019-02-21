@@ -11,12 +11,14 @@ const baseData = {
 
 const applicableData = [
   'repairs', 'tempShelter', 'evacuation', 'foodLoss',
-  'propertyProtection', 'medicalPersonalInjury', 'funeral',
-  'petBoarding', 'itemReplacement', 'heatingFuel', 'cleaningItems',
-  'vehicleDamage', 'storage',
+  'propertyProtection', 'medical', 'funeral',
+  'petBoarding', 'itemReplacement', 'heatingFuel', 'cleanup',
+  'vehicleDamage', 'storage', 
 ];
 
 export default () => ({
   ...baseData,
-  ...applicableData.reduce((memo, type) => ({ [type]: applicable(), ...memo }), {}),
+  otherExpenses: {
+    ...applicableData.reduce((memo, type) => ({ [type]: applicable(), ...memo }), {}),
+  },
 });

@@ -1,0 +1,20 @@
+.combo-field {
+  margin-bottom: 1rem;
+  margin-left: 3rem;
+  margin-top: -1.5rem;
+  position: relative;
+
+  &:before {
+    background-color: #adadad;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: .5rem;
+  }
+
+  > * {
+    margin-left: 2.5rem;
+  }
+}

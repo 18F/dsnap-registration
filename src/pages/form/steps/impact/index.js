@@ -6,9 +6,10 @@ import FormikField, {
   FormikRadioGroup
 } from 'components/formik-field';
 import YesNoField from 'components/yes-no-field';
+import ComboField from 'components/combo-field';
 import { buildNestedKey } from 'utils';
 
-const modelName = 'impact';
+const modelName = 'otherExpenses';
 
 class AdverseEffects extends React.Component {
   render() {
@@ -16,7 +17,7 @@ class AdverseEffects extends React.Component {
 
     return (
       <Wizard.Context>
-        {({ household }) => {
+        {({ household, impact }) => {
           return (
             <Wizard.Step
               header={t(`${buildNestedKey(sectionName, 'header')}`)}
@@ -26,14 +27,35 @@ class AdverseEffects extends React.Component {
               <YesNoField
                 sectionName={sectionName}
                 fieldName="buyFood"
+                onChange={handleChange}
               />
               <YesNoField
                 sectionName={sectionName}
                 fieldName="lostOrInaccessibleIncome"
+                onChange={handleChange}
               />
               <YesNoField
                 sectionName={sectionName}
                 fieldName="inaccessibleMoney"
+                onChange={handleChange}
+              />
+              <FormikFieldGroup
+                labelText={t(buildNestedKey(sectionName, modelName, 'label'))}
+                onChange={handleChange}
+                Component={ComboField}
+                fields={
+                  Object.entries(impact.otherExpenses).map(([name, values]) => {
+                    return {
+                      type: 'checkbox',
+                      comboName: buildNestedKey(sectionName, modelName, name, 'value'),
+                      name: buildNestedKey(sectionName, modelName, name, 'applicable'),
+                      onChange: handleChange,
+                      labelText: t(buildNestedKey(sectionName, modelName, name)),
+                      quietLabel: true,
+                      explanation: t(buildNestedKey(sectionName, modelName, 'explanation')),
+                    }
+                  })
+                }
               />
             </Wizard.Step>
           )

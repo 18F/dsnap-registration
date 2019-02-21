@@ -8,7 +8,6 @@ class YesNoField extends React.Component {
   static propTypes = {
     explanation: PropTypes.bool,
     fieldName: PropTypes.string.isRequired,
-    labelObject: PropTypes.object,
     sectionName: PropTypes.string.isRequired
   }
 
@@ -27,10 +26,12 @@ class YesNoField extends React.Component {
         explanation: buildNestedKey(props.sectionName, props.fieldName, 'explanation')
       }
     }
+
+    return props
   }
 
   render() {
-    const { t, fieldName, sectionName, labelObject } = this.props;
+    const { t, fieldName, sectionName } = this.props;
 
     return (
       <FormikRadioGroup
