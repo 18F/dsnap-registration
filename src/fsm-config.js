@@ -319,7 +319,7 @@ const impactChart = {
       ],
       onExit: assign({ previousStep: 'adverse-effects' }),
       meta: {
-        path: '/impact'
+        path: '/impact/adverse-effects'
       }
     }
   }
