@@ -46,6 +46,7 @@ class AdverseEffects extends React.Component {
                 fields={
                   Object.entries(impact.otherExpenses).map(([name, values]) => {
                     return {
+                      prefix: '$',
                       type: 'checkbox',
                       comboName: buildNestedKey(sectionName, modelName, name, 'value'),
                       name: buildNestedKey(sectionName, modelName, name, 'applicable'),

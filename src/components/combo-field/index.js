@@ -17,6 +17,7 @@ class ComboField extends React.Component {
           onChange={this.props.onChange}
           labelText={this.props.explanation}
           quietLabel={this.props.quietLabel}
+          prefix={this.props.prefix}
         />
     );
   }

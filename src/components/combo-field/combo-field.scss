@@ -2,19 +2,20 @@
   margin-bottom: 1rem;
   margin-left: 3rem;
   margin-top: -1.5rem;
+  padding-bottom: 1rem;
   position: relative;
 
   &:before {
-    background-color: #adadad;
+    background-color: #dcdee0;
     content: "";
     height: 100%;
     left: 0;
     position: absolute;
     top: 0;
-    width: .5rem;
+    width: .25rem;
   }
 
   > * {
-    margin-left: 2.5rem;
+    margin-left: 1.5rem;
   }
 }

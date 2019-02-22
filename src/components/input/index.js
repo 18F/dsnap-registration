@@ -52,6 +52,20 @@ class Input extends React.Component {
     });
   }
 
+  renderPrefix() {
+    if (this.props.prefix) {
+      return (
+        <div className="input-prefix-wrapper">
+          <div className="input-prefix">
+            {this.props.prefix}
+          </div>
+        </div>
+      );
+    }
+    
+    return null;
+  }
+
   hasError() {
     const { formik: { errors }, name } = this.props;
 
@@ -82,6 +96,7 @@ class Input extends React.Component {
             </span> : null
           }
         </label>
+        { this.renderPrefix() }
         <input
           autoComplete="new-password"
           type={this.props.type}
