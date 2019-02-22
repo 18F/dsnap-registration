@@ -1,10 +1,7 @@
 import React from 'react';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
-import FormikField, {
-  FormikFieldGroup,
-  FormikRadioGroup
-} from 'components/formik-field';
+import FormikField, { FormikFieldGroup } from 'components/formik-field';
 import YesNoField from 'components/yes-no-field';
 import ComboField from 'components/combo-field';
 import { buildNestedKey } from 'utils';
@@ -17,7 +14,7 @@ class AdverseEffects extends React.Component {
 
     return (
       <Wizard.Context>
-        {({ household, impact }) => {
+        {({ impact }) => {
           return (
             <Wizard.Step
               header={t(`${buildNestedKey(sectionName, 'header')}`)}
@@ -43,6 +40,7 @@ class AdverseEffects extends React.Component {
                 labelText={t(buildNestedKey(sectionName, modelName, 'label'))}
                 onChange={handleChange}
                 Component={ComboField}
+                fieldGroupClassname="margin-y-0"
                 fields={
                   Object.entries(impact.otherExpenses).map(([name, values]) => {
                     return {
@@ -57,6 +55,12 @@ class AdverseEffects extends React.Component {
                     }
                   })
                 }
+              />
+              <FormikField
+                labelText={t(buildNestedKey(sectionName, modelName, 'none'))}
+                name={buildNestedKey(sectionName, 'noOtherExpenses')}
+                type="checkbox"
+                onChange={handleChange}
               />
             </Wizard.Step>
           )

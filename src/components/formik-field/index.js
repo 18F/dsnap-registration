@@ -63,11 +63,12 @@ const FormGroupExplanation = ({ text }) =>
 const FormikFieldGroup = ({
   explanation,
   fields = [],
+  fieldGroupClassname,
   inline,
   labelText,
   Component = FormikField
 }) => (
-  <div role="group" className="margin-y-4">
+  <div role="group" className={classnames('margin-y-4', fieldGroupClassname)}>
     <FormGroupLabel labelText={labelText} />
     <FormGroupExplanation text={explanation} />
     <div className="margin-top-2">

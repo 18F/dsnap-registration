@@ -7,6 +7,7 @@ const baseData = {
   lostOrInaccessibleIncome: '',
   inaccessibleMoney: '',
   buyFood: '',
+  noOtherExpenses: false
 };
 
 const applicableData = [
