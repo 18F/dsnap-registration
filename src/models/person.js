@@ -13,6 +13,8 @@ export default () => {
     sex: '',
     ssn: '',
     race: '',
-    hasFoodAssistance: "false"
+    hasFoodAssistance: false,
   };
 };
+
+export const getFirstName = person => person.name.firstName;

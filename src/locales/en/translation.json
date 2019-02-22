@@ -49,7 +49,7 @@
     "action": "Start registering"
   },
   "basicInfo": {
-    "applicantName": {
+    "name": {
       "header": "Let’s start with the basics.",
       "firstName": {
         "label": "What is your legal first name?",

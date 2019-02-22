@@ -50,7 +50,7 @@ class RadioCheckbox extends React.Component {
   
   formGroupClassName() {
     return classnames({
-      'border radius-md border-base-light display-inline-block margin-right-2': this.isRadio()
+      'border radius-md border-base-light display-inline-block margin-right-2': this.isRadio(),
     });
   }
 

@@ -1,13 +1,7 @@
 import address from './address';
 
-export const getCustomerFirstName = info => info.applicantName.firstName;
-
-export default () => ({ 
-  applicantName: {
-    firstName: '',
-    middleName: '',
-    lastName: '',
-  },
+export default () => ({
+  personId: 0,
   phone: '',
   email: '',
   residenceAddress: address(),
@@ -15,3 +9,5 @@ export default () => ({
   county: '',
   currentMailingAddress: false
 });
+
+export const hasMailingAddress = info => info.currentMailingAddress !== 'true';
