@@ -27,20 +27,20 @@ class ApplicantName extends React.Component {
         validate={nameValidator}
       >
         <FormikField
-          name={`${sectionName}.${modelName}.firstName`}
+          name={buildNestedKey('household', 'members', '0', 'name', 'firstName')}
           onChange={handleChange}
-          explanation={t(`${buildNestedKey(sectionName, modelName, 'firstName', 'explanation')}`)}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'firstName', 'label')}`)}
+          explanation={t(buildNestedKey(sectionName, modelName, 'firstName', 'explanation'))}
+          labelText={t(buildNestedKey(sectionName, modelName, 'firstName', 'label'))}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.middleName`}
+          name={buildNestedKey('household', 'members', '0', 'name', 'middleName')}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'middleName', 'label')}`)}
+          labelText={t(buildNestedKey(sectionName, modelName, 'middleName', 'label'))}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.lastName`}
+          name={buildNestedKey('household', 'members', '0', 'name', 'lastName')}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'lastName', 'label')}`)}
+          labelText={t(buildNestedKey(sectionName, modelName, 'lastName', 'label'))}
         />
       </Wizard.Step>
     );

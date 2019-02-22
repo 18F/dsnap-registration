@@ -1,9 +1,9 @@
 import person from './person';
 
 export default () => ({
-  numMembers: '',
+  numMembers: 1,
   currentMemberIndex: 0,
-  members: [],
+  members: [ person() ],
 });
 
 export const getHouseholdCount = (household) => household.numMembers;
@@ -14,9 +14,11 @@ export const getCurrentMemberIndex = ({ currentMemberIndex }) =>
 export const hasAdditionalMembers = household =>
   household.currentMemberIndex < household.members.length - 1;
 
-export const addPeopleToHousehold = (household, count) => ({
+export const addPeopleToHousehold = (household, count, data = {}) => ({
   ...household,
-  members: Array.apply(null, { length: count }).map(person),
+  members: Array.apply(null, {
+    length: count
+  }).map(() => ({ ...person(), ...data })),
 });
 
 export const updateCurrentMemberIndex = (household, index) => ({

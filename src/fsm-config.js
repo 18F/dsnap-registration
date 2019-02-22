@@ -1,5 +1,6 @@
 import { actions, assign } from 'xstate';
 import modelState from 'models';
+import { hasMailingAddress } from 'models/basic-info';
 import { getHouseholdCount, hasAdditionalMembers } from 'models/household';
 
 const STATE_KEY = 'dsnap-registration';
@@ -105,15 +106,11 @@ const basicInfoChart = {
         '': [
           {
             target: 'mailing-address',
-            cond: (context) => {
-              return context.basicInfo.currentMailingAddress !== 'true';
-            },
+            cond: (context) => hasMailingAddress(context.basicInfo)
           },
           {
             target: 'shortcut',
-            cond: (context) => {
-              return context.basicInfo.currentMailingAddress === 'true';
-            }
+            cond: (context) => !hasMailingAddress(context.basicInfo)
           },
         ],
       },
@@ -380,6 +377,7 @@ const formStateConfig = {
 
 const extraActions = {
   persist: (context, {type, ...data}) => {
+    debugger
     const nextState = (() => {
       // we are transitioning through a null state, which doesn't provide
       // data to the state machine. so, just write the current context to local storage
@@ -389,9 +387,20 @@ const extraActions = {
 
       const section = currentSectionSelector(context);
 
+      const overwrites = Object.entries(data).reduce((memo, [name, nextData]) => {
+        return {
+          ...memo,
+          [name]: {
+            ...context[name],
+            ...nextData
+          }
+        }
+      }, {});
+
       return {
         ...context,
-        [section]: (data[section] || modelState[section]),
+        ...overwrites
+        //[section]: (data[section] || modelState[section]),
       };
     })();
 
