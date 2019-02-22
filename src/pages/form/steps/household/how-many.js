@@ -22,8 +22,8 @@ const HowMany = ({ handleChange, sectionName, t, registerStep }) =>
         onNext={addToHousehold(household)}
       >
         <FormikField
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'label')}`)}
-          explanation={t(`${buildNestedKey(sectionName, modelName, 'explanation')}`)}
+          labelText={t(buildNestedKey(sectionName, modelName, 'label'))}
+          explanation={t(buildNestedKey(sectionName, modelName, 'explanation'))}
           onChange={handleChange}
           type="number"
           name={`${sectionName}.numMembers`}

@@ -1,5 +1,6 @@
 import { actions, assign } from 'xstate';
 import modelState from 'models';
+import { hasMailingAddress } from 'models/basic-info';
 import { getHouseholdCount, hasAdditionalMembers } from 'models/household';
 
 const STATE_KEY = 'dsnap-registration';
@@ -47,10 +48,8 @@ const formNextHandler = target => ({
       // open question: why doesnt xstate persist the context when an
       // assign call is made within another function?
       assign((ctx, event) => {
-        const section = currentSectionSelector(ctx);
-
         return {
-          [section]: (event[section] || modelState[section])
+          ...event
         };
       })
     ]
@@ -105,15 +104,11 @@ const basicInfoChart = {
         '': [
           {
             target: 'mailing-address',
-            cond: (context) => {
-              return context.basicInfo.currentMailingAddress !== 'true';
-            },
+            cond: (context) => hasMailingAddress(context.basicInfo)
           },
           {
             target: 'shortcut',
-            cond: (context) => {
-              return context.basicInfo.currentMailingAddress === 'true';
-            }
+            cond: (context) => !hasMailingAddress(context.basicInfo)
           },
         ],
       },
@@ -210,7 +205,6 @@ const householdChart = {
       ],
       onExit: [
         assign({ previousStep: 'how-many' }),
-        (context) => actions.send({ type: 'NEXT', ...context })
       ],
     },
     'member-info-branch': {
@@ -219,13 +213,13 @@ const householdChart = {
           {
             target: 'member-names',
             cond: (context) => {
-              return Number(getHouseholdCount(context.household));
+              return getHouseholdCount(context.household) > 1;
             }
           },
           {
-            target: '#impact',
+            target: 'food-assistance',
             cond: (context) => {
-              return !Number(getHouseholdCount(context.household));
+              return getHouseholdCount(context.household) === 1;
             }
           },
         ],
@@ -321,12 +315,11 @@ const impactChart = {
   states: {
     'adverse-effects': {
       onEntry: [
-        () => console.log('entered adverse'),
         assign({ currentStep: 'adverse-effects' }),
       ],
       onExit: assign({ previousStep: 'adverse-effects' }),
       meta: {
-        path: '/impact'
+        path: '/impact/adverse-effects'
       }
     }
   }
@@ -387,11 +380,20 @@ const extraActions = {
         return context;
       }
 
-      const section = currentSectionSelector(context);
+      const overwrites = Object.entries(data).reduce((memo, [name, nextData]) => {
+        const existingContextSlice = context[name];
+        const formattedContextSlice = typeof existingContextSlice === 'string' ?
+          nextData : { ...context[name], ...nextData }; 
+
+        return {
+          ...memo,
+          [name]: formattedContextSlice,
+        }
+      }, {});
 
       return {
         ...context,
-        [section]: (data[section] || modelState[section]),
+        ...overwrites
       };
     })();
 

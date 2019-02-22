@@ -35,12 +35,13 @@ class Section extends React.Component {
 
   next = (values) => {
     const { current } = this.state;
+    const formValues = this.props.formik.values;
       // call the onNext handler for the step, if it exists
     const nextValues = (
       current &&
       current.props.onNext &&
-      current.props.onNext(values)
-    ) || values;
+      current.props.onNext(formValues)
+    ) || formValues;
 
     this.formStarted = true;
     this.props.onNext({ data: nextValues });
@@ -177,7 +178,6 @@ class Section extends React.Component {
                 >
                   { this.props.t('general.quit') }
                 </Button>
-                <Debug name={`Section ${this.props.name} state`}/>
               </Form>
             );
           }}
