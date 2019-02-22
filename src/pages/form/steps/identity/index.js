@@ -26,25 +26,25 @@ class PersonalInfo extends React.Component {
     
     return (
       <Wizard.Step
-        header={t(`${buildNestedKey(sectionName, modelName)}.header`)}
+        header={t(buildNestedKey(sectionName, modelName, 'header'))}
         registerStep={this.props.registerStep}
         modelName={modelName}
       >
         <FormikFieldGroup
           inline
-          labelText={t(`${buildNestedKey(sectionName, modelName)}.dob.label`)}
-          explanation={t(`${buildNestedKey(sectionName, modelName)}.dob.explanation`)}
+          labelText={t(buildNestedKey(sectionName, modelName, 'dob', 'label'))}
+          explanation={t(buildNestedKey(sectionName, modelName, 'dob', 'explanation'))}
           fields={[{
-            name: `${sectionName}.${modelName}.dob.month`,
+            name: 'household.members.0.dob.month',
             onChange: handleChange,
-            labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.month`),
+            labelText: t(buildNestedKey(sectionName, modelName, 'dob', 'month')),
           }, {
-            name: `${sectionName}.${modelName}.dob.day`,
-            labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.day`),
+            name: 'household.members.0.dob.day',
+            labelText: t(buildNestedKey(sectionName, modelName, 'dob', 'day')),
             onChange: handleChange
           }, {
-            name: `${sectionName}.${modelName}.dob.year`,
-            labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.year`),
+            name: 'household.members.0.dob.year',
+            labelText: t(buildNestedKey(sectionName, modelName, 'dob', 'year')),
             onChange: handleChange,
             className: 'desktop:grid-col-9'
           }]}
@@ -52,14 +52,14 @@ class PersonalInfo extends React.Component {
         <FormikField
           name={`${sectionName}.${modelName}.stateId`}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName)}.stateId.label`)}
-          explanation={t(`${buildNestedKey(sectionName, modelName)}.stateId.explanation`)}
+          labelText={t(buildNestedKey(sectionName, modelName, 'stateId', 'label'))}
+          explanation={t(buildNestedKey(sectionName, modelName, 'stateId', 'explanation'))}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.ssn`}
+          name="household.members.0.ssn"
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName)}.ssn.label`)}
-          explanation={t(`${buildNestedKey(sectionName, modelName)}.ssn.explanation`)}
+          labelText={t(buildNestedKey(sectionName, modelName, 'ssn', 'label'))}
+          explanation={t(buildNestedKey(sectionName, modelName, 'ssn', 'explanation'))}
         />
         <div className="margin-y-4">
           <Collapsible
@@ -84,15 +84,15 @@ class PersonalInfo extends React.Component {
             label: t(buildNestedKey(sectionName, modelName, 'sex', 'options', 'female')),
             value: "female"
           }]}
-          name={`${sectionName}.${modelName}.sex`}
+          name="household.members.0.sex"
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName, 'sex', 'label')}`)}
-          explanation={t(`${buildNestedKey(sectionName, modelName, 'sex', 'explanation')}`)}
+          labelText={t(buildNestedKey(sectionName, modelName, 'sex', 'label'))}
+          explanation={t(buildNestedKey(sectionName, modelName, 'sex', 'explanation'))}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.race`}
+          name="household.members.0.race"
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, modelName)}.race.label`)}
+          labelText={t(buildNestedKey(sectionName, modelName, 'race', 'label'))}
         />
         <SecurityAlert />
       </Wizard.Step>
