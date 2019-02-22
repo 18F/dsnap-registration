@@ -6,8 +6,10 @@ export default () => ({
   members: [ person() ],
 });
 
-export const getHouseholdCount = (household) => household.numMembers;
-export const getMembers = (household) => household.members;
+
+export const getHouseholdCount = household => household.numMembers;
+export const getMembers = household => household.members;
+export const getApplicant = household => getMembers(household)[0];
 export const getCurrentMemberIndex = ({ currentMemberIndex }) =>
   typeof currentMemberIndex !== 'number' ? 0 : currentMemberIndex;
 

@@ -102,6 +102,11 @@ class Section extends React.Component {
     }
   }
 
+  handleChange = formikHandler => nextValues => {
+    formikHandler(nextValues);
+    this.props.handleChange(nextValues);
+  }
+
   hasErrors(errors = {}) {
     return Object.keys(errors).length >= 1;
   }
@@ -150,7 +155,7 @@ class Section extends React.Component {
                             route={route}
                             extraProps={{
                               sectionName: this.props.name,
-                              handleChange: this.props.handleChange,
+                              handleChange: this.handleChange(formikProps.handleChange),
                               registerStep: this.registerStepComponent,
                               handleNext: this.props.handleNext
                             }}
@@ -173,7 +178,6 @@ class Section extends React.Component {
                 >
                   { this.props.t('general.quit') }
                 </Button>
-                <Debug name={`Section ${this.props.name} state`}/>
               </Form>
             );
           }}
