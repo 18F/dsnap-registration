@@ -4,7 +4,7 @@ import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
 import { buildNestedKey } from 'utils';
-import { getCustomerFirstName } from 'models/basic-info';
+import { getFirstName } from 'models/person';
 import { getMembers } from 'models/household';
 import UI from 'components/ui';
 
@@ -13,7 +13,7 @@ const modelName = 'memberNames';
 const MemberNames = ({ handleChange, sectionName, t, registerStep }) => (
   <Wizard.Context>
     {({ basicInfo, household }) => {
-      const customerName = getCustomerFirstName(basicInfo);
+      const customerName = getFirstName(basicInfo);
 
       return (
         <Wizard.Step

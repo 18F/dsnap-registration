@@ -7,7 +7,7 @@ import withLocale from 'components/with-locale';
 import { nameValidator } from 'validators/basic-info';
 
 class ApplicantName extends React.Component {
-  static modelName = 'applicantName'
+  static modelName = 'name'
 
   static propTypes = {
     handleChange: PropTypes.func,

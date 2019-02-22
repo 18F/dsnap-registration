@@ -6,9 +6,9 @@ export default ({ firstName, lastName }) => {
   let errors = {};
 
   if (!firstName) {
-    errors = setIn(errors, 'basicInfo.applicantName.firstName', i18n.t('errors.required'));
+    errors = setIn(errors, 'basicInfo.name.firstName', i18n.t('errors.required'));
   } else if (!lastName) {
-    errors = setIn(errors, 'basicInfo.applicantName.lastName', i18n.t('errors.required'));
+    errors = setIn(errors, 'basicInfo.name.lastName', i18n.t('errors.required'));
   }
 
   return errors;
