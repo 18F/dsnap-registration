@@ -221,7 +221,7 @@ class Step extends React.Component {
   render() {
     return (
       <div>
-        <div className="border-bottom-1px border-base-lighter margin-bottom-4">
+        <div className="border-bottom-1px border-base-lighter margin-bottom-2">
           { this.renderHeader() }
         </div>
         <fieldset>

@@ -60,17 +60,24 @@ const FormGroupExplanation = ({ text }) =>
     {text}
   </span>;
 
-const FormikFieldGroup = (props) => (
-  <div role="group" className="margin-y-4">
-    <FormGroupLabel labelText={props.labelText} />
-    <FormGroupExplanation text={props.explanation} />
+const FormikFieldGroup = ({
+  explanation,
+  fields = [],
+  fieldGroupClassname,
+  inline,
+  labelText,
+  Component = FormikField
+}) => (
+  <div role="group" className={classnames('margin-y-4', fieldGroupClassname)}>
+    <FormGroupLabel labelText={labelText} />
+    <FormGroupExplanation text={explanation} />
     <div className="margin-top-2">
       { 
-        props.fields.map(({ className, ...field}, index) => (
-          <FormikField
+        fields.map(({ className, ...field}, index) => (
+          <Component
             key={`${field.name}.${index}`}
             {...field}
-            groupClassName={classnames('grid-col-2', { 'display-inline-block': props.inline })}
+            groupClassName={classnames('grid-col-2', { 'display-inline-block': inline })}
             className={classnames('padding-y-3', className)}
             quietLabel
           />
