@@ -79,7 +79,7 @@ class FSMRouter extends React.Component {
     const { context } = this.machineState;
 
     this.handleHistoryTransition({
-      pathname: computeURLPathFromContext(context)
+      pathname: process.env.NODE_ENV === 'development' ? this.props.location.pathname : computeURLPathFromContext(context)
     }, true);
 
     this.historySubscriber = props.history.listen(this.historyHandler);
@@ -168,7 +168,7 @@ class FSMRouter extends React.Component {
   }
 
   render() {
-    console.log('fsm render machine state', this.machineState)
+    console.log('fsm render :: machine state', this.machineState)
     return (
       <MachineContext.Provider value={this.transition}>
         <MachineStateContext.Provider value={this.machineState.context}>

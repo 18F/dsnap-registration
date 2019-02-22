@@ -209,7 +209,35 @@
     }
   },
   "impact": {
-
+    "header": "Now, tell us how you were impacted by the disaster.",
+    "buyFood": {
+      "label": "Has your household bought food or plan to buy food between [benefit period start date] and [benefit period end date]?"
+    },
+    "lostOrInaccessibleIncome": {
+      "label": "Did the disaster delay, reduce, or stop your income or the income of any of the other members of your household?"
+    },
+    "inaccessibleMoney": {
+      "label": "Are you or any other member of your household unable to access some of your money?"
+    },
+    "otherExpenses": {
+      "label": "What expenses caused by the disaster did your household pay or expect to pay between [benefit period start date] and [benefit period end date]?",
+      "explanation": "How much?",
+      "error": "Please enter an amount for this expense.",
+      "repairs": "Home or business repairs",
+      "tempShelter": "Temporary shelter expenses",
+      "evacuation": "Evacuation exepenses",
+      "foodLoss": "Food lost or spoiled during disaster",
+      "propertyProtection": "Home/business property protection",
+      "medical": "Medical expenses due to personal injury",
+      "funeral": "Disaster-related funeral expenses",
+      "petBoarding": "Disaster-related pet boarding fees",
+      "itemReplacement": "Expenses related to replacing necessary personal and household items, such as clothing, appliances, tools, and educational materials",
+      "heatingFuel": "Fuel for primary heating source",
+      "cleanup": "Clean-up items expenses",
+      "vehicleDamage": "Disaster-related vehicle expenses",
+      "storage": "Storage expenses",
+      "none": "None"
+    }
   },
   "assetsIncome": {
 

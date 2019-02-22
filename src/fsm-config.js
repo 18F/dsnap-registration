@@ -310,7 +310,6 @@ const impactChart = {
   onEntry: [
     assign({
       currentSection: 'impact',
-      currentStep: '',
       currentModel: 'impact',
       step: 4,
     })
@@ -321,6 +320,11 @@ const impactChart = {
   strict: true,
   states: {
     'adverse-effects': {
+      onEntry: [
+        () => console.log('entered adverse'),
+        assign({ currentStep: 'adverse-effects' }),
+      ],
+      onExit: assign({ previousStep: 'adverse-effects' }),
       meta: {
         path: '/impact'
       }
@@ -330,8 +334,9 @@ const impactChart = {
 
 
 const formStateConfig = {
-  strict: true,
   id: 'form',
+  internal: true,
+  strict: true,
   context: {
     ...initialState()
   },
@@ -369,7 +374,7 @@ const formStateConfig = {
   on: {
     QUIT: {
       target: '.quit',
-    }
+    },
   },
 };
 
