@@ -377,7 +377,6 @@ const formStateConfig = {
 
 const extraActions = {
   persist: (context, {type, ...data}) => {
-    debugger
     const nextState = (() => {
       // we are transitioning through a null state, which doesn't provide
       // data to the state machine. so, just write the current context to local storage
@@ -385,22 +384,20 @@ const extraActions = {
         return context;
       }
 
-      const section = currentSectionSelector(context);
-
       const overwrites = Object.entries(data).reduce((memo, [name, nextData]) => {
+        const existingContextSlice = context[name];
+        const formattedContextSlice = typeof existingContextSlice === 'string' ?
+          nextData : { ...context[name], ...nextData }; 
+
         return {
           ...memo,
-          [name]: {
-            ...context[name],
-            ...nextData
-          }
+          [name]: formattedContextSlice,
         }
       }, {});
 
       return {
         ...context,
         ...overwrites
-        //[section]: (data[section] || modelState[section]),
       };
     })();
 

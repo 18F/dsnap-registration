@@ -35,12 +35,13 @@ class Section extends React.Component {
 
   next = (values) => {
     const { current } = this.state;
+    const formValues = this.props.formik.values;
       // call the onNext handler for the step, if it exists
     const nextValues = (
       current &&
       current.props.onNext &&
-      current.props.onNext(values)
-    ) || values;
+      current.props.onNext(formValues)
+    ) || formValues;
 
     this.formStarted = true;
     this.props.onNext({ data: nextValues });
@@ -101,11 +102,6 @@ class Section extends React.Component {
     }
   }
 
-  handleChange = formikHandler => nextValues => {
-    formikHandler(nextValues);
-    this.props.handleChange(nextValues);
-  }
-
   hasErrors(errors = {}) {
     return Object.keys(errors).length >= 1;
   }
@@ -154,7 +150,7 @@ class Section extends React.Component {
                             route={route}
                             extraProps={{
                               sectionName: this.props.name,
-                              handleChange: this.handleChange(formikProps.handleChange),
+                              handleChange: this.props.handleChange,
                               registerStep: this.registerStepComponent,
                               handleNext: this.props.handleNext
                             }}
