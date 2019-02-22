@@ -48,10 +48,8 @@ const formNextHandler = target => ({
       // open question: why doesnt xstate persist the context when an
       // assign call is made within another function?
       assign((ctx, event) => {
-        const section = currentSectionSelector(ctx);
-
         return {
-          [section]: (event[section] || modelState[section])
+          ...event
         };
       })
     ]
