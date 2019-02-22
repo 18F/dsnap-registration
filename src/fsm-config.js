@@ -205,7 +205,6 @@ const householdChart = {
       ],
       onExit: [
         assign({ previousStep: 'how-many' }),
-        (context) => actions.send({ type: 'NEXT', ...context })
       ],
     },
     'member-info-branch': {
@@ -214,13 +213,13 @@ const householdChart = {
           {
             target: 'member-names',
             cond: (context) => {
-              return Number(getHouseholdCount(context.household));
+              return getHouseholdCount(context.household) > 1;
             }
           },
           {
-            target: '#impact',
+            target: 'food-assistance',
             cond: (context) => {
-              return !Number(getHouseholdCount(context.household));
+              return getHouseholdCount(context.household) === 1;
             }
           },
         ],
@@ -316,7 +315,6 @@ const impactChart = {
   states: {
     'adverse-effects': {
       onEntry: [
-        () => console.log('entered adverse'),
         assign({ currentStep: 'adverse-effects' }),
       ],
       onExit: assign({ previousStep: 'adverse-effects' }),
