@@ -1,5 +1,6 @@
 import Sections from 'pages/form/sections';
 import Steps from 'pages/form/steps';
+import { setUseProxies } from 'immer';
 
 export default [{
   path: '/form/basic-info',
@@ -67,6 +68,16 @@ export default [{
     {
       path: '/form/impact/adverse-effects',
       component: Steps.Impact.AdverseEffects
+    }
+  ]
+}, {
+  path: '/form/resources',
+  component: Sections.ResourcesSection,
+  name: 'resources',
+  routes: [
+    {
+      path: '/form/resources/assets',
+      component: Steps.Resources.Assets,
     }
   ]
 }];

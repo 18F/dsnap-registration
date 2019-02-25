@@ -25,7 +25,7 @@ const initialState = () => {
      * but is not exposed to the user. Therefore, it is not included in the total
      * number of steps
      */
-    totalSteps: 4,
+    totalSteps: 5,
   };
   let state;
 
@@ -317,11 +317,48 @@ const impactChart = {
       onEntry: [
         assign({ currentStep: 'adverse-effects' }),
       ],
-      onExit: assign({ previousStep: 'adverse-effects' }),
+      onExit: [
+        assign({ previousStep: 'adverse-effects' }),
+      ],
       meta: {
         path: '/impact/adverse-effects'
-      }
+      },
+      on: {
+        ...formNextHandler('#resources'),
+      },
     }
+  }
+};
+
+const resourcesChart = {
+  id: 'resources',
+  initial: 'assets',
+  internal: true,
+  strict: true,
+  onEntry: [
+    assign({
+      currentSection: 'resources',
+      currentModel: 'resources',
+      step: 5,
+    })
+  ],
+  onExit: [
+    assign({ previousSection: 'resources' }),
+  ],
+  states: {
+    assets: {
+      onEntry: [
+        assign({ currentStep: 'assets' }),
+      ],
+      onExit: [
+        assign({ previousStep: 'assets' }),
+      ],
+      meta: {
+        path: '/resources/assets'
+      }
+    },
+    income: {},
+    jobs: {}
   }
 };
 
@@ -340,7 +377,7 @@ const formStateConfig = {
     identity: identityChart,
     household: householdChart,
     impact: impactChart,
-    resources: {},
+    resources: resourcesChart,
     review: {},
     submit: {
       onEntry: [() => console.log('entered submit')]   

@@ -1,5 +1,9 @@
-export default {
+import jobs from './jobs';
+import otherIncome from './other-income';
+
+export default () => ({
   moneyOnHand: '',
-  incomeRecipients: '',
-  incomeDetails: []
-}
+  hasIncome: false,
+  otherIncome: otherIncome(),
+  jobs: jobs(),
+});

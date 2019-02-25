@@ -239,8 +239,52 @@
       "none": "None"
     }
   },
-  "assetsIncome": {
-
+  "resources": {
+    "header": "We need to ask you some money questions.",
+    "moneyOnHand": {
+      "label": "How much money do you have on hand today?",
+      "explanation": "Give your best estimate. This includes money in checking accounts, savings accounts, and any other cash you have available. Do not include income you recieved between [disaster start date] and [disaster end date]."
+    },
+    "incomeRecipients": {
+      "label": "Who received income between [benefit period start date] and [benefit period end date]?"
+    },
+    "whyWeAsk": {
+      "header": "Why do we ask?",
+      "copy": "TBD"
+    },
+    "memberIncome": {
+      "header": "Now, tell us about {{ firstName }}’s income during the disaster.",
+      "incomeSources": {
+        "label": "Check all sources of income {{ firstName }} received between [benefit period start date] and [benefit period end date].",
+        "explanation": "How much?",
+        "hasJobs": "{{ firstName }} has one or more jobs",
+        "selfEmployed": "{{ firstName }} is self-employed",
+        "unemployment": "{{ firstName }} got unemployment benefits",
+        "cashAssistance": "{{ firstName }} cash assistance (TANF)",
+        "disability": "{{ firstName }} got disability payments",
+        "socialSecurity": "{{ firstName }} got Social Security payments",
+        "veteransBenefits": "{{ firstName }} got Veteran’s benefits",
+        "alimony": "{{ firstName }} got alimony",
+        "childSupport": "{{ firstName }} got child support",
+        "fema": "{{ firstName }} got FEMA assistance",
+        "otherSources": "{{ firstName }} has other sources of income"
+      }
+    },
+    "jobData": {
+      "header": "Tell us about {{ firstName }}’s job(s).",
+      "employerName": {
+        "label": "What is the employer's name?"
+      },
+      "pay": {
+        "label": "How much take home pay did {{ firstName }} receive from this job between [disaster start date] and [disaster end date]?"
+      },
+      "stateAgency": {
+        "label": "Is this employer a state agency?"
+      },
+      "otherJobs": {
+        "label": "Does {{ firstName }} have another job?"
+      }
+    }
   },
   "review": {
 

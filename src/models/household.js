@@ -11,6 +11,8 @@ export default () => ({
 
 export const getHouseholdCount = household => household.members.length;
 export const getMembers = household => household.members;
+// TODO: there is probably an opportunity to make a service that connects
+// basic info and household so this accessor doesnt have to be hardcoded
 export const getApplicant = household => getMembers(household)[0];
 export const getCurrentMemberIndex = ({ currentMemberIndex }) =>
   typeof currentMemberIndex !== 'number' ? 0 : currentMemberIndex;
