@@ -2,14 +2,14 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Wizard from 'components/wizard'
 
-const modelName = 'resources';
+const modelName = 'household';
 
 class Resources extends React.Component {
   render() {
     const { t, ...rest } = this.props;
 
     return (
-      <Wizard.Section name={modelName} {...rest}>
+      <Wizard.Section modelName={[modelName]} {...rest}>
         {this.props.children}
       </Wizard.Section>
     );

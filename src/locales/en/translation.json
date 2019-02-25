@@ -252,7 +252,7 @@
       "header": "Why do we ask?",
       "copy": "TBD"
     },
-    "memberIncome": {
+    "assetsAndIncome": {
       "header": "Now, tell us about {{ firstName }}’s income during the disaster.",
       "incomeSources": {
         "label": "Check all sources of income {{ firstName }} received between [benefit period start date] and [benefit period end date].",
@@ -270,7 +270,7 @@
         "otherSources": "{{ firstName }} has other sources of income"
       }
     },
-    "jobData": {
+    "jobs": {
       "header": "Tell us about {{ firstName }}’s job(s).",
       "employerName": {
         "label": "What is the employer's name?"

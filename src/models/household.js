@@ -34,6 +34,16 @@ export const addPeopleToHousehold = (household, count) => {
   };
 };
 
+export const updateMemberAtIndex = (household, index, member) => {
+  const nextMembers = household.members.slice(0);
+  nextMembers.splice(index, 1, member);
+
+  return {
+    ...household,
+    members: nextMembers
+  }
+};
+
 export const updateCurrentMemberIndex = (household, index) => ({
   ...household,
   currentMemberIndex: index >= getHouseholdCount(household) ? getHouseholdCount(household) - 1 : index

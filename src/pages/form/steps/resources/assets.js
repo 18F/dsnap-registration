@@ -3,12 +3,30 @@ import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, { FormikFieldGroup } from 'components/formik-field';
 import { buildNestedKey } from 'utils';
-import { getApplicant, getMembers } from 'models/household';
+import { getMembers } from 'models/household';
+import { hasIncome } from 'models/assets-and-income';
+import { getIncome } from 'models/person';
 import { getFirstName, getLastName } from 'models/person';
 import SecurityAlert from 'components/security-alert';
 import Collapsible from 'components/collapsible';
 
 const modelName = 'otherExpenses';
+
+const setMembersWithIncome = (household, members) => () => ({
+  household: {
+    ...household,
+    members
+  },
+  resources: {
+    membersWithIncome: members.reduce((memo, member, index) => {
+      if (hasIncome(getIncome(member))) {
+        memo.push(index);
+      }
+
+      return memo;
+    }, [])
+  },
+});
 
 class Assets extends React.Component {
   render() {
@@ -16,8 +34,7 @@ class Assets extends React.Component {
 
     return (
       <Wizard.Context>
-        {({ basicInfo, household, impact }) => {
-          const applicant = getApplicant(household);
+        {({ basicInfo, household }) => {
           const members = getMembers(household);
 
           return (
@@ -25,6 +42,7 @@ class Assets extends React.Component {
               header={t(`${buildNestedKey(sectionName, 'header')}`)}
               registerStep={registerStep}
               modelName={modelName}
+              onNext={setMembersWithIncome(household, members)}
             >
               <FormikField
                 labelText={t(buildNestedKey(sectionName, 'moneyOnHand', 'label'))}
@@ -34,7 +52,6 @@ class Assets extends React.Component {
               />
               <FormikFieldGroup
                 labelText={t(buildNestedKey(sectionName, 'incomeRecipients', 'label'))}
-                onChange={handleChange}
                 fieldGroupClassname="margin-y-0"
                 fields={
                   members.map((member, index) => {

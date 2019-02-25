@@ -1,12 +1,15 @@
-import { actions, assign } from 'xstate';
+import { actions, assign, send } from 'xstate';
 import modelState from 'models';
 import { hasMailingAddress } from 'models/basic-info';
-import { getHouseholdCount, hasAdditionalMembers } from 'models/household';
+import {
+  getHouseholdCount,
+  getMembers,
+  hasAdditionalMembers
+} from 'models/household';
+import { hasIncome } from 'models/assets-and-income';
+import { getIncome, hasJob, hasOtherJobs } from 'models/person';
 
 const STATE_KEY = 'dsnap-registration';
-
-const currentSectionSelector = context =>
-  context.currentModel;
 
 const initialState = () => {
   const machineState = {
@@ -38,18 +41,21 @@ const initialState = () => {
   return state;
 };
 
-const formNextHandler = target => ({
+const formNextHandler = (target, extraActions = []) => ({
   NEXT: {
     target,
     internal: true,
     actions: [
+      ...extraActions,
       () => console.log(`transitioning to next step ${target}`),
       'persist',
       // open question: why doesnt xstate persist the context when an
       // assign call is made within another function?
-      assign((ctx, event) => {
+      assign((_, event) => {
+        const { type, ...rest } = event;
+
         return {
-          ...event
+          ...rest
         };
       })
     ]
@@ -347,6 +353,7 @@ const resourcesChart = {
   ],
   states: {
     assets: {
+      internal: true,
       onEntry: [
         assign({ currentStep: 'assets' }),
       ],
@@ -355,10 +362,124 @@ const resourcesChart = {
       ],
       meta: {
         path: '/resources/assets'
+      },
+      on: {
+        ...formNextHandler('income-branch'),
+      },
+    },
+    'income-branch': {
+      internal: true,
+      on: {
+        '': [
+          {
+            target: '#form.review',
+            cond: (context) => {
+              //debugger
+              return !context.resources.membersWithIncome.length;
+            }
+          },
+          {
+            target: 'income',
+            cond: (context) => {
+              console.log('in income branch')
+              return context.resources.membersWithIncome.length;
+            }
+          }
+        ]
       }
     },
-    income: {},
-    jobs: {}
+    income: {
+      internal: true,
+      onEntry: assign({ currentStep: 'income' }),
+      onExit: [
+        () => console.log('exiting'),
+        actions.send({ type: 'INTERNAL_CONTEXT_WRITE', test: 'hey'})
+      ],
+      meta: {
+        path: '/resources/income'
+      },
+      on: {
+        ...formNextHandler('jobs-branch'),
+        INTERNAL_CONTEXT_WRITE: {
+          internal: true,
+          actions: [
+            assign({
+              previousStep: 'income',
+              resources: (context) => {
+                const nextMembers = context.resources.membersWithIncome.slice(1);
+                debugger
+                return {
+                  membersWithIncome: nextMembers
+                };
+              }
+            }),
+            'persist'
+          ]
+        }
+      }
+    },
+    'jobs-branch': {
+      internal: true,
+      on: {
+        '': [
+          {
+            internal: true,
+            target: 'jobs',
+            cond: (context) => {
+              console.log('jobs guard?')
+              const memberId = context.resources.membersWithIncome[0];
+              const member = getMembers(context.household)[memberId];
+  
+              return hasJob(member);
+            },
+          },
+          {
+            internal: true,
+            target: 'income-branch',
+            cond: (context) => {
+              console.log('income branch guard?')
+              const memberId = context.resources.membersWithIncome[0];
+              const member = getMembers(context.household)[memberId];
+
+              return !hasJob(member);
+            },
+          }
+        ]
+      }
+    },
+    jobs: {
+      onEntry: assign({ currentStep: 'jobs' }),
+      meta: {
+        path: '/resources/jobs'
+      },
+      on: {
+        ...formNextHandler('other-jobs-loop')
+      }
+    },
+    'other-jobs-loop': {
+      on: {
+        '': [
+          {
+            target: 'jobs',
+            cond: (context) => {
+              const memberId = context.resources.membersWithIncome[0];
+              const member = getMembers(context.household)[memberId];
+
+              return hasOtherJobs(member);
+            }
+          },
+          {
+            target: 'income-branch',
+            cond: (context) => {
+              const memberId = context.resources.membersWithIncome[0];
+              const member = getMembers(context.household)[memberId];
+
+              return !hasOtherJobs(member);
+            }
+          }
+        ]
+      }
+    }
   }
 };
 
@@ -378,7 +499,11 @@ const formStateConfig = {
     household: householdChart,
     impact: impactChart,
     resources: resourcesChart,
-    review: {},
+    review: {
+      onEntry: [
+        () => console.log('review step')
+      ]
+    },
     submit: {
       onEntry: [() => console.log('entered submit')]   
     },
@@ -410,6 +535,7 @@ const formStateConfig = {
 
 const extraActions = {
   persist: (context, {type, ...data}) => {
+    //debugger
     const nextState = (() => {
       // we are transitioning through a null state, which doesn't provide
       // data to the state machine. so, just write the current context to local storage

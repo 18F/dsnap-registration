@@ -73,15 +73,19 @@ const FormikFieldGroup = ({
     <FormGroupExplanation text={explanation} />
     <div className="margin-top-2">
       { 
-        fields.map(({ className, ...field}, index) => (
-          <Component
-            key={`${field.name}.${index}`}
-            {...field}
-            groupClassName={classnames('grid-col-2', { 'display-inline-block': inline })}
-            className={classnames('padding-y-3', className)}
-            quietLabel
-          />
-        ))
+        fields.map(({ className, ...field}, index) => {
+          const FinalComponent = field.Component ? field.Component : Component;
+
+          return (
+            <FinalComponent
+              key={`${field.name}.${index}`}
+              {...field}
+              groupClassName={classnames('grid-col-2', { 'display-inline-block': inline })}
+              className={classnames('padding-y-3', className)}
+              quietLabel
+            />
+          );
+        })
       }
     </div>
   </div>

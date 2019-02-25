@@ -31,13 +31,19 @@ class YesNoField extends React.Component {
   }
 
   render() {
-    const { t, fieldName, sectionName } = this.props;
+    // TODO: remove this auto labeling, clean up coupling between data model and translation
+    const { props } = this;
+    const { t, fieldName, sectionName } = props;
+    const labelText = (fieldName && t(buildNestedKey(sectionName, fieldName, 'label'))) ||
+      props.labelText;
+    const nName = (fieldName && buildNestedKey(sectionName, fieldName)) ||
+      props.name;
 
     return (
       <FormikRadioGroup
         {...this.prepareProps()}
-        labelText={t(buildNestedKey(sectionName, fieldName, 'label'))}
-        name={buildNestedKey(sectionName, fieldName)}
+        labelText={labelText}
+        name={nName}
         options={[
           {
             value: 'yes',

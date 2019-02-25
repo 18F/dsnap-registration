@@ -78,6 +78,14 @@ export default [{
     {
       path: '/form/resources/assets',
       component: Steps.Resources.Assets,
+    },
+    {
+      path: '/form/resources/income',
+      component: Steps.Resources.Income
+    },
+    {
+      path: '/form/resources/jobs',
+      component: Steps.Resources.Jobs
     }
   ]
 }];

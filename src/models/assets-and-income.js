@@ -1,9 +1,11 @@
 import jobs from './jobs';
-import otherIncome from './other-income';
+import incomeSources from './income-sources';
+
+export const hasIncome = income => income.hasIncome;
 
 export default () => ({
   moneyOnHand: '',
   hasIncome: false,
-  otherIncome: otherIncome(),
+  incomeSources: incomeSources(),
   jobs: jobs(),
 });
