@@ -260,7 +260,7 @@
         "hasJobs": "{{ firstName }} has one or more jobs",
         "selfEmployed": "{{ firstName }} is self-employed",
         "unemployment": "{{ firstName }} got unemployment benefits",
-        "cashAssistance": "{{ firstName }} cash assistance (TANF)",
+        "cashAssistance": "{{ firstName }} got cash assistance (TANF)",
         "disability": "{{ firstName }} got disability payments",
         "socialSecurity": "{{ firstName }} got Social Security payments",
         "veteransBenefits": "{{ firstName }} got Veteran’s benefits",

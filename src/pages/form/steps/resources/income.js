@@ -17,6 +17,13 @@ const updateMembersWithIncome = state => () => {
   const member = members[index];
 
   if (!hasJob(member)) {
+    /**
+     * this person doesnt have a job, but did have income, so we
+     * need to indicate that all of their income has been reported.
+     * Remove them from the memberWithIncome array so that either the
+     * next household member will be processed, or the state machine
+     * should move to the next section
+     */
     return {
       resources: {
         membersWithIncome: state.resources.membersWithIncome.slice(1)
@@ -66,8 +73,8 @@ class Income extends React.Component {
                       {
                         prefix: '$',
                         type: 'checkbox',
-                        comboName: `${assetsAndIncomeId}.otherIncome.${name}.value`,
-                        name: `${assetsAndIncomeId}.otherIncome.${name}.applicable`,
+                        comboName: `${assetsAndIncomeId}.incomeSources.${name}.value`,
+                        name: `${assetsAndIncomeId}.incomeSources.${name}.applicable`,
                         onChange: handleChange,
                         labelText: t(buildNestedKey(sectionName, modelName, 'incomeSources', name), { firstName }),
                         quietLabel: true,

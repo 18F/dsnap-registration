@@ -6,7 +6,7 @@ import YesNoField from 'components/yes-no-field';
 import { buildNestedKey } from 'utils';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, hasOtherJobs } from 'models/person';
-import { addJob } from 'models/jobs';
+import { addJob } from 'models/assets-and-income';
 
 const modelName = 'jobs';
 

@@ -12,7 +12,7 @@ const modelName = 'memberNames';
 
 const MemberNames = ({ handleChange, sectionName, t, registerStep }) => (
   <Wizard.Context>
-    {({ basicInfo, household }) => {
+    {({ household }) => {
       const customerName = getFirstName(getApplicant(household));
 
       return (
@@ -24,32 +24,29 @@ const MemberNames = ({ handleChange, sectionName, t, registerStep }) => (
           registerStep={registerStep}
         >
           <React.Fragment>
-            <UI.Header
-              type="h2"
-              size="sm"
-            >
+            <UI.Header type="h2" size="sm">
               { t(`${sectionName}.${modelName}.byline`)}
             </UI.Header>
             <FieldArray
               name={`${sectionName}.members`}
               render={() => {
-                return getMembers(household).map((_, index) =>
+                return getMembers(household).slice(1).map((_, index) =>
                   <div key={index} className="padding-bottom-4">
                     <h3>Person { index + 1 }</h3>
                     <FormikField
-                      name={`${sectionName}.members.${index}.name.firstName`}
+                      name={`${sectionName}.members.${index + 1}.name.firstName`}
                       labelText={t(`${sectionName}.memberNames.firstName.label`)}
                       onChange={handleChange}
                       quietLabel
                     />
                     <FormikField
-                      name={`${sectionName}.members.${index}.name.middleName`}
+                      name={`${sectionName}.members.${index + 1}.name.middleName`}
                       labelText={t(`${sectionName}.memberNames.middleName.label`)}
                       onChange={handleChange}
                       quietLabel
                     />
                     <FormikField
-                      name={`${sectionName}.members.${index}.name.lastName`}
+                      name={`${sectionName}.members.${index + 1}.name.lastName`}
                       labelText={t(`${sectionName}.memberNames.lastName.label`)}
                       onChange={handleChange}
                       quietLabel
