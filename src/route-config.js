@@ -1,6 +1,5 @@
 import Sections from 'pages/form/sections';
 import Steps from 'pages/form/steps';
-import { setUseProxies } from 'immer';
 
 export default [{
   path: '/form/basic-info',

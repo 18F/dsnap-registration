@@ -5,7 +5,7 @@ import FormikField from 'components/formik-field';
 import YesNoField from 'components/yes-no-field';
 import { buildNestedKey } from 'utils';
 import { getMembers, updateMemberAtIndex } from 'models/household';
-import { getFirstName } from 'models/person';
+import { getFirstName, hasOtherJobs } from 'models/person';
 import { addJob } from 'models/jobs';
 
 const modelName = 'jobs';
@@ -15,7 +15,7 @@ const handleNext = (values) => () => {
   const members = getMembers(household);
   const index = resources.membersWithIncome[0];
   const member = members[index];
-  // TODO: make jobs / other jobs not nested undeer member so
+  // TODO: make jobs / other jobs not nested under member so
   // all these relationships dont have to be resolved here
   const nextJobs = addJob(member.assetsAndIncome.jobs, newJob);
   const nextIncome = {
@@ -30,11 +30,25 @@ const handleNext = (values) => () => {
 
   const nextHousehold = updateMemberAtIndex(household, index, nextMember);
 
-  return {
+  let nextState = {
     household: {
       ...nextHousehold
-    }
-  }
+    },
+    newJob: {},
+  };
+
+  if (!hasOtherJobs(member)) {
+    nextState = {
+      ...nextState,
+      resources: {
+        membersWithIncome: values.resources.membersWithIncome.slice(1)
+      }
+    };
+  };
+
+  return {
+    ...nextState,
+  };
 };
 
 class Jobs extends React.Component {

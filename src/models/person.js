@@ -1,4 +1,5 @@
 import assets from './assets-and-income';
+import { isAffirmative } from 'utils';
 
 export default () => {
   return {
@@ -25,5 +26,5 @@ export default () => {
 export const getFirstName = person => person.name.firstName;
 export const getLastName = person => person.name.lastName;
 export const getIncome = person => person.assetsAndIncome;
-export const hasJob = person => person.hasJobs;
-export const hasOtherJobs = person => person.hasOtherJobs;
+export const hasJob = person => isAffirmative(person.hasJobs);
+export const hasOtherJobs = person => isAffirmative(person.hasOtherJobs);

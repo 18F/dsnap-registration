@@ -7,8 +7,8 @@ import { buildNestedKey } from 'utils';
 class YesNoField extends React.Component {
   static propTypes = {
     explanation: PropTypes.bool,
-    fieldName: PropTypes.string.isRequired,
-    sectionName: PropTypes.string.isRequired
+    fieldName: PropTypes.string,
+    sectionName: PropTypes.string
   }
 
   static defaultProps = {

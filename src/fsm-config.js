@@ -351,6 +351,24 @@ const resourcesChart = {
   onExit: [
     assign({ previousSection: 'resources' }),
   ],
+  on: {
+    INTERNAL_CONTEXT_WRITE: {
+      internal: true,
+      actions: [
+        assign({
+          previousStep: 'income',
+          resources: (context) => {
+            const nextMembers = context.resources.membersWithIncome.slice(1);
+
+            return {
+              membersWithIncome: nextMembers
+            };
+          }
+        }),
+        'persist'
+      ]
+    }
+  },
   states: {
     assets: {
       internal: true,
@@ -368,13 +386,11 @@ const resourcesChart = {
       },
     },
     'income-branch': {
-      internal: true,
       on: {
         '': [
           {
             target: '#form.review',
             cond: (context) => {
-              //debugger
               return !context.resources.membersWithIncome.length;
             }
           },
@@ -392,56 +408,37 @@ const resourcesChart = {
       internal: true,
       onEntry: assign({ currentStep: 'income' }),
       onExit: [
-        () => console.log('exiting'),
-        actions.send({ type: 'INTERNAL_CONTEXT_WRITE', test: 'hey'})
+        () => console.log('exiting income'),
+        assign({ previousStep: 'income' }),
       ],
       meta: {
         path: '/resources/income'
       },
       on: {
         ...formNextHandler('jobs-branch'),
-        INTERNAL_CONTEXT_WRITE: {
-          internal: true,
-          actions: [
-            assign({
-              previousStep: 'income',
-              resources: (context) => {
-                const nextMembers = context.resources.membersWithIncome.slice(1);
-                debugger
-                return {
-                  membersWithIncome: nextMembers
-                };
-              }
-            }),
-            'persist'
-          ]
-        }
       }
     },
     'jobs-branch': {
-      internal: true,
       on: {
         '': [
           {
-            internal: true,
             target: 'jobs',
             cond: (context) => {
               console.log('jobs guard?')
               const memberId = context.resources.membersWithIncome[0];
               const member = getMembers(context.household)[memberId];
   
-              return hasJob(member);
+              return member && hasJob(member);
             },
           },
           {
-            internal: true,
             target: 'income-branch',
             cond: (context) => {
               console.log('income branch guard?')
               const memberId = context.resources.membersWithIncome[0];
               const member = getMembers(context.household)[memberId];
 
-              return !hasJob(member);
+              return !member || !hasJob(member);
             },
           }
         ]
@@ -449,6 +446,7 @@ const resourcesChart = {
     },
     jobs: {
       onEntry: assign({ currentStep: 'jobs' }),
+      onExit: assign({ previousStep: 'jobs' }),
       meta: {
         path: '/resources/jobs'
       },
@@ -465,7 +463,7 @@ const resourcesChart = {
               const memberId = context.resources.membersWithIncome[0];
               const member = getMembers(context.household)[memberId];
 
-              return hasOtherJobs(member);
+              return member && hasOtherJobs(member);
             }
           },
           {
@@ -474,8 +472,8 @@ const resourcesChart = {
               const memberId = context.resources.membersWithIncome[0];
               const member = getMembers(context.household)[memberId];
 
-              return !hasOtherJobs(member);
-            }
+              return !member || !hasOtherJobs(member);
+            },
           }
         ]
       }
@@ -535,7 +533,6 @@ const formStateConfig = {
 
 const extraActions = {
   persist: (context, {type, ...data}) => {
-    //debugger
     const nextState = (() => {
       // we are transitioning through a null state, which doesn't provide
       // data to the state machine. so, just write the current context to local storage

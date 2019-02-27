@@ -7,21 +7,25 @@ import { buildNestedKey } from 'utils';
 import { getMembers } from 'models/household';
 import { hasIncome } from 'models/assets-and-income';
 import { getIncome } from 'models/person';
-import { getFirstName } from 'models/person';
+import { getFirstName, hasJob } from 'models/person';
 
 const modelName = 'assetsAndIncome';
 
-const setMembersWithIncome = members => () => ({
-  resources: {
-    membersWithIncome: members.reduce((memo, member, index) => {
-      if (hasIncome(getIncome(member))) {
-        memo.push(index);
-      }
+const updateMembersWithIncome = state => () => {
+  const members = getMembers(state.household);
+  const index = state.resources.membersWithIncome[0];
+  const member = members[index];
 
-      return memo;
-    }, [])
-  },
-});
+  if (!hasJob(member)) {
+    return {
+      resources: {
+        membersWithIncome: state.resources.membersWithIncome.slice(1)
+      }
+    };
+  }
+
+  return state;
+};
 
 class Income extends React.Component {
   render() {
@@ -29,7 +33,9 @@ class Income extends React.Component {
 
     return (
       <Wizard.Context>
-        {({ household, resources }) => {
+        {(values) => {
+          const { household, resources } = values;
+
           if (!resources.membersWithIncome.length) {
             return null;
           }
@@ -46,6 +52,7 @@ class Income extends React.Component {
               header={t(`${buildNestedKey(sectionName, modelName, 'header')}`, { firstName })}
               registerStep={registerStep}
               modelName={modelName}
+              onNext={updateMembersWithIncome(values)}
             >
               <FormikFieldGroup
                 labelText={t(buildNestedKey(sectionName, modelName, 'incomeSources', 'label'), { firstName })}
