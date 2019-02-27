@@ -5,8 +5,6 @@ import FormikField, { FormikFieldGroup } from 'components/formik-field';
 import ComboField from 'components/combo-field';
 import { buildNestedKey } from 'utils';
 import { getMembers } from 'models/household';
-import { hasIncome } from 'models/assets-and-income';
-import { getIncome } from 'models/person';
 import { getFirstName, hasJob } from 'models/person';
 
 const modelName = 'assetsAndIncome';

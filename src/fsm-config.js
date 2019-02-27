@@ -1,4 +1,4 @@
-import { actions, assign, send } from 'xstate';
+import { actions, assign } from 'xstate';
 import modelState from 'models';
 import { hasMailingAddress } from 'models/basic-info';
 import {
@@ -6,8 +6,7 @@ import {
   getMembers,
   hasAdditionalMembers
 } from 'models/household';
-import { hasIncome } from 'models/assets-and-income';
-import { getIncome, hasJob, hasOtherJobs } from 'models/person';
+import { hasJob, hasOtherJobs } from 'models/person';
 
 const STATE_KEY = 'dsnap-registration';
 
