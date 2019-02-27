@@ -108,7 +108,7 @@ class FormikRadioGroup extends React.Component {
             this.props.options.map((option, index) => {
               return (
                 <FormikField
-                  key={`${+new Date()}.${option.label}.${index}`}
+                  key={`${rest.name}.${option.label}.${index}`}
                   {...rest}
                   type='radio'
                   radioValue={option.value}
