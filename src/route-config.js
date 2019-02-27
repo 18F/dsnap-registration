@@ -87,4 +87,9 @@ export default [{
       component: Steps.Resources.Jobs
     }
   ]
+}, {
+  path: '/form/review',
+  component: Sections.ReviewSection,
+  name: 'review',
+  routes: []
 }];

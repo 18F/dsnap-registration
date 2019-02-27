@@ -13,7 +13,6 @@ const STATE_KEY = 'dsnap-registration';
 const initialState = () => {
   const machineState = {
     ...modelState,
-    currentModel: null,
     currentSection: 'basic-info',
     currentStep: 'applicant-name',
     previousStep: null,
@@ -27,7 +26,7 @@ const initialState = () => {
      * but is not exposed to the user. Therefore, it is not included in the total
      * number of steps
      */
-    totalSteps: 5,
+    totalSteps: 6,
   };
   let state;
 
@@ -67,7 +66,6 @@ const basicInfoChart = {
   onEntry: [
     assign({
       currentSection: 'basic-info',
-      currentModel: 'basicInfo',
       step: 1,
     })
   ],
@@ -158,7 +156,6 @@ const identityChart = {
   onEntry: [
     assign({
       currentSection: 'identity',
-      currentModel: 'identity',
       step: 2,
     })
   ],
@@ -189,7 +186,6 @@ const householdChart = {
   onEntry: [
     assign({
       currentSection: 'household',
-      currentModel: 'household',
       step: 3,
     })
   ],
@@ -309,7 +305,6 @@ const impactChart = {
   onEntry: [
     assign({
       currentSection: 'impact',
-      currentModel: 'impact',
       step: 4,
     })
   ],
@@ -343,7 +338,6 @@ const resourcesChart = {
   onEntry: [
     assign({
       currentSection: 'resources',
-      currentModel: 'resources',
       step: 5,
     })
   ],
@@ -388,7 +382,7 @@ const resourcesChart = {
       on: {
         '': [
           {
-            target: '#form.review',
+            target: '#review',
             cond: (context) => {
               return !context.resources.membersWithIncome.length;
             }
@@ -480,6 +474,31 @@ const resourcesChart = {
   }
 };
 
+const reviewChart = {
+  id: 'review',
+  initial: 'default',
+  strict: true,
+  onEntry: assign({
+    currentSection: 'review',
+    currentStep: 'review',
+    step: 6
+  }),
+  onExit: assign({
+    previousSection: 'review',
+    previousStep: 'review'
+  }),
+  states: {
+    default: {
+      meta: {
+        path: '/review'
+      },
+      on: {
+        ...formNextHandler('#submit')
+      }
+    }
+  }
+};
+
 
 const formStateConfig = {
   id: 'form',
@@ -496,14 +515,11 @@ const formStateConfig = {
     household: householdChart,
     impact: impactChart,
     resources: resourcesChart,
-    review: {
-      onEntry: [
-        () => console.log('review step')
-      ]
-    },
+    review: reviewChart,
     submit: {
       onEntry: [() => console.log('entered submit')]   
     },
+    finish: {},
     quit: {
       invoke: {
         id: 'clearSessionState',
