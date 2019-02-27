@@ -4,13 +4,13 @@ import classnames from 'classnames';
 
 const propTypes = {
   checked: PropTypes.bool,
-  explanation: PropTypes.bool,
+  explanation: PropTypes.string,
   formGroupClassname: PropTypes.string,
   labelText: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   type: PropTypes.oneOf(['radio', 'checkbox']).isRequired,
-  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired
+  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
 };
 
 class RadioCheckbox extends React.Component {

@@ -1,12 +1,15 @@
-import { actions, assign } from 'xstate';
+import { actions, assign, send } from 'xstate';
 import modelState from 'models';
 import { hasMailingAddress } from 'models/basic-info';
-import { getHouseholdCount, hasAdditionalMembers } from 'models/household';
+import {
+  getHouseholdCount,
+  getMembers,
+  hasAdditionalMembers
+} from 'models/household';
+import { hasIncome } from 'models/assets-and-income';
+import { getIncome, hasJob, hasOtherJobs } from 'models/person';
 
 const STATE_KEY = 'dsnap-registration';
-
-const currentSectionSelector = context =>
-  context.currentModel;
 
 const initialState = () => {
   const machineState = {
@@ -25,7 +28,7 @@ const initialState = () => {
      * but is not exposed to the user. Therefore, it is not included in the total
      * number of steps
      */
-    totalSteps: 4,
+    totalSteps: 5,
   };
   let state;
 
@@ -38,18 +41,21 @@ const initialState = () => {
   return state;
 };
 
-const formNextHandler = target => ({
+const formNextHandler = (target, extraActions = []) => ({
   NEXT: {
     target,
     internal: true,
     actions: [
+      ...extraActions,
       () => console.log(`transitioning to next step ${target}`),
       'persist',
       // open question: why doesnt xstate persist the context when an
       // assign call is made within another function?
-      assign((ctx, event) => {
+      assign((_, event) => {
+        const { type, ...rest } = event;
+
         return {
-          ...event
+          ...rest
         };
       })
     ]
@@ -317,9 +323,159 @@ const impactChart = {
       onEntry: [
         assign({ currentStep: 'adverse-effects' }),
       ],
-      onExit: assign({ previousStep: 'adverse-effects' }),
+      onExit: [
+        assign({ previousStep: 'adverse-effects' }),
+      ],
       meta: {
         path: '/impact/adverse-effects'
+      },
+      on: {
+        ...formNextHandler('#resources'),
+      },
+    }
+  }
+};
+
+const resourcesChart = {
+  id: 'resources',
+  initial: 'assets',
+  internal: true,
+  strict: true,
+  onEntry: [
+    assign({
+      currentSection: 'resources',
+      currentModel: 'resources',
+      step: 5,
+    })
+  ],
+  onExit: [
+    assign({ previousSection: 'resources' }),
+  ],
+  on: {
+    INTERNAL_CONTEXT_WRITE: {
+      internal: true,
+      actions: [
+        assign({
+          previousStep: 'income',
+          resources: (context) => {
+            const nextMembers = context.resources.membersWithIncome.slice(1);
+
+            return {
+              membersWithIncome: nextMembers
+            };
+          }
+        }),
+        'persist'
+      ]
+    }
+  },
+  states: {
+    assets: {
+      internal: true,
+      onEntry: [
+        assign({ currentStep: 'assets' }),
+      ],
+      onExit: [
+        assign({ previousStep: 'assets' }),
+      ],
+      meta: {
+        path: '/resources/assets'
+      },
+      on: {
+        ...formNextHandler('income-branch'),
+      },
+    },
+    'income-branch': {
+      on: {
+        '': [
+          {
+            target: '#form.review',
+            cond: (context) => {
+              return !context.resources.membersWithIncome.length;
+            }
+          },
+          {
+            target: 'income',
+            cond: (context) => {
+              console.log('in income branch')
+              return context.resources.membersWithIncome.length;
+            }
+          }
+        ]
+      }
+    },
+    income: {
+      internal: true,
+      onEntry: assign({ currentStep: 'income' }),
+      onExit: [
+        () => console.log('exiting income'),
+        assign({ previousStep: 'income' }),
+      ],
+      meta: {
+        path: '/resources/income'
+      },
+      on: {
+        ...formNextHandler('jobs-branch'),
+      }
+    },
+    'jobs-branch': {
+      on: {
+        '': [
+          {
+            target: 'jobs',
+            cond: (context) => {
+              console.log('jobs guard?')
+              const memberId = context.resources.membersWithIncome[0];
+              const member = getMembers(context.household)[memberId];
+  
+              return member && hasJob(member);
+            },
+          },
+          {
+            target: 'income-branch',
+            cond: (context) => {
+              console.log('income branch guard?')
+              const memberId = context.resources.membersWithIncome[0];
+              const member = getMembers(context.household)[memberId];
+
+              return !member || !hasJob(member);
+            },
+          }
+        ]
+      }
+    },
+    jobs: {
+      onEntry: assign({ currentStep: 'jobs' }),
+      onExit: assign({ previousStep: 'jobs' }),
+      meta: {
+        path: '/resources/jobs'
+      },
+      on: {
+        ...formNextHandler('other-jobs-loop')
+      }
+    },
+    'other-jobs-loop': {
+      on: {
+        '': [
+          {
+            target: 'jobs',
+            cond: (context) => {
+              const memberId = context.resources.membersWithIncome[0];
+              const member = getMembers(context.household)[memberId];
+
+              return member && hasOtherJobs(member);
+            }
+          },
+          {
+            target: 'income-branch',
+            cond: (context) => {
+              const memberId = context.resources.membersWithIncome[0];
+              const member = getMembers(context.household)[memberId];
+
+              return !member || !hasOtherJobs(member);
+            },
+          }
+        ]
       }
     }
   }
@@ -340,8 +496,12 @@ const formStateConfig = {
     identity: identityChart,
     household: householdChart,
     impact: impactChart,
-    resources: {},
-    review: {},
+    resources: resourcesChart,
+    review: {
+      onEntry: [
+        () => console.log('review step')
+      ]
+    },
     submit: {
       onEntry: [() => console.log('entered submit')]   
     },
