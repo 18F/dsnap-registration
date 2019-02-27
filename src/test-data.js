@@ -81,10 +81,6 @@ export default {
                     "applicable":false,
                     "value":null
                  },
-                 "fema":{
-                    "applicable":false,
-                    "value":null
-                 },
                  "otherSources":{
                     "applicable":false,
                     "value":null
@@ -157,21 +153,17 @@ export default {
                    "applicable":false,
                    "value":null
                 },
-                "fema":{
-                   "applicable":false,
-                   "value":null
-                },
                 "otherSources":{
                    "applicable":false,
                    "value":null
                 }
              },
              "jobs":[
-                {
-                   "employerName":"USPS",
-                   "pay":"10000",
-                   "isStateAgency":"no"
-                },
+               //  {
+               //     "employerName":"USPS",
+               //     "pay":"10000",
+               //     "isStateAgency":"no"
+               //  },
              ],
              "moneyOnHand":"5"
           }
@@ -184,57 +176,25 @@ export default {
      "buyFood":"yes",
      "noOtherExpenses":false,
      "otherExpenses":{
-        "storage":{
-           "applicable":true,
-           "value":200
-        },
-        "vehicleDamage":{
-           "applicable":false,
-           "value":null
-        },
-        "cleanup":{
-           "applicable":true,
-           "value":1000
-        },
-        "heatingFuel":{
-           "applicable":false,
-           "value":null
-        },
-        "itemReplacement":{
-           "applicable":false,
-           "value":null
-        },
-        "petBoarding":{
-           "applicable":true,
-           "value":45
-        },
-        "funeral":{
-           "applicable":false,
-           "value":null
-        },
-        "medical":{
-           "applicable":false,
-           "value":null
-        },
-        "propertyProtection":{
-           "applicable":false,
-           "value":null
-        },
         "foodLoss":{
-           "applicable":false,
-           "value":null
+           "applicable":true,
+           "value":129
         },
         "evacuation":{
            "applicable":false,
            "value":null
         },
         "tempShelter":{
-           "applicable":false,
-           "value":null
+           "applicable":true,
+           "value": 550
         },
         "repairs":{
            "applicable":false,
            "value":null
+        },
+        "other": {
+           applicable: true,
+           value: 1000
         }
      }
   },
@@ -251,5 +211,10 @@ export default {
      "employerName":"",
      "pay":"",
      "isStateAgency":null
+  },
+  config: {
+     useLocalStorage: true,
+     language: 'en',
+     disaster: ''
   }
 };

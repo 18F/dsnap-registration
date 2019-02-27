@@ -23,3 +23,23 @@
     padding-left: 1.5rem;
   }
 }
+
+.currency-field {
+  .input-prefix-wrapper {
+    position: relative;
+  
+    .input-prefix {
+      color: #2e8540;
+      font-size: 1.5rem;
+      font-weight: 700;
+      left: .5rem;
+      top: .25rem;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  
+  > input {
+    padding-left: 1.5rem;
+  }
+}

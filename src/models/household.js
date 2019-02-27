@@ -15,6 +15,8 @@ export const getHouseholdCount = household => household.members.length;
 // @return all members of household
 export const getMembers = household => household.members;
 
+export const getOtherMembers = household => household.members.slice(1);
+
 // TODO: there is probably an opportunity to make a service that connects
 // basic info and household so this accessor doesnt have to be hardcoded
 // @return the applicant, who is always the first entry in the members array
@@ -41,6 +43,14 @@ export const addPeopleToHousehold = (household, count) => {
         length: count
       }).map(person)
     ]
+  };
+};
+
+export const deleteMemberFromHousehold = (household, index) => {
+  getMembers(household).splice(index, 1);
+
+  return {
+    ...household
   };
 };
 

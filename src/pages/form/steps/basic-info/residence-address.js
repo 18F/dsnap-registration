@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { buildNestedKey } from 'utils';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
+import YesNoField from 'components/yes-no-field';
 import FormikField, { FormikRadioGroup } from 'components/formik-field';
 import states from 'data/states';
 
@@ -56,19 +57,10 @@ class ResidenceAddress extends React.Component {
         <FormikField
           name={`${sectionName}.${modelName}.zip`}
           onChange={handleChange}
-          type="number"
           labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}
         />
-        <FormikRadioGroup
-          inline
-          options={[{
-            label: t('general.yes'),
-            value: 'true'
-          },
-          {
-            label: t('general.no'),
-            value: 'false'
-          }]}
+        <YesNoField
+
           name={`${sectionName}.currentMailingAddress`}
           onChange={handleChange}
           labelText={t(`${buildNestedKey(sectionName, tKey, 'currentMailingAddress', 'label')}`)}
@@ -77,13 +69,13 @@ class ResidenceAddress extends React.Component {
           name={`${sectionName}.phone`}
           onChange={handleChange}
           type="tel"
-          labelText={t(`${buildNestedKey(sectionName, tKey, 'phone', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, 'phone', 'label')}`)}
         />
         <FormikField
           type="email"
           name={`${sectionName}.email`}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, tKey, 'email', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, 'email', 'label')}`)}
         />
       </Wizard.Step>
     )

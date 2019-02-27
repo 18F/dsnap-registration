@@ -21,11 +21,11 @@ class YesNoField extends React.Component {
         inline
         options={[
           {
-            value: true,
+            value: 'true',
             label: t('general.yes')
           },
           {
-            value: false,
+            value: 'false',
             label: t('general.no')
           }
         ]}

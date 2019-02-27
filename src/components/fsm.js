@@ -194,6 +194,19 @@ class FSMRouter extends React.Component {
   }
 }
 
+
+export const withMachineContext = (Component) =>
+  class extends React.Component {
+    render() {
+      return (
+        <MachineContext.Consumer>
+          {(transition) => (
+            <Component {...this.props} fsmTransition={transition} />
+          )}
+        </MachineContext.Consumer>
+      );
+    }
+  }
 export const MachineConsumer = MachineContext.Consumer
 export const MachineState = MachineStateContext.Consumer;
 export default withRouter(FSMRouter);

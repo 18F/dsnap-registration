@@ -99,11 +99,20 @@ export default [
       }
     ]
   }, {
+    path: '/form/review',
+    component: Sections.ReviewSection,
+    name: 'review',
+    routes: [{
+      path: '',
+      component: Steps.Review.Review
+    }]
+  },
+  {
     path: '/form/submit',
     component: Sections.SubmitSection,
     routes: [{
       path: '/form/submit/sign-and-submit',
       component: Steps.Submit.SignAndSubmit,
     }]
-  }
+  },
 ];
