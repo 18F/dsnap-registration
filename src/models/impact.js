@@ -1,7 +1,4 @@
-const applicable = (applicable = false, value = null) => ({
-  applicable,
-  value,
-});
+import applicable from './applicable';
 
 const baseData = {
   lostOrInaccessibleIncome: '',
