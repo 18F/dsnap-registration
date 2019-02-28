@@ -91,5 +91,8 @@ export default [{
   path: '/form/review',
   component: Sections.ReviewSection,
   name: 'review',
-  routes: []
+  routes: [{
+    path: '',
+    component: Steps.Review.Review
+  }]
 }];

@@ -287,6 +287,15 @@
     }
   },
   "review": {
-
+    "header": "Please review your information.",
+    "sections": {
+      "info": "Your info",
+      "household": "Your household",
+      "impact": "Disaster impact",
+      "money": "Money"
+    },
+    "next": "Looks good!",
+    "edit": "Edit",
+    "details": "See details"
   }
 }
