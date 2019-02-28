@@ -1,0 +1,68 @@
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import withLocale from 'components/with-locale';
+import Button from 'components/button';
+
+const ToggleButton = ({ activeText, inactiveText, isActive, ...rest }) => (
+  <Button 
+    type="button"
+    {...rest}
+  >
+    { isActive ? activeText : inactiveText }
+  </Button>
+)
+
+class Review extends React.Component {
+  static propTypes = {
+    name: PropTypes.string.isRequired
+  }
+
+  state = {
+    editing: false,
+    showDetails: false,
+  }
+
+  handleToggleEdit = () => {
+    this.setState(state => ({ ...state, editing: !state.editing }));
+  }
+
+  handleShowDetails = () => {
+    this.setState(state => ({ ...state, showDetails: !state.showDetails }));
+  }
+
+  render() {
+    const { t } = this.props;
+
+    return (
+      <React.Fragment>
+        <div className="border-bottom-1px border-base-lighter">        
+          <div className="grid-row margin-bottom-05">
+            <h3
+              className="margin-0 grid-col-fill text-bottom display-inline-block"
+              style={{ alignSelf: 'flex-end' }}
+            >
+              {t(`review.sections.${this.props.name}`)}
+            </h3>
+            <ToggleButton
+              activeText={t('review.edit.active')}
+              inactiveText={t('review.edit.inactive')}
+              isActive={this.state.editing}
+              onClick={this.handleToggleEdit}
+            />
+          </div>
+        </div>
+        <ToggleButton
+          activeText={t('review.details.active')}
+          inactiveText={t('review.details.inactive')}
+          isActive={this.state.showDetails}
+          className="padding-0"
+          onClick={this.handleShowDetails}
+          link
+        />
+      </React.Fragment>
+    );
+  }
+}
+
+export default withLocale(Review);

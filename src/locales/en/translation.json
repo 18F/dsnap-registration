@@ -295,7 +295,13 @@
       "money": "Money"
     },
     "next": "Looks good!",
-    "edit": "Edit",
-    "details": "See details"
+    "edit": {
+      "inactive": "Edit",
+      "active": "Stop editing"
+    },
+    "details": {
+      "inactive": "See details",
+      "active": "Hide details"
+    }
   }
 }
