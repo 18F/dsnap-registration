@@ -104,6 +104,7 @@ class Input extends React.Component {
           name={name}
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
+          value={this.props.value}
         />
         <ErrorMessage name={name}>
           { message => <InputError message={message} /> }

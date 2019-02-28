@@ -7,6 +7,7 @@ import { buildNestedKey } from 'utils';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, hasOtherJobs } from 'models/person';
 import { addJob } from 'models/assets-and-income';
+import job from 'models/job';
 
 const modelName = 'jobs';
 
@@ -34,7 +35,7 @@ const handleNext = (values) => () => {
     household: {
       ...nextHousehold
     },
-    newJob: {},
+    newJob: job(),
   };
 
   if (!hasOtherJobs(member)) {
@@ -54,7 +55,6 @@ const handleNext = (values) => () => {
 class Jobs extends React.Component {
   render() {
     const { handleChange, sectionName, registerStep, t } = this.props;
-
     return (
       <Wizard.Context>
         {(values) => {
@@ -64,7 +64,7 @@ class Jobs extends React.Component {
           const index = resources.membersWithIncome[0];
           const member = members[index];
           const firstName = getFirstName(member);
-                
+
           return (
             <Wizard.Step
               header={t(buildNestedKey(sectionName, modelName, 'header'), { firstName })}
