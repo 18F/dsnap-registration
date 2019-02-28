@@ -308,7 +308,7 @@ class Wizard extends React.Component {
           onSubmit={this.handleSubmit}
           validate={this.validate}
           render={({ values, handleSubmit, handleChange, errors }) => {
-            let providedValues = this.formStarted ? values : this.props.initialValues;
+            let providedValues = this.formStarted ? values : this.props.initialValues;          
 
             return (
               <WizardContext.Provider value={values}>
