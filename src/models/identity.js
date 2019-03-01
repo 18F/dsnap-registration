@@ -3,3 +3,5 @@ export default () => ({
     stateId: '',
   },
 });
+
+export const getID = identity => identity.personalInfo.stateId;

@@ -53,7 +53,6 @@ class ResidenceAddress extends React.Component {
         <FormikField
           name={`${sectionName}.${modelName}.zip`}
           onChange={handleChange}
-          type="number"
           labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}
         />
         <FormikRadioGroup
@@ -73,13 +72,13 @@ class ResidenceAddress extends React.Component {
           name={`${sectionName}.phone`}
           onChange={handleChange}
           type="tel"
-          labelText={t(`${buildNestedKey(sectionName, tKey, 'phone', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, 'phone', 'label')}`)}
         />
         <FormikField
           type="email"
           name={`${sectionName}.email`}
           onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, tKey, 'email', 'label')}`)}
+          labelText={t(`${buildNestedKey(sectionName, 'email', 'label')}`)}
         />
       </Wizard.Step>
     )

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -40,7 +39,16 @@ const ReviewTable = ({ rows }) => (
 
 class Review extends React.Component {
   static propTypes = {
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      data: PropTypes.any,
+    })),
+    details: PropTypes.bool
+  }
+
+  static defaultProps = {
+    details: false,
   }
 
   state = {
@@ -75,20 +83,17 @@ class Review extends React.Component {
             />
           </div>
         </div>
-        <ReviewTable
-          rows={[
-            { name: 'Name', data: 'hey' },
-            { name: 'Other', data: 'wheee' }
-          ]}
-        />
-        <ToggleButton
-          activeText={t('review.details.active')}
-          inactiveText={t('review.details.inactive')}
-          isActive={this.state.showDetails}
-          className="padding-0"
-          onClick={this.handleShowDetails}
-          link
-        />
+        <ReviewTable rows={this.props.data} />
+        { this.props.details ?
+            <ToggleButton
+              activeText={t('review.details.active')}
+              inactiveText={t('review.details.inactive')}
+              isActive={this.state.showDetails}
+              className="padding-0"
+              onClick={this.handleShowDetails}
+              link
+            /> : null
+        }
       </React.Fragment>
     );
   }

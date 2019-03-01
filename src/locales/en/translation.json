@@ -5,7 +5,8 @@
     "yes": "Yes",
     "no": "No",
     "quit": "Quit registration",
-    "security": "This information is kept confidential and secure as required by law. <1>Learn more</1>"
+    "security": "This information is kept confidential and secure as required by law. <1>Learn more</1>",
+    "notApplicable": "Not applicable"
   },
   "errors": {
     "required": "This field is required"
@@ -50,6 +51,7 @@
   },
   "basicInfo": {
     "name": {
+      "id": "Name",
       "header": "Let’s start with the basics.",
       "firstName": {
         "label": "What is your legal first name?",
@@ -63,6 +65,7 @@
       }
     },
     "addresses": {
+      "id": "Residence address",
       "header": "Where did you live on the date the disaster struck?",
       "street1": {
         "label": "Street address 1"
@@ -77,6 +80,7 @@
         "label": "State"
       },
       "county": {
+        "id": "County",
         "label": "County"
       },
       "zip": {
@@ -88,16 +92,19 @@
           { "label": "Yes" },
           { "label": "No" }
         ]
-      },
-      "phone": {
-        "label": "What is your phone number?",
-        "explanation": "This is the best way for us to follow-up regarding your application."
-      },
-      "email": {
-        "label": "What is your email address, if you have one?"
       }
     },
+    "phone": {
+      "id": "Phone",
+      "label": "What is your phone number?",
+      "explanation": "This is the best way for us to follow-up regarding your application."
+    },
+    "email": {
+      "id": "Email",
+      "label": "What is your email address, if you have one?"
+    },
     "mailingAddress": {
+      "id": "Mailing address",
       "header": "Where do you receive mail?"
     },
     "offramp": {
@@ -114,6 +121,7 @@
     "personalInfo": {
       "header": "Now, a few more questions about you.",
       "dob": {
+        "id": "Date of birth",
         "label": "What is your date of birth?",
         "explanation": "For example: 12 30 1975",
         "month": "Month",
@@ -121,14 +129,17 @@
         "year": "Year"
       },
       "stateId": {
+        "id": "Driver's License / State ID",
         "label": "What is your driver's license or state ID number?",
         "explanation": "You can leave this blank if you don't know it or don't have one. Providing one will help verify and move you faster in the application process."
       },
       "ssn": {
+        "id": "Social security number",
         "label": "What is your Social Security Number (SSN)?",
         "explanation": "You can leave this blank if you don't know it or don't have one. Providing one will help verify and move you faster in the application process."
       },
       "sex": {
+        "id": "Sex",
         "label": "Sex?",
         "explanation": "As shown in legal documents such as a birth certificate.",
         "options": {

@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
-import Review from 'components/review';
-
+import BasicInfoReview from 'components/review/basic-info';
 
 class ReviewStep extends React.Component {
   static propTypes = {
@@ -21,11 +20,11 @@ class ReviewStep extends React.Component {
         registerStep={this.props.registerStep}
         modelName="review"
       >
-        <Review name="info"></Review>
+        <BasicInfoReview />
       </Wizard.Step>
     );
   }
 }
 
-export { Review };
+export { ReviewStep };
 export default withLocale(ReviewStep);
