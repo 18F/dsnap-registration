@@ -20,7 +20,7 @@ class ReviewStep extends React.Component {
         registerStep={this.props.registerStep}
         modelName="review"
       >
-        <BasicInfoReview />
+        <BasicInfoReview handleChange={handleChange} />
       </Wizard.Step>
     );
   }

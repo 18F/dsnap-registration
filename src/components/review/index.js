@@ -22,19 +22,40 @@ const ReviewHeader = ({ children }) => (
   </h3>
 );
 
-const ReviewTableRow = ({ name, data, stripe }) => (
+const ReviewTableRow = ({ children, stripe }) => (
   <div className="grid-row margin-y-2">
     <div className={classnames('grid-col padding-2', { 'bg-base-lighter': stripe })}>
-      <b>{ name }:</b>
-      <p>{ data }</p>
+      { children }
     </div>
   </div>
 );
 
-const ReviewTable = ({ rows }) => (
-  <div>
-    { rows.map((row, index) => <ReviewTableRow {...row} stripe={index % 2 === 0} />) }
-  </div>
+const ReviewTableDisplayRow = ({ name, data, stripe }) => (
+  <ReviewTableRow stripe={stripe}>
+    <b>{ name }:</b>
+    <p>{ data }</p>
+  </ReviewTableRow>
+);
+
+const ReviewTable = ({ rows, editable }) => (
+  <React.Fragment>
+    { 
+      rows.map((row, index) => {
+        const { Component } = row;
+        const key = `${row.name}.${index}`;
+
+        if (editable && Component) {
+          return (
+            <ReviewTableRow key={key}>
+              <Component />
+            </ReviewTableRow>
+          );
+        }
+
+        return <ReviewTableDisplayRow {...row} stripe={index % 2 === 0} key={key} />
+      })
+    }
+  </React.Fragment>
 );
 
 class Review extends React.Component {
@@ -43,6 +64,7 @@ class Review extends React.Component {
     data: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       data: PropTypes.any,
+      Component: PropTypes.func,
     })),
     details: PropTypes.bool
   }
@@ -83,7 +105,7 @@ class Review extends React.Component {
             />
           </div>
         </div>
-        <ReviewTable rows={this.props.data} />
+        <ReviewTable rows={this.props.data} editable={this.state.editing} />
         { this.props.details ?
             <ToggleButton
               activeText={t('review.details.active')}

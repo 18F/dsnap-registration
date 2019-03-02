@@ -84,7 +84,7 @@
         "label": "County"
       },
       "zip": {
-        "label": "zip code"
+        "label": "Zip code"
       },
       "currentMailingAddress": {
         "label": "Is this where you currently receive mail?",
