@@ -17,7 +17,6 @@ const ignoreKeys = ['currentSection', 'currentStep'];
 
 const initialState = () => {
   const loadState = process.env.REACT_APP_LOAD_STATE;
-  const clearState = process.env.REACT_APP_CLEAR_STATE;
   const stateExists = localStorage.getItem(STATE_KEY);
 
   if (loadState && !stateExists) {

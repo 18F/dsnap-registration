@@ -112,7 +112,6 @@ class Section extends React.Component {
   }
 
   render() {
-    const { name, modelName } = this.props;
     // TODO: need to separate out the concept of name being used for translations
     // and data model keys. Not sure why I coupled them earlier!
 
