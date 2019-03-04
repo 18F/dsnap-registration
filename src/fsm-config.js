@@ -1,4 +1,5 @@
 import { actions, assign } from 'xstate';
+import testData from './test-data';
 import modelState from 'models';
 import { hasMailingAddress } from 'models/basic-info';
 import {
@@ -11,6 +12,13 @@ import { hasJob, hasOtherJobs } from 'models/person';
 const STATE_KEY = 'dsnap-registration';
 
 const initialState = () => {
+  const loadState = process.env.REACT_APP_LOAD_STATE;
+
+  if (loadState) {
+    localStorage.setItem(STATE_KEY, JSON.stringify(testData));
+    return testData;
+  }
+
   const machineState = {
     ...modelState,
     currentModel: null,
