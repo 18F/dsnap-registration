@@ -10,22 +10,27 @@ import {
 import { hasJob, hasOtherJobs } from 'models/person';
 
 const STATE_KEY = 'dsnap-registration';
+// ignore these when running the persistence algo, the context is responsible
+// for managing the meta state of the machine
+const ignoreKeys = ['currentSection', 'currentStep'];
+
 
 const initialState = () => {
   const loadState = process.env.REACT_APP_LOAD_STATE;
+  const clearState = process.env.REACT_APP_CLEAR_STATE;
+  const stateExists = localStorage.getItem(STATE_KEY);
 
-  if (loadState) {
+  if (loadState && !stateExists) {
     localStorage.setItem(STATE_KEY, JSON.stringify(testData));
     return testData;
   }
 
   const machineState = {
     ...modelState,
-    currentModel: null,
     currentSection: 'basic-info',
     currentStep: 'applicant-name',
-    previousStep: null,
-    previousSection: null,
+    previousStep: '',
+    previousSection: '',
     /**
      * totalSteps refers to the number of sections a user will move through
      * while filling out the form. It doesn't necessarily reflect
@@ -64,7 +69,7 @@ const formNextHandler = (target, extraActions = []) => ({
         return {
           ...rest
         };
-      })
+      }),
     ]
   }
 });
@@ -75,7 +80,6 @@ const basicInfoChart = {
   onEntry: [
     assign({
       currentSection: 'basic-info',
-      currentModel: 'basicInfo',
       step: 1,
     })
   ],
@@ -91,10 +95,10 @@ const basicInfoChart = {
         path: '/basic-info/applicant-name'
       },
       onEntry: [
-        assign({ currentStep: 'applicant-name', previousStep: null })
+        assign({ currentStep: 'applicant-name', previousStep: '' })
       ],
       onExit: [
-        assign({ previousStep: 'applicant-name' })
+        assign({ previousStep: 'applicant-name' }),
       ]
     },
     address: {
@@ -166,7 +170,6 @@ const identityChart = {
   onEntry: [
     assign({
       currentSection: 'identity',
-      currentModel: 'identity',
       step: 2,
     })
   ],
@@ -197,7 +200,6 @@ const householdChart = {
   onEntry: [
     assign({
       currentSection: 'household',
-      currentModel: 'household',
       step: 3,
     })
   ],
@@ -317,7 +319,6 @@ const impactChart = {
   onEntry: [
     assign({
       currentSection: 'impact',
-      currentModel: 'impact',
       step: 4,
     })
   ],
@@ -351,7 +352,6 @@ const resourcesChart = {
   onEntry: [
     assign({
       currentSection: 'resources',
-      currentModel: 'resources',
       step: 5,
     })
   ],
@@ -415,7 +415,6 @@ const resourcesChart = {
       internal: true,
       onEntry: assign({ currentStep: 'income' }),
       onExit: [
-        () => console.log('exiting income'),
         assign({ previousStep: 'income' }),
       ],
       meta: {
@@ -491,8 +490,8 @@ const resourcesChart = {
 
 const formStateConfig = {
   id: 'form',
-  internal: true,
   strict: true,
+  internal: true,
   context: {
     ...initialState()
   },
@@ -547,16 +546,18 @@ const extraActions = {
         return context;
       }
 
-      const overwrites = Object.entries(data).reduce((memo, [name, nextData]) => {
-        const existingContextSlice = context[name];
-        const formattedContextSlice = typeof existingContextSlice === 'string' ?
-          nextData : { ...context[name], ...nextData }; 
+      const overwrites = Object.entries(data)
+        .filter(([name, _]) => ignoreKeys.indexOf(name) === -1)
+        .reduce((memo, [name, nextData]) => {
+          const existingContextSlice = context[name];
+          const formattedContextSlice = typeof existingContextSlice === 'string' ?
+            nextData : { ...context[name], ...nextData };
 
-        return {
-          ...memo,
-          [name]: formattedContextSlice,
-        }
-      }, {});
+          return {
+            ...memo,
+            [name]: formattedContextSlice,
+          }
+        }, {});
 
       return {
         ...context,

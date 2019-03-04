@@ -111,27 +111,17 @@ class Section extends React.Component {
     return Object.keys(errors).length >= 1;
   }
 
-  selectState(stateKeys) {
-    const { values } = this.props;
-
-    return stateKeys.reduce((memo, key) => {
-      const slice = values[key] || {};
-
-      return { ...memo, [key]: { ...slice } };
-    }, {});
-  }
-
   render() {
     const { name, modelName } = this.props;
     // TODO: need to separate out the concept of name being used for translations
     // and data model keys. Not sure why I coupled them earlier!
-    const stateName = modelName ? modelName : Array.isArray(name) ? name : [name];
+
     return (
       <section>
         <h2>{this.props.header}</h2>
         <Formik
           enableReinitialize
-          initialValues={this.selectState(stateName)}
+          initialValues={this.props.values}
           onSubmit={this.handleSubmit}
           validateOnBlur={this.props.validateOnBlur}
           validateOnChange={this.props.validateOnChange}
