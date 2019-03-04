@@ -347,6 +347,7 @@ const impactChart = {
 const resourcesChart = {
   id: 'resources',
   initial: 'assets',
+  internal: true,
   strict: true,
   onEntry: [
     assign({
@@ -377,6 +378,7 @@ const resourcesChart = {
   },
   states: {
     assets: {
+      internal: true,
       onEntry: [
         assign({ currentStep: 'assets' }),
       ],
@@ -410,6 +412,7 @@ const resourcesChart = {
       }
     },
     income: {
+      internal: true,
       onEntry: assign({ currentStep: 'income' }),
       onExit: [
         assign({ previousStep: 'income' }),
@@ -465,7 +468,7 @@ const resourcesChart = {
             cond: (context) => {
               const memberId = context.resources.membersWithIncome[0];
               const member = getMembers(context.household)[memberId];
-debugger
+
               return member && hasOtherJobs(member);
             }
           },
@@ -546,7 +549,6 @@ const extraActions = {
       const overwrites = Object.entries(data)
         .filter(([name, _]) => ignoreKeys.indexOf(name) === -1)
         .reduce((memo, [name, nextData]) => {
-          debugger
           const existingContextSlice = context[name];
           const formattedContextSlice = typeof existingContextSlice === 'string' ?
             nextData : { ...context[name], ...nextData };

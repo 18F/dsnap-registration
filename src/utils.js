@@ -9,4 +9,4 @@ export const isAffirmative = value =>
   value !== null &&
   value !== undefined && 
   value !== false &&
-  (value === true || value.toLowerCase() === YES);
+  (value === "true" || value === true || value.toLowerCase() === YES);
