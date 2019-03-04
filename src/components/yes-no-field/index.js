@@ -46,11 +46,11 @@ class YesNoField extends React.Component {
         name={nName}
         options={[
           {
-            value: 'yes',
+            value: true,
             label: t('general.yes')
           },
           {
-            value: 'no',
+            value: false,
             label: t('general.no')
           }
         ]}
