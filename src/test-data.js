@@ -243,12 +243,12 @@ export default {
 
      ]
   },
-  "currentSection":"review",
-  "currentStep":"review",
-  "previousStep":"jobs",
-  "previousSection":"resources",
+  "currentSection":"basic-info",
+  "currentStep":"applicant-name",
+  "previousStep":"",
+  "previousSection":"",
   "totalSteps":6,
-  "step":6,
+  "step":1,
   "newJob":{
      "employerName":"",
      "pay":"",

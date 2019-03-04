@@ -18,7 +18,7 @@ const handleNext = (values) => () => {
   const member = members[index];
   // TODO: make jobs / other jobs not nested under member so
   // all these relationships dont have to be resolved here
-  const nextJobs = addJob(member.assetsAndIncome.jobs, newJob);
+  const nextJobs = addJob(member.assetsAndIncome, newJob);
   const nextIncome = {
     ...member.assetsAndIncome,
     jobs: nextJobs
@@ -61,7 +61,7 @@ class Jobs extends React.Component {
           const { household, resources } = values;
 
           const members = getMembers(household);
-          const index = resources.membersWithIncome[0];
+          const index = resources.membersWithIncome[0] || 0;
           const member = members[index];
           const firstName = getFirstName(member);
 
