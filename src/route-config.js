@@ -87,4 +87,11 @@ export default [{
       component: Steps.Resources.Jobs
     }
   ]
+}, {
+  path: '/form/submit',
+  component: Sections.SubmitSection,
+  routes: [{
+    path: '/form/submit/sign-and-submit',
+    component: Steps.Submit.SignAndSubmit,
+  }]
 }];

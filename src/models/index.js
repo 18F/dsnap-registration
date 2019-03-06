@@ -2,6 +2,8 @@ import basicInfo from './basic-info';
 import identity from './identity';
 import household from './household';
 import impact from './impact';
+import submit from './submit';
+import errors from './error';
 
 const resources = () => ({
   membersWithIncome: [],
@@ -22,6 +24,8 @@ const state = combine({
   household,
   impact,
   resources,
+  submit,
+  errors,
 });
 
 export default state;

@@ -12,8 +12,7 @@ import { hasJob, hasOtherJobs } from 'models/person';
 const STATE_KEY = 'dsnap-registration';
 // ignore these when running the persistence algo, the context is responsible
 // for managing the meta state of the machine
-const ignoreKeys = ['currentSection', 'currentStep'];
-
+const ignoreKeys = ['currentSection', 'currentStep', 'errors'];
 
 const initialState = () => {
   const loadState = process.env.REACT_APP_LOAD_STATE;
@@ -30,6 +29,7 @@ const initialState = () => {
     currentStep: 'applicant-name',
     previousStep: '',
     previousSection: '',
+    serverError: '',
     /**
      * totalSteps refers to the number of sections a user will move through
      * while filling out the form. It doesn't necessarily reflect
@@ -486,6 +486,47 @@ const resourcesChart = {
   }
 };
 
+const submitChart = {
+  id: 'submit',
+  initial: 'sign-and-submit',
+  onEntry: assign({ currentSection: 'signAndSubmit' }),
+  states: {
+    'sign-and-submit': {
+      on: {
+        ...formNextHandler('finalize')
+      },
+      meta: {
+        path: '/submit/sign-and-submit'
+      }
+    },
+    finalize: {
+      invoke: {
+        id: 'submitApplication',
+        src: () => new Promise((resolve, reject) => {
+          return setTimeout(() => resolve({ eligible: true }), 1000);
+        }),
+        onDone: {
+          target: '#next-steps',
+          actions: [
+            () => console.log('done submitting to server'),
+            assign({ submitStatus: (_, event) => ({ ...event.data }) })
+          ]
+        },
+        onError: {
+          target: 'sign-and-submit',
+          actions: [
+            assign({
+              errors: () => ({
+                server: true
+              })
+            })
+          ]
+        }
+      },
+    },
+  }
+};
+
 
 const formStateConfig = {
   id: 'form',
@@ -507,8 +548,42 @@ const formStateConfig = {
         () => console.log('review step')
       ]
     },
-    submit: {
-      onEntry: [() => console.log('entered submit')]   
+    submit: submitChart,
+    'next-steps': {
+      id: 'next-steps',
+      initial: 'eligibility',
+      states: {
+        eligibility: {
+          on: {
+            '': [
+              {
+                target: 'eligible',
+                cond: (context) => {
+                  return context.submitStatus.eligible;
+                }
+              },
+              {
+                target: 'ineligible',
+                cond: (context) => {
+                  return !context.submitStatus.eligible;
+                }
+              }
+            ]
+          }
+        },
+        eligible: {
+          onEntry: assign({currentStep: 'eligible'}),
+          meta: {
+            path: '/next-steps/eligible'
+          }
+        },
+        ineligible: {
+          onEntry: assign({ currentStep: 'ineligible' }),
+          meta: {
+            path: '/next-steps/ineligible',
+          }
+        }
+      }
     },
     quit: {
       invoke: {

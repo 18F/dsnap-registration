@@ -33,7 +33,7 @@ class Section extends React.Component {
 
   formStarted = false
 
-  next = (values) => {
+  next = () => {
     const { current } = this.state;
     const formValues = this.props.formik.values;
       // call the onNext handler for the step, if it exists
@@ -114,7 +114,6 @@ class Section extends React.Component {
   render() {
     // TODO: need to separate out the concept of name being used for translations
     // and data model keys. Not sure why I coupled them earlier!
-
     return (
       <section>
         <h2>{this.props.header}</h2>
@@ -161,7 +160,7 @@ class Section extends React.Component {
                 }
                 <div className="margin-y-2">
                   <Button disabled={disable}>
-                    { this.props.t('general.next') }
+                    { this.props.nextButton || this.props.t('general.next') }
                   </Button>
                 </div>
                 <Button
