@@ -288,5 +288,8 @@
   },
   "review": {
 
+  },
+  "submit": {
+    "header": "Please review the terms and sign below, then you’re done!"
   }
 }

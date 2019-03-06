@@ -11,20 +11,6 @@ const MachineStateContext = React.createContext();
 const formatRouteWithDots = string =>
   string.replace(/\//g, '.').replace(/(^\.|\.$)/g, '');
 
-const computeURLPathFromContext = (context) => {
-  if (process.env.DEBUG_PATH && process.env.NODE_ENV === 'development') {
-   return this.props.location.pathname;
-  }
-
-  let path = `/form/${context.currentSection.trim()}`;
-
-  if (context.currentStep) {
-    path += `/${context.currentStep.trim()}`;
-  }
-
-  return path;
-};
-
 class FSMRouter extends React.Component {
   static propTypes = {
     config: PropTypes.object.isRequired,
@@ -83,11 +69,34 @@ class FSMRouter extends React.Component {
     const { context } = this.machineState;
 
     this.handleHistoryTransition({
-      pathname: computeURLPathFromContext(context)
+      pathname: this.computeURLPathFromContext(context)
     }, true);
 
     this.historySubscriber = props.history.listen(this.historyHandler);
   }
+
+  usePathForRouting() {
+    if (process.env.REACT_APP_DEBUG_PATH && process.env.NODE_ENV === 'development') {
+      return true;
+     }
+
+     return false;
+  }
+
+
+  computeURLPathFromContext(context) {
+    if (this.usePathForRouting()) {
+      return this.props.location.pathname;
+    }
+
+    let path = `/form/${context.currentSection.trim()}`;
+
+    if (context.currentStep) {
+      path += `/${context.currentStep.trim()}`;
+    }
+
+    return path;
+  };
 
   componentWillUnmount() {
     this.historySubscriber();

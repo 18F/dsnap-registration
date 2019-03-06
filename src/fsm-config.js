@@ -508,7 +508,21 @@ const formStateConfig = {
       ]
     },
     submit: {
-      onEntry: [() => console.log('entered submit')]   
+      id: 'submit',
+      initial: 'sign-and-submit',
+      onEntry: assign({ currentSection: 'submit' }),
+      states: {
+        'sign-and-submit': {
+          on: {
+            NEXT: {
+              // do stuff
+            }
+          },
+          meta: {
+            path: '/submit/sign-and-submit'
+          }
+        }
+      }
     },
     quit: {
       invoke: {
