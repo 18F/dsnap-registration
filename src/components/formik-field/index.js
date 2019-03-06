@@ -47,6 +47,7 @@ class FormikField extends React.Component {
 }
 
 const FormGroupLabel = ({ labelText }) => (
+  !labelText ? null :
   <div className="usa-label margin-bottom-2">
     <p>
       <b>{labelText}</b>

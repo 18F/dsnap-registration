@@ -12,8 +12,7 @@ import { hasJob, hasOtherJobs } from 'models/person';
 const STATE_KEY = 'dsnap-registration';
 // ignore these when running the persistence algo, the context is responsible
 // for managing the meta state of the machine
-const ignoreKeys = ['currentSection', 'currentStep'];
-
+const ignoreKeys = ['currentSection', 'currentStep', 'errors'];
 
 const initialState = () => {
   const loadState = process.env.REACT_APP_LOAD_STATE;
@@ -30,6 +29,7 @@ const initialState = () => {
     currentStep: 'applicant-name',
     previousStep: '',
     previousSection: '',
+    serverError: '',
     /**
      * totalSteps refers to the number of sections a user will move through
      * while filling out the form. It doesn't necessarily reflect
@@ -510,17 +510,64 @@ const formStateConfig = {
     submit: {
       id: 'submit',
       initial: 'sign-and-submit',
-      onEntry: assign({ currentSection: 'submit' }),
+      onEntry: assign({ currentSection: 'sign-and-submit' }),
       states: {
         'sign-and-submit': {
           on: {
-            NEXT: {
-              // do stuff
-            }
+            ...formNextHandler('finalize')
           },
           meta: {
             path: '/submit/sign-and-submit'
           }
+        },
+        finalize: {
+          invoke: {
+            id: 'submitApplication',
+            src: (context, event) => new Promise((resolve, reject) => {
+              return setTimeout(() => reject({ eligible: true }), 1000);
+            }),
+            onDone: {
+              target: 'eligibility',
+              actions: [
+                () => console.log('done submitting to server'),
+                assign({ submitStatus: (context, event) => ({ ...event.data }) })
+              ]
+            },
+            onError: {
+              target: 'sign-and-submit',
+              actions: [
+                assign({
+                  errors: () => ({
+                    server: true
+                  })
+                })
+              ]
+            }
+          },
+        },
+        eligibility: {
+          on: {
+            '': [
+              {
+                target: 'eligible',
+                cond: (context) => {
+                  return context.submitStatus.eligible;
+                }
+              },
+              {
+                target: 'ineligible',
+                cond: (context) => {
+                  return !context.submitStatus.eligible;
+                }
+              }
+            ]
+          }
+        },
+        eligible: {
+          onEntry: () => console.log('eligible!')
+        },
+        ineligible: {
+          onEntry: () => console.log('ineligible')
         }
       }
     },

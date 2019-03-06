@@ -290,6 +290,22 @@
 
   },
   "submit": {
-    "header": "Please review the terms and sign below, then you’re done!"
+    "header": "Please review the terms and sign below, then you’re done!",
+    "lede": "Scroll down to agree and sign below.",
+    "eula": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis vel eros donec ac odio tempor orci dapibus. In egestas erat imperdiet sed euismod nisi. Non sodales neque sodales ut etiam. Accumsan tortor posuere ac ut. Elit sed vulputate mi sit amet mauris commodo quis imperdiet. Elit ullamcorper dignissim cras tincidunt lobortis. Purus in massa tempor nec feugiat nisl. Cursus metus aliquam eleifend mi in nulla. Tortor pretium viverra suspendisse potenti. Morbi tristique senectus et netus et malesuada. Aliquam sem et tortor consequat id porta. Enim lobortis scelerisque fermentum dui faucibus in. Proin libero nunc consequat interdum varius. Lectus urna duis convallis convallis. Non nisi est sit amet facilisis magna etiam tempor orci. Sit amet nulla facilisi morbi tempus iaculis urna id volutpat. Commodo elit at imperdiet dui accumsan sit. Aliquam ut porttitor leo a diam. Sed ullamcorper morbi tincidunt ornare massa eget egestas. Quis commodo odio aenean sed adipiscing diam donec adipiscing tristique. Massa eget egestas purus viverra accumsan. Ut tortor pretium viverra suspendisse potenti nullam ac tortor vitae. Tortor consequat id porta nibh venenatis cras sed. Augue eget arcu dictum varius duis at consectetur. Semper auctor neque vitae tempus. Massa placerat duis ultricies lacus sed turpis tincidunt. Tempor orci dapibus ultrices in iaculis nunc sed. Morbi leo urna molestie at elementum eu facilisis sed. Consequat interdum varius sit amet mattis vulputate. Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Amet risus nullam eget felis. Vitae aliquet nec ullamcorper sit amet. Nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Volutpat est velit egestas dui id ornare arcu odio ut. Egestas congue quisque egestas diam in arcu cursus. Sagittis purus sit amet volutpat consequat. Dignissim sodales ut eu sem integer vitae justo eget magna. Semper quis lectus nulla at volutpat diam ut venenatis. Egestas erat imperdiet sed euismod nisi porta lorem mollis aliquam. Luctus accumsan tortor posuere ac ut consequat. Enim neque volutpat ac tincidunt vitae semper. Quam lacus suspendisse faucibus interdum posuere lorem. In egestas erat imperdiet sed euismod nisi. Sed adipiscing diam donec adipiscing tristique. Eu tincidunt tortor aliquam nulla facilisi. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Pulvinar proin gravida hendrerit lectus. Ac orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Vivamus arcu felis bibendum ut tristique et egestas quis ipsum. Dolor sit amet consectetur adipiscing elit ut. A iaculis at erat pellentesque adipiscing commodo elit at. Vivamus arcu felis bibendum ut tristique et. Duis ultricies lacus sed turpis. Bibendum est ultricies integer quis auctor elit sed vulputate. Turpis tincidunt id aliquet risus feugiat. Faucibus vitae aliquet nec ullamcorper sit amet. Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna. Nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi. Sit amet mauris commodo quis imperdiet massa tincidunt nunc. Facilisis gravida neque convallis a cras semper auctor. Pharetra sit amet aliquam id diam maecenas ultricies mi. At imperdiet dui accumsan sit amet. Hac habitasse platea dictumst vestibulum rhoncus est pellentesque elit. Lacinia quis vel eros donec ac odio tempor",
+    "agree": "I agree",
+    "disagree": "I do not agree",
+    "label": "Enter your full legal name to sign this registration",
+    "body": [],
+    "next": "Submit registration",
+    "error": "Something went wrong with your submission. Please wait a moment and try again."
+  },
+  "ineligible": {
+    "header": "It looks like you may not be eligible for D-SNAP.",
+    "lede": "You may still complete an interview at your designated D-SNAP application site."
+  },
+  "eligible": {
+    "header": "You are now ready for your interview.",
+    "lede": "It looks like you are potentially eligible to receive D-SNAP benefits."
   }
 }
