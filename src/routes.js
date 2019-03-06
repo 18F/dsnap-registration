@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import AppContainer from './components/app-container';
 import Route404 from 'components/404-route';
 import NoMatch from 'components/no-match';
-import FormComplete from 'pages/form-complete';
+import EligiblePage from 'pages/eligible';
 import PreregistrationPage from 'pages/preregistration';
 import PreparePage from 'pages/prepare';
 import DSNAPForm from 'pages/form/dsnap-form';
@@ -24,10 +24,11 @@ const Routes = () => (
           path="/get-prepared"
           render={() => <PreparePage tKey='preparation' />}
         />
+        <Route path="/form/next-steps/eligible" render={ () => <EligiblePage type="eligible" /> } />
+        <Route path="/form/next-steps/ineligible" render={ () => <EligiblePage type="ineligible" /> } />
         <Route path="/form"
           render={() => <DSNAPForm config={wizardRouteConfig} /> }
         />
-        <Route path="/form/complete" component={FormComplete} />
         <Route component={Route404} />
       </Switch>
       <Route path="/not-found" component={NoMatch} />

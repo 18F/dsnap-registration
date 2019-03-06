@@ -486,6 +486,47 @@ const resourcesChart = {
   }
 };
 
+const submitChart = {
+  id: 'submit',
+  initial: 'sign-and-submit',
+  onEntry: assign({ currentSection: 'signAndSubmit' }),
+  states: {
+    'sign-and-submit': {
+      on: {
+        ...formNextHandler('finalize')
+      },
+      meta: {
+        path: '/submit/sign-and-submit'
+      }
+    },
+    finalize: {
+      invoke: {
+        id: 'submitApplication',
+        src: () => new Promise((resolve, reject) => {
+          return setTimeout(() => resolve({ eligible: true }), 1000);
+        }),
+        onDone: {
+          target: '#next-steps',
+          actions: [
+            () => console.log('done submitting to server'),
+            assign({ submitStatus: (_, event) => ({ ...event.data }) })
+          ]
+        },
+        onError: {
+          target: 'sign-and-submit',
+          actions: [
+            assign({
+              errors: () => ({
+                server: true
+              })
+            })
+          ]
+        }
+      },
+    },
+  }
+};
+
 
 const formStateConfig = {
   id: 'form',
@@ -507,44 +548,11 @@ const formStateConfig = {
         () => console.log('review step')
       ]
     },
-    submit: {
-      id: 'submit',
-      initial: 'sign-and-submit',
-      onEntry: assign({ currentSection: 'sign-and-submit' }),
+    submit: submitChart,
+    'next-steps': {
+      id: 'next-steps',
+      initial: 'eligibility',
       states: {
-        'sign-and-submit': {
-          on: {
-            ...formNextHandler('finalize')
-          },
-          meta: {
-            path: '/submit/sign-and-submit'
-          }
-        },
-        finalize: {
-          invoke: {
-            id: 'submitApplication',
-            src: (context, event) => new Promise((resolve, reject) => {
-              return setTimeout(() => reject({ eligible: true }), 1000);
-            }),
-            onDone: {
-              target: 'eligibility',
-              actions: [
-                () => console.log('done submitting to server'),
-                assign({ submitStatus: (context, event) => ({ ...event.data }) })
-              ]
-            },
-            onError: {
-              target: 'sign-and-submit',
-              actions: [
-                assign({
-                  errors: () => ({
-                    server: true
-                  })
-                })
-              ]
-            }
-          },
-        },
         eligibility: {
           on: {
             '': [
@@ -564,10 +572,16 @@ const formStateConfig = {
           }
         },
         eligible: {
-          onEntry: () => console.log('eligible!')
+          onEntry: assign({currentStep: 'eligible'}),
+          meta: {
+            path: '/next-steps/eligible'
+          }
         },
         ineligible: {
-          onEntry: () => console.log('ineligible')
+          onEntry: assign({ currentStep: 'ineligible' }),
+          meta: {
+            path: '/next-steps/ineligible',
+          }
         }
       }
     },

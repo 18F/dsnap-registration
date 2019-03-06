@@ -3,21 +3,22 @@ import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, { FormikRadioGroup } from 'components/formik-field';
 import ErrorAlert from 'components/error-alert';
+import { getError } from 'models/error';
 
 class SignAndSubmit extends React.Component {
   render() {
-    const { handleChange, sectionName, registerStep, t } = this.props;
+    const { handleChange, registerStep, t } = this.props;
 
     return (
       <Wizard.Context>
-        {(values) => {
+        {({ errors }) => {
           return (
             <Wizard.Step
               header={t('submit.header')}
               registerStep={registerStep}
               modelName="submit"
             >
-              <ErrorAlert text={values.errors && values.errors.server ? t('submit.error') : null} />
+              <ErrorAlert text={getError(errors, 'server') ? t('submit.error') : null} />
               <h2>{t('submit.lede')}</h2>
               <div style={{overflow: 'auto', height: '200px' }} className="border-1px padding-4">
                 { t('submit.eula') }

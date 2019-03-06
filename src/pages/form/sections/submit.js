@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard'
 
 class Submit extends React.Component {
@@ -7,7 +8,7 @@ class Submit extends React.Component {
     const { t, ...rest } = this.props;
 
     return (
-      <Wizard.Section name="submit" {...rest}>
+      <Wizard.Section name="submit" {...rest} nextButton={t('submit.next')}>
         {this.props.children}
       </Wizard.Section>
     );
@@ -15,4 +16,4 @@ class Submit extends React.Component {
 }
 
 export { Submit };
-export default withRouter(Submit);
+export default withRouter(withLocale(Submit));
