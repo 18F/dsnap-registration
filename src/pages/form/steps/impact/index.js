@@ -22,18 +22,18 @@ class AdverseEffects extends React.Component {
               modelName={modelName}
             >
               <YesNoField
-                sectionName={sectionName}
-                fieldName="buyFood"
+                labelText={t('impact.buyFood.label')}
+                name="impact.buyFood"
                 onChange={handleChange}
               />
               <YesNoField
-                sectionName={sectionName}
-                fieldName="lostOrInaccessibleIncome"
+                labelText={t('impact.lostOrInaccessibleIncome.label')}
+                name="impact.lostOrInaccessibleIncome"
                 onChange={handleChange}
               />
               <YesNoField
-                sectionName={sectionName}
-                fieldName="inaccessibleMoney"
+                labelText={t('impact.inaccessibleMoney.label')}
+                name="impact.inaccessibleMoney"
                 onChange={handleChange}
               />
               <FormikFieldGroup
