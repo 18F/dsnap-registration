@@ -239,9 +239,7 @@ export default {
      }
   },
   "resources":{
-     "membersWithIncome":[
-
-     ]
+     "membersWithIncome": []
   },
   "currentSection":"basic-info",
   "currentStep":"applicant-name",

@@ -9,7 +9,7 @@ class DSNAPForm extends React.Component {
     const { config } = this.props;
 
     return (
-      <FSMRouter config={fsmConfig}>
+      <FSMRouter config={fsmConfig} routeId="form">
         <MachineConsumer>
           {(transition) => (
             <MachineState>

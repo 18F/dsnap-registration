@@ -231,7 +231,7 @@ class Progress extends React.Component {
   }
   
   render() {
-    return (
+    return !this.props.step ? null : (
       <section id="progress" className="text-green">
         { `Step ${this.props.step} of ${this.props.steps}` }
       </section>

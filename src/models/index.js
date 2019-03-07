@@ -4,6 +4,7 @@ import household from './household';
 import impact from './impact';
 import submit from './submit';
 import errors from './error';
+import config from './config';
 
 const resources = () => ({
   membersWithIncome: [],
@@ -26,6 +27,7 @@ const state = combine({
   resources,
   submit,
   errors,
+  config,
 });
 
 export default state;

@@ -1,4 +1,5 @@
 import { actions, assign } from 'xstate';
+import { isAffirmative } from 'utils';
 import testData from './test-data';
 import modelState from 'models';
 import { hasMailingAddress } from 'models/basic-info';
@@ -52,26 +53,33 @@ const initialState = () => {
   return state;
 };
 
-const formNextHandler = (target, extraActions = []) => ({
-  NEXT: {
-    target,
-    internal: true,
-    actions: [
-      ...extraActions,
-      () => console.log(`transitioning to next step ${target}`),
-      'persist',
-      // open question: why doesnt xstate persist the context when an
-      // assign call is made within another function?
-      assign((_, event) => {
-        const { type, ...rest } = event;
+const formNextHandler = (withLocalStorage) => {
+  let baseActions = [
+    assign((_, event) => {
+      const { type, ...rest } = event;
 
-        return {
-          ...rest
-        };
-      }),
-    ]
+      return {
+        ...rest
+      };
+    }),
+  ];
+
+  if (withLocalStorage) {
+    baseActions = ['persist'].concat(baseActions);
   }
-});
+
+  return (target, extraActions = []) => ({
+    NEXT: {
+      target,
+      internal: true,
+      actions: [
+        () => console.log(`transitioning to next step ${target}`),
+        ...extraActions,
+        ...baseActions,
+      ]
+    }
+  });
+};
 
 const basicInfoChart = {
   id: 'basic-info',
@@ -527,17 +535,34 @@ const submitChart = {
   }
 };
 
-
 const formStateConfig = {
   id: 'form',
   strict: true,
   internal: true,
-  context: {
-    ...initialState()
-  },
   initial: 'idle',
   states: {
     idle: {},
+    'set-up': {
+      meta: {
+        path: 'set-up'
+      }
+    },
+    'pre-registration': {
+      onEntry: assign({
+        currentSection: 'preRegistration',
+        currentStep: 'preRegistration'
+      }),
+      meta: {
+        path: '/pre-registration'
+      },
+      on: {
+        NEXT: {
+          target: 'basic-info',
+          actions: (context) =>
+            formNextHandler(isAffirmative(context.config.useLocalStorage))
+        }
+      }
+    },
     'basic-info': basicInfoChart,
     identity: identityChart,
     household: householdChart,
