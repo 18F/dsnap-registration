@@ -76,6 +76,7 @@ class PersonalInfo extends React.Component {
           </Collapsible>
         </div>
         <FormikRadioGroup
+          inline
           options={[{
             label: t(buildNestedKey(sectionName, modelName, 'sex', 'options', 'male')),
             value: "male"

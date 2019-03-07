@@ -29,6 +29,7 @@
     }
   },
   "preregistration": {
+    "header": "Let’s get you in the right place.",
     "storage": {
       "label": "Are you using a public computer or private computer or phone now?",
       "confirm": {

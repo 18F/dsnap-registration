@@ -17,35 +17,33 @@ class PreRegistrationPage extends React.Component {
 }
 
 const Step = ({ registerStep, handleChange, t }) => (
-  <Wizard.Context>
-    {({ config }) => {
-      return (
-        <Wizard.Step
-          registerStep={registerStep}
-          modelName="preregistration"
-        >
-          <p className="font-sans-md">
-            <b>{t('preregistration.storage.label')}</b>
-          </p>
-          <FormikField
-            type="radio"
-            labelText={t('preregistration.storage.confirm.label')}
-            explanation={t('preregistration.storage.confirm.explanation')}
-            name="config.useLocalStorage"
-            onChange={handleChange}
-            radioValue={true}
-          />
-          <FormikField
-            type="radio"
-            labelText={t('preregistration.storage.deny.label')}
-            name="config.useLocalStorage"
-            onChange={handleChange}
-            radioValue={false}
-          />
-        </Wizard.Step>
-      );
-    }}
-  </Wizard.Context>
+  <Wizard.Step
+    registerStep={registerStep}
+    modelName="preregistration"
+    header={t('preregistration.header')}
+  >
+    <p className="font-sans-md">
+      <b>{t('preregistration.storage.label')}</b>
+    </p>          
+    <FormikField
+      type="radio"
+      labelText={t('preregistration.storage.confirm.label')}
+      explanation={t('preregistration.storage.confirm.explanation')}
+      name="config.useLocalStorage"
+      onChange={handleChange}
+      radioValue={true}
+      groupClassName="grid-col-6"
+    />
+    <FormikField
+      type="radio"
+      labelText={t('preregistration.storage.deny.label')}
+      explanation={t('preregistration.storage.deny.explanation')}
+      name="config.useLocalStorage"
+      onChange={handleChange}
+      radioValue={false}
+      groupClassName="grid-col-6"
+    />
+  </Wizard.Step>
 );
 
 const PreRegistrationStep = withLocale(Step);

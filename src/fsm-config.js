@@ -602,7 +602,7 @@ const formStateConfig = {
           resolve(initialState())
         }),
         onDone: {
-          target: 'basic-info',
+          target: 'pre-registration',
           internal: true,
           actions: [
             assign((_, event) => {

@@ -24,6 +24,7 @@ class SignAndSubmit extends React.Component {
                 { t('submit.eula') }
               </div>
               <FormikRadioGroup
+                inline
                 options={[{
                   label: t('submit.agree'),
                   value: true
