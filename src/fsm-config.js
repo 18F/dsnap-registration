@@ -26,8 +26,8 @@ const initialState = () => {
 
   const machineState = {
     ...modelState,
-    currentSection: 'basic-info',
-    currentStep: 'applicant-name',
+    currentSection: 'pre-registration',
+    currentStep: '',
     previousStep: '',
     previousSection: '',
     serverError: '',
@@ -53,33 +53,24 @@ const initialState = () => {
   return state;
 };
 
-const formNextHandler = (withLocalStorage) => {
-  let baseActions = [
-    assign((_, event) => {
-      const { type, ...rest } = event;
+const formNextHandler = (target, extraActions = []) => ({
+  NEXT: {
+    target,
+    internal: true,
+    actions: [
+      () => console.log(`transitioning to next step ${target}`),
+      ...extraActions,
+      'persist',
+      assign((_, event) => {
+        const { type, ...rest } = event;
 
-      return {
-        ...rest
-      };
-    }),
-  ];
-
-  if (withLocalStorage) {
-    baseActions = ['persist'].concat(baseActions);
+        return {
+          ...rest
+        };
+      }),
+    ]
   }
-
-  return (target, extraActions = []) => ({
-    NEXT: {
-      target,
-      internal: true,
-      actions: [
-        () => console.log(`transitioning to next step ${target}`),
-        ...extraActions,
-        ...baseActions,
-      ]
-    }
-  });
-};
+});
 
 const basicInfoChart = {
   id: 'basic-info',
@@ -541,11 +532,8 @@ const formStateConfig = {
   internal: true,
   initial: 'idle',
   states: {
-    idle: {},
-    'set-up': {
-      meta: {
-        path: 'set-up'
-      }
+    idle: {
+
     },
     'pre-registration': {
       onEntry: assign({
@@ -556,11 +544,7 @@ const formStateConfig = {
         path: '/pre-registration'
       },
       on: {
-        NEXT: {
-          target: 'basic-info',
-          actions: (context) =>
-            formNextHandler(isAffirmative(context.config.useLocalStorage))
-        }
+        ...formNextHandler('basic-info')
       }
     },
     'basic-info': basicInfoChart,
@@ -638,6 +622,10 @@ const formStateConfig = {
 
 const extraActions = {
   persist: (context, {type, ...data}) => {
+    if (!isAffirmative(context.config.useLocalStorage)) {
+      return;
+    }
+
     const nextState = (() => {
       // we are transitioning through a null state, which doesn't provide
       // data to the state machine. so, just write the current context to local storage

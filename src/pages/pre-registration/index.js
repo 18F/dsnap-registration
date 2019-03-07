@@ -1,16 +1,15 @@
 import React from 'react';
-import { Formik } from 'formik';
+import { withRouter } from 'react-router-dom';
 import FormikField from 'components/formik-field';
-import { MachineConsumer, MachineState } from 'components/fsm';
 import Wizard from 'components/wizard';
 import withLocale from 'components/with-locale';
 
 class PreRegistrationPage extends React.Component {
   render() {
-    const { t } = this.props;
+    const { t, ...rest } = this.props;
     
     return (
-      <Wizard.Section>
+      <Wizard.Section name="preregistration" { ...rest }>
         { this.props.children }
       </Wizard.Section>
     );
@@ -19,15 +18,12 @@ class PreRegistrationPage extends React.Component {
 
 const Step = ({ registerStep, handleChange, t }) => (
   <Wizard.Context>
-  {({ config }) => {
-    return (
-      <Wizard.Step
-        registerStep={registerStep}
-        modelName="preregistration"
-      >
-
-    
-        
+    {({ config }) => {
+      return (
+        <Wizard.Step
+          registerStep={registerStep}
+          modelName="preregistration"
+        >
           <p className="font-sans-md">
             <b>{t('preregistration.storage.label')}</b>
           </p>
@@ -46,11 +42,9 @@ const Step = ({ registerStep, handleChange, t }) => (
             onChange={handleChange}
             radioValue={false}
           />
-          </Wizard.Step>    
+        </Wizard.Step>
       );
     }}
-  
-    
   </Wizard.Context>
 );
 
@@ -59,4 +53,4 @@ const PreRegistrationStep = withLocale(Step);
 
 export { PreRegistrationStep };
 
-export default withLocale(PreRegistrationPage);
+export default withRouter(PreRegistrationPage);

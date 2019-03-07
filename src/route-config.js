@@ -1,4 +1,4 @@
-import PreRegistrationPage from 'pages/pre-registration';
+import PreRegistrationPage, { PreRegistrationStep } from 'pages/pre-registration';
 import Sections from 'pages/form/sections';
 import Steps from 'pages/form/steps';
 
@@ -7,7 +7,10 @@ export default [
     path: '/form/pre-registration',
     component: PreRegistrationPage,
     name: 'preregistration',
-    routes: []
+    routes: [{
+      path: '/form/pre-registration',
+      component: PreRegistrationStep
+    }]
   },
   {
     path: '/form/basic-info',

@@ -136,7 +136,7 @@ class Section extends React.Component {
                   style={{ display: 'none' }}
                 />
                 {
-                  this.props.routes.length ?
+                  this.props.routes && this.props.routes.length ?
                   <Switch>
                     {
                       this.props.routes.map((route, index) => {
