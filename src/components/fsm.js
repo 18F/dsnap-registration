@@ -14,6 +14,11 @@ const formatRouteWithDots = string =>
 class FSMRouter extends React.Component {
   static propTypes = {
     config: PropTypes.object.isRequired,
+    routeId: PropTypes.string
+  }
+
+  static defaultProps = {
+    routeId: 'form'
   }
 
   routes = null
@@ -35,7 +40,7 @@ class FSMRouter extends React.Component {
     this.routes = routeNodes.reduce((routes, node) => {
       if (node.meta && node.meta.path) {
         // TODO: make `form` key a configurable param / option
-        routes[`/form${node.meta.path}`] = node.meta.path;
+        routes[`/${this.props.routeId}${node.meta.path}`] = node.meta.path;
       }
 
       return routes;
@@ -89,7 +94,7 @@ class FSMRouter extends React.Component {
       return this.props.location.pathname;
     }
 
-    let path = `/form/${context.currentSection.trim()}`;
+    let path = `/${this.props.routeId}/${context.currentSection.trim()}`;
 
     if (context.currentStep) {
       path += `/${context.currentStep.trim()}`;
@@ -144,7 +149,7 @@ class FSMRouter extends React.Component {
         const currentNode = this.getCurrentNode();
     
         if (currentNode.meta && currentNode.meta.path) {
-          this.props.history.replace(`/form${currentNode.meta.path}`);
+          this.props.history.replace(`/${this.props.routeId}${currentNode.meta.path}`);
         }
       }
     }
@@ -165,7 +170,7 @@ class FSMRouter extends React.Component {
 
     if (currentNode.meta && currentNode.meta.path) {
       this.historyTransitioning = true;
-      this.props.history.push(`/form${currentNode.meta.path}`);
+      this.props.history.push(`/${this.props.routeId}${currentNode.meta.path}`);
     }
   }
 

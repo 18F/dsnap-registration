@@ -10,7 +10,7 @@
   "errors": {
     "required": "This field is required"
   },
-  "preregistration": {
+  "welcome": {
     "header": "Welcome!",
     "byline": "This site will help you apply for disaster-related food assistance (D-SNAP).",
     "conditions": {
@@ -26,6 +26,20 @@
       "header": "What language do you prefer?",
       "action": "Get started",
       "error": "Please select a language before continuing."
+    }
+  },
+  "preregistration": {
+    "header": "Let’s get you in the right place.",
+    "storage": {
+      "label": "Are you using a public computer or private computer or phone now?",
+      "confirm": {
+        "label": "Private computer or phone",
+        "explanation": "We’ll save your information on your computer or phone as you go."
+      },
+      "deny": {
+        "label": "Public computer",
+        "explanation": "We won’t save your information on this computer, so be sure to finish registering now."
+      }
     }
   },
   "preparation": {    

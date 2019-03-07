@@ -136,7 +136,7 @@ class Section extends React.Component {
                   style={{ display: 'none' }}
                 />
                 {
-                  this.props.routes.length ?
+                  this.props.routes && this.props.routes.length ?
                   <Switch>
                     {
                       this.props.routes.map((route, index) => {
@@ -231,7 +231,7 @@ class Progress extends React.Component {
   }
   
   render() {
-    return (
+    return !this.props.step ? null : (
       <section id="progress" className="text-green">
         { `Step ${this.props.step} of ${this.props.steps}` }
       </section>

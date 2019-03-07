@@ -98,7 +98,7 @@ class FormikRadioGroup extends React.Component {
   }
 
   render() {
-    const { options, explanation, ...rest } = this.props;
+    const { options, explanation, inline, ...rest } = this.props;
 
     return (
       <div role="group" className="margin-y-4">
@@ -114,6 +114,9 @@ class FormikRadioGroup extends React.Component {
                   type='radio'
                   radioValue={option.value}
                   labelText={option.label}
+                  groupClassName={classnames({
+                    'border radius-md border-base-light margin-right-2 display-inline-block': inline
+                  })}
                 />
               );
             })

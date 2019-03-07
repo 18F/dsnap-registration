@@ -18,6 +18,7 @@ class YesNoField extends React.Component {
     return (
       <FormikRadioGroup
         {...rest}
+        inline
         options={[
           {
             value: true,

@@ -5,7 +5,7 @@ import classnames from 'classnames';
 const propTypes = {
   checked: PropTypes.bool,
   explanation: PropTypes.string,
-  formGroupClassname: PropTypes.string,
+  groupClassName: PropTypes.string,
   labelText: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -14,6 +14,7 @@ const propTypes = {
 };
 
 class RadioCheckbox extends React.Component {
+  static propTypes = propTypes
   /**
    * This is a goofy pattern, but we have to use it
    * Formik wants the change/click event to point to the actual underlying field, but
@@ -49,9 +50,7 @@ class RadioCheckbox extends React.Component {
   }
   
   formGroupClassName() {
-    return classnames({
-      'border radius-md border-base-light display-inline-block margin-right-2': this.isRadio(),
-    });
+    return classnames(this.props.groupClassName);
   }
 
   render() {
@@ -73,20 +72,21 @@ class RadioCheckbox extends React.Component {
           readOnly
         />
         <label
-          className={`usa-${type}-label padding-left-6 padding-right-3 padding-y-2 margin-bottom-0 font-size-md font-sans-md border-base-lighter`}
+          className={`usa-${type}-label padding-left-6 padding-right-3 padding-y-2 margin-bottom-0 font-sans-md`}
           htmlFor={this.props.name}
         >
           {this.props.labelText}
+          <br />
+          {
+            this.props.explanation ?
+            <span className="text-base">
+              {this.props.explanation}
+            </span> : null
+          }
         </label>
       </div>
     );
   }
 }
-
-// XXX This might not be necessary, since our reducers should theoretically be providing these values
-RadioCheckbox.defaultProps = {
-  checked: false
-};
-RadioCheckbox.propTypes = propTypes;
 
 export default RadioCheckbox;

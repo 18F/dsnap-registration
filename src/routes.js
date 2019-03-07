@@ -4,7 +4,7 @@ import AppContainer from './components/app-container';
 import Route404 from 'components/404-route';
 import NoMatch from 'components/no-match';
 import EligiblePage from 'pages/eligible';
-import PreregistrationPage from 'pages/preregistration';
+import WelcomePage from 'pages/welcome';
 import PreparePage from 'pages/prepare';
 import DSNAPForm from 'pages/form/dsnap-form';
 import wizardRouteConfig from 'route-config';
@@ -16,7 +16,7 @@ const Routes = () => (
     </Route>
     <Route
       path="/welcome"
-      render={() => <PreregistrationPage name="preregistration" />}
+      render={() => <WelcomePage name="welcome" />}
     />
     <AppContainer>
       <Switch>

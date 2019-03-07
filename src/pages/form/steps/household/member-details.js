@@ -46,6 +46,7 @@ const MemberDetails = ({ handleChange, sectionName, t, registerStep }) => (
               }]}
             />
             <FormikRadioGroup
+              inline
               options={[{
                 label: t(buildNestedKey(sectionName, modelName, 'sex', 'options', 'male')),
                 value: "male"

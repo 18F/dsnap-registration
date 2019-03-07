@@ -1,4 +1,5 @@
 import { actions, assign } from 'xstate';
+import { isAffirmative } from 'utils';
 import testData from './test-data';
 import modelState from 'models';
 import { hasMailingAddress } from 'models/basic-info';
@@ -25,8 +26,8 @@ const initialState = () => {
 
   const machineState = {
     ...modelState,
-    currentSection: 'basic-info',
-    currentStep: 'applicant-name',
+    currentSection: 'pre-registration',
+    currentStep: '',
     previousStep: '',
     previousSection: '',
     serverError: '',
@@ -57,11 +58,9 @@ const formNextHandler = (target, extraActions = []) => ({
     target,
     internal: true,
     actions: [
-      ...extraActions,
       () => console.log(`transitioning to next step ${target}`),
+      ...extraActions,
       'persist',
-      // open question: why doesnt xstate persist the context when an
-      // assign call is made within another function?
       assign((_, event) => {
         const { type, ...rest } = event;
 
@@ -527,17 +526,27 @@ const submitChart = {
   }
 };
 
-
 const formStateConfig = {
   id: 'form',
   strict: true,
   internal: true,
-  context: {
-    ...initialState()
-  },
   initial: 'idle',
   states: {
-    idle: {},
+    idle: {
+
+    },
+    'pre-registration': {
+      onEntry: assign({
+        currentSection: 'preRegistration',
+        currentStep: 'preRegistration'
+      }),
+      meta: {
+        path: '/pre-registration'
+      },
+      on: {
+        ...formNextHandler('basic-info')
+      }
+    },
     'basic-info': basicInfoChart,
     identity: identityChart,
     household: householdChart,
@@ -593,7 +602,7 @@ const formStateConfig = {
           resolve(initialState())
         }),
         onDone: {
-          target: 'basic-info',
+          target: 'pre-registration',
           internal: true,
           actions: [
             assign((_, event) => {
@@ -613,6 +622,10 @@ const formStateConfig = {
 
 const extraActions = {
   persist: (context, {type, ...data}) => {
+    if (!isAffirmative(context.config.useLocalStorage)) {
+      return;
+    }
+
     const nextState = (() => {
       // we are transitioning through a null state, which doesn't provide
       // data to the state machine. so, just write the current context to local storage

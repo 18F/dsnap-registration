@@ -57,6 +57,7 @@ class ResidenceAddress extends React.Component {
           labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}
         />
         <FormikRadioGroup
+          inline
           options={[{
             label: t('general.yes'),
             value: true
