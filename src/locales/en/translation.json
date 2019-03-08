@@ -33,6 +33,9 @@
     "disaster": {
       "label": "Which disaster were you affected by?"
     },
+    "disasterCounty": {
+      "label": "Which area were you affected in?"
+    },
     "storage": {
       "label": "Are you using a public computer or private computer or phone now?",
       "confirm": {

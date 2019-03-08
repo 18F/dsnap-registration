@@ -1,8 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import FormikField, { FormikFieldGroup } from 'components/formik-field';
+import Dropdown from 'components/dropdown';
 import Wizard from 'components/wizard';
 import withLocale from 'components/with-locale';
+import { getCounties, getDisasters } from 'models/disaster';
 
 class PreRegistrationPage extends React.Component {
   render() {
@@ -18,25 +20,35 @@ class PreRegistrationPage extends React.Component {
 
 const Step = ({ registerStep, handleChange, t }) => (
   <Wizard.Context>
-    {(values) => {
+    {({ disasters, basicInfo }) => {
       return (
         <Wizard.Step
           registerStep={registerStep}
           modelName="preregistration"
           header={t('preregistration.header')}
         >
-          <p className="font-sans-md">
-            <b>{t('preregistration.storage.label')}</b>
-          </p>
           <FormikFieldGroup
-            fields={values.disasters.data.map((disaster, index) => ({
+            labelText={t('preregistration.disaster.label')}
+            fields={getDisasters(disasters).map((disaster, index) => ({
               type: 'radio',
               name: `basicInfo.disasterIndex`,
               labelText: disaster.title,
               onChange: handleChange,
               radioValue: String(index)
             }))}
-          />       
+          />
+          <Dropdown 
+            name='basicInfo.disasterCounty'
+            onChange={handleChange}
+            labelText={t('preregistration.disasterCounty.label')}
+            options={
+              getCounties(disasters, Number(basicInfo.disasterIndex), 0)
+                .map(name => ({ text: name, value: name })
+            )}
+          />
+          <p className="font-sans-md">
+            <b>{t('preregistration.storage.label')}</b>
+          </p>
           <FormikField
             type="radio"
             labelText={t('preregistration.storage.confirm.label')}

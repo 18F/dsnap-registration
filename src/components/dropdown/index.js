@@ -22,6 +22,9 @@ const propTypes = {
 
 class Dropdown extends React.Component {
   static propTypes = propTypes
+  static defaultProps = {
+    options: []
+  }
 
   mapOptions() {
     return this.props.options.map((option, index) => (
