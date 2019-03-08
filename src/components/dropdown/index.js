@@ -52,9 +52,9 @@ class Dropdown extends React.Component {
                 <select
                   className="usa-select"
                   name={name}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                  value={field.value}
+                    onChange={this.props.onChange}
+                    onBlur={field.onBlur}
+                    value={field.value}
                 >
                   {this.mapOptions()}
                 </select>

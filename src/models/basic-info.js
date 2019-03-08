@@ -2,8 +2,8 @@ import address from './address';
 
 export default () => ({
   personId: 0,
-  disasterIndex: null,
-  disasterCounty: null,
+  disasterIndex: '',
+  disasterCounty: '',
   phone: '',
   email: '',
   residenceAddress: address(),

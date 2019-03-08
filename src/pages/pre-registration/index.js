@@ -37,15 +37,18 @@ const Step = ({ registerStep, handleChange, t }) => (
               radioValue: String(index)
             }))}
           />
-          <Dropdown 
-            name='basicInfo.disasterCounty'
-            onChange={handleChange}
-            labelText={t('preregistration.disasterCounty.label')}
-            options={
-              getCounties(disasters, Number(basicInfo.disasterIndex), 0)
-                .map(name => ({ text: name, value: name })
-            )}
-          />
+          { !basicInfo.disasterIndex ? null :
+            <Dropdown 
+              name='basicInfo.disasterCounty'
+              onChange={handleChange}
+              labelText={t('preregistration.disasterCounty.label')}
+              options={
+                [{ text: 'Select a county', value: ''}]
+                  .concat(getCounties(disasters, Number(basicInfo.disasterIndex), 0)
+                  .map(name => ({ text: name, value: name }))
+              )}
+            />
+          }
           <p className="font-sans-md">
             <b>{t('preregistration.storage.label')}</b>
           </p>
