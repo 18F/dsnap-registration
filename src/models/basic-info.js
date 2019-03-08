@@ -2,6 +2,7 @@ import address from './address';
 
 export default () => ({
   personId: 0,
+  disasterIndex: null,
   phone: '',
   email: '',
   residenceAddress: address(),

@@ -2,6 +2,7 @@ import { actions, assign } from 'xstate';
 import { isAffirmative } from 'utils';
 import testData from './test-data';
 import modelState from 'models';
+import disaster from 'models/disaster';
 import { hasMailingAddress } from 'models/basic-info';
 import {
   getHouseholdCount,
@@ -9,11 +10,12 @@ import {
   hasAdditionalMembers
 } from 'models/household';
 import { hasJob, hasOtherJobs } from 'models/person';
+import { getDisasters } from 'services/disaster';
 
 const STATE_KEY = 'dsnap-registration';
 // ignore these when running the persistence algo, the context is responsible
 // for managing the meta state of the machine
-const ignoreKeys = ['currentSection', 'currentStep', 'errors'];
+const ignoreKeys = ['currentSection', 'currentStep', 'errors', 'disasters'];
 
 const initialState = () => {
   const loadState = process.env.REACT_APP_LOAD_STATE;
@@ -30,7 +32,7 @@ const initialState = () => {
     currentStep: '',
     previousStep: '',
     previousSection: '',
-    serverError: '',
+    errors: '',
     /**
      * totalSteps refers to the number of sections a user will move through
      * while filling out the form. It doesn't necessarily reflect
@@ -41,6 +43,7 @@ const initialState = () => {
      * number of steps
      */
     totalSteps: 5,
+    disasters: disaster(),
   };
   let state;
 
@@ -488,7 +491,7 @@ const resourcesChart = {
 const submitChart = {
   id: 'submit',
   initial: 'sign-and-submit',
-  onEntry: assign({ currentSection: 'signAndSubmit' }),
+  onEntry: assign({ currentSection: 'sign-and-submit' }),
   states: {
     'sign-and-submit': {
       on: {
@@ -526,6 +529,45 @@ const submitChart = {
   }
 };
 
+const preRegistrationChart = {
+    id: 'pre-registration',
+    internal: true,
+    initial: 'loading',
+    onEntry: [
+      () => console.log('enter prereg'),
+      assign({
+        currentSection: 'pre-registration',
+        currentStep: ''
+      }),
+    ],
+    states: {
+      loading: {
+        invoke: {
+          id: 'getDisasters',
+          src: () => getDisasters(),
+          onDone: {
+            target: 'set-up',
+            actions: [
+              assign({
+               disasters: (_, event) => ({
+                  data: event.data,
+                })
+              })
+            ]
+          },
+        }
+      },
+      'set-up': {
+        meta: {
+          path: '/pre-registration'
+        },
+        on: {
+          ...formNextHandler('#basic-info')
+        }
+      }
+    }
+};
+
 const formStateConfig = {
   id: 'form',
   strict: true,
@@ -533,20 +575,9 @@ const formStateConfig = {
   initial: 'idle',
   states: {
     idle: {
-
+      onEntry: () => console.log('enter idle'),
     },
-    'pre-registration': {
-      onEntry: assign({
-        currentSection: 'preRegistration',
-        currentStep: 'preRegistration'
-      }),
-      meta: {
-        path: '/pre-registration'
-      },
-      on: {
-        ...formNextHandler('basic-info')
-      }
-    },
+    'pre-registration': preRegistrationChart,
     'basic-info': basicInfoChart,
     identity: identityChart,
     household: householdChart,
@@ -617,7 +648,7 @@ const formStateConfig = {
     QUIT: {
       target: '.quit',
     },
-  },
+  }
 };
 
 const extraActions = {
@@ -659,5 +690,8 @@ const extraActions = {
 export default {
   config: formStateConfig,
   actions: extraActions,
+  services: {
+
+  },
   initialState: initialState(),
 };

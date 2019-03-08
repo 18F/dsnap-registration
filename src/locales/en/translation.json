@@ -30,6 +30,9 @@
   },
   "preregistration": {
     "header": "Let’s get you in the right place.",
+    "disaster": {
+      "label": "Which disaster were you affected by?"
+    },
     "storage": {
       "label": "Are you using a public computer or private computer or phone now?",
       "confirm": {
@@ -162,7 +165,7 @@
   "household": {
     "count": {
       "header": "Now tell us about people you share food with.",
-      "label": "On [first day of benefit period], how many people in your home did you regularly buy food for and prepare meals with?",
+      "label": "On {{ benefitStartDate }}, how many people in your home did you regularly buy food for and prepare meals with?",
       "explanation": "Count your roommates if you often buy food and cook together."
     },
     "memberNames": {
@@ -225,7 +228,7 @@
   "impact": {
     "header": "Now, tell us how you were impacted by the disaster.",
     "buyFood": {
-      "label": "Has your household bought food or plan to buy food between [benefit period start date] and [benefit period end date]?"
+      "label": "Has your household bought food or plan to buy food between {{ benefitStartDate }} and {{ benefitEndDate }}?"
     },
     "lostOrInaccessibleIncome": {
       "label": "Did the disaster delay, reduce, or stop your income or the income of any of the other members of your household?"
@@ -234,7 +237,7 @@
       "label": "Are you or any other member of your household unable to access some of your money?"
     },
     "otherExpenses": {
-      "label": "What expenses caused by the disaster did your household pay or expect to pay between [benefit period start date] and [benefit period end date]?",
+      "label": "What expenses caused by the disaster did your household pay or expect to pay between {{ benefitStartDate }} and {{ benefitEndDate }}?",
       "explanation": "How much?",
       "error": "Please enter an amount for this expense.",
       "repairs": "Home or business repairs",
@@ -260,7 +263,7 @@
       "explanation": "Give your best estimate. This includes money in checking accounts, savings accounts, and any other cash you have available. Do not include income you recieved between [disaster start date] and [disaster end date]."
     },
     "incomeRecipients": {
-      "label": "Who received income between [benefit period start date] and [benefit period end date]?"
+      "label": "Who received income between {{ benefitStartDate }} and {{ benefitEndDate }}?"
     },
     "whyWeAsk": {
       "header": "Why do we ask?",
@@ -269,7 +272,7 @@
     "assetsAndIncome": {
       "header": "Now, tell us about {{ firstName }}’s income during the disaster.",
       "incomeSources": {
-        "label": "Check all sources of income {{ firstName }} received between [benefit period start date] and [benefit period end date].",
+        "label": "Check all sources of income {{ firstName }} received between {{ benefitStartDate }} and {{ benefitEndDate }}?",
         "explanation": "How much?",
         "hasJobs": "{{ firstName }} has one or more jobs",
         "selfEmployed": "{{ firstName }} is self-employed",

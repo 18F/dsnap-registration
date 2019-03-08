@@ -32,7 +32,7 @@ class FSMRouter extends React.Component {
   constructor(props) {
     super(props);
 
-    const { config, actions, initialState } = props.config;
+    const { config, actions, services, initialState } = props.config;
     const { on, ...machineConfig } = config;
 
     const routeNodes = getNodes(Machine(config));
@@ -62,7 +62,7 @@ class FSMRouter extends React.Component {
     };
 
     const machine = Machine(configWithRoutes);
-    const machineWithState = machine.withConfig({ actions }, { ...initialState });
+    const machineWithState = machine.withConfig({ actions, services }, { ...initialState });
 
     this.service = interpret(machineWithState);
     this.machine = machine;
