@@ -81,7 +81,7 @@ const FormikFieldGroup = ({
             <FinalComponent
               key={`${field.name}.${index}`}
               {...field}
-              groupClassName={classnames('grid-col-2', { 'display-inline-block': inline })}
+              groupClassName={classnames({ 'display-inline-block grid-col-2': inline })}
               className={classnames('padding-y-3', className)}
               quietLabel
             />

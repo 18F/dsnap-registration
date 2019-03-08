@@ -26,9 +26,11 @@ class ComboField extends React.Component {
     return (
       <Wizard.Context>
         {(values) => {
+          const { explanation, ...rest} = this.props;
+
           return (
             <React.Fragment>
-              <FormikField {...this.props} />
+              <FormikField {...rest} />
               { getIn(values, this.props.name) ? this.renderTextInput() : null }
             </React.Fragment>
           );
