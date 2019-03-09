@@ -5,15 +5,29 @@ import Wizard from 'components/wizard';
 import withLocale from 'components/with-locale';
 import Loading from 'components/loading';
 import { getCounties, getDisasters } from 'models/disaster';
+import { getError } from 'models/error';
+import ErrorAlert from 'components/error-alert';
 
 class PreRegistrationPage extends React.Component {
   render() {
     const { t, ...rest } = this.props;
     
-    return (
-      <Wizard.Section name="preregistration" { ...rest }>
-        { this.props.children }
-      </Wizard.Section>
+    return (      
+      <Wizard.Context>
+        {({ errors }) => {
+          const hasError = getError(errors, 'server');
+
+          return (
+            hasError ?
+            <ErrorAlert text={t('preregistration.disaster.error.server')} /> :
+            <Loading message={t('general.loading')}>
+              <Wizard.Section name="preregistration" { ...rest }>
+                { this.props.children }
+              </Wizard.Section>
+            </Loading>
+          )
+        }}
+      </Wizard.Context>
     );
   }
 }
@@ -26,34 +40,30 @@ const Step = ({ registerStep, handleChange, t }) => (
           registerStep={registerStep}
           modelName="preregistration"
           header={t('preregistration.header')}
-        >
-          <Loading message={t('general.loading')}>
-            <React.Fragment>
-              <FormikFieldGroup
-                labelText={t('preregistration.disaster.label')}
-                fields={getDisasters(disasters).map((disaster, index) => ({
-                  type: 'radio',
-                  name: `basicInfo.disasterIndex`,
-                  labelText: disaster.title,
-                  onChange: handleChange,
-                  radioValue: String(index)
-                }))}
-              />
-              { !basicInfo.disasterIndex ? null :
-                <FormikField
-                  name='basicInfo.disasterCounty'
-                  onChange={handleChange}
-                  labelText={t('preregistration.disasterCounty.label')}
-                  type="select"
-                  options={
-                    [{ text: 'Select a county', value: ''}]
-                      .concat(getCounties(disasters, Number(basicInfo.disasterIndex), 0)
-                      .map(name => ({ text: name, value: name }))
-                  )}
-                />
-              }
-            </React.Fragment>
-          </Loading>
+        >           
+          <FormikFieldGroup
+            labelText={t('preregistration.disaster.label')}
+            fields={getDisasters(disasters).map((disaster, index) => ({
+              type: 'radio',
+              name: `basicInfo.disasterIndex`,
+              labelText: disaster.title,
+              onChange: handleChange,
+              radioValue: String(index)
+            }))}
+          />
+          { !basicInfo.disasterIndex ? null :
+            <FormikField
+              name='basicInfo.disasterCounty'
+              onChange={handleChange}
+              labelText={t('preregistration.disasterCounty.label')}
+              type="select"
+              options={
+                [{ text: 'Select a county', value: ''}]
+                  .concat(getCounties(disasters, Number(basicInfo.disasterIndex), 0)
+                  .map(name => ({ text: name, value: name }))
+              )}
+            />
+          }   
           <p className="font-sans-md">
             <b>{t('preregistration.storage.label')}</b>
           </p>
@@ -86,4 +96,4 @@ const PreRegistrationStep = withLocale(Step);
 
 export { PreRegistrationStep };
 
-export default withRouter(PreRegistrationPage);
+export default withRouter(withLocale(PreRegistrationPage));

@@ -32,7 +32,10 @@
   "preregistration": {
     "header": "Let’s get you in the right place.",
     "disaster": {
-      "label": "Which disaster were you affected by?"
+      "label": "Which disaster were you affected by?",
+      "error": {
+        "server": "We are experiencing issues contacting the server. Please try again in a few moments"
+      }
     },
     "disasterCounty": {
       "label": "Which area were you affected in?"

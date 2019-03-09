@@ -9,7 +9,9 @@ const LoadingMessage = ({ message }) =>
 const Loading = ({ children, message }) =>
   <MachineState>
     {({ meta }) =>
-      meta.loading ? <LoadingMessage message={message} /> : children
+      (meta.loading || meta.loading === undefined) ?
+        <LoadingMessage message={message} /> :
+        children
     }
   </MachineState>
 

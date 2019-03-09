@@ -51,7 +51,7 @@ const initialState = () => {
     totalSteps: 5,
     disasters: disaster(),
     meta: {
-      loading: ''
+      loading: undefined
     }
   };
   let state;
@@ -540,6 +540,18 @@ const preRegistrationChart = {
         invoke: {
           id: 'getDisasters',
           src: () => getDisasters(),
+          onError: {
+            target: 'set-up',
+            actions: assign({
+              errors: () => ({
+                server: true
+              }),
+              meta: (context) => ({
+                ...context.meta,
+                loading: false
+              })
+            })
+          },
           onDone: {
             target: 'set-up',
             actions: [
