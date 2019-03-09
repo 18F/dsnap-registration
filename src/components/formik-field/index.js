@@ -35,6 +35,7 @@ class FormikField extends React.Component {
         render={({ field }) => {
           return (
             <InputComponent
+              id={name}
               type={type}
               {...field}
               onChange={onChange || field.onChange}
@@ -117,7 +118,6 @@ class FormikRadioGroup extends React.Component {
                   <FormikField
                     key={`${rest.name}.${option.label}.${index}`}
                     {...rest}
-                    id={rest.name}
                     type='radio'
                     radioValue={option.value}
                     labelText={option.label}
