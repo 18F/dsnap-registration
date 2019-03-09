@@ -6,6 +6,7 @@ import { buildNestedKey } from 'utils';
 import { getMembers } from 'models/household';
 import { hasIncome } from 'models/assets-and-income';
 import { getIncome } from 'models/person';
+import { getDisaster } from 'models/disaster';
 import { getFirstName, getLastName } from 'models/person';
 import SecurityAlert from 'components/security-alert';
 import Collapsible from 'components/collapsible';
@@ -34,8 +35,9 @@ class Assets extends React.Component {
 
     return (
       <Wizard.Context>
-        {({ basicInfo, household }) => {
+        {({ basicInfo, household, disasters }) => {
           const members = getMembers(household);
+          const disaster = getDisaster(disasters, basicInfo.disasterIndex);
 
           return (
             <Wizard.Step
@@ -51,7 +53,10 @@ class Assets extends React.Component {
                 onChange={handleChange}
               />
               <FormikFieldGroup
-                labelText={t(buildNestedKey(sectionName, 'incomeRecipients', 'label'))}
+                labelText={t(buildNestedKey(sectionName, 'incomeRecipients', 'label'), {
+                  benefitStartDate: disaster.benefit_begin_date,
+                  benefitEndDate: disaster.benefit_end_date
+                })}
                 fieldGroupClassname="margin-y-0"
                 fields={
                   members.map((member, index) => {

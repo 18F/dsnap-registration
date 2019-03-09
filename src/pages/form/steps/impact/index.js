@@ -5,6 +5,7 @@ import FormikField, { FormikFieldGroup } from 'components/formik-field';
 import YesNoField from 'components/yes-no-field';
 import ComboField from 'components/combo-field';
 import { buildNestedKey } from 'utils';
+import { getDisaster } from 'models/disaster';
 
 const modelName = 'otherExpenses';
 
@@ -14,7 +15,9 @@ class AdverseEffects extends React.Component {
 
     return (
       <Wizard.Context>
-        {({ impact }) => {
+        {({ impact, disasters, basicInfo }) => {
+          const disaster = getDisaster(disasters, basicInfo.disasterIndex);
+
           return (
             <Wizard.Step
               header={t(`${buildNestedKey(sectionName, 'header')}`)}
@@ -22,7 +25,10 @@ class AdverseEffects extends React.Component {
               modelName={modelName}
             >
               <YesNoField
-                labelText={t('impact.buyFood.label')}
+                labelText={t('impact.buyFood.label', {
+                  benefitStartDate: disaster.benefit_begin_date,
+                  benefitEndDate: disaster.benefit_end_date
+                })}
                 name="impact.buyFood"
                 onChange={handleChange}
               />
@@ -37,7 +43,10 @@ class AdverseEffects extends React.Component {
                 onChange={handleChange}
               />
               <FormikFieldGroup
-                labelText={t(buildNestedKey(sectionName, modelName, 'label'))}
+                labelText={t(buildNestedKey(sectionName, modelName, 'label'), {
+                  benefitStartDate: disaster.benefit_begin_date,
+                  benefitEndDate: disaster.benefit_end_date
+                })}
                 onChange={handleChange}
                 Component={ComboField}
                 fieldGroupClassname="margin-y-0"

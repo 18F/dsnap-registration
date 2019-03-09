@@ -75,7 +75,7 @@ class Section extends React.Component {
     }
 
     // call the validate method of the child step, if there is one
-    return validate(values[this.props.name][activeStep.props.modelName]);
+    return validate(values);
   }
 
   getActiveStepComponent() {

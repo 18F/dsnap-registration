@@ -6,6 +6,7 @@ import ComboField from 'components/combo-field';
 import { buildNestedKey } from 'utils';
 import { getMembers } from 'models/household';
 import { getFirstName, hasJob } from 'models/person';
+import { getDisaster } from 'models/disaster';
 
 const modelName = 'assetsAndIncome';
 
@@ -39,12 +40,13 @@ class Income extends React.Component {
     return (
       <Wizard.Context>
         {(values) => {
-          const { household, resources } = values;
+          const { household, resources, disasters, basicInfo } = values;
 
           if (!resources.membersWithIncome.length) {
             return null;
           }
 
+          const disaster = getDisaster(disasters, basicInfo.disasterIndex);
           const members = getMembers(household);
           const index = resources.membersWithIncome[0];
           const member = members[index];
@@ -60,7 +62,11 @@ class Income extends React.Component {
               onNext={updateMembersWithIncome(values)}
             >
               <FormikFieldGroup
-                labelText={t(buildNestedKey(sectionName, modelName, 'incomeSources', 'label'), { firstName })}
+                labelText={t(buildNestedKey(sectionName, modelName, 'incomeSources', 'label'), {
+                  firstName,
+                  benefitStartDate: disaster.benefit_begin_date,
+                  benefitEndDate: disaster.benefit_end_date
+                })}
                 onChange={handleChange}
                 Component={ComboField}
                 fieldGroupClassname="margin-y-0"

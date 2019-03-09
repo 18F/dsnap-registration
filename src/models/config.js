@@ -1,5 +1,5 @@
 export default () => ({
-  useLocalStorage: '',
+  useLocalStorage: null,
   disaster: '',
   language: 'en',
 });
