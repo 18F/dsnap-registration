@@ -6,7 +6,8 @@
     "no": "No",
     "quit": "Quit registration",
     "security": "This information is kept confidential and secure as required by law. <1>Learn more</1>",
-    "loading": "Loading"
+    "loading": "Loading",
+    "select": "Please choose an option"
   },
   "errors": {
     "required": "This field is required"

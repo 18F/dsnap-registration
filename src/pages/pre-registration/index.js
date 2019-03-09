@@ -58,10 +58,9 @@ const Step = ({ registerStep, handleChange, t }) => (
               labelText={t('preregistration.disasterCounty.label')}
               type="select"
               options={
-                [{ text: 'Select a county', value: ''}]
-                  .concat(getCounties(disasters, Number(basicInfo.disasterIndex), 0)
+                getCounties(disasters, Number(basicInfo.disasterIndex), 0)
                   .map(name => ({ text: name, value: name }))
-              )}
+              }
             />
           }   
           <p className="font-sans-md">

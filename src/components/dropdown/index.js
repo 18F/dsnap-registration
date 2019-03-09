@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import withLocale from 'components/with-locale';
 import withFormField from 'components/with-form-field';
 
 const propTypes = {
@@ -24,13 +25,23 @@ class Dropdown extends React.Component {
   }
 
   mapOptions() {
-    return this.props.options.map((option, index) => (
-      <option
-        key={`${option.value}-${index}`}
-        value={option.value}>
-        {option.text}
-      </option>
-    ));
+    const { t } = this.props;
+
+    let defaultOption = [
+      <option key="default" value={null}>{t('general.select')}</option>
+    ];
+
+    return this.props.options.reduce((memo, option, index) => (
+      [
+        ...memo,
+        <option
+          key={`${option.value}-${index}`}
+          value={option.value}
+        >
+          {option.text}
+        </option>
+      ]
+    ), defaultOption);
   }
 
   render() {
@@ -53,4 +64,4 @@ class Dropdown extends React.Component {
   }
 }
 
-export default withFormField(Dropdown);
+export default withFormField(withLocale(Dropdown));
