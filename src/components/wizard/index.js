@@ -216,9 +216,7 @@ class Step extends React.Component {
         <div className="border-bottom-1px border-base-lighter margin-bottom-2">
           { this.renderHeader() }
         </div>
-        <fieldset>
-          { this.props.children }
-        </fieldset>
+        {this.props.children }
       </div>
     )
   }

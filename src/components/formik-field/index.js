@@ -35,6 +35,7 @@ class FormikField extends React.Component {
         render={({ field }) => {
           return (
             <InputComponent
+              id={name}
               type={type}
               {...field}
               onChange={onChange || field.onChange}
@@ -110,22 +111,24 @@ class FormikRadioGroup extends React.Component {
         <FormGroupLabel labelText={this.props.labelText} />
         <FormGroupExplanation text={explanation} />
         <div className="margin-top-2">
-          {
-            this.props.options.map((option, index) => {
-              return (
-                <FormikField
-                  key={`${rest.name}.${option.label}.${index}`}
-                  {...rest}
-                  type='radio'
-                  radioValue={option.value}
-                  labelText={option.label}
-                  groupClassName={classnames({
-                    'border radius-md border-base-light margin-right-2 display-inline-block': inline
-                  })}
-                />
-              );
-            })
-          }
+          <fieldset className="usa-fieldset">
+            {
+              this.props.options.map((option, index) => {
+                return (
+                  <FormikField
+                    key={`${rest.name}.${option.label}.${index}`}
+                    {...rest}
+                    type='radio'
+                    radioValue={option.value}
+                    labelText={option.label}
+                    groupClassName={classnames({
+                      'border radius-md border-base-light margin-right-2 display-inline-block': inline
+                    })}
+                  />
+                );
+              })
+            }
+          </fieldset>
         </div>
       </div>
     )

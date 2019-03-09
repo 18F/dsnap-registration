@@ -50,6 +50,7 @@ class Dropdown extends React.Component {
     return (
       <React.Fragment>
         <select
+          id={name}
           className="usa-select"
           name={name}
           onChange={this.props.onChange}

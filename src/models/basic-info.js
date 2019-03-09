@@ -9,7 +9,7 @@ export default () => ({
   residenceAddress: address(),
   mailingAddress: address(),
   county: '',
-  currentMailingAddress: false
+  currentMailingAddress: null
 });
 
 export const hasMailingAddress = info => info.currentMailingAddress !== 'true';
