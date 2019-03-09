@@ -4,6 +4,7 @@ import FormikField, { FormikFieldGroup } from 'components/formik-field';
 import Dropdown from 'components/dropdown';
 import Wizard from 'components/wizard';
 import withLocale from 'components/with-locale';
+import Loading from 'components/loading';
 import { getCounties, getDisasters } from 'models/disaster';
 
 class PreRegistrationPage extends React.Component {
@@ -27,28 +28,32 @@ const Step = ({ registerStep, handleChange, t }) => (
           modelName="preregistration"
           header={t('preregistration.header')}
         >
-          <FormikFieldGroup
-            labelText={t('preregistration.disaster.label')}
-            fields={getDisasters(disasters).map((disaster, index) => ({
-              type: 'radio',
-              name: `basicInfo.disasterIndex`,
-              labelText: disaster.title,
-              onChange: handleChange,
-              radioValue: String(index)
-            }))}
-          />
-          { !basicInfo.disasterIndex ? null :
-            <Dropdown 
-              name='basicInfo.disasterCounty'
-              onChange={handleChange}
-              labelText={t('preregistration.disasterCounty.label')}
-              options={
-                [{ text: 'Select a county', value: ''}]
-                  .concat(getCounties(disasters, Number(basicInfo.disasterIndex), 0)
-                  .map(name => ({ text: name, value: name }))
-              )}
-            />
-          }
+          <Loading>
+            <React.Fragment>
+              <FormikFieldGroup
+                labelText={t('preregistration.disaster.label')}
+                fields={getDisasters(disasters).map((disaster, index) => ({
+                  type: 'radio',
+                  name: `basicInfo.disasterIndex`,
+                  labelText: disaster.title,
+                  onChange: handleChange,
+                  radioValue: String(index)
+                }))}
+              />
+              { !basicInfo.disasterIndex ? null :
+                <Dropdown
+                  name='basicInfo.disasterCounty'
+                  onChange={handleChange}
+                  labelText={t('preregistration.disasterCounty.label')}
+                  options={
+                    [{ text: 'Select a county', value: ''}]
+                      .concat(getCounties(disasters, Number(basicInfo.disasterIndex), 0)
+                      .map(name => ({ text: name, value: name }))
+                  )}
+                />
+              }
+            </React.Fragment>
+          </Loading>
           <p className="font-sans-md">
             <b>{t('preregistration.storage.label')}</b>
           </p>

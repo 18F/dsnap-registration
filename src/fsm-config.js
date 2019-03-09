@@ -15,7 +15,13 @@ import { getDisasters } from 'services/disaster';
 const STATE_KEY = 'dsnap-registration';
 // ignore these when running the persistence algo, the context is responsible
 // for managing the meta state of the machine
-const ignoreKeys = ['currentSection', 'currentStep', 'errors', 'disasters'];
+const ignoreKeys = [
+  'currentSection',
+  'currentStep',
+  'errors',
+  'disasters',
+  'meta'
+];
 
 const initialState = () => {
   const loadState = process.env.REACT_APP_LOAD_STATE;
@@ -44,6 +50,9 @@ const initialState = () => {
      */
     totalSteps: 5,
     disasters: disaster(),
+    meta: {
+      loading: ''
+    }
   };
   let state;
 
@@ -359,24 +368,6 @@ const resourcesChart = {
   onExit: [
     assign({ previousSection: 'resources' }),
   ],
-  on: {
-    INTERNAL_CONTEXT_WRITE: {
-      internal: true,
-      actions: [
-        assign({
-          previousStep: 'income',
-          resources: (context) => {
-            const nextMembers = context.resources.membersWithIncome.slice(1);
-
-            return {
-              membersWithIncome: nextMembers
-            };
-          }
-        }),
-        'persist'
-      ]
-    }
-  },
   states: {
     assets: {
       internal: true,
@@ -542,6 +533,10 @@ const preRegistrationChart = {
     ],
     states: {
       loading: {
+        onEntry: assign({ meta: (context) => ({
+          ...context.meta,
+          loading: true
+        })}),
         invoke: {
           id: 'getDisasters',
           src: () => getDisasters(),
@@ -551,6 +546,10 @@ const preRegistrationChart = {
               assign({
                disasters: (_, event) => ({
                   data: event.data,
+                }),
+                meta: (context) => ({
+                  ...context.meta,
+                  loading: false
                 })
               })
             ]
