@@ -6,7 +6,7 @@ const LoadingMessage = ({ message }) =>
     { message }
   </div>
 
-const Loading = ({ children, message = 'loading' }) =>
+const Loading = ({ children, message }) =>
   <MachineState>
     {({ meta }) =>
       meta.loading ? <LoadingMessage message={message} /> : children

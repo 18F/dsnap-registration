@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, ErrorMessage } from 'formik';
-import InputError from 'components/error';
+import withFormField from 'components/with-form-field';
 
 const propTypes = {
-  explanation: PropTypes.string,
-  labelText: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   options: PropTypes.arrayOf(
@@ -40,34 +37,20 @@ class Dropdown extends React.Component {
     const { name } = this.props;
 
     return (
-      <>
-        <label className="usa-label" htmlFor={name}>
-          {this.props.labelText}
-        </label>
-        <Field
+      <React.Fragment>
+        <select
+          className="usa-select"
           name={name}
-          render={({ field }) => {
-            return (
-              <div>
-                <select
-                  className="usa-select"
-                  name={name}
-                    onChange={this.props.onChange}
-                    onBlur={field.onBlur}
-                    value={field.value}
-                >
-                  {this.mapOptions()}
-                </select>
-                <ErrorMessage name={name}>
-                  { (message) => <InputError message={message} /> }
-                </ErrorMessage>
-              </div>
-            );
-          }}
-        />
-      </>
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          value={this.props.value}
+        >
+          {this.mapOptions()}
+        </select>
+        { this.props.children }
+      </React.Fragment>
     );
   }
 }
 
-export default Dropdown;
+export default withFormField(Dropdown);

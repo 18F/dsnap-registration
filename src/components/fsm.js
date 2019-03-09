@@ -179,9 +179,6 @@ class FSMRouter extends React.Component {
   }
 
   transition = ({ command = 'NEXT', data = {} }) => {
-    // TODO: seems like we need both of these transiition calls
-    // to pass data properly, odd
-    //this.machineState = this.machine.transition(this.machineState, { type: command, ...data }); 
     this.machineState = this.service.send({ type: command, ...data });
   }
 

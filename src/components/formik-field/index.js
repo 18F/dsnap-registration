@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'formik';
+import { Field, ErrorMessage, FastField } from 'formik';
 import Input from 'components/input';
+import InputError from 'components/error';
 import Dropdown from 'components/dropdown';
 import RadioCheckbox from 'components/radio-checkbox';
 import classnames from 'classnames';
@@ -29,7 +30,7 @@ class FormikField extends React.Component {
     const InputComponent = inputTypes(type);
 
     return (
-      <Field
+      <FastField
         name={name}
         render={({ field }) => {
           return (
@@ -38,7 +39,11 @@ class FormikField extends React.Component {
               {...field}
               onChange={onChange || field.onChange}
               {...rest}
-            />
+            >
+              <ErrorMessage name={name}>
+                { message => <InputError message={message} /> }
+              </ErrorMessage>
+            </InputComponent>
           );
         }}
       />

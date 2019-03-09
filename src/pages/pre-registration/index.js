@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import FormikField, { FormikFieldGroup } from 'components/formik-field';
-import Dropdown from 'components/dropdown';
 import Wizard from 'components/wizard';
 import withLocale from 'components/with-locale';
 import Loading from 'components/loading';
@@ -28,7 +27,7 @@ const Step = ({ registerStep, handleChange, t }) => (
           modelName="preregistration"
           header={t('preregistration.header')}
         >
-          <Loading>
+          <Loading message={t('general.loading')}>
             <React.Fragment>
               <FormikFieldGroup
                 labelText={t('preregistration.disaster.label')}
@@ -41,10 +40,11 @@ const Step = ({ registerStep, handleChange, t }) => (
                 }))}
               />
               { !basicInfo.disasterIndex ? null :
-                <Dropdown
+                <FormikField
                   name='basicInfo.disasterCounty'
                   onChange={handleChange}
                   labelText={t('preregistration.disasterCounty.label')}
+                  type="select"
                   options={
                     [{ text: 'Select a county', value: ''}]
                       .concat(getCounties(disasters, Number(basicInfo.disasterIndex), 0)
