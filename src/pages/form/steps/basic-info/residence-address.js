@@ -63,11 +63,11 @@ class ResidenceAddress extends React.Component {
           inline
           options={[{
             label: t('general.yes'),
-            value: true
+            value: 'true'
           },
           {
             label: t('general.no'),
-            value: false
+            value: 'false'
           }]}
           name={`${sectionName}.currentMailingAddress`}
           onChange={handleChange}
