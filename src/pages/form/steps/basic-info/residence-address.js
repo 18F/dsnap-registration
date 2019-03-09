@@ -4,6 +4,7 @@ import { buildNestedKey } from 'utils';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, { FormikRadioGroup } from 'components/formik-field';
+import states from 'data/states';
 
 class ResidenceAddress extends React.Component {
   static modelName = 'residenceAddress'
@@ -41,7 +42,9 @@ class ResidenceAddress extends React.Component {
           labelText={t(`${buildNestedKey(sectionName, tKey, 'city', 'label')}`)}
         />
         <FormikField
+          type="select"
           name={`${sectionName}.${modelName}.state`}
+          options={states}
           onChange={handleChange}
           labelText={t(`${buildNestedKey(sectionName, tKey, 'state', 'label')}`)}
         />
