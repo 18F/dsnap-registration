@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, ErrorMessage, FastField } from 'formik';
+import { ErrorMessage, FastField } from 'formik';
 import Input from 'components/input';
 import InputError from 'components/error';
 import Dropdown from 'components/dropdown';
