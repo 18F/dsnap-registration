@@ -2,6 +2,7 @@ import { actions, assign } from 'xstate';
 import { isAffirmative } from 'utils';
 import testData from './test-data';
 import modelState from 'models';
+import config from 'models/config';
 import disaster from 'models/disaster';
 import { hasMailingAddress } from 'models/basic-info';
 import {
@@ -48,11 +49,12 @@ const initialState = () => {
      * but is not exposed to the user. Therefore, it is not included in the total
      * number of steps
      */
-    totalSteps: 5,
     disasters: disaster(),
     meta: {
       loading: undefined
-    }
+    },
+    config: config(),
+    totalSteps: 6,
   };
   let state;
 
@@ -388,7 +390,7 @@ const resourcesChart = {
       on: {
         '': [
           {
-            target: '#form.review',
+            target: '#review',
             cond: (context) => {
               return !context.resources.membersWithIncome.length;
             }
@@ -578,6 +580,31 @@ const preRegistrationChart = {
       }
     }
 };
+const reviewChart = {
+  id: 'review',
+  initial: 'default',
+  strict: true,
+  onEntry: assign({
+    currentSection: 'review',
+    currentStep: 'review',
+    step: 6
+  }),
+  onExit: assign({
+    previousSection: 'review',
+    previousStep: 'review'
+  }),
+  states: {
+    default: {
+      meta: {
+        path: '/review'
+      },
+      on: {
+        ...formNextHandler('#submit')
+      }
+    }
+  }
+};
+
 
 const formStateConfig = {
   id: 'form',
@@ -594,11 +621,7 @@ const formStateConfig = {
     household: householdChart,
     impact: impactChart,
     resources: resourcesChart,
-    review: {
-      onEntry: [
-        () => console.log('review step')
-      ]
-    },
+    review: reviewChart,
     submit: submitChart,
     'next-steps': {
       id: 'next-steps',
@@ -636,6 +659,7 @@ const formStateConfig = {
         }
       }
     },
+    finish: {},
     quit: {
       invoke: {
         id: 'clearSessionState',
@@ -653,12 +677,29 @@ const formStateConfig = {
           ]
         },
       }
+    },
+    edit: {
+      internal: true,
+      onEntry: [
+        () => console.log('executing actions'),
+        'persist',
+        assign((_, event) => {
+          const { type, ...rest } = event;
+
+          return {
+            ...rest
+          };
+        })
+      ],
     }
   },
   on: {
     QUIT: {
       target: '.quit',
     },
+    EDIT: {
+      target: '.edit'
+    }
   }
 };
 
@@ -701,8 +742,6 @@ const extraActions = {
 export default {
   config: formStateConfig,
   actions: extraActions,
-  services: {
-
-  },
+  services: {},
   initialState: initialState(),
 };

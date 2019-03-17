@@ -3,6 +3,7 @@ import PersonalInfo from './identity';
 import Household from './household';
 import AdverseEffects from './impact';
 import Resources from './resources';
+import Review from './review';
 import SignAndSubmit from './submit';
 
 export default {
@@ -11,5 +12,6 @@ export default {
   Household,
   Impact: { AdverseEffects },
   Resources,
+  Review: { Review },
   Submit: { SignAndSubmit },
 };

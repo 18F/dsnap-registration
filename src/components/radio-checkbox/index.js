@@ -44,8 +44,7 @@ class RadioCheckbox extends React.Component {
   
   isChecked() {
     if (this.isRadio()) {
-      // force a conversion between string and number here
-      return this.normalizeValue() == this.props.radioValue;
+      return this.props.value === this.props.radioValue;
     }
 
     return this.normalizeValue();

@@ -128,49 +128,51 @@ class Section extends React.Component {
             const disable = this.hasErrors(formikProps.errors) || formikProps.isSubmitting; 
 
             return (
-              <Form onSubmit={formikProps.handleSubmit} autoComplete="fake">
-                <input
-                  type="hidden"
-                  value="something"
-                  name="hidden"
-                  style={{ display: 'none' }}
-                />
-                {
-                  this.props.routes && this.props.routes.length ?
-                  <Switch>
-                    {
-                      this.props.routes.map((route, index) => {
-                        return (
-                          <RouteWithSubRoutes
-                            key={index}
-                            path={route.path}
-                            route={route}
-                            extraProps={{
-                              sectionName: this.props.name,
-                              handleChange: this.handleChange(formikProps.handleChange),
-                              registerStep: this.registerStepComponent,
-                              handleNext: this.props.handleNext
-                            }}
-                          />
-                        );
-                      })
-                    }
-                    <Route component={Route404} />
-                  </Switch> : null
-                }
-                <div className="margin-y-2">
-                  <Button disabled={disable}>
-                    { this.props.nextButton || this.props.t('general.next') }
+              <WizardContext.Provider value={formikProps.values}>
+                <Form onSubmit={formikProps.handleSubmit} autoComplete="fake">
+                  <input
+                    type="hidden"
+                    value="something"
+                    name="hidden"
+                    style={{ display: 'none' }}
+                  />
+                  {
+                    this.props.routes && this.props.routes.length ?
+                    <Switch>
+                      {
+                        this.props.routes.map((route, index) => {
+                          return (
+                            <RouteWithSubRoutes
+                              key={index}
+                              path={route.path}
+                              route={route}
+                              extraProps={{
+                                sectionName: this.props.name,
+                                handleChange: this.handleChange(formikProps.handleChange),
+                                registerStep: this.registerStepComponent,
+                                handleNext: this.props.handleNext
+                              }}
+                            />
+                          );
+                        })
+                      }
+                      <Route component={Route404} />
+                    </Switch> : null
+                  }
+                  <div className="margin-y-2">
+                    <Button disabled={disable}>
+                      { this.props.nextButton || this.props.t('general.next') }
+                    </Button>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={this.onQuit(formikProps.resetForm)}
+                    link
+                  >
+                    { this.props.t('general.quit') }
                   </Button>
-                </div>
-                <Button
-                  type="button"
-                  onClick={this.onQuit(formikProps.resetForm)}
-                  link
-                >
-                  { this.props.t('general.quit') }
-                </Button>
-              </Form>
+                </Form>
+              </WizardContext.Provider>
             );
           }}
         />
@@ -229,6 +231,8 @@ class Progress extends React.Component {
   }
   
   render() {
+    // TODO: sometimes steps is passed in as an empty object.
+    // probably an issue witht he way context is being updated in fsm-config
     return !this.props.step ? null : (
       <section id="progress" className="text-green">
         { `Step ${this.props.step} of ${this.props.steps}` }
@@ -311,35 +315,37 @@ class Wizard extends React.Component {
             let providedValues = this.formStarted ? values : this.props.initialValues;          
 
             return (
-              <WizardContext.Provider value={values}>
-                <Switch>
-                  {
-                    this.props.config.map((section, index) => {
-                      return (
-                        <RouteWithSubRoutes
-                          key={index}
-                          route={section}
-                          path={section.path}
-                          extraProps={{
-                            handleSubmit,
-                            handleChange,
-                            values: providedValues,
-                            errors,
-                            name: section.name,
-                            onNext: (values) => {
-                              if (!this.formStarted) this.formStarted = true;
-                              this.props.onNext(values);
-                            },
-                            onQuit: this.props.onQuit
-                          }}
-                        />
-                      );
-                    })
-                  }
-                  <Route component={Route404} />
-                </Switch>
-                <Debug name="Complete form state" />
-              </WizardContext.Provider>
+              <React.Fragment>
+                <WizardContext.Provider value={providedValues}>
+                    <Switch>
+                      {
+                        this.props.config.map((section, index) => {
+                          return (
+                            <RouteWithSubRoutes
+                              key={index}
+                              route={section}
+                              path={section.path}
+                              extraProps={{
+                                handleSubmit,
+                                handleChange,
+                                values: providedValues,
+                                errors,
+                                name: section.name,
+                                onNext: (values) => {
+                                  if (!this.formStarted) this.formStarted = true;
+                                  this.props.onNext(values);
+                                },
+                                onQuit: this.props.onQuit
+                              }}
+                            />
+                          );
+                        })
+                      }
+                      <Route component={Route404} />
+                    </Switch>
+                    <Debug name="Complete form state" />
+                </WizardContext.Provider>
+              </React.Fragment>
             );
           }}
         />

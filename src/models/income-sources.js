@@ -9,7 +9,6 @@ const incomeTypes = [
   "veteransBenefits",
   "alimony",
   "childSupport",
-  "fema",
   "otherSources",
 ];
 

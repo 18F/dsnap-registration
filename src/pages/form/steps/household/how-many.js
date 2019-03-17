@@ -5,7 +5,7 @@ import FormikField from 'components/formik-field';
 import { buildNestedKey } from 'utils';
 import validateHouseholdCount from 'validators/household';
 import { addPeopleToHousehold } from 'models/household';
-import { getDisaster } from 'models/disaster';
+import { getDisaster, getBeginDate } from 'models/disaster';
 
 const modelName = 'count';
 const addToHousehold = household => values => ({
@@ -24,7 +24,7 @@ const HowMany = ({ handleChange, sectionName, t, registerStep }) =>
       >
         <FormikField
           labelText={t(buildNestedKey(sectionName, modelName, 'label'), {
-            benefitStartDate: getDisaster(disasters, basicInfo.disasterIndex)
+            benefitStartDate: getBeginDate(getDisaster(disasters, basicInfo.disasterIndex))
           })}
           explanation={t(buildNestedKey(sectionName, modelName, 'explanation'))}
           onChange={handleChange}

@@ -18,10 +18,9 @@ const handleNext = (values) => () => {
   const member = members[index];
   // TODO: make jobs / other jobs not nested under member so
   // all these relationships dont have to be resolved here
-  const nextIncome = addJob(member.assetsAndIncome, newJob);
   const nextMember = {
     ...member,
-    assetsAndIncome: nextIncome
+    assetsAndIncome: addJob(member.assetsAndIncome, newJob),
   };
 
   const nextHousehold = updateMemberAtIndex(household, index, nextMember);

@@ -27,10 +27,10 @@ class SignAndSubmit extends React.Component {
                 inline
                 options={[{
                   label: t('submit.agree'),
-                  value: true
+                  value: 'true'
                 }, {
                   label: t('submit.disagree'),
-                  value: false
+                  value: 'false'
                 }]}
                 onChange={handleChange}
                 name="submit.acceptedTerms"

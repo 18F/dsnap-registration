@@ -9,38 +9,49 @@ import { getError } from 'models/error';
 import ErrorAlert from 'components/error-alert';
 
 class PreRegistrationPage extends React.Component {
+  renderError(maybeErrors) {
+    if (getError(maybeErrors)) {
+      return (
+        <ErrorAlert
+          text={this.props.t('preregistration.disaster.error.server')}
+        />
+      );
+    }
+
+    return null;
+  }
   render() {
     const { t, ...rest } = this.props;
     
     return (      
       <Wizard.Context>
         {({ errors }) => {
-          const hasError = getError(errors, 'server');
-
           return (
-            hasError ?
-            <ErrorAlert text={t('preregistration.disaster.error.server')} /> :
-            <Loading message={t('general.loading')}>
-              <Wizard.Section name="preregistration" { ...rest }>
-                { this.props.children }
-              </Wizard.Section>
-            </Loading>
-          )
+            <React.Fragment>
+              { this.renderError(errors) }
+              <Loading message={t('general.loading')}>
+                <Wizard.Section name="preregistration" { ...rest }>
+                  { this.props.children }
+                </Wizard.Section>
+              </Loading>
+            </React.Fragment>
+          );
         }}
       </Wizard.Context>
     );
   }
 }
 
-const Step = ({ registerStep, handleChange, t }) => (
-  <Wizard.Context>
-    {({ disasters, basicInfo }) => {
-      return (
-        <Wizard.Step
-          registerStep={registerStep}
-          modelName="preregistration"
-          header={t('preregistration.header')}
-        >           
+const Step = ({ registerStep, handleChange, t }) => (      
+  <Wizard.Step
+    registerStep={registerStep}
+    modelName="preregistration"
+    header={t('preregistration.header')}
+  >
+    <Wizard.Context>
+      {({ disasters, basicInfo }) => {
+        return (
+          <React.Fragment>
           <FormikFieldGroup
             labelText={t('preregistration.disaster.label')}
             fields={getDisasters(disasters).map((disaster, index) => ({
@@ -54,7 +65,7 @@ const Step = ({ registerStep, handleChange, t }) => (
           />
           { !basicInfo.disasterIndex ? null :
             <FormikField
-              name='basicInfo.disasterCounty'
+              name="basicInfo.disasterCounty"
               onChange={handleChange}
               labelText={t('preregistration.disasterCounty.label')}
               type="select"
@@ -85,14 +96,14 @@ const Step = ({ registerStep, handleChange, t }) => (
             radioValue={false}
             groupClassName="grid-col-6"
           />
-        </Wizard.Step>
-      );
-    }}
-  </Wizard.Context>
+          </React.Fragment>
+        )
+      }}
+    </Wizard.Context>
+  </Wizard.Step>
 );
 
 const PreRegistrationStep = withLocale(Step);
-
 
 export { PreRegistrationStep };
 
