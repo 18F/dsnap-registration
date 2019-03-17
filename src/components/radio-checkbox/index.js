@@ -64,7 +64,7 @@ class RadioCheckbox extends React.Component {
         onClick={this.handleChange}
       >
         <input
-          id={this.props.name}
+          id={this.props.id}
           ref={this.checkbox}
           className={`usa-${type}-input`}
           type={type}

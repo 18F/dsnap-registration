@@ -35,7 +35,6 @@ class FormikField extends React.Component {
         render={({ field }) => {
           return (
             <InputComponent
-              id={name}
               type={type}
               {...field}
               onChange={onChange || field.onChange}

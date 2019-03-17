@@ -48,7 +48,8 @@ const Step = ({ registerStep, handleChange, t }) => (
               name: `basicInfo.disasterIndex`,
               labelText: disaster.title,
               onChange: handleChange,
-              radioValue: String(index)
+              radioValue: String(index),
+              id: `basicInfo.disasterIndex.${index}`
             }))}
           />
           { !basicInfo.disasterIndex ? null :
