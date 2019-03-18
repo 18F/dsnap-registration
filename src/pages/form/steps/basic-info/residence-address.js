@@ -4,7 +4,7 @@ import { buildNestedKey } from 'utils';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import YesNoField from 'components/yes-no-field';
-import FormikField, { FormikRadioGroup } from 'components/formik-field';
+import FormikField from 'components/formik-field';
 import states from 'data/states';
 
 class ResidenceAddress extends React.Component {
