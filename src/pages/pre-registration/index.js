@@ -54,13 +54,13 @@ const Step = ({ registerStep, handleChange, t }) => (
           <React.Fragment>
           <FormikFieldGroup
             labelText={t('preregistration.disaster.label')}
-            fields={getDisasters(disasters).map((disaster, index) => ({
+            fields={getDisasters(disasters).map((disaster) => ({
               type: 'radio',
               name: `basicInfo.disasterIndex`,
               labelText: disaster.title,
               onChange: handleChange,
-              radioValue: String(index),
-              id: `basicInfo.disasterIndex.${index}`
+              radioValue: String(disaster.id),
+              id: `basicInfo.disasterIndex.${disaster.id}`
             }))}
           />
           { !basicInfo.disasterIndex ? null :
