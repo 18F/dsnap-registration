@@ -18,7 +18,7 @@ const languageOptions = [{
 
 class PreregistrationSection extends React.Component {
   handleSubmit = () => {
-    this.props.history.push('/get-prepared');
+    this.props.history.push('/form/pre-registration');
   }
 
   render() {

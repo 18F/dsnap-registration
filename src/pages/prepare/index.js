@@ -8,6 +8,8 @@ import Collapsible from 'components/collapsible';
 import Button from 'components/button';
 import SecurityAlert from 'components/security-alert';
 
+const tKey = 'preparation';
+
 class PreparePage extends React.Component {
   static propTypes = {
     tKey: PropTypes.string,
@@ -18,7 +20,7 @@ class PreparePage extends React.Component {
   }
 
   render() {
-    const { tKey, t } = this.props;
+    const { t } = this.props;
 
     return (   
       <section>
