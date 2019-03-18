@@ -575,7 +575,7 @@ const preRegistrationChart = {
           path: '/pre-registration'
         },
         on: {
-          ...formNextHandler('#basic-info')
+          ...formNextHandler('#prepare')
         }
       }
     }
@@ -616,6 +616,22 @@ const formStateConfig = {
       onEntry: () => console.log('enter idle'),
     },
     'pre-registration': preRegistrationChart,
+    prepare: {
+      id: 'prepare',
+      initial: 'default',
+      states: {
+        default: {
+          onEntry: assign({ currentStep: 'prepare' }),
+          onExit: assign({ previousStep: 'prepare' }),
+          meta: {
+            path: '/get-prepared'
+          },
+          on: {
+            NEXT: 'basic-info'
+          }
+        }
+      },
+    },
     'basic-info': basicInfoChart,
     identity: identityChart,
     household: householdChart,

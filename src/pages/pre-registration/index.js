@@ -84,7 +84,7 @@ const Step = ({ registerStep, handleChange, t }) => (
             explanation={t('preregistration.storage.confirm.explanation')}
             name="config.useLocalStorage"
             onChange={handleChange}
-            radioValue={true}
+            radioValue="true"
             groupClassName="grid-col-6"
           />
           <FormikField
@@ -93,7 +93,7 @@ const Step = ({ registerStep, handleChange, t }) => (
             explanation={t('preregistration.storage.deny.explanation')}
             name="config.useLocalStorage"
             onChange={handleChange}
-            radioValue={false}
+            radioValue="false"
             groupClassName="grid-col-6"
           />
           </React.Fragment>
