@@ -10,7 +10,7 @@ import ErrorAlert from 'components/error-alert';
 
 class PreRegistrationPage extends React.Component {
   renderError(maybeErrors) {
-    if (getError(maybeErrors)) {
+    if (getError(maybeErrors, 'server')) {
       return (
         <ErrorAlert
           text={this.props.t('preregistration.disaster.error.server')}

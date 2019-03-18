@@ -544,15 +544,18 @@ const preRegistrationChart = {
           src: () => getDisasters(),
           onError: {
             target: 'set-up',
-            actions: assign({
-              errors: () => ({
-                server: true
-              }),
-              meta: (context) => ({
-                ...context.meta,
-                loading: false
+            actions: [
+              assign({
+                errors: () => ({
+                  server: true
+                }),
+                meta: (context) => ({
+                  ...context.meta,
+                  loading: false
+                }),
+                disasters: disaster(),
               })
-            })
+            ]
           },
           onDone: {
             target: 'set-up',
