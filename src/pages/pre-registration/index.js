@@ -52,50 +52,50 @@ const Step = ({ registerStep, handleChange, t }) => (
       {({ disasters, basicInfo }) => {
         return (
           <React.Fragment>
-          <FormikFieldGroup
-            labelText={t('preregistration.disaster.label')}
-            fields={getDisasters(disasters).map((disaster) => ({
-              type: 'radio',
-              name: `basicInfo.disasterIndex`,
-              labelText: disaster.title,
-              onChange: handleChange,
-              radioValue: String(disaster.id),
-              id: `basicInfo.disasterIndex.${disaster.id}`
-            }))}
-          />
-          { !basicInfo.disasterIndex ? null :
+            <FormikFieldGroup
+              labelText={t('preregistration.disaster.label')}
+              fields={getDisasters(disasters).map((disaster) => ({
+                type: 'radio',
+                name: `basicInfo.disasterIndex`,
+                labelText: disaster.title,
+                onChange: handleChange,
+                radioValue: String(disaster.id),
+                id: `basicInfo.disasterIndex.${disaster.id}`
+              }))}
+            />  
+            { !basicInfo.disasterIndex ? null :
+              <FormikField
+                name="basicInfo.disasterCounty"
+                onChange={handleChange}
+                labelText={t('preregistration.disasterCounty.label')}
+                type="select"
+                options={
+                  getCounties(disasters, Number(basicInfo.disasterIndex), 0)
+                    .map(name => ({ text: name, value: name }))
+                }
+              />
+            }   
+            <p className="font-sans-md">
+              <b>{t('preregistration.storage.label')}</b>
+            </p>
             <FormikField
-              name="basicInfo.disasterCounty"
+              type="radio"
+              labelText={t('preregistration.storage.confirm.label')}
+              explanation={t('preregistration.storage.confirm.explanation')}
+              name="config.useLocalStorage"
               onChange={handleChange}
-              labelText={t('preregistration.disasterCounty.label')}
-              type="select"
-              options={
-                getCounties(disasters, Number(basicInfo.disasterIndex), 0)
-                  .map(name => ({ text: name, value: name }))
-              }
+              radioValue="true"
+              groupClassName="grid-col-6"
             />
-          }   
-          <p className="font-sans-md">
-            <b>{t('preregistration.storage.label')}</b>
-          </p>
-          <FormikField
-            type="radio"
-            labelText={t('preregistration.storage.confirm.label')}
-            explanation={t('preregistration.storage.confirm.explanation')}
-            name="config.useLocalStorage"
-            onChange={handleChange}
-            radioValue="true"
-            groupClassName="grid-col-6"
-          />
-          <FormikField
-            type="radio"
-            labelText={t('preregistration.storage.deny.label')}
-            explanation={t('preregistration.storage.deny.explanation')}
-            name="config.useLocalStorage"
-            onChange={handleChange}
-            radioValue="false"
-            groupClassName="grid-col-6"
-          />
+            <FormikField
+              type="radio"
+              labelText={t('preregistration.storage.deny.label')}
+              explanation={t('preregistration.storage.deny.explanation')}
+              name="config.useLocalStorage"
+              onChange={handleChange}
+              radioValue="false"
+              groupClassName="grid-col-6"
+            />
           </React.Fragment>
         )
       }}
