@@ -561,9 +561,16 @@ const preRegistrationChart = {
             target: 'set-up',
             actions: [
               assign({
-               disasters: (_, event) => ({
-                  data: event.data,
-                }),
+               disasters: (_, event) => {
+                 return {
+                   data: event.data.reduce((memo, d) => {
+                      return {
+                        ...memo,
+                        [d.id]: d
+                      }
+                    }, {})
+                  };
+               },
                 meta: (context) => ({
                   ...context.meta,
                   loading: false
