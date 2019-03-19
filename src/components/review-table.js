@@ -86,7 +86,7 @@ class ReviewTable extends React.Component {
     if (Array.isArray(component)) {
       return (
         <React.Fragment>
-          { component.map(({ Component, props}) => <Component {...props} />) }
+          { component.map(({ Component, props}, index) => <Component {...props} key={index} />) }
         </React.Fragment>
       );
     }
@@ -96,7 +96,7 @@ class ReviewTable extends React.Component {
 
   renderDatumRow(datum, index) {
     return (
-      <div index={index}>
+      <div key={index}>
         {
           this.props.editing ?
             this.renderEditableComponent(datum) :

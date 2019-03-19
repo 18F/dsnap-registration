@@ -127,7 +127,7 @@ class Section extends React.Component {
           render={(formikProps) => {
             const disable = this.hasErrors(formikProps.errors) ||
               formikProps.isSubmitting ||
-              this.props.values.errors.server;
+              (this.props.values.errors && this.props.values.errors.server);
 
             return (
               <WizardContext.Provider value={formikProps.values}>
