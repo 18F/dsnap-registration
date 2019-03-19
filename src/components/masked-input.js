@@ -7,8 +7,10 @@ const invalidCharsRegexp = new RegExp('[^\\dA-Za-z]', 'g');
 
 class MaskedInput extends React.Component {
   static propTypes = {
-    acceptChars: PropTypes.string,
-    delimiter: PropTypes.string,
+    delimiter: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.instanceOf(RegExp)
+    ]),
     pattern: PropTypes.string,
   }
 
@@ -62,8 +64,10 @@ class MaskedInput extends React.Component {
   }
 
   handleChange = (event) => {
-    this.props.onChange(event.target.name)(
-      this.formatValue(event.target.value)
+    const { name, value } = event.target;
+
+    this.props.onChange(name)(
+      this.formatValue(value)
     );
   }
 

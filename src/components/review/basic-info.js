@@ -88,6 +88,9 @@ class BasicInfoReview extends React.Component {
         data: applicant.ssn,
         component: {
           props: {
+            type: 'mask',
+            pattern: 'XXX-XX-XXXX',
+            delimiter: '-',
             name: 'household.members.0.ssn',
             onChange: handleChange,
             labelText: t(buildNestedKey('identity', 'personalInfo', 'ssn', 'label'))
