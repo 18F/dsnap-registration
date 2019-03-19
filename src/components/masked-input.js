@@ -66,9 +66,7 @@ class MaskedInput extends React.Component {
   handleChange = (event) => {
     const { name, value } = event.target;
 
-    this.props.onChange(name)(
-      this.formatValue(value)
-    );
+    this.props.onChange(name, this.formatValue(value));
   }
 
   render() {

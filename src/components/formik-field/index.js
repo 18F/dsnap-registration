@@ -34,7 +34,7 @@ class FormikField extends React.Component {
     return (
       <FastField
         name={name}
-        render={({ field, form }) => {
+        render={({ field }) => {
           return (
             <InputComponent
               type={type}
