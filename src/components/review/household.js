@@ -76,6 +76,9 @@ class HouseholdReview extends React.Component {
         data: member.ssn,
         component: {
           props: {
+            type: 'mask',
+            pattern: 'XXX-XX-XXXX',
+            delimiter: '-',
             name: `household.members.${memberIndex}.ssn`,
             onChange: handleChange,
             labelText: t('household.memberDetails.ssn.label', { firstName: getFirstName(member) })
