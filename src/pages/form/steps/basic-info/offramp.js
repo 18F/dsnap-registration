@@ -26,11 +26,6 @@ class BasicInfoOffRamp extends React.Component {
                 { t('basicInfo.offramp.copy') }
               </p>
             </div>
-            <div className="grid-col desktop:grid-col-8 padding-2 desktop:padding-4 margin-y-4 border radius-md desktop:font-ui-lg border-mint text-mint">
-              <p>
-                { t('basicInfo.offramp.alerts.success') }
-              </p>
-            </div>
           </section>
         )}
       </MachineState>
