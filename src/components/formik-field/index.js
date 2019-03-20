@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ErrorMessage, FastField } from 'formik';
+import { ErrorMessage, FastField, Field } from 'formik';
 import Input from 'components/input';
 import MaskedInput from 'components/masked-input';
 import InputError from 'components/error';
@@ -12,7 +12,7 @@ const inputTypes = (type) => {
   switch(type) {
     case 'text': return Input;
     case 'select': return Dropdown;
-    case 'mask': return MaskedInput
+    case 'mask': return MaskedInput;
     case 'radio':
     case 'checkbox':
       return RadioCheckbox;
@@ -28,11 +28,13 @@ class FormikField extends React.Component {
   }
 
   render() {
-    const { name, onChange, type, ...rest } = this.props;
+    const { name, onChange, type, eager, ...rest } = this.props;
+    const BaseComponent = eager ? Field : FastField;
     const InputComponent = inputTypes(type);
 
+
     return (
-      <FastField
+      <BaseComponent
         name={name}
         render={({ field }) => {
           return (

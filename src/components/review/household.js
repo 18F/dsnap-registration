@@ -76,6 +76,7 @@ class HouseholdReview extends React.Component {
         data: member.ssn,
         component: {
           props: {
+            eager: true,
             type: 'mask',
             pattern: 'XXX-XX-XXXX',
             delimiter: '-',
