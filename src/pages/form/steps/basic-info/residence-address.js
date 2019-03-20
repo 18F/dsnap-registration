@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildNestedKey } from 'utils';
+import { buildNestedKey, phoneMaskRegExp } from 'utils';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import YesNoField from 'components/yes-no-field';
@@ -66,6 +66,9 @@ class ResidenceAddress extends React.Component {
           labelText={t(`${buildNestedKey(sectionName, tKey, 'currentMailingAddress', 'label')}`)}
         />
         <FormikField
+          type="mask"
+          pattern="(XXX)-XXX-XXXX"
+          delimiter={phoneMaskRegExp}
           name={`${sectionName}.phone`}
           onChange={handleChange}
           type="tel"

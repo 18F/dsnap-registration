@@ -65,6 +65,9 @@ const MemberDetails = ({ handleChange, sectionName, t, registerStep }) => (
               onChange={handleChange}
             />
             <FormikField
+              type="mask"
+              pattern="XXX-XX-XXXX"
+              delimiter="-"
               name={buildNestedKey(sectionName, 'members', memberIndex, 'ssn')}
               labelText={t(`${buildNestedKey(sectionName, modelName, 'ssn', 'label')}`, { firstName })}
               explanation={t(`${buildNestedKey(sectionName, modelName, 'ssn', 'explanation')}`)}

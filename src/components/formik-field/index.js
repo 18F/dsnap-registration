@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ErrorMessage, FastField } from 'formik';
 import Input from 'components/input';
+import MaskedInput from 'components/masked-input';
 import InputError from 'components/error';
 import Dropdown from 'components/dropdown';
 import RadioCheckbox from 'components/radio-checkbox';
@@ -11,6 +12,7 @@ const inputTypes = (type) => {
   switch(type) {
     case 'text': return Input;
     case 'select': return Dropdown;
+    case 'mask': return MaskedInput
     case 'radio':
     case 'checkbox':
       return RadioCheckbox;

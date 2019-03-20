@@ -57,6 +57,9 @@ class PersonalInfo extends React.Component {
         />
         <FormikField
           name="household.members.0.ssn"
+          type="mask"
+          pattern="XXX-XX-XXXX"
+          delimiter="-"
           onChange={handleChange}
           labelText={t(buildNestedKey(sectionName, modelName, 'ssn', 'label'))}
           explanation={t(buildNestedKey(sectionName, modelName, 'ssn', 'explanation'))}

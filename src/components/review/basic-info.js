@@ -10,7 +10,7 @@ import { getFullName, getDOB } from 'models/person';
 import { getApplicant } from 'models/household';
 import { getID } from 'models/identity';
 import { getResidenceAddress, getMailingAddress } from 'models/basic-info';
-import { buildNestedKey } from 'utils';
+import { buildNestedKey, phoneMaskRegExp } from 'utils';
 
 const formattedAddress = address => (
   !address ?
@@ -88,6 +88,9 @@ class BasicInfoReview extends React.Component {
         data: applicant.ssn,
         component: {
           props: {
+            type: 'mask',
+            pattern: 'XXX-XX-XXXX',
+            delimiter: '-',
             name: 'household.members.0.ssn',
             onChange: handleChange,
             labelText: t(buildNestedKey('identity', 'personalInfo', 'ssn', 'label'))
@@ -238,6 +241,9 @@ class BasicInfoReview extends React.Component {
         data: basicInfo.phone,
         component: {
           props: {
+            type: 'mask',
+            pattern: '(XXX)-XXX-XXXX',
+            delimiter: phoneMaskRegExp,
             name: 'basicInfo.phone',
             onChange: handleChange,
             labelText: t('basicInfo.phone.label'),
