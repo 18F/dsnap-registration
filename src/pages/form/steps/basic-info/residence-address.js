@@ -60,7 +60,6 @@ class ResidenceAddress extends React.Component {
           labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}
         />
         <YesNoField
-
           name={`${sectionName}.currentMailingAddress`}
           onChange={handleChange}
           labelText={t(`${buildNestedKey(sectionName, tKey, 'currentMailingAddress', 'label')}`)}
@@ -71,7 +70,6 @@ class ResidenceAddress extends React.Component {
           delimiter={phoneMaskRegExp}
           name={`${sectionName}.phone`}
           onChange={handleChange}
-          type="tel"
           labelText={t(`${buildNestedKey(sectionName, 'phone', 'label')}`)}
         />
         <FormikField
