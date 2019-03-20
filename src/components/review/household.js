@@ -90,21 +90,28 @@ class HouseholdReview extends React.Component {
   }
 
   handleAddMember = () => {
-    this.props.formik.setValues({
-      ...this.props.formik.values,
-      household: addPeopleToHousehold(this.props.formik.values.household, 1),
-    });
+    const { formik, setParentValues } = this.props;
+    const { values } = formik;
+    const nextState = {
+      ...values,
+      household: addPeopleToHousehold(values.household, 1),
+    };
+
+    formik.setValues(nextState);
+    setParentValues(nextState);
   }
 
   handleRemoveMember(memberIndex) {
-    const { formik } = this.props;
+    const { formik, setParentValues } = this.props;
     const { household } = formik.values;
     const nextHousehold = deleteMemberFromHousehold(household, memberIndex);
-
-    formik.setValues({
+    const nextState = {
       ...formik.values,
       household: nextHousehold
-    });
+    };
+
+    formik.setValues(nextState);
+    setParentValues(nextState);
   }
 
   render() {
