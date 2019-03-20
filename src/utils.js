@@ -12,3 +12,8 @@ export const isAffirmative = value =>
   (value === "true" || value === true || value.toLowerCase() === YES);
 
 export const phoneMaskRegExp = /[()-]/;
+
+export const isPrimitive = value =>
+  typeof value === 'string' ||
+  typeof value === 'number' ||
+  typeof value === 'boolean';
