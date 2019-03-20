@@ -1,4 +1,4 @@
-import applicable from './applicable';
+import applicable, { getApplicablesTotal } from './applicable';
 
 const incomeTypes = [
   "selfEmployed",
@@ -11,6 +11,8 @@ const incomeTypes = [
   "childSupport",
   "otherSources",
 ];
+
+export const getIncomeTotal = sources => getApplicablesTotal(sources);
 
 export default () => ({
   ...incomeTypes.reduce((memo, type) => ({ ...memo, [type]: applicable(),  }), {}),
