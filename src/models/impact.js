@@ -1,5 +1,6 @@
 import applicable from './applicable';
 import { isAffirmative } from 'utils';
+import { getApplicablesTotal } from './applicable';
 
 const baseData = {
   lostOrInaccessibleIncome: undefined,
@@ -13,10 +14,7 @@ const applicableData = [
 ];
 
 export const getExpenseTotal = (impact) =>
-  Object.entries(impact.otherExpenses)
-    .filter(([_, expense]) => expense.applicable)
-    .reduce((memo, [_, expense]) => memo += Number(expense.value), 0)
-
+  getApplicablesTotal(Object.entries(impact.otherExpenses))
 
 export const getLostFood = impact => isAffirmative(impact.buyFood);
 export const getLostIncome = impact => isAffirmative(impact.lostOrInaccessibleIncome);

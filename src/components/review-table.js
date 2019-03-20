@@ -96,7 +96,7 @@ class ReviewTable extends React.Component {
 
   renderDatumRow(datum, index) {
     return (
-      <div key={index}>
+      <div key={`${datum.name}.${index}`}>
         {
           this.props.editing ?
             this.renderEditableComponent(datum) :

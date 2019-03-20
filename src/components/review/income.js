@@ -11,6 +11,7 @@ import ReviewTable, { Header, HeaderAction} from 'components/review-table';
 import Button from 'components/button';
 import { isAffirmative } from 'utils';
 import job from 'models/job';
+import { getIncomeTotal } from 'models/income-sources';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, getJobs, getIncome } from 'models/person';
 
@@ -66,12 +67,11 @@ class IncomeReviewSection extends React.Component {
 
   getPrimaryIncomeData(income) {
     const { t } = this.props;
+
     return [
       {
         name: t('resources.assetsAndIncome.incomeSources.total'),
-        data: `$${Object.entries(income.incomeSources)
-          .filter(([_, source]) => source.applicable)
-          .reduce((memo, [_, source]) => memo += Number(source.value), 0)}`,
+        data: `$${getIncomeTotal(Object.entries(income.incomeSources))}`,
         readonly: true
       }
     ]
@@ -148,7 +148,7 @@ class IncomeReviewSection extends React.Component {
         const jobs = getJobs(member);
 
         return (
-          <ReviewSubSection title={title} onUpdate={handleUpdate} key={`${firstName}.${memberIndex}`}>
+          <ReviewSubSection title={title} onUpdate={handleUpdate} key={`income.${firstName}.${memberIndex}`}>
             {({ editing }) => (
               <React.Fragment>
                 <ReviewTableCollection fallback={t('resources.jobs.none')}>
@@ -184,7 +184,6 @@ class IncomeReviewSection extends React.Component {
                   { t('review.addJob') }
                 </Button>
                 <ReviewTable
-                  t={t}
                   editing={editing}
                   primaryData={this.getPrimaryIncomeData(income)}
                   secondaryData={this.getSecondaryIncomeData(memberIndex, income)}
