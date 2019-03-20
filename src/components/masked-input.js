@@ -10,17 +10,24 @@ class MaskedInput extends React.Component {
     delimiter: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.instanceOf(RegExp)
-    ]),
-    pattern: PropTypes.string,
-  }
-
-  static defaultProps = {
-    delimiter: '-',
-    pattern: 'XXX-XX-XXXX'
+    ]).isRequired,
+    pattern: PropTypes.string.isRequired,
   }
 
   trimRemaining(string, length) {
     return string.slice(0, length);
+  }
+ 
+  delimiterRegexp(delimiter) {
+    return delimiter instanceof RegExp;
+  }
+
+  matchesDelimiter(char, delimiter) {
+    if (this.delimiterRegexp(delimiter)) {
+      return delimiter.test(char);
+    }
+
+    return char === delimiter;
   }
 
   demask(value, delimiter, invalidChars) {
@@ -40,8 +47,8 @@ class MaskedInput extends React.Component {
       const currPattern = pattern[patternPtr];
       let nextChar;
 
-      if (currPattern === delimiter) {
-        nextChar = delimiter;
+      if (this.matchesDelimiter(currPattern, delimiter)) {
+        nextChar = this.delimiterRegexp(delimiter) ? currPattern : delimiter;
         patternPtr += 1;
       } else {
         nextChar = valueToMask[valuePtr];

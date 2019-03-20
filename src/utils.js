@@ -10,3 +10,5 @@ export const isAffirmative = value =>
   value !== undefined && 
   value !== false &&
   (value === "true" || value === true || value.toLowerCase() === YES);
+
+export const phoneMaskRegExp = /[\(\)\-]/;
