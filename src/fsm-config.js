@@ -1,5 +1,5 @@
 import { actions, assign } from 'xstate';
-import { isAffirmative } from 'utils';
+import { isAffirmative, isPrimitive } from 'utils';
 import testData from './test-data';
 import modelState from 'models';
 import config from 'models/config';
@@ -746,7 +746,7 @@ const extraActions = {
         .filter(([name, _]) => ignoreKeys.indexOf(name) === -1)
         .reduce((memo, [name, nextData]) => {
           const existingContextSlice = context[name];
-          const formattedContextSlice = typeof existingContextSlice === 'string' ?
+          const formattedContextSlice = isPrimitive(existingContextSlice) ?
             nextData : { ...context[name], ...nextData };
 
           return {
