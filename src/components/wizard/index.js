@@ -155,7 +155,8 @@ class Section extends React.Component {
                                 sectionName: this.props.name,
                                 handleChange: this.handleChange(formikProps.handleChange),
                                 registerStep: this.registerStepComponent,
-                                handleNext: this.props.handleNext
+                                handleNext: this.props.handleNext,
+                                setParentValues: this.props.setParentValues
                               }}
                             />
                           );
@@ -316,9 +317,25 @@ class Wizard extends React.Component {
           initialValues={rest}
           onSubmit={this.handleSubmit}
           validate={this.validate}
-          render={({ values, handleSubmit, handleChange, errors }) => {
+          render={({ values, handleSubmit, handleChange, setValues, errors }) => {
             let providedValues = this.formStarted ? values : this.props.initialValues;          
-
+            /**
+             * TODO
+             * Because there are two nested formik instances, whenever we call an update function in
+             * the nested `formik`, we MUST also pass the corresponding update function down from the parent
+             * parent `formik`'s instance.
+             *
+             * We do this to keep the two form states in sync. This is super cumbersome and brittle, so we
+             * need to do one of two things:
+             *
+             * 1). figure out how to automatically call updates on the parent form regardless of nesting depth
+             * 2). remove the nesting entirely, and just have a single  top level form state
+             *  The con to 2). is that the app will lose the ability to have discrete `formik` instances
+             *  that control slices of the form state. This form is small enough that it probably doesnt matter,
+             *  but it might be an issue for future, larger forms. I's probably better to design the base `formik`
+             *  wrapper component in such a way that nesting _could_ be possible in the future with additional
+             *  custom classes?
+             * */
             return (
               <React.Fragment>
                 <WizardContext.Provider value={providedValues}>
@@ -332,7 +349,8 @@ class Wizard extends React.Component {
                               path={section.path}
                               extraProps={{
                                 handleSubmit,
-                                handleChange,
+                                handleChange: handleChange,
+                                setParentValues: setValues,
                                 values: providedValues,
                                 errors,
                                 name: section.name,

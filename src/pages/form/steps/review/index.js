@@ -25,7 +25,7 @@ class ReviewStep extends React.Component {
         modelName="review"
       >
         <BasicInfoReview handleChange={handleChange} />
-        <HouseholdReview handleChange={handleChange} />
+        <HouseholdReview handleChange={handleChange} setParentValues={this.props.setParentValues} />
         <HouseholdMattersReview handleChange={handleChange} />
         <DisasterExpensesReview handleChange={handleChange} />
         <IncomeReviewSection handleChange={handleChange} />
