@@ -10,12 +10,14 @@ export default () => ({
 
 
 // @return absolute number of members in a household, including the primary applicant
-export const getHouseholdCount = household => household.members.length;
+export const getHouseholdCount = household => getMembers(household).length;
 
 // @return all members of household
-export const getMembers = household => household.members;
+export const getMembers = household => household.members || [];
 
-export const getOtherMembers = household => household.members.slice(1);
+export const getOtherMembers = household => getMembers(household).slice(1);
+
+export const getOtherMemberCount = household => getOtherMembers(household).length;
 
 // TODO: there is probably an opportunity to make a service that connects
 // basic info and household so this accessor doesnt have to be hardcoded
@@ -30,10 +32,14 @@ export const updateCurrentMemberIndex = household => ({
 });
 
 export const hasAdditionalMembers = household =>
-  getCurrentMemberIndex(household) < getHouseholdCount(household) - 1;
+  getCurrentMemberIndex(household) < getOtherMembers(household);
 
 export const addPeopleToHousehold = (household, count) => {
   const { members, ...rest } = household;
+
+  if (getOtherMemberCount(household) >= count || !count || count < 0) {
+    return household;
+  }
 
   return {
     ...rest,
