@@ -230,7 +230,8 @@ export default {
             "residency_required":true,
             "uses_DSED":false,
             "allows_food_loss_alone":true,
-            "state":"NC"
+            "state":"NC",
+            "description": "disaster that wasn't great"
          }
       }
    }
