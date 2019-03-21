@@ -1,6 +1,7 @@
 export default {
   "basicInfo":{
      "personId": 0,
+     "disasterIndex": "11",
      "phone":"2165555555",
      "email":"adam@email.biz",
      "residenceAddress":{
@@ -210,5 +211,27 @@ export default {
      useLocalStorage: true,
      language: 'en',
      disaster: ''
-  }
+  },
+  disasters: {
+     "data":{
+        "11": {
+           "id":11,
+           "application_periods": [{
+              "begin_date":"2019-03-08",
+              "end_date":"2020-01-04",
+              "registration_begin_date":"2019-03-01",
+              "registration_end_date":"2019-06-08",
+              "counties":["Alachua","Baker","Bay","Bradford","Brevard","Broward","Calhoun","Charlotte","Citrus","Clay","Collier","Columbia","DeSoto","Dixie","Duval","Escambia","Flagler","Franklin","Gadsden","Gilchrist","Glades","Gulf","Hamilton","Hardee","Hendry","Hernando","Highlands","Hillsborough"]
+            }],
+            "disaster_request_no":"DR-4285",
+            "title":"Matthew",
+            "benefit_begin_date":"2018-03-01",
+            "benefit_end_date":"2018-05-31",
+            "residency_required":true,
+            "uses_DSED":false,
+            "allows_food_loss_alone":true,
+            "state":"NC"
+         }
+      }
+   }
 };
