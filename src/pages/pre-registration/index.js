@@ -58,6 +58,7 @@ const Step = ({ registerStep, handleChange, t }) => (
                 type: 'radio',
                 name: `basicInfo.disasterIndex`,
                 labelText: disaster.title,
+                explanation: disaster.description,
                 onChange: handleChange,
                 radioValue: String(disaster.id),
                 id: `basicInfo.disasterIndex.${disaster.id}`
