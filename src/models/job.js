@@ -1,13 +1,15 @@
 const initialState = {
   employerName: '',
   pay: '',
-  isStateAgency: null
+  isDsnapAgency: null
 };
 
 const job = (state = initialState) => ({
   employerName: state.employerName,
   pay: state.pay,
-  isStateAgency: state.isStateAgency,
+  isDsnapAgency: state.isDsnapAgency,
 });
+
+export const isGovernmentAgency = job => job.isDsnapAgency;
 
 export default job;

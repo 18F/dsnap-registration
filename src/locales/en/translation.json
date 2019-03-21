@@ -336,7 +336,7 @@
       },
       "stateAgency": {
         "id": "Employed by D-SNAP agency",
-        "label": "Is this employer a state agency?"
+        "label": "Is this employer a D-SNAP agency?"
       },
       "otherJobs": {
         "id": "Add job",

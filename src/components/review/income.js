@@ -10,7 +10,7 @@ import ReviewTableCollection from 'components/review-table-collection';
 import ReviewTable, { Header, HeaderAction} from 'components/review-table';
 import Button from 'components/button';
 import { isAffirmative } from 'utils';
-import job from 'models/job';
+import job, { isGovernmentAgency } from 'models/job';
 import { getIncomeTotal } from 'models/income-sources';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, getJobs, getIncome } from 'models/person';
@@ -52,11 +52,11 @@ class IncomeReviewSection extends React.Component {
       },
       {
         name: t(`${prefix}.stateAgency.id`),
-        data: job.isStateAgency,
+        data: isGovernmentAgency(job),
         component: {
           props: {
             labelText: t(`${prefix}.stateAgency.label`),
-            name: `household.members.${memberIndex}.assetsAndIncome.jobs.${jobIndex}.isStateAgency`,
+            name: `household.members.${memberIndex}.assetsAndIncome.jobs.${jobIndex}.isDsnapAgency`,
             onChange: handleChange,
           },
           Component: YesNoField

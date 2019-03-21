@@ -78,7 +78,7 @@ class Jobs extends React.Component {
               />
               <YesNoField
                 labelText={t(buildNestedKey(sectionName, modelName, 'stateAgency', 'label'))}
-                name={buildNestedKey('newJob', 'isStateAgency')}
+                name={buildNestedKey('newJob', 'isDsnapAgency')}
                 onChange={handleChange}
               />              
               <YesNoField
