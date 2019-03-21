@@ -90,12 +90,12 @@ export default {
                  {
                     "employerName":"TTS",
                     "pay":"1000",
-                    "isStateAgency":"no"
+                    "isDsnapAgency":"no"
                  },
                  {
                     "employerName":"Apollo",
                     "pay": "500",
-                    "isStateAgency":"no"
+                    "isDsnapAgency":"no"
                  },
               ],
               "moneyOnHand":"1000"
@@ -158,13 +158,7 @@ export default {
                    "value":null
                 }
              },
-             "jobs":[
-               //  {
-               //     "employerName":"USPS",
-               //     "pay":"10000",
-               //     "isStateAgency":"no"
-               //  },
-             ],
+             "jobs":[],
              "moneyOnHand":"5"
           }
        }
@@ -210,7 +204,7 @@ export default {
   "newJob":{
      "employerName":"",
      "pay":"",
-     "isStateAgency":null
+     "isDsnapAgency":null
   },
   config: {
      useLocalStorage: true,
