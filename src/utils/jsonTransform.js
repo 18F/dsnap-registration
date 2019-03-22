@@ -1,0 +1,64 @@
+import {isAffirmative} from './utils';
+
+export function to_registration_service_format(src) {
+    return {
+        disaster_id: src.basicInfo.disasterIndex, // exists in UI debug, but not in test-data.json TODO
+        // "preferred_language": TODO
+        phone: src.basicInfo.phone,
+        email: src.basicInfo.email,
+        residential_address: src.basicInfo.residenceAddress,
+        mailing_address: src.basicInfo.mailingAddress,
+        county: src.basicInfo.county, // should it be disasterCounty?
+        state_id: src.identity.personalInfo.stateId,
+        has_inaccessible_liquid_resources: isAffirmative(src.impact.inaccessibleMoney),
+        has_lost_or_inaccessible_income: isAffirmative(src.impact.lostOrInaccessibleIncome),
+        purchased_or_plans_to_purchase_food: isAffirmative(src.impact.buyFood),
+        disaster_expenses: {
+            food_loss: src.impact.otherExpenses.foodLoss.value,
+            home_or_business_repairs: src.impact.otherExpenses.repairs.value,
+            temporary_shelter_expenses: src.impact.otherExpenses.tempShelter.value,
+            evacuation_expenses: src.impact.otherExpenses.evacuation.value,
+            other: src.impact.otherExpenses.other.value
+        },
+        household: assemble_household(src)
+    };
+}
+
+function assemble_household(src) {
+    return src.household.members.map( member => {
+        return {
+            first_name: member.name.firstName,
+            middle_name: member.name.middleName,
+            last_name: member.name.lastName,
+            dob: `${member.dob.year}-${member.dob.month}-${member.dob.day}`, // If we are going to validate it, can we make it available as a single field TODO
+            sex: member.sex,
+            ssn: member.ssn,
+            race: member.race,
+            has_food_assistance: member.hasFoodAssistance, // What is this used for? TODO
+            money_on_hand: member.assetsAndIncome.moneyOnHand, // Why is this a string? TODO
+            income: {
+                 self_employed: member.assetsAndIncome.incomeSources.selfEmployed.value,
+                 unemployment: member.assetsAndIncome.incomeSources.unemployment.value,
+                 cash_assistance: member.assetsAndIncome.incomeSources.cashAssistance.value,
+                 disability: member.assetsAndIncome.incomeSources.disability.value,
+                 social_security: member.assetsAndIncome.incomeSources.socialSecurity.value,
+                 veterans_benefits: member.assetsAndIncome.incomeSources.veteransBenefits.value,
+                 alimony: member.assetsAndIncome.incomeSources.alimony.value,
+                 child_support: member.assetsAndIncome.incomeSources.childSupport.value,
+                 other_sources: member.assetsAndIncome.incomeSources.otherSources.value,
+            },
+            jobs: assemble_jobs(member),
+        }
+    });
+}
+
+function assemble_jobs(member) {
+    return member.assetsAndIncome.jobs.map(job => {
+        return {
+            employer_name: job.employerName,
+            pay: job.pay, // TODO this is a string?
+            is_dsnap_agency: isAffirmative(job.isDsnapAgency)
+        }
+    });
+}
+
