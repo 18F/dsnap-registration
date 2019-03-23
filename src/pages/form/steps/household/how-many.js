@@ -2,8 +2,8 @@ import React from 'react';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
+import householdCountSchema from 'schemas/household-count';
 import { buildNestedKey } from 'utils';
-import validateHouseholdCount from 'validators/household';
 import { addPeopleToHousehold } from 'models/household';
 import { getDisaster, getBeginDate } from 'models/disaster';
 
@@ -19,7 +19,7 @@ const HowMany = ({ handleChange, sectionName, t, registerStep }) =>
         header={t(`${buildNestedKey(sectionName, modelName, 'header')}`)}
         modelName='numMembers'
         registerStep={registerStep}
-        validate={validateHouseholdCount}
+        validationSchema={householdCountSchema}
         onNext={addToHousehold(household)}
       >
         <FormikField
@@ -28,7 +28,6 @@ const HowMany = ({ handleChange, sectionName, t, registerStep }) =>
           })}
           explanation={t(buildNestedKey(sectionName, modelName, 'explanation'))}
           onChange={handleChange}
-          type="number"
           name={`${sectionName}.numMembers`}
           className="desktop:grid-col-1"
         />
