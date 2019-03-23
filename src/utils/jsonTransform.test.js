@@ -1,4 +1,4 @@
-import {to_registration_service_format} from './jsonTransform';
+import {toRegistrationServiceFormat} from './jsonTransform';
 
 const testData = {
   basicInfo: {
@@ -223,7 +223,7 @@ const testData = {
 
 
 test('Top-level info', () => {
-    expect(to_registration_service_format(testData)).toEqual({
+    expect(toRegistrationServiceFormat(testData)).toEqual({
         phone: "2165555555",
         email: "adam@email.biz",
         residential_address: {

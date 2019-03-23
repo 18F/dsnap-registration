@@ -1,6 +1,6 @@
 import {isAffirmative} from './utils';
 
-export function to_registration_service_format(src) {
+export function toRegistrationServiceFormat(src) {
     return {
         disaster_id: src.basicInfo.disasterIndex, // exists in UI debug, but not in test-data.json TODO
         // "preferred_language": TODO
@@ -20,11 +20,11 @@ export function to_registration_service_format(src) {
             evacuation_expenses: src.impact.otherExpenses.evacuation.value,
             other: src.impact.otherExpenses.other.value
         },
-        household: assemble_household(src)
+        household: assembleHousehold(src)
     };
 }
 
-function assemble_household(src) {
+function assembleHousehold(src) {
     return src.household.members.map( member => {
         return {
             first_name: member.name.firstName,
@@ -47,12 +47,12 @@ function assemble_household(src) {
                  child_support: member.assetsAndIncome.incomeSources.childSupport.value,
                  other_sources: member.assetsAndIncome.incomeSources.otherSources.value,
             },
-            jobs: assemble_jobs(member),
+            jobs: assembleJobs(member),
         }
     });
 }
 
-function assemble_jobs(member) {
+function assembleJobs(member) {
     return member.assetsAndIncome.jobs.map(job => {
         return {
             employer_name: job.employerName,
