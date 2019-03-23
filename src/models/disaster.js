@@ -13,6 +13,7 @@ export const getCounties = (disasters, index, periodIndex) => {
 
   return (applicationPeriodData && applicationPeriodData.counties) || defaultValue;
 };
+export const getStateForDisaster = disaster => disaster.state;
 
 export default () => ({
   data: []

@@ -29,6 +29,7 @@ class YesNoField extends React.Component {
             label: t('general.no')
           }
         ]}
+        showError={false}
       />
     );
   }
