@@ -10,6 +10,22 @@ import { buildNestedKey } from 'utils';
 import SecurityAlert from 'components/security-alert';
 import Collapsible from 'components/collapsible'
 import { helpers } from 'locales';
+import * as Yup from 'yup';
+import i18n from 'i18next';
+
+const personalInfoSchema = Yup.object().shape({
+  household: Yup.object().shape({
+    members: Yup.array().of(
+      Yup.object().shape({
+        // dob: Yup.object().shape({
+        //   month: Yup.string().required(i18n.t('errors.required')),
+        //   day: Yup.string().required(i18n.t('errors.required')),
+        //   year: Yup.string().required(i18n.t('errors.required')),
+        // })
+      })  
+    )
+  })
+});
 
 class PersonalInfo extends React.Component {
   static modelName = 'personalInfo'
@@ -29,6 +45,7 @@ class PersonalInfo extends React.Component {
         header={t(buildNestedKey(sectionName, modelName, 'header'))}
         registerStep={this.props.registerStep}
         modelName={modelName}
+        validationSchema={personalInfoSchema}
       >
         <FormikFieldGroup
           inline

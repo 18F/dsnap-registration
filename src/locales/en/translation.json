@@ -13,9 +13,10 @@
   },
   "errors": {
     "length": "{{ fieldName }} must be exactly {{ length }} digits",
-    "yesNo": "Please select a value for this field",
+    "positiveNumber": "This value can't be less than zero",
     "phone": "Phone number must be exactly 10 digits",
-    "required": "This field is required"
+    "required": "This field is required",
+    "yesNo": "Please select a value for this field"
   },
   "welcome": {
     "header": "Welcome!",
