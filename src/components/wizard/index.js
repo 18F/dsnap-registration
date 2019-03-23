@@ -117,16 +117,26 @@ class Section extends React.Component {
   render() {
     // TODO: need to separate out the concept of name being used for translations
     // and data model keys. Not sure why I coupled them earlier!
+    let validations = {
+      validate: this.validate
+    };
+
+    if (this.state.current && this.state.current.props.validationSchema) {
+      validations = {
+        validationSchema: this.state.current.props.validationSchema
+      };
+    }
+
     return (
       <section>
         <h2>{this.props.header}</h2>
         <Formik
           enableReinitialize
+          {...validations}
           initialValues={this.props.values}
           onSubmit={this.handleSubmit}
           validateOnBlur={this.props.validateOnBlur}
           validateOnChange={this.props.validateOnChange}
-          validate={this.validate}
           render={(formikProps) => {
             const disable = this.hasErrors(formikProps.errors) ||
               formikProps.isSubmitting ||

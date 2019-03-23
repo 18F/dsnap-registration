@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ErrorMessage, FastField, Field } from 'formik';
+import { ErrorMessage, FastField, Field, connect, getIn } from 'formik';
 import Input from 'components/input';
 import MaskedInput from 'components/masked-input';
 import InputError from 'components/error';
@@ -12,7 +12,9 @@ const inputTypes = (type) => {
   switch(type) {
     case 'text': return Input;
     case 'select': return Dropdown;
-    case 'mask': return MaskedInput;
+    case 'mask':
+    case 'tel':
+      return MaskedInput;
     case 'radio':
     case 'checkbox':
       return RadioCheckbox;
@@ -20,34 +22,57 @@ const inputTypes = (type) => {
   }
 };
 
+const FormikError = ({ name }) => (
+  <ErrorMessage name={name}>
+    { message => <InputError message={message} /> }
+  </ErrorMessage>
+);
+
 class FormikField extends React.Component {
   static propTypes = {
+    /**
+     * the `eager` prop controls whether the unerlying formik component
+     * is a `FastField` component, which only re-renders when it's value changes,
+     * or a `Field` component, which will always re-render.
+     * `eager=true` will use a `Field` component.
+     */
+    eager: PropTypes.bool,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
+    showError: PropTypes.bool,
     type: PropTypes.string,
+    validate: PropTypes.func
+  }
+
+  static defaultProps = {
+    eager: false,
+    showError: true
   }
 
   render() {
-    const { name, onChange, type, eager, ...rest } = this.props;
+    const { name, onChange, type, eager, validate, ...rest } = this.props;
     const BaseComponent = eager ? Field : FastField;
     const InputComponent = inputTypes(type);
+    let preparedProps = { name };
 
+    if (validate) {
+      preparedProps = { ...preparedProps, validate };
+    }
 
     return (
       <BaseComponent
-        name={name}
+        {...preparedProps}
         render={({ field }) => {
           return (
-            <InputComponent
-              type={type}
-              {...field}
-              onChange={onChange || field.onChange}
-              {...rest}
-            >
-              <ErrorMessage name={name}>
-                { message => <InputError message={message} /> }
-              </ErrorMessage>
-            </InputComponent>
+            <React.Fragment>
+              <InputComponent
+                type={type}
+                {...field}
+                onChange={onChange || field.onChange}
+                {...rest}
+              />
+              { this.props.showError ? <FormikError name={name} /> : null }
+            </React.Fragment>
           );
         }}
       />
@@ -101,16 +126,46 @@ const FormikFieldGroup = ({
   </div>
 );
 
-class FormikRadioGroup extends React.Component {
+class FormikRadioGroupBase extends React.Component {
   static propTypes = {
-    options: PropTypes.array
+    options: PropTypes.array,
+    showError: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    showError: true
+  }
+
+  formGroupClassName() {
+    return classnames('usa-form-group margin-y-4', this.props.groupClassName, {
+      'usa-form-group-error': this.hasError()
+    });
+  }
+
+  fieldGroupClassname() {
+    const { inline } = this.props;
+    return classnames({
+      'border radius-md border-base-light margin-right-2 display-inline-block': inline
+    });
+  }
+
+  fieldClassName() {
+    return classnames(this.props.className, {
+      'usa-input-error': this.hasError()
+    });
+  }
+
+  hasError() {
+    const { formik: { errors }, name } = this.props;
+
+    return !!getIn(errors, name)
   }
 
   render() {
     const { options, explanation, inline, ...rest } = this.props;
 
     return (
-      <div role="group" className="margin-y-4">
+      <div role="group" className={this.formGroupClassName()}>
         <FormGroupLabel labelText={this.props.labelText} />
         <FormGroupExplanation text={explanation} />
         <div className="margin-top-2">
@@ -124,19 +179,21 @@ class FormikRadioGroup extends React.Component {
                     type='radio'
                     radioValue={option.value}
                     labelText={option.label}
-                    groupClassName={classnames({
-                      'border radius-md border-base-light margin-right-2 display-inline-block': inline
-                    })}
+                    groupClassName={this.fieldGroupClassname()}
+                    className={this.fieldClassName()}
                   />
                 );
               })
             }
+            { !this.props.showError ? <FormikError name={this.props.name} /> : null }
           </fieldset>
         </div>
       </div>
     )
   }
 }
+
+const FormikRadioGroup = connect(FormikRadioGroupBase);
 
 export { FormikRadioGroup, FormikFieldGroup };
 export default FormikField;

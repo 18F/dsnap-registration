@@ -8,6 +8,9 @@ import YesNoField from 'components/yes-no-field';
 import FormikField from 'components/formik-field';
 import states from 'data/states';
 import { hasMailingAddress } from 'models/basic-info';
+import { isValidPhoneNumber } from 'validators';
+import * as Yup from 'yup';
+import i18n from 'i18next';
 
 const setMailingAddress = (basicInfo) => () => {
   if (!hasMailingAddress(basicInfo)) {
@@ -21,6 +24,33 @@ const setMailingAddress = (basicInfo) => () => {
 
   return { basicInfo: basicInfo };
 };
+
+const personalInfoSchema = Yup.object().shape({
+  basicInfo: Yup.object().shape({
+    residenceAddress: Yup.object().shape({
+      street1: Yup.string().required(i18n.t('errors.required')),
+      zipcode: Yup.string()
+        .length(5, i18n.t('errors.length', { fieldName: 'zipcode', length: 5 }))
+        .matches(/\d{0,5}/, i18n.t('errors.length', { fieldName: 'zipcode', length: 5 }))
+        .required(i18n.t('errors.required')),
+      city: Yup.string()
+        .required(i18n.t('errors.required')),
+      state: Yup.string()
+        .required(i18n.t('errors.required')),
+    }),
+    county: Yup.string()
+      .required(i18n.t('errors.required')),
+    phone: Yup.string()
+      .required(i18n.t('errors.required'))
+      .test('isValidUSPhone', i18n.t('errors.phone'), function(value) {
+          value = value.replace(/[^\d]/g, '');
+          return isValidPhoneNumber(value);
+      }),
+    currentMailingAddress: Yup.boolean()
+      .nullable()
+      .required(i18n.t('errors.yesNo'))
+  })
+});
 
 class ResidenceAddress extends React.Component {
   static modelName = 'residenceAddress'
@@ -42,6 +72,7 @@ class ResidenceAddress extends React.Component {
         modelName={modelName}
         registerStep={this.props.registerStep}
         onNext={setMailingAddress(this.props.formik.values.basicInfo)}
+        validationSchema={personalInfoSchema}
       >
         <FormikField
           name={`${sectionName}.${modelName}.street1`}
@@ -76,7 +107,7 @@ class ResidenceAddress extends React.Component {
           labelText={t(`${buildNestedKey(sectionName, tKey, 'currentMailingAddress', 'label')}`)}
         />
         <FormikField
-          type="mask"
+          type="tel"
           pattern="(XXX)-XXX-XXXX"
           delimiter={phoneMaskRegExp}
           name={`${sectionName}.phone`}

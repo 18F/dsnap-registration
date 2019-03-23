@@ -6,6 +6,25 @@ import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
 import states from 'data/states';
 
+import * as Yup from 'yup';
+import i18n from 'i18next';
+
+const mailingAddressSchema = Yup.object().shape({
+  basicInfo: Yup.object().shape({
+    mailingAddress: Yup.object().shape({
+      street1: Yup.string().required(i18n.t('errors.required')),
+      zipcode: Yup.string()
+        .length(5, i18n.t('errors.length', { fieldName: 'zipcode', length: 5 }))
+        .matches(/\d{0,5}/, i18n.t('errors.length', { fieldName: 'zipcode', length: 5 }))
+        .required(i18n.t('errors.required')),
+      city: Yup.string()
+        .required(i18n.t('errors.required')),
+      state: Yup.string()
+        .required(i18n.t('errors.required')),
+    })
+  })
+});
+
 class MailingAddress extends React.Component {
   static modelName = 'mailingAddress'
   static tKey = 'addresses'
@@ -25,6 +44,7 @@ class MailingAddress extends React.Component {
         header={t(`${buildNestedKey(sectionName, modelName)}.header`)}
         modelName={modelName}
         registerStep={this.props.registerStep}
+        validationSchema={mailingAddressSchema}
       >
         <FormikField
           name={`${sectionName}.${modelName}.street1`}
@@ -51,7 +71,6 @@ class MailingAddress extends React.Component {
         <FormikField
           name={`${sectionName}.${modelName}.zipcode`}
           onChange={handleChange}
-          type="number"
           labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}
         />
       </Wizard.Step>
@@ -60,4 +79,3 @@ class MailingAddress extends React.Component {
 }
 
 export default withLocale(MailingAddress);
-

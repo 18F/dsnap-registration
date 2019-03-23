@@ -12,6 +12,9 @@
     "notApplicable": "Not applicable"
   },
   "errors": {
+    "length": "{{ fieldName }} must be exactly {{ length }} digits",
+    "yesNo": "Please select a value for this field",
+    "phone": "Phone number must be exactly 10 digits",
     "required": "This field is required"
   },
   "welcome": {
