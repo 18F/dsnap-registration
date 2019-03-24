@@ -3,9 +3,9 @@ import { isAffirmative } from 'utils';
 import { getApplicablesTotal } from './applicable';
 
 const baseData = {
-  lostOrInaccessibleIncome: undefined,
-  inaccessibleMoney: '',
-  buyFood: '',
+  lostOrInaccessibleIncome: null,
+  inaccessibleMoney: null,
+  buyFood: null,
   noOtherExpenses: false
 };
 
