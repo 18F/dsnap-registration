@@ -6,7 +6,7 @@ import { buildNestedKey } from 'utils';
 import { getFirstName, getLastName } from 'models/person';
 
 const modelName = 'foodAssistance';
-// NEED TO ADD REGISTRNT
+
 const FoodAssistance = ({ handleChange, sectionName, t, registerStep }) =>
   <Wizard.Context>
     { ({ household }) => (

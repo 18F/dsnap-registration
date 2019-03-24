@@ -10,6 +10,7 @@ import { getDisaster } from 'models/disaster';
 import { getFirstName, getLastName } from 'models/person';
 import SecurityAlert from 'components/security-alert';
 import Collapsible from 'components/collapsible';
+import assetsSchema from 'schemas/assets';
 
 const modelName = 'otherExpenses';
 
@@ -45,6 +46,7 @@ class Assets extends React.Component {
               registerStep={registerStep}
               modelName={modelName}
               onNext={setMembersWithIncome(household, members)}
+              validationSchema={assetsSchema}
             >
               <FormikField
                 labelText={t(buildNestedKey(sectionName, 'moneyOnHand', 'label'))}
