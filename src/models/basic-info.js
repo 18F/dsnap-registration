@@ -9,10 +9,12 @@ export default () => ({
   residenceAddress: address(),
   mailingAddress: address(),
   currentMailingAddress: null,
-  stateId: ''
+  stateId: '',
+  moneyOnHand: null,
 });
 
 export const getID = info => info.stateId;
+export const getMoneyOnHand = info => info.moneyOnHand || 0;
 export const hasMailingAddress = info => info.currentMailingAddress !== 'true';
 export const getAddress = address => [
   address.street1,

@@ -8,7 +8,7 @@ import ReviewTable from 'components/review-table';
 import { getApplicant } from 'models/household';
 import { getIncome } from 'models/person';
 import { getLostFood, getLostIncome, getLostMoney } from 'models/impact';
-import { getMoneyOnHand } from 'models/assets-and-income';
+import { getMoneyOnHand } from 'models/basic-info';
 
 
 class HouseholdMattersReview extends React.Component {
@@ -59,7 +59,7 @@ class HouseholdMattersReview extends React.Component {
         component: {
           props: {            
             labelText: t('resources.moneyOnHand.id'),
-            name: 'household.members.0.assetsAndIncome.moneyOnHand',
+            name: 'basicInfo.moneyOnHand',
             handleChange: handleChange
           },
           Component: CurrencyInput
