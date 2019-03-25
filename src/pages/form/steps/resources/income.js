@@ -3,6 +3,7 @@ import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, { FormikFieldGroup } from 'components/formik-field';
 import ComboField from 'components/combo-field';
+import { validateIncomeSchema } from 'schemas/income';
 import { buildNestedKey } from 'utils';
 import { getMembers } from 'models/household';
 import { getFirstName, hasJob } from 'models/person';
@@ -53,13 +54,15 @@ class Income extends React.Component {
           const firstName = getFirstName(member);
           const { incomeSources } = member.assetsAndIncome;
           const assetsAndIncomeId = buildNestedKey('household', 'members', index, 'assetsAndIncome');
-         
+          const validatorFn = validateIncomeSchema(household.members, index);
+
           return (
             <Wizard.Step
               header={t(`${buildNestedKey(sectionName, modelName, 'header')}`, { firstName })}
               registerStep={registerStep}
               modelName={modelName}
               onNext={updateMembersWithIncome(values)}
+              validate={validatorFn}
             >
               <FormikFieldGroup
                 labelText={t(buildNestedKey(sectionName, modelName, 'incomeSources', 'label'), {
