@@ -1,6 +1,6 @@
 import {isAffirmative} from './utils';
 
-export function toRegistrationServiceFormat(src) {
+function toRegistrationServiceFormat(src) {
     return {
         disaster_id: src.basicInfo.disasterIndex,
         // "preferred_language": TODO
@@ -62,3 +62,4 @@ function assembleJobs(member) {
     });
 }
 
+export default toRegistrationServiceFormat;

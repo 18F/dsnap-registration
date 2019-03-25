@@ -1,4 +1,4 @@
-import {toRegistrationServiceFormat} from './jsonTransform';
+import toRegistrationServiceFormat from './jsonTransform';
 
 const testData = {
   basicInfo: {
