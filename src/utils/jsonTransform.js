@@ -2,7 +2,7 @@ import {isAffirmative} from './utils';
 
 export function toRegistrationServiceFormat(src) {
     return {
-        disaster_id: src.basicInfo.disasterIndex, // exists in UI debug, but not in test-data.json TODO
+        disaster_id: src.basicInfo.disasterIndex,
         // "preferred_language": TODO
         phone: src.basicInfo.phone,
         email: src.basicInfo.email,
