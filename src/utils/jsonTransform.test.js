@@ -91,12 +91,12 @@ const testData = {
               jobs: [
                  {
                     employerName: "TTS",
-                    pay: 1000,
+                    pay: "1000",
                     isDsnapAgency: "no"
                  },
                  {
                     employerName: "Apollo",
-                    pay: 500,
+                    pay: "500",
                     isDsnapAgency: "no"
                  },
               ],
@@ -262,7 +262,7 @@ test('Top-level info', () => {
                 ssn: "111111111",
                 race: "",
                 has_food_assistance: false,
-                money_on_hand: "1000",
+                money_on_hand: 1000,
                 income: {
                     self_employed: null,
                     unemployment: 200,
@@ -296,7 +296,7 @@ test('Top-level info', () => {
                 ssn: "111111112",
                 race: "",
                 has_food_assistance: false,
-                money_on_hand: "5",
+                money_on_hand: 5,
                 income: {
                     self_employed: 10000,
                     unemployment: null,

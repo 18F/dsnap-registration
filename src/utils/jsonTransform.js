@@ -35,7 +35,7 @@ function assembleHousehold(src) {
             ssn: member.ssn,
             race: member.race,
             has_food_assistance: member.hasFoodAssistance, // What is this used for? TODO
-            money_on_hand: member.assetsAndIncome.moneyOnHand, // Why is this a string? TODO
+            money_on_hand: Number(member.assetsAndIncome.moneyOnHand),
             income: {
                  self_employed: member.assetsAndIncome.incomeSources.selfEmployed.value,
                  unemployment: member.assetsAndIncome.incomeSources.unemployment.value,
@@ -56,7 +56,7 @@ function assembleJobs(member) {
     return member.assetsAndIncome.jobs.map(job => {
         return {
             employer_name: job.employerName,
-            pay: job.pay, // TODO this is a string?
+            pay: Number(job.pay),
             is_dsnap_agency: isAffirmative(job.isDsnapAgency)
         }
     });
