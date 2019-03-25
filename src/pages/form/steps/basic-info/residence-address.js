@@ -50,11 +50,6 @@ class ResidenceAddress extends React.Component {
           labelText={t(`${buildNestedKey(sectionName, tKey, 'state', 'label')}`)}
         />
         <FormikField
-          name={`${sectionName}.county`}
-          onChange={handleChange}
-          labelText={t(`${buildNestedKey(sectionName, tKey, 'county', 'label')}`)}
-        />
-        <FormikField
           name={`${sectionName}.${modelName}.zip`}
           onChange={handleChange}
           labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}

@@ -2,13 +2,14 @@ export default {
   "basicInfo":{
      "personId": 0,
      "disasterIndex": "11",
+     "disasterCounty": "Baker",
      "phone":"2165555555",
      "email":"adam@email.biz",
      "residenceAddress":{
         "street1":"250 Oakland Way",
         "street2":"",
         "city":"Oakland",
-        "state":"CA",
+        "state":"FL",
         "zipcode":"94612"
      },
      "mailingAddress":{
@@ -18,7 +19,6 @@ export default {
         "state":"OH",
         "zipcode":"44121"
      },
-     "county":"Alameda",
      "currentMailingAddress":"false"
   },
   "identity":{

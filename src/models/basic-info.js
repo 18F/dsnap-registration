@@ -8,7 +8,6 @@ export default () => ({
   email: '',
   residenceAddress: address(),
   mailingAddress: address(),
-  county: '',
   currentMailingAddress: null
 });
 
