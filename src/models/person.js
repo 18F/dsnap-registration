@@ -17,7 +17,7 @@ export default () => {
     ssn: '',
     race: '',
     hasFoodAssistance: false,
-    hasOtherJobs: false,
+    hasOtherJobs: null,
     hasJobs: false,
     assetsAndIncome: assets(),
   };

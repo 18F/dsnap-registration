@@ -6,26 +6,31 @@ const jobSchema = buildSchema(({ _, t }) => {
     hasOtherJobs: bool()
       .nullable()
       .required(t('errors.yesNo')),
-    newJob: shapeOf({
-      employerName: string()
-        .required(t('errors.required')),
-      pay: string()
-        .required(t('errors.required')),
-      isDsnapAgency: bool()
-        .nullable()
-        .required(t('errors.yesNo'))
-    })
+    employerName: string()
+      .required(t('errors.required')),
+    pay: string()
+      .required(t('errors.required')),
+    isDsnapAgency: bool()
+      .nullable()
+      .required(t('errors.yesNo'))
   });
 });
 
-const jobSchemaValidator = (dataToValidate, index) => () => {
+const jobSchemaValidator = (dataToValidate, jobErrorPath, index) => () => {
   let errors = {};
 
   try {
-    jobSchema.validateSync(dataToValidate);
+    jobSchema.validateSync(dataToValidate, { abortEarly: false });
   } catch(e) {
-    debugger
-    errors = setIn(errors, e.path, e.message);
+    e.inner.forEach((error) => {
+      const { path, message } = error;
+
+      if (path === 'hasOtherJobs') {
+        errors = setIn(errors, `household.members.${index}.hasOtherJobs`, message);
+      } else {
+        errors = setIn(errors, `${jobErrorPath}.${error.path}`, message);
+      }
+    })
   }
 
   return errors;
