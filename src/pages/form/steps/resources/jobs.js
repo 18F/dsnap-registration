@@ -50,10 +50,11 @@ class Jobs extends React.Component {
     const memberJobs = getJobs(member);
     const jobIndex = memberJobs.length <= 1 ? 0 : memberJobs.length - 1;
     const jobKey = buildNestedKey('household', 'members', index, 'assetsAndIncome', 'jobs', jobIndex);
+
     const jobValidationFn = jobSchemaValidator({
-      ...values.newJob,
+      ...memberJobs[jobIndex],
       hasOtherJobs: member.hasOtherJobs
-    }, index);
+    }, jobKey, index);
 
     return (
       <Wizard.Step
