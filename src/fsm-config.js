@@ -8,10 +8,12 @@ import { hasMailingAddress } from 'models/basic-info';
 import {
   getHouseholdCount,
   getMembers,
-  hasAdditionalMembers
+  hasAdditionalMembers,
+  updateMemberAtIndex
 } from 'models/household';
 import { hasJob, hasOtherJobs } from 'models/person';
 import { getDisasters } from 'services/disaster';
+import job from 'models/job';
 
 const STATE_KEY = 'dsnap-registration';
 // ignore these when running the persistence algo, the context is responsible
@@ -445,7 +447,27 @@ const resourcesChart = {
       }
     },
     jobs: {
-      onEntry: assign({ currentStep: 'jobs' }),
+      onEntry: assign({
+        currentStep: 'jobs',
+        household: (ctx) => {
+          // TODO: move this logic into a method and import it
+          const { household, resources } = ctx
+          const memberIndex = resources.membersWithIncome[0] || 0;
+          const member = household.members[memberIndex];
+          const nextMember = {
+            ...member,
+            hasOtherJobs: false,
+            assetsAndIncome: {
+              ...member.assetsAndIncome,
+              jobs: member.assetsAndIncome.jobs.concat([job()]),
+            }
+          };
+
+          const nextHousehold = updateMemberAtIndex(household, memberIndex, nextMember);
+
+          return nextHousehold;
+        }
+      }),
       onExit: assign({ previousStep: 'jobs' }),
       meta: {
         path: '/resources/jobs'
@@ -455,6 +477,7 @@ const resourcesChart = {
       }
     },
     'other-jobs-loop': {
+      onExit: assign({ previousStep: 'other-jobs-loop' }),
       on: {
         '': [
           {
