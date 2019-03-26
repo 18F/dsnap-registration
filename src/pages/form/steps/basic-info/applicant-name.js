@@ -26,21 +26,21 @@ class ApplicantName extends React.Component {
         registerStep={registerStep}
       >
         <FormikField
-          name={buildNestedKey('household', 'members', '0', 'name', 'firstName')}
+          name="household.members.0.name.firstName"
           onChange={handleChange}
           explanation={t(buildNestedKey(sectionName, modelName, 'firstName', 'explanation'))}
           labelText={t(buildNestedKey(sectionName, modelName, 'firstName', 'label'))}
           validate={required}
         />
         <FormikField
-          name={buildNestedKey('household', 'members', '0', 'name', 'middleName')}
+          name="household.members.0.name.middleName"
           onChange={handleChange}
           labelText={t(buildNestedKey(sectionName, modelName, 'middleName', 'label'))}
         />
         <FormikField
-          name={buildNestedKey('household', 'members', '0', 'name', 'lastName')}
+          name="household.members.0.name.lastName"
           onChange={handleChange}
-          labelText={t(buildNestedKey(sectionName, modelName, 'lastName', 'label'))}
+          labelText={t(`${sectionName}.${modelName}.lastName.label`)}
           validate={required}
         />
       </Wizard.Step>

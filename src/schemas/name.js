@@ -6,8 +6,10 @@ const nameSchema = buildSchema(({ Yup, t }) => {
       members: arrayOf(
         shapeOf({
           name: shapeOf({
-            firstName: string().required(t('errors.required')),
-            lastName: string().required(t('errors.required'))
+            firstName: string()
+              .required(t('errors.lastName')),
+            lastName: string()
+              .required(t('errors.firstName'))
           })
         })
       )

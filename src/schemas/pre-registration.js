@@ -7,11 +7,12 @@ const preRegistrationSchema = buildSchema(({ Yup, t }) => (validCounties) =>
         .nullable()
         .required(t('errors.yesNo')),
       disasterCounty: string()
-        .oneOf(validCounties, t('errors.noMatch'))
-        .required(t('errors.dropdown'))
+        .oneOf(validCounties, t('errors.county'))
+        .required(t('errors.county'))
     }),
     config: shapeOf({
       useLocalStorage: bool()
+        .nullable()
         .required(t('errors.yesNo'))
     })
   })
