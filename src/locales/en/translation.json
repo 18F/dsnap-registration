@@ -12,6 +12,8 @@
     "notApplicable": "Not applicable"
   },
   "errors": {
+    "dropdown": "Please choose a value from this list",
+    "noMatch": "Invalid selection",
     "length": "{{ fieldName }} must be exactly {{ length }} digits",
     "positiveNumber": "This value can't be less than zero",
     "phone": "Phone number must be exactly 10 digits",

@@ -101,7 +101,9 @@ const FormikFieldGroup = ({
   fieldGroupClassname,
   inline,
   labelText,
-  Component = FormikField
+  Component = FormikField,
+  showError,
+  name
 }) => (
   <div role="group" className={classnames('margin-y-4', fieldGroupClassname)}>
     <FormGroupLabel labelText={labelText} />
@@ -114,14 +116,17 @@ const FormikFieldGroup = ({
           return (
             <FinalComponent
               key={`${field.name}.${index}`}
+              name={name || field.name}
               {...field}
               groupClassName={classnames({ 'display-inline-block grid-col-2': inline })}
               className={classnames('padding-y-3', className)}
               quietLabel
+              showError={showError}
             />
           );
         })
       }
+      { !showError ? <FormikError name={name} /> : null }
     </div>
   </div>
 );
