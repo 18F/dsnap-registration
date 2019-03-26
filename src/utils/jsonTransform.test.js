@@ -4,6 +4,7 @@ import testData from '../test-data';
 test('Top-level info', () => {
     expect(toRegistrationServiceFormat(testData)).toEqual({
         disaster_id: 11,
+        preferred_language: "English",
         phone: "2165555555",
         email: "adam@email.biz",
         residential_address: {
