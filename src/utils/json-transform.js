@@ -30,7 +30,7 @@ function assembleHousehold(src) {
             first_name: member.name.firstName,
             middle_name: member.name.middleName,
             last_name: member.name.lastName,
-            dob: `${member.dob.year}-${member.dob.month}-${member.dob.day}`, // If we are going to validate it, can we make it available as a single field TODO
+            dob: `${member.dob.year}-${member.dob.month}-${member.dob.day}`,
             sex: member.sex,
             ssn: member.ssn,
             race: member.race,
