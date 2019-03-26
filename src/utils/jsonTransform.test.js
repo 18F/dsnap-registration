@@ -3,13 +3,14 @@ import testData from '../test-data';
 
 test('Top-level info', () => {
     expect(toRegistrationServiceFormat(testData)).toEqual({
+        disaster_id: 11,
         phone: "2165555555",
         email: "adam@email.biz",
         residential_address: {
             street1: "250 Oakland Way",
             street2: "",
             city: "Oakland",
-            state: "CA",
+            state: "FL",
             zipcode: "94612"
         },
         mailing_address: {
