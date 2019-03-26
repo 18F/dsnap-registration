@@ -17,9 +17,9 @@ const impactSchema = buildSchema(({ Yup, t }) => {
 
   return shapeOf({
     impact: shapeOf({
-      buyFood: bool().nullable().required(t('errors.required')),
-      lostOrInaccessibleIncome: bool().nullable().required(t('errors.required')),
-      inaccessibleMoney: bool().nullable().required(t('errors.required')),
+      buyFood: bool().nullable().required(t('errors.yesNo')),
+      lostOrInaccessibleIncome: bool().nullable().required(t('errors.yesNo')),
+      inaccessibleMoney: bool().nullable().required(t('errors.yesNo')),
       otherExpenses: shapeOf({
         repairs: expenseSchema(),
         tempShelter: expenseSchema(),

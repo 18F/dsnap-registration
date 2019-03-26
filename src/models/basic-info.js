@@ -14,6 +14,7 @@ export default () => ({
 });
 
 export const getID = info => info.stateId;
+export const getPhone = info => info.phone;
 export const getMoneyOnHand = info => info.moneyOnHand || 0;
 export const hasMailingAddress = info => info.currentMailingAddress !== 'true';
 export const getAddress = address => [
