@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'formik';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, {
@@ -10,22 +11,8 @@ import { buildNestedKey } from 'utils';
 import SecurityAlert from 'components/security-alert';
 import Collapsible from 'components/collapsible'
 import { helpers } from 'locales';
-import * as Yup from 'yup';
-import i18n from 'i18next';
-
-const personalInfoSchema = Yup.object().shape({
-  household: Yup.object().shape({
-    members: Yup.array().of(
-      Yup.object().shape({
-        // dob: Yup.object().shape({
-        //   month: Yup.string().required(i18n.t('errors.required')),
-        //   day: Yup.string().required(i18n.t('errors.required')),
-        //   year: Yup.string().required(i18n.t('errors.required')),
-        // })
-      })  
-    )
-  })
-});
+import { getApplicant } from 'models/household';
+import { validateIdentitySchema } from 'schemas/identity';
 
 class PersonalInfo extends React.Component {
   static modelName = 'personalInfo'
@@ -39,13 +26,15 @@ class PersonalInfo extends React.Component {
   render() {
     const { handleChange, sectionName, t } = this.props;
     const { modelName } = PersonalInfo;
+    const { formik } = this.props
+    const applicant = getApplicant(formik.values.household);
     
     return (
       <Wizard.Step
         header={t(buildNestedKey(sectionName, modelName, 'header'))}
         registerStep={this.props.registerStep}
         modelName={modelName}
-        validationSchema={personalInfoSchema}
+        validate={validateIdentitySchema(applicant, 0)}
       >
         <FormikFieldGroup
           inline
@@ -122,4 +111,4 @@ class PersonalInfo extends React.Component {
 }
 
 export { PersonalInfo };
-export default withLocale(PersonalInfo);
+export default connect(withLocale(PersonalInfo));

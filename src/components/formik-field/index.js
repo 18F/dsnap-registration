@@ -45,7 +45,7 @@ class FormikField extends React.Component {
   }
 
   static defaultProps = {
-    eager: false,
+    eager: true,
     showError: true
   }
 

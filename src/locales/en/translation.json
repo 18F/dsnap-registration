@@ -12,24 +12,33 @@
     "notApplicable": "Not applicable"
   },
   "errors": {
+    "city": "Provide city",
+    "county": "Please choose county from the menu",
     "dropdown": "Please choose a value from this list",
+    "email": "Provide a valid email address",
+    "firstName": "Provide first name",
+    "language": "Select a language",
+    "lastName": "Provide last name",
     "noMatch": "Invalid selection",
     "length": "{{ fieldName }} must be exactly {{ length }} digits",
     "positiveNumber": "This value can't be less than zero",
-    "phone": "Phone number must be exactly 10 digits",
+    "phone": "Enter a 10 digit phone number staring with area code",
+    "ssn": "The Social Security Number should be 9 numbers long",
+    "state": "Select a state from the menu options; This D-SNAP program is for {{ state }} residents only",
+    "street": "Provide street address",
     "required": "This field is required",
-    "yesNo": "Please select a value for this field"
+    "yesNo": "Choose one",
+    "zipcode": "Provide 5 digit ZIP code - Ex. 48154"
   },
   "welcome": {
     "header": "Welcome!",
     "byline": "This site will help you apply for disaster-related food assistance (D-SNAP).",
     "conditions": {
-      "header": "Apply for this program if:",
+      "header": "You may qualify if:",
       "body": [
-        "You are not already participating in a food assistance program like SNAP (If you are, read this)",
-        "You lived in one of these areas from [benefit period start date] to [benefit period end date]: [affected county1], [affected county2], [affected county3], [affected county4]",
-        "The disaster damaged your home or self-employment property, delayed, reduced, or stopped your income, caused you to lose food, or created any additional expense for your household",
-        "Your household plans to buy food between [benefit period start date] and [benefit period end date]"
+        "You do not get SNAP assistance already or other food assistance",
+        "You lived (or sometimes worked) in an affected area during the disaster. See the state's D-SNAP website for dates and locations affected by the disaster.",
+        "The disaster damaged your home or self-employment property, delayed, reduced, or stopped your income, caused you to lose food, or created any additional expense for your household"
       ]
     },
     "language": {
