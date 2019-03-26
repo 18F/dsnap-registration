@@ -1,6 +1,7 @@
 export default {
   "basicInfo":{
      "personId": 0,
+     "preferredLanguage": "English",
      "disasterIndex": "11",
      "disasterCounty": "Baker",
      "phone":"2165555555",
