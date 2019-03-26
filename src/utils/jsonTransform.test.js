@@ -19,7 +19,7 @@ test('Top-level info', () => {
             state: "OH",
             zipcode: "44121"
         },
-        county: "Alameda",
+        county: "Baker",
         state_id: "Y9456A7",
         has_inaccessible_liquid_resources: false,
         has_lost_or_inaccessible_income: true,

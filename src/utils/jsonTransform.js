@@ -8,7 +8,7 @@ function toRegistrationServiceFormat(src) {
         email: src.basicInfo.email,
         residential_address: src.basicInfo.residenceAddress,
         mailing_address: src.basicInfo.mailingAddress,
-        county: src.basicInfo.county, // should it be disasterCounty?
+        county: src.basicInfo.disasterCounty,
         state_id: src.identity.personalInfo.stateId,
         has_inaccessible_liquid_resources: isAffirmative(src.impact.inaccessibleMoney),
         has_lost_or_inaccessible_income: isAffirmative(src.impact.lostOrInaccessibleIncome),
