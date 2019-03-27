@@ -268,6 +268,7 @@ class BasicInfoReview extends React.Component {
   validateSection = () => {
     const { values } = this.props.formik;
     const { basicInfo } = values;
+    const applicant = getApplicant(values.household);
 
     const sectionData = {
       basicInfo: {
@@ -278,10 +279,14 @@ class BasicInfoReview extends React.Component {
         stateId: basicInfo.stateId,
         residenceAddress: basicInfo.residenceAddress,
         mailingAddress: basicInfo.mailingAddress,
-
       },
-      firstName: getFirstName(getApplicant(values.household)),
-      lastName: getLastName(getApplicant(values.household))
+      firstName: getFirstName(applicant),
+      lastName: getLastName(applicant),
+      dob: {
+        month: applicant.dob.month,
+        day: applicant.dob.month,
+        year: applicant.dob.month
+      }
     };
 
     this.props.handleUpdate();
