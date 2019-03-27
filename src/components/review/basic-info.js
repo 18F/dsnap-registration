@@ -22,7 +22,7 @@ const formattedAddress = address => (
 class BasicInfoReview extends React.Component {
   getReviewData() {
     const { handleChange, t, formik } = this.props;
-    const { basicInfo, household, identity } = formik.values;
+    const { basicInfo, household } = formik.values;
     const applicant = getApplicant(household);
 
     return [
