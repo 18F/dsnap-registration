@@ -7,7 +7,6 @@ import YesNoField from 'components/yes-no-field';
 import ComboField from 'components/combo-field';
 import { buildNestedKey } from 'utils';
 import { getDisaster } from 'models/disaster';
-import { getApplicant, updateMemberAtIndex } from 'models/household';
 
 const modelName = 'otherExpenses';
 
