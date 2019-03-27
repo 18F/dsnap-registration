@@ -9,7 +9,7 @@ function toRegistrationServiceFormat(src) {
         residential_address: src.basicInfo.residenceAddress,
         mailing_address: src.basicInfo.mailingAddress,
         county: src.basicInfo.disasterCounty,
-        state_id: src.identity.personalInfo.stateId,
+        state_id: src.basicInfo.stateId,
         has_inaccessible_liquid_resources: isAffirmative(src.impact.inaccessibleMoney),
         has_lost_or_inaccessible_income: isAffirmative(src.impact.lostOrInaccessibleIncome),
         purchased_or_plans_to_purchase_food: isAffirmative(src.impact.buyFood),

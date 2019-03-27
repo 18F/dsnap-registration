@@ -50,7 +50,7 @@ class PersonalInfo extends React.Component {
           }]}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.stateId`}
+          name="basicInfo.stateId"
           onChange={handleChange}
           labelText={t(buildNestedKey(sectionName, modelName, 'stateId', 'label'))}
           explanation={t(buildNestedKey(sectionName, modelName, 'stateId', 'explanation'))}

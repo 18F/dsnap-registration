@@ -8,8 +8,7 @@ import ReviewTable from 'components/review-table';
 import { isAffirmative } from 'utils';
 import { getFullName, getDOB } from 'models/person';
 import { getApplicant } from 'models/household';
-import { getID } from 'models/identity';
-import { getResidenceAddress, getMailingAddress } from 'models/basic-info';
+import { getResidenceAddress, getMailingAddress, getID } from 'models/basic-info';
 import { buildNestedKey, phoneMaskRegExp } from 'utils';
 
 const formattedAddress = address => (
@@ -100,10 +99,10 @@ class BasicInfoReview extends React.Component {
       },
       {
         name: t('identity.personalInfo.stateId.id'),
-        data: getID(identity),
+        data: getID(basicInfo),
         component: {
           props: {
-            name: 'identity.personalInfo.stateId',
+            name: 'basicInfo.stateId',
             onChange: handleChange,
             labelText: t(buildNestedKey('identity', 'personalInfo', 'stateId', 'label'))
           },

@@ -1,5 +1,4 @@
 import basicInfo from './basic-info';
-import identity from './identity';
 import household from './household';
 import impact from './impact';
 import submit from './submit';
@@ -21,7 +20,6 @@ const combine = (obj) =>
 
 const state = combine({
   basicInfo,
-  identity,
   household,
   impact,
   resources,

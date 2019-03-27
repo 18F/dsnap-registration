@@ -20,12 +20,8 @@ export default {
         "state":"OH",
         "zipcode":"44121"
      },
-     "currentMailingAddress":"false"
-  },
-  "identity":{
-     "personalInfo":{
-        "stateId":"Y9456A7"
-     }
+     "currentMailingAddress":"false",
+     "stateId":"Y9456A7"
   },
   "household":{
      "numMembers":1,
