@@ -309,10 +309,6 @@ class BasicInfoReview extends React.Component {
     return infoReviewSchemaValidator(schema, sectionData);
   }
 
-  handleUpdate = () => {
-    return this.props.handleUpdate();
-  };
-
   handleEdit = (editing) => {
     const validationFn = editing ? this.validateSection : () => ({}); 
     this.props.onToggleEdit(validationFn);
@@ -325,7 +321,7 @@ class BasicInfoReview extends React.Component {
       <ReviewSubSection
         onEdit={this.handleEdit}
         title={t('review.sections.info')}
-        onUpdate={this.handleUpdate}
+        onUpdate={this.props.handleUpdate}
       >
         {({ editing }) => {
           return (

@@ -5,11 +5,11 @@ import CurrencyInput from 'components/currency-input';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTable from 'components/review-table';
 import { getExpenseTotal, getExpenses } from 'models/impact';
-
+import { disasterExpenseValidator } from 'schemas/review/disaster-expenses';
 
 class DisasterExpensesReview extends React.Component {
   getExpenses() {
-    const { formik, handleChange, t }= this.props;
+    const { formik, handleChange, t } = this.props;
     const { impact } = formik.values;
     const expenseFields = Object.entries(getExpenses(impact)).map(([key, expense]) => ({
       name: t(`impact.expenses.${key}`),
@@ -34,11 +34,36 @@ class DisasterExpensesReview extends React.Component {
     ]);
   }
 
+  validateSection = () => {
+    const sectionData = {
+      household: {
+        members: {
+          0: {
+            assetsAndIncome: {
+              otherExpenses: this.props.formik.values.household.members[0].assetsAndIncome.otherExpenses
+            }
+          }
+        }
+      }
+    };
+
+    return disasterExpenseValidator(sectionData);
+  }
+
+  handleEdit = (editing) => {
+    const validationFn = editing ? this.validateSection : () => ({}); 
+    this.props.onToggleEdit(validationFn);
+  }
+
   render() {
     const { t } = this.props;
     
     return (
-      <ReviewSubSection title={t('review.sections.impact')} onUpdate={this.props.handleUpdate}>
+      <ReviewSubSection
+        onEdit={this.handleEdit}
+        title={t('review.sections.impact')}
+        onUpdate={this.props.handleUpdate}
+      >
         {({ editing }) => {
           return (
             <ReviewTable

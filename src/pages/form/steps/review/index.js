@@ -38,7 +38,7 @@ class ReviewStep extends React.Component {
         <BasicInfoReview handleChange={handleChange} onToggleEdit={this.setCurrentSection} />
         <HouseholdReview handleChange={handleChange} setParentValues={this.props.setParentValues} />
         <HouseholdMattersReview handleChange={handleChange} />
-        <DisasterExpensesReview handleChange={handleChange} />
+        <DisasterExpensesReview handleChange={handleChange} onToggleEdit={this.setCurrentSection} />
         <IncomeReviewSection handleChange={handleChange} />
       </Wizard.Step>
     );
