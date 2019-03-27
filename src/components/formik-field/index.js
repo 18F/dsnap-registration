@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ErrorMessage, FastField, Field, connect, getIn } from 'formik';
+import { ErrorMessage, FastField, Field, connect, getIn, Form } from 'formik';
 import Input from 'components/input';
 import MaskedInput from 'components/masked-input';
 import InputError from 'components/error';
@@ -89,11 +89,12 @@ const FormGroupLabel = ({ labelText }) => (
   </div>
 );
 
-const FormGroupExplanation = ({ text }) =>
+const FormGroupExplanation = ({ text }) => (
   !text ? null :
   <span className="text-base">
     {text}
-  </span>;
+  </span>
+);
 
 const FormikFieldGroup = ({
   explanation,
@@ -130,6 +131,69 @@ const FormikFieldGroup = ({
     </div>
   </div>
 );
+
+
+class FormikFieldDateGroup extends React.Component {
+  manageErrors() {
+    const { formik: { errors } } = this.props;
+
+    if (this.hasErrors()) {
+      return errors.dob.map(message => <InputError message={message} key={message} />);
+    }
+
+    return null;
+  }
+
+  hasErrors() {
+    const { formik: { errors } } = this.props;
+
+    return errors.dob && errors.dob.length;
+  }
+
+  render() {
+    const { 
+      explanation,
+      fields = [],
+      fieldGroupClassname,
+      inline,
+      labelText,
+      Component = FormikField,
+      showError,
+      name
+    } = this.props;
+    console.log(this.props.formik.errors)
+    return (
+      <div role="group" className={classnames('margin-y-4', fieldGroupClassname, {
+        'usa-form-group-error': this.hasErrors()
+      })}>
+        <FormGroupLabel labelText={labelText} />
+        <FormGroupExplanation text={explanation} />
+        <div className="margin-top-2">
+          { 
+            fields.map(({ className, ...field}, index) => {
+              const FinalComponent = field.Component ? field.Component : Component;
+
+              return (
+                <FinalComponent
+                  key={`${field.name}.${index}`}
+                  name={name || field.name}
+                  {...field}
+                  groupClassName={classnames({ 'display-inline-block grid-col-2': inline })}
+                  className={classnames('padding-y-3', className)}
+                  quietLabel
+                  showError={showError}
+                />
+              );
+            })
+          }
+          { this.manageErrors() }
+        </div>
+      </div>
+    );
+  }
+}
+
+const DateGroup = connect(FormikFieldDateGroup);
 
 class FormikRadioGroupBase extends React.Component {
   static propTypes = {
@@ -200,5 +264,5 @@ class FormikRadioGroupBase extends React.Component {
 
 const FormikRadioGroup = connect(FormikRadioGroupBase);
 
-export { FormikRadioGroup, FormikFieldGroup };
+export { FormikRadioGroup, FormikFieldGroup, DateGroup as FormikFieldDateGroup };
 export default FormikField;
