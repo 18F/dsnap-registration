@@ -16,9 +16,9 @@
     "county": "Please choose county from the menu",
     "date": "Please provide a valid date",
     "dob": {
-      "day": "Provide a valid day - Ex 1 or 01",
-      "month": "Provide a valid month - Ex 1 or 01",
-      "year": "Provide a valid year - Ex 1999"
+      "day": "Provide a valid day - Ex. 1 or 01",
+      "month": "Provide a valid month - Ex. 1 or 01",
+      "year": "Provide a valid year - Ex. 1999"
     },
     "dropdown": "Please choose a value from this list",
     "email": "Provide a valid email address",

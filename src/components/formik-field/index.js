@@ -138,7 +138,9 @@ class FormikFieldDateGroup extends React.Component {
     const { formik: { errors } } = this.props;
 
     if (this.hasErrors()) {
-      return errors.dob.map(message => <InputError message={message} key={message} />);
+      const dobErrors = Array.isArray(errors.dob) ? errors.dob : [errors.dob];
+
+      return dobErrors.map(message => <InputError message={message} key={message} />);
     }
 
     return null;

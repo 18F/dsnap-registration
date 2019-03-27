@@ -1,42 +1,49 @@
-import { buildSchema, shapeOf, string } from './index';
+import { shapeOf, string } from './index';
+import { t } from 'i18next';
 import moment from 'moment'
 import { setIn } from 'formik';
 
-const identitySchema = buildSchema(({ _, t }) =>
-  shapeOf({
-    dob: shapeOf({
-      month: string()
-        .test('validMonth', t('errors.dob.month'), (value) => {
-          return moment(value, 'MM').isValid();
-        }),
-      day: string()
-        .test('validDay', t('errors.dob.day'), (value) => {
-          return moment(value, 'DD').isValid();
-        }),
-      year: string()
-        .test('validYear', t('errors.dob.year'), (value) => {
-          return moment(value, 'YYYY').isValid();
-        }),
-    })
-    .test('isValidDOB', t('errors.date'), ({ month, day, year }) => {
-      if (month && day && year) {
-        const dob = `${year}-${month}-${day}`;
-        const fullDate = moment(dob, 'YYYY-MM-DD');
+const DATE_FORMAT = 'YYYY-MM-DD';
+const OLDEST_VALID_DOB = '1890-01-01';
+const LATEST_VALID_DOB = '2009-12-31';
 
-        return fullDate.isValid() &&
-          fullDate.isAfter('1890-01-01') &&
-          fullDate.isBefore('2009-12-31');
-      }
-
-      return true;
+export const dateSchema = shapeOf({
+  month: string()
+    .test('validMonth', t('errors.dob.month'), (value) => {
+      return moment(value, 'MM').isValid();
     }),
-    ssn: string()
-      .test('isValidSSN', t('errors.ssn'), (value) => {
-        value = value.replace(/[^\d]/g, '');
-        return value.length === 9;
-      })
-  })
-);
+  day: string()
+    .test('validDay', t('errors.dob.day'), (value) => {
+      return moment(value, 'DD').isValid();
+    }),
+  year: string()
+    .test('validYear', t('errors.dob.year'), (value) => {
+      return moment(value, 'YYYY').isValid();
+    }),
+})
+.test('isValidDOB', t('errors.date'), ({ month, day, year }) => {
+  if (month && day && year) {
+    const dob = `${year}-${month}-${day}`;
+    const fullDate = moment(dob, DATE_FORMAT);
+
+    return fullDate.isValid() &&
+      fullDate.isAfter(OLDEST_VALID_DOB) &&
+      fullDate.isBefore(LATEST_VALID_DOB);
+  }
+
+  return true;
+});
+
+export const ssnSchema = string()
+  .test('isValidSSN', t('errors.ssn'), (value) => {
+    value = value.replace(/[^\d]/g, '');
+    return value.length === 9;
+  });
+
+const identitySchema = shapeOf({
+  dob: dateSchema,
+  ssn: ssnSchema
+});
 
 const validateIdentitySchema = (member, index) => () => {
   let errors = {};

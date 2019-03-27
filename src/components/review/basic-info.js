@@ -2,7 +2,7 @@ import React from 'react';
 import withLocale from 'components/with-locale';
 import withUpdateable from 'components/with-updateable';
 import YesNoField from 'components/yes-no-field';
-import FormikField, { FormikFieldGroup, FormikRadioGroup } from 'components/formik-field';
+import FormikField, { FormikFieldDateGroup, FormikRadioGroup } from 'components/formik-field';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTable from 'components/review-table';
 import { isAffirmative } from 'utils';
@@ -10,6 +10,8 @@ import { getFirstName, getLastName, getFullName, getDOB } from 'models/person';
 import { getApplicant } from 'models/household';
 import { getResidenceAddress, getMailingAddress, getID } from 'models/basic-info';
 import { buildNestedKey, phoneMaskRegExp } from 'utils';
+import { getState, getDisaster } from 'models/disaster';
+import yourInfoReviewSchema, { infoReviewSchemaValidator } from 'schemas/review/your-info';
 
 const formattedAddress = address => (
   !address ?
@@ -65,6 +67,7 @@ class BasicInfoReview extends React.Component {
           props: {
             inline: true,
             compact: true,
+            name: 'dob',
             labelText: t(buildNestedKey('identity', 'personalInfo', 'dob', 'label')),
             fields: [{
               name: 'household.members.0.dob.month',
@@ -81,7 +84,7 @@ class BasicInfoReview extends React.Component {
               className: 'desktop:grid-col-9'
             }]
           },
-          Component: FormikFieldGroup
+          Component: FormikFieldDateGroup
         }
       },
       {
@@ -267,7 +270,7 @@ class BasicInfoReview extends React.Component {
 
   validateSection = () => {
     const { values } = this.props.formik;
-    const { basicInfo } = values;
+    const { basicInfo, disasters } = values;
     const applicant = getApplicant(values.household);
 
     const sectionData = {
@@ -279,16 +282,33 @@ class BasicInfoReview extends React.Component {
         stateId: basicInfo.stateId,
         residenceAddress: basicInfo.residenceAddress,
         mailingAddress: basicInfo.mailingAddress,
+        currentMailingAddress: basicInfo.currentMailingAddress,
       },
-      firstName: getFirstName(applicant),
-      lastName: getLastName(applicant),
+      household: {
+        members: {
+          0: {
+            ssn: applicant.ssn,
+            name: {
+              firstName: getFirstName(applicant),
+              lastName: getLastName(applicant),
+            },
+          }
+        }
+      },
       dob: {
         month: applicant.dob.month,
-        day: applicant.dob.month,
-        year: applicant.dob.month
+        day: applicant.dob.day,
+        year: applicant.dob.year
       }
     };
 
+    const schema = yourInfoReviewSchema({
+      state: getState(getDisaster(disasters, basicInfo.disasterIndex))
+    });
+
+    this.props.formik.setErrors(infoReviewSchemaValidator(schema, sectionData));
+
+    return;
     this.props.handleUpdate();
   }
 

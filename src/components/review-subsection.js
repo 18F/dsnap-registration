@@ -32,7 +32,11 @@ class ReviewSubSection extends React.Component {
   }
 
   handleUpdate = () => {
-    this.setState({ editing: false }, this.props.onUpdate);
+    const updated = this.props.onUpdate();
+
+    if (updated) {
+      this.setState({ editing: false });
+    }
   }
 
   renderTitle() {
