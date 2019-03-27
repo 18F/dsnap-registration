@@ -5,7 +5,8 @@ import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, {
   FormikFieldGroup,
-  FormikRadioGroup
+  FormikRadioGroup,
+  FormikFieldDateGroup
 } from 'components/formik-field';
 import { buildNestedKey } from 'utils';
 import SecurityAlert from 'components/security-alert';
@@ -36,7 +37,9 @@ class PersonalInfo extends React.Component {
         modelName={modelName}
         validate={validateIdentitySchema(applicant, 0)}
       >
-        <FormikFieldGroup
+        <FormikFieldDateGroup
+          name="dob"
+          showError={false}
           inline
           labelText={t(buildNestedKey(sectionName, modelName, 'dob', 'label'))}
           explanation={t(buildNestedKey(sectionName, modelName, 'dob', 'explanation'))}
