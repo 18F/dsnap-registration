@@ -1,4 +1,4 @@
-import {isAffirmative} from './utils';
+import {isAffirmative} from 'utils';
 
 function toRegistrationServiceFormat(src) {
     return {
