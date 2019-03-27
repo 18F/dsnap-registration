@@ -3,7 +3,7 @@ import {isAffirmative} from './utils';
 function toRegistrationServiceFormat(src) {
     return {
         disaster_id: Number(src.basicInfo.disasterIndex),
-        "preferred_language": src.basicInfo.preferredLanguage,
+        preferred_language: src.basicInfo.preferredLanguage,
         phone: src.basicInfo.phone,
         email: src.basicInfo.email,
         residential_address: src.basicInfo.residenceAddress,

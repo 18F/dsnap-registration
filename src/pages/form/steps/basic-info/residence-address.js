@@ -1,11 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'formik';
 import { buildNestedKey, phoneMaskRegExp } from 'utils';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import YesNoField from 'components/yes-no-field';
 import FormikField from 'components/formik-field';
 import states from 'data/states';
+import { hasMailingAddress } from 'models/basic-info';
+
+const setMailingAddress = (basicInfo) => () => {
+  if (!hasMailingAddress(basicInfo)) {
+    return {
+      basicInfo: {
+        ...basicInfo,
+        mailingAddress: basicInfo.residenceAddress
+      }
+    };
+  }
+
+  return { basicInfo: basicInfo };
+};
 
 class ResidenceAddress extends React.Component {
   static modelName = 'residenceAddress'
@@ -26,6 +41,7 @@ class ResidenceAddress extends React.Component {
         header={t(`${buildNestedKey(sectionName, tKey)}.header`)}
         modelName={modelName}
         registerStep={this.props.registerStep}
+        onNext={setMailingAddress(this.props.formik.values.basicInfo)}
       >
         <FormikField
           name={`${sectionName}.${modelName}.street1`}
@@ -50,7 +66,7 @@ class ResidenceAddress extends React.Component {
           labelText={t(`${buildNestedKey(sectionName, tKey, 'state', 'label')}`)}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.zip`}
+          name={`${sectionName}.${modelName}.zipcode`}
           onChange={handleChange}
           labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}
         />
@@ -78,4 +94,4 @@ class ResidenceAddress extends React.Component {
   }
 }
 
-export default withLocale(ResidenceAddress);
+export default connect(withLocale(ResidenceAddress));

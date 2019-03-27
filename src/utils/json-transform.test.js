@@ -1,4 +1,4 @@
-import toRegistrationServiceFormat from './jsonTransform';
+import toRegistrationServiceFormat from './json-transform';
 import testData from '../test-data';
 
 test('Top-level info', () => {

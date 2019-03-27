@@ -49,7 +49,7 @@ class MailingAddress extends React.Component {
           labelText={t(`${buildNestedKey(sectionName, tKey, 'state', 'label')}`)}
         />
         <FormikField
-          name={`${sectionName}.${modelName}.zip`}
+          name={`${sectionName}.${modelName}.zipcode`}
           onChange={handleChange}
           type="number"
           labelText={t(`${buildNestedKey(sectionName, tKey, 'zip', 'label')}`)}
