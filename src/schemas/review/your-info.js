@@ -4,6 +4,7 @@ import { memberNameSchema } from 'schemas/name';
 import { dateSchema, ssnSchema } from 'schemas/identity';
 import {
   addressSchema,
+  mailingAddressSchema,
   phoneSchema,
   emailSchema,
   currentMailingAddressSchema
@@ -15,7 +16,7 @@ const yourInfoReviewSchema = ({ state }) =>
       phone: phoneSchema,
       email: emailSchema,
       residenceAddress: addressSchema(state),
-      mailingAddress: addressSchema(state),
+      mailingAddress: mailingAddressSchema,
       currentMailingAddress: currentMailingAddressSchema,
     }),
     household: shapeOf({

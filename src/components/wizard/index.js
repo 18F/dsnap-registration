@@ -141,7 +141,7 @@ class Section extends React.Component {
             const disable = this.hasErrors(formikProps.errors) ||
               formikProps.isSubmitting ||
               (this.props.values.errors && this.props.values.errors.server);
-            console.log(formikProps.errors)
+
             return (
               <WizardContext.Provider value={formikProps.values}>
                 <Form onSubmit={formikProps.handleSubmit} autoComplete="fake">

@@ -163,7 +163,7 @@ class FormikFieldDateGroup extends React.Component {
       showError,
       name
     } = this.props;
-    console.log(this.props.formik.errors)
+
     return (
       <div role="group" className={classnames('margin-y-4', fieldGroupClassname, {
         'usa-form-group-error': this.hasErrors()

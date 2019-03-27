@@ -306,17 +306,27 @@ class BasicInfoReview extends React.Component {
       state: getState(getDisaster(disasters, basicInfo.disasterIndex))
     });
 
-    this.props.formik.setErrors(infoReviewSchemaValidator(schema, sectionData));
+    return infoReviewSchemaValidator(schema, sectionData);
+  }
 
-    return;
-    this.props.handleUpdate();
+  handleUpdate = () => {
+    return this.props.handleUpdate();
+  };
+
+  handleEdit = (editing) => {
+    const validationFn = editing ? this.validateSection : () => ({}); 
+    this.props.onToggleEdit(validationFn);
   }
 
   render() {
     const { t } = this.props;
 
     return (
-      <ReviewSubSection title={t('review.sections.info')} onUpdate={this.validateSection}>
+      <ReviewSubSection
+        onEdit={this.handleEdit}
+        title={t('review.sections.info')}
+        onUpdate={this.handleUpdate}
+      >
         {({ editing }) => {
           return (
             <ReviewTable

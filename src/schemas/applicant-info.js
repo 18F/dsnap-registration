@@ -2,6 +2,21 @@ import { isValidPhoneNumber } from 'validators';
 import * as Yup from 'yup';
 import i18n from 'i18next';
 
+
+export const mailingAddressSchema =
+Yup.object().shape({
+    street1: Yup.string()
+      .required(i18n.t('errors.street')),
+    zipcode: Yup.string()
+      .length(5, i18n.t('errors.zipcode'))
+      .matches(/\d{0,5}/, i18n.t('errors.zipcode'))
+      .required(i18n.t('errors.zipcode')),
+    city: Yup.string()
+      .required(i18n.t('errors.city')),
+    state: Yup.string()
+      .required(i18n.t('errors.required')),
+  });
+
 export const addressSchema = (state) =>
   Yup.object().shape({
     street1: Yup.string()

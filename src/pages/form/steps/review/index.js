@@ -15,6 +15,16 @@ class ReviewStep extends React.Component {
     sectionName: PropTypes.string,
   }
 
+  state = {
+    validationFn: () => ({})
+  }
+
+  setCurrentSection = (validationFn) => {
+    this.setState({
+      validationFn
+    });
+  }
+
   render() {
     const { handleChange, sectionName, t } = this.props;
 
@@ -23,8 +33,9 @@ class ReviewStep extends React.Component {
         header={t(`${sectionName}.header`)}
         registerStep={this.props.registerStep}
         modelName="review"
+        validate={this.state.validationFn}
       >
-        <BasicInfoReview handleChange={handleChange} />
+        <BasicInfoReview handleChange={handleChange} onToggleEdit={this.setCurrentSection} />
         <HouseholdReview handleChange={handleChange} setParentValues={this.props.setParentValues} />
         <HouseholdMattersReview handleChange={handleChange} />
         <DisasterExpensesReview handleChange={handleChange} />

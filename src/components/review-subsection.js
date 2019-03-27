@@ -28,7 +28,9 @@ class ReviewSubSection extends React.Component {
   }
 
   handleToggleEdit = () => {
-    this.setState(state => ({ ...state, editing: !this.state.editing }));
+    this.setState(state => ({ ...state, editing: !this.state.editing }), () => {
+      this.props.onEdit(this.state.editing);
+    });
   }
 
   handleUpdate = () => {
