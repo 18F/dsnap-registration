@@ -4,7 +4,6 @@ import { connect } from 'formik';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, {
-  FormikFieldGroup,
   FormikRadioGroup,
   FormikFieldDateGroup
 } from 'components/formik-field';

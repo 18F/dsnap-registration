@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ErrorMessage, FastField, Field, connect, getIn, Form } from 'formik';
+import { ErrorMessage, FastField, Field, connect, getIn } from 'formik';
 import Input from 'components/input';
 import MaskedInput from 'components/masked-input';
 import InputError from 'components/error';
@@ -66,11 +66,11 @@ class FormikField extends React.Component {
           return (
             <React.Fragment>
               <InputComponent
-                type={type}
                 {...field}
+                type={type}
                 onChange={onChange || field.onChange}
-                {...rest}
                 onInput={() => form.setFieldTouched(name, true, true)}
+                {...rest}
               />
               { this.props.showError ? <FormikError name={name} /> : null }
             </React.Fragment>

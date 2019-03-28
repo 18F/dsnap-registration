@@ -47,7 +47,7 @@ const Step = ({ registerStep, handleChange, t }) => (
   <Wizard.Context>
     {({ disasters, basicInfo }) => {
       const disasterCounties = getCounties(disasters, Number(basicInfo.disasterIndex), 0);
-      console.log(disasterCounties)
+
       return (
         <Wizard.Step
           registerStep={registerStep}

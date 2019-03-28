@@ -289,6 +289,8 @@ class BasicInfoReview extends React.Component {
       }
     };
 
+    console.log(sectionData);
+
     this.props.handleUpdate();
   }
 

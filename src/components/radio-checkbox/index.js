@@ -71,6 +71,8 @@ class RadioCheckbox extends React.Component {
           name={this.props.name}
           checked={this.isChecked()}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          onInput={this.props.onInput}
           readOnly
         />
         <label

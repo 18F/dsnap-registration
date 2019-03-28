@@ -44,6 +44,11 @@ class Dropdown extends React.Component {
     ), defaultOption);
   }
 
+  handleChange = (event) => {
+    this.props.onInput();
+    this.props.onChange(event);
+  }
+
   render() {
     const { name } = this.props;
 
@@ -53,7 +58,7 @@ class Dropdown extends React.Component {
           id={this.props.id}
           className="usa-select"
           name={name}
-          onChange={this.props.onChange}
+          onChange={this.handleChange}
           onBlur={this.props.onBlur}
           value={this.props.value}
         >

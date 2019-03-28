@@ -1,4 +1,4 @@
-import { buildSchema, shapeOf, arrayOf, string } from './index';
+import { buildSchema, shapeOf, string } from './index';
 import { isPositiveNumber } from 'validators';
 
 const assetsSchema = buildSchema(({ Yup, t }) =>
