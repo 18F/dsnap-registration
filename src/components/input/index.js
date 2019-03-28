@@ -32,18 +32,15 @@ class Input extends React.Component {
   }
 
   render() {
+    const { children, ...rest } = this.props;
+
     return (
       <React.Fragment>
         { this.renderPrefix() }
         <input
           id={this.props.name}
           autoComplete="new-password"
-          type={this.props.type}
-          className={this.props.className}
-          name={this.props.name}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-          value={this.props.value}
+          {...rest}
         />
         { this.props.children }
       </React.Fragment>

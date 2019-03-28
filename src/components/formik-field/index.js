@@ -62,7 +62,7 @@ class FormikField extends React.Component {
     return (
       <BaseComponent
         {...preparedProps}
-        render={({ field }) => {
+        render={({ field, form }) => {
           return (
             <React.Fragment>
               <InputComponent
@@ -70,6 +70,7 @@ class FormikField extends React.Component {
                 {...field}
                 onChange={onChange || field.onChange}
                 {...rest}
+                onInput={() => form.setFieldTouched(name, true, true)}
               />
               { this.props.showError ? <FormikError name={name} /> : null }
             </React.Fragment>

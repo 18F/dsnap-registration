@@ -7,9 +7,9 @@ const nameSchema = buildSchema(({ Yup, t }) => {
         shapeOf({
           name: shapeOf({
             firstName: string()
-              .required(t('errors.lastName')),
+              .required(t('errors.firstName')),
             lastName: string()
-              .required(t('errors.firstName'))
+              .required(t('errors.lastName'))
           })
         })
       )
