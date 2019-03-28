@@ -7,6 +7,7 @@ import YesNoField from 'components/yes-no-field';
 import { buildNestedKey } from 'utils';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, hasOtherJobs, getJobs } from 'models/person';
+import { jobSchemaValidator } from 'schemas/job';
 
 const modelName = 'jobs';
 
@@ -50,12 +51,18 @@ class Jobs extends React.Component {
     const jobIndex = memberJobs.length <= 1 ? 0 : memberJobs.length - 1;
     const jobKey = buildNestedKey('household', 'members', index, 'assetsAndIncome', 'jobs', jobIndex);
 
+    const jobValidationFn = jobSchemaValidator({
+      ...memberJobs[jobIndex],
+      hasOtherJobs: member.hasOtherJobs
+    }, jobKey, index);
+
     return (
       <Wizard.Step
         header={t(buildNestedKey(sectionName, modelName, 'header'), { firstName })}
         registerStep={registerStep}
         modelName={modelName}
         onNext={handleNext}
+        validate={jobValidationFn}
       >
         <FormikField
           labelText={t(buildNestedKey(sectionName, modelName, 'employerName', 'label'))}

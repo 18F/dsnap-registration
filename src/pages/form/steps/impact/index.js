@@ -7,6 +7,7 @@ import YesNoField from 'components/yes-no-field';
 import ComboField from 'components/combo-field';
 import { buildNestedKey } from 'utils';
 import { getDisaster } from 'models/disaster';
+import impactSchema from 'schemas/impact';
 
 const modelName = 'otherExpenses';
 
@@ -42,6 +43,7 @@ class AdverseEffects extends React.Component {
         registerStep={registerStep}
         modelName={modelName}
         onNext={this.setExpenseValues}
+        validationSchema={impactSchema}
       >
         <YesNoField
           labelText={t('impact.buyFood.label', {

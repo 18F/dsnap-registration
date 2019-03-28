@@ -43,6 +43,10 @@ class MaskedInput extends React.Component {
     let patternPtr = 0;
     let memo = '';
 
+    // TODO: this is inefficient as it runs this whole algo each time the 
+    // input value is updated. invesitgate storing a pointer
+    // to the last position, as well as keeping track of if the user
+    // is appending or removing from the string value (maybe via length?)
     while (valuePtr < valLen) {
       const currPattern = pattern[patternPtr];
       let nextChar;
@@ -56,7 +60,7 @@ class MaskedInput extends React.Component {
         patternPtr += 1;
       }
 
-      memo = `${memo}${nextChar}`
+      memo = `${memo}${nextChar}`;
     }
 
     return memo;

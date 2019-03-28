@@ -6,12 +6,14 @@ const propTypes = {
 };
 
 const InputError = ({ message }) => (
-  <span
-    className="usa-input-error-message"
-    role="alert"
-  >
-    { message }
-  </span>
+  !message || typeof message !== 'string' ?
+    null :
+    <span
+      className="usa-input-error-message"
+      role="alert"
+    >
+      { message }
+    </span>
 );
 
 InputError.propTypes = propTypes;

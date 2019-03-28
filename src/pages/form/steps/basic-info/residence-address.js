@@ -8,6 +8,8 @@ import YesNoField from 'components/yes-no-field';
 import FormikField from 'components/formik-field';
 import states from 'data/states';
 import { hasMailingAddress } from 'models/basic-info';
+import { getDisaster, getState } from 'models/disaster';
+import applicantInfoSchema from 'schemas/applicant-info';
 
 const setMailingAddress = (basicInfo) => () => {
   if (!hasMailingAddress(basicInfo)) {
@@ -35,6 +37,9 @@ class ResidenceAddress extends React.Component {
   render() {
     const { handleChange, sectionName, t } = this.props;
     const { modelName, tKey } = ResidenceAddress;
+    const { values } = this.props.formik;
+    const { basicInfo, disasters } = values;
+    const disasterState = getState(getDisaster(disasters, basicInfo.disasterIndex))
 
     return (
       <Wizard.Step
@@ -42,6 +47,7 @@ class ResidenceAddress extends React.Component {
         modelName={modelName}
         registerStep={this.props.registerStep}
         onNext={setMailingAddress(this.props.formik.values.basicInfo)}
+        validationSchema={applicantInfoSchema(disasterState)}
       >
         <FormikField
           name={`${sectionName}.${modelName}.street1`}
@@ -76,7 +82,7 @@ class ResidenceAddress extends React.Component {
           labelText={t(`${buildNestedKey(sectionName, tKey, 'currentMailingAddress', 'label')}`)}
         />
         <FormikField
-          type="mask"
+          type="tel"
           pattern="(XXX)-XXX-XXXX"
           delimiter={phoneMaskRegExp}
           name={`${sectionName}.phone`}

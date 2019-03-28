@@ -1,7 +1,8 @@
 import React from 'react';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
-import FormikField, { FormikFieldGroup } from 'components/formik-field';
+import { FormikFieldGroup } from 'components/formik-field';
+import CurrencyField from 'components/currency-input';
 import { buildNestedKey } from 'utils';
 import { getMembers } from 'models/household';
 import { hasIncome } from 'models/assets-and-income';
@@ -10,6 +11,7 @@ import { getDisaster } from 'models/disaster';
 import { getFirstName, getLastName } from 'models/person';
 import SecurityAlert from 'components/security-alert';
 import Collapsible from 'components/collapsible';
+import assetsSchema from 'schemas/assets';
 
 const modelName = 'otherExpenses';
 
@@ -45,12 +47,14 @@ class Assets extends React.Component {
               registerStep={registerStep}
               modelName={modelName}
               onNext={setMembersWithIncome(household, members)}
+              validationSchema={assetsSchema}
             >
-              <FormikField
+              <CurrencyField
                 labelText={t(buildNestedKey(sectionName, 'moneyOnHand', 'label'))}
                 explanation={t(buildNestedKey(sectionName, 'moneyOnHand', 'explanation'))}
-                name={buildNestedKey('household', 'members', basicInfo.personId, 'assetsAndIncome', 'moneyOnHand')}
+                name="basicInfo.moneyOnHand"
                 onChange={handleChange}
+                className="grid-col-6"
               />
               <FormikFieldGroup
                 labelText={t(buildNestedKey(sectionName, 'incomeRecipients', 'label'), {

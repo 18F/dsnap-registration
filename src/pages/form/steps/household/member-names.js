@@ -7,6 +7,7 @@ import { buildNestedKey } from 'utils';
 import { getFirstName } from 'models/person';
 import { getMembers, getApplicant } from 'models/household';
 import UI from 'components/ui';
+import nameSchema from 'schemas/name';
 
 const modelName = 'memberNames';
 
@@ -22,6 +23,7 @@ const MemberNames = ({ handleChange, sectionName, t, registerStep }) => (
           }
           modelName={modelName}
           registerStep={registerStep}
+          validationSchema={nameSchema}
         >
           <React.Fragment>
             <UI.Header type="h2" size="sm">

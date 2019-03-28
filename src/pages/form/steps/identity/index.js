@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'formik';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, {
-  FormikFieldGroup,
-  FormikRadioGroup
+  FormikRadioGroup,
+  FormikFieldDateGroup
 } from 'components/formik-field';
 import { buildNestedKey } from 'utils';
 import SecurityAlert from 'components/security-alert';
 import Collapsible from 'components/collapsible'
 import { helpers } from 'locales';
+import { getApplicant } from 'models/household';
+import { validateIdentitySchema } from 'schemas/identity';
 
 class PersonalInfo extends React.Component {
   static modelName = 'personalInfo'
@@ -23,14 +26,19 @@ class PersonalInfo extends React.Component {
   render() {
     const { handleChange, sectionName, t } = this.props;
     const { modelName } = PersonalInfo;
+    const { formik } = this.props
+    const applicant = getApplicant(formik.values.household);
     
     return (
       <Wizard.Step
         header={t(buildNestedKey(sectionName, modelName, 'header'))}
         registerStep={this.props.registerStep}
         modelName={modelName}
+        validate={validateIdentitySchema(applicant, 0)}
       >
-        <FormikFieldGroup
+        <FormikFieldDateGroup
+          name="dob"
+          showError={false}
           inline
           labelText={t(buildNestedKey(sectionName, modelName, 'dob', 'label'))}
           explanation={t(buildNestedKey(sectionName, modelName, 'dob', 'explanation'))}
@@ -105,4 +113,4 @@ class PersonalInfo extends React.Component {
 }
 
 export { PersonalInfo };
-export default withLocale(PersonalInfo);
+export default connect(withLocale(PersonalInfo));

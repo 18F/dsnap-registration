@@ -21,7 +21,8 @@ export default {
         "zipcode":"44121"
      },
      "currentMailingAddress":"false",
-     "stateId":"Y9456A7"
+     "stateId":"Y9456A7",
+     "moneyOnHand":"1000",
   },
   "household":{
      "numMembers":1,
@@ -96,8 +97,7 @@ export default {
                     "pay": "500",
                     "isDsnapAgency":"no"
                  },
-              ],
-              "moneyOnHand":"1000"
+              ]
            }
         },
         {
@@ -159,7 +159,6 @@ export default {
                 }
              },
              "jobs":[],
-             "moneyOnHand":"5"
           }
        }
      ]

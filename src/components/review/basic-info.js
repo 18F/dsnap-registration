@@ -2,11 +2,11 @@ import React from 'react';
 import withLocale from 'components/with-locale';
 import withUpdateable from 'components/with-updateable';
 import YesNoField from 'components/yes-no-field';
-import FormikField, { FormikFieldGroup } from 'components/formik-field';
+import FormikField, { FormikFieldGroup, FormikRadioGroup } from 'components/formik-field';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTable from 'components/review-table';
 import { isAffirmative } from 'utils';
-import { getFullName, getDOB } from 'models/person';
+import { getFirstName, getLastName, getFullName, getDOB } from 'models/person';
 import { getApplicant } from 'models/household';
 import { getResidenceAddress, getMailingAddress, getID } from 'models/basic-info';
 import { buildNestedKey, phoneMaskRegExp } from 'utils';
@@ -18,6 +18,8 @@ const formattedAddress = address => (
     { address.map(line => <span key={line} className="display-block margin-0">{ line }</span>) }
   </React.Fragment>
 );
+
+const NullComponent = () => null;
 
 class BasicInfoReview extends React.Component {
   getReviewData() {
@@ -114,23 +116,21 @@ class BasicInfoReview extends React.Component {
         data: applicant.sex,
         component: {
           props: {
-            name: 'household.members.0.ssn',
+            inline: 'true',
+            name: 'household.members.0.sex',
             onChange: handleChange,
-            labelText: t(buildNestedKey('identity', 'personalInfo', 'ssn', 'label'))
+            labelText: t(buildNestedKey('identity', 'personalInfo', 'sex', 'label')),
+            explanation: t(buildNestedKey('identity', 'personalInfo', 'sex', 'explanation')),
+            options: [{
+              label: t(buildNestedKey('identity', 'personalInfo', 'sex', 'options', 'male')),
+              value: "male"
+            },
+            {
+              label: t(buildNestedKey('identity', 'personalInfo', 'sex', 'options', 'female')),
+              value: "female"
+            }]
           },
-          Component: FormikField
-        }
-      },
-      {
-        name: t('basicInfo.addresses.county.id'),
-        data: basicInfo.county,
-        component: {
-          props: {
-            name: 'basicInfo.county',
-            onChange: handleChange,
-            labelText: t('basicInfo.addresses.county.label')
-          },
-          Component: FormikField
+          Component: FormikRadioGroup
         }
       },
       {
@@ -191,7 +191,7 @@ class BasicInfoReview extends React.Component {
         name: t('basicInfo.mailingAddress.id'),
         data: formattedAddress(getMailingAddress(basicInfo)),
         component: isAffirmative(basicInfo.currentMailingAddress) ? {
-          Component: null
+          Component: NullComponent
         } : [
           {
             props: {
@@ -240,7 +240,7 @@ class BasicInfoReview extends React.Component {
         data: basicInfo.phone,
         component: {
           props: {
-            type: 'mask',
+            type: 'tel',
             pattern: '(XXX)-XXX-XXXX',
             delimiter: phoneMaskRegExp,
             name: 'basicInfo.phone',
@@ -265,11 +265,40 @@ class BasicInfoReview extends React.Component {
     ];
   }
 
+  validateSection = () => {
+    const { values } = this.props.formik;
+    const { basicInfo } = values;
+    const applicant = getApplicant(values.household);
+
+    const sectionData = {
+      basicInfo: {
+        phone: basicInfo.phone,
+        email: basicInfo.email,
+        sex: basicInfo.sex,
+        race: basicInfo.race,
+        stateId: basicInfo.stateId,
+        residenceAddress: basicInfo.residenceAddress,
+        mailingAddress: basicInfo.mailingAddress,
+      },
+      firstName: getFirstName(applicant),
+      lastName: getLastName(applicant),
+      dob: {
+        month: applicant.dob.month,
+        day: applicant.dob.month,
+        year: applicant.dob.month
+      }
+    };
+
+    console.log(sectionData);
+
+    this.props.handleUpdate();
+  }
+
   render() {
     const { t } = this.props;
 
     return (
-      <ReviewSubSection title={t('review.sections.info')} onUpdate={this.props.handleUpdate}>
+      <ReviewSubSection title={t('review.sections.info')} onUpdate={this.validateSection}>
         {({ editing }) => {
           return (
             <ReviewTable

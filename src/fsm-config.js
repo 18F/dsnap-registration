@@ -456,7 +456,7 @@ const resourcesChart = {
           const member = household.members[memberIndex];
           const nextMember = {
             ...member,
-            hasOtherJobs: false,
+            hasOtherJobs: member.assetsAndIncome.jobs.length ? false : null,
             assetsAndIncome: {
               ...member.assetsAndIncome,
               jobs: member.assetsAndIncome.jobs.concat([job()]),

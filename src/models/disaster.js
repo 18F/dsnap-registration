@@ -1,4 +1,5 @@
 export const getDisaster = (disasters, index) => disasters.data[index] || {};
+export const getState = disaster => disaster.state;
 export const getDisasters = disasters => Object.values(disasters.data);
 export const getBeginDate = disaster => disaster.benefit_begin_date;
 export const getCounties = (disasters, index, periodIndex) => {
@@ -13,6 +14,7 @@ export const getCounties = (disasters, index, periodIndex) => {
 
   return (applicationPeriodData && applicationPeriodData.counties) || defaultValue;
 };
+export const getStateForDisaster = disaster => disaster.state;
 
 export default () => ({
   data: []

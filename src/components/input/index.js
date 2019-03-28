@@ -41,9 +41,11 @@ class Input extends React.Component {
           type={this.props.type}
           className={this.props.className}
           name={this.props.name}
-          onChange={this.props.onChange}
           onBlur={this.props.onBlur}
+          onChange={this.props.onChange}
+          onInput={this.props.onInput}
           value={this.props.value}
+          
         />
         { this.props.children }
       </React.Fragment>
