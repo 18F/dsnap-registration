@@ -42,6 +42,7 @@ test('Top-level info', () => {
                 sex: "male",
                 ssn: "111111111",
                 race: "",
+                ethnicity: "Not Hispanic or Latino",
                 has_food_assistance: false,
                 money_on_hand: 1000,
                 income: {
@@ -76,6 +77,7 @@ test('Top-level info', () => {
                 sex: "male",
                 ssn: "111111112",
                 race: "",
+                ethnicity: "",
                 has_food_assistance: false,
                 money_on_hand: 5,
                 income: {

@@ -1,4 +1,4 @@
-import {isAffirmative} from './utils';
+import {isAffirmative} from 'utils';
 
 function toRegistrationServiceFormat(src) {
     return {
@@ -34,6 +34,7 @@ function assembleHousehold(src) {
             sex: member.sex,
             ssn: member.ssn,
             race: member.race,
+            ethnicity: member.ethnicity,
             has_food_assistance: member.hasFoodAssistance, // What is this used for? TODO
             money_on_hand: Number(member.assetsAndIncome.moneyOnHand),
             income: {
