@@ -31,8 +31,14 @@ const identitySchema = buildSchema(({ _, t }) =>
       return true;
     }),
     ssn: string()
+      .nullable()
       .test('isValidSSN', t('errors.ssn'), (value) => {
         value = value.replace(/[^\d]/g, '');
+
+        if (!value) {
+          return true;
+        }
+
         return value.length === 9;
       })
   })
