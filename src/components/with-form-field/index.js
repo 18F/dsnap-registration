@@ -25,9 +25,9 @@ const withFormField = (Component) => {
     }
 
     hasError() {
-      const { formik: { errors }, name } = this.props;
+      const { formik: { errors, touched }, name } = this.props;
   
-      return !!getIn(errors, name)
+      return !!getIn(errors, name) && !!getIn(touched, name);
     }  
 
     render() {

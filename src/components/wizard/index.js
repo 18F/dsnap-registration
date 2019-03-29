@@ -138,9 +138,10 @@ class Section extends React.Component {
           validateOnBlur={this.props.validateOnBlur}
           validateOnChange={this.props.validateOnChange}
           render={(formikProps) => {
-            const disable = this.hasErrors(formikProps.errors) ||
+            const disable = formikProps.submitCount && (
+              this.hasErrors(formikProps.errors) ||
               formikProps.isSubmitting ||
-              (this.props.values.errors && this.props.values.errors.server);
+              (this.props.values.errors && this.props.values.errors.server));
             console.log(formikProps.errors)
             return (
               <WizardContext.Provider value={formikProps.values}>
