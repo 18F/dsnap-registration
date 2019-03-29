@@ -3,7 +3,7 @@ import { isAffirmative, stripSpecialChars } from 'utils';
 function toRegistrationServiceFormat(src) {
     return {
         disaster_id: Number(src.basicInfo.disasterIndex),
-        preferred_language: src.basicInfo.preferredLanguage.trim(),
+        preferred_language: src.config.language.trim(),
         phone: stripSpecialChars(src.basicInfo.phone),
         email: src.basicInfo.email.trim(),
         residential_address: src.basicInfo.residenceAddress,

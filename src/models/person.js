@@ -16,6 +16,7 @@ export default () => {
     sex: '',
     ssn: '',
     race: '',
+    ethnicity: '',
     hasFoodAssistance: false,
     hasOtherJobs: null,
     hasJobs: false,
