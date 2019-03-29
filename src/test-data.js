@@ -200,15 +200,15 @@ export default {
   "previousSection":"",
   "totalSteps":6,
   "step":1,
-  "newJob":{
-     "employerName":"",
-     "pay":"",
-     "isDsnapAgency":null
-  },
   config: {
      useLocalStorage: true,
      language: 'en',
      disaster: ''
+  },
+  submit: {
+   acceptedTerms: null,
+   readAgreement: '',
+   signature: '',
   },
   disasters: {
      "data":{

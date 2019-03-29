@@ -162,7 +162,7 @@ class FormikFieldDateGroup extends React.Component {
       showError,
       name
     } = this.props;
-    console.log(this.props.formik.errors)
+
     return (
       <div role="group" className={classnames('margin-y-4', fieldGroupClassname, {
         'usa-form-group-error': this.hasErrors()
@@ -239,14 +239,14 @@ class FormikRadioGroupBase extends React.Component {
         <FormGroupLabel labelText={this.props.labelText} />
         <FormGroupExplanation text={explanation} />
         <div className="margin-top-2">
-          <fieldset className="usa-fieldset">
+          
             {
               this.props.options.map((option, index) => {
                 return (
                   <FormikField
                     key={`${rest.name}.${option.label}.${index}`}
                     {...rest}
-                    type='radio'
+                    type="radio"
                     radioValue={option.value}
                     labelText={option.label}
                     groupClassName={this.fieldGroupClassname()}
@@ -256,7 +256,6 @@ class FormikRadioGroupBase extends React.Component {
               })
             }
             { !this.props.showError ? <FormikError name={this.props.name} /> : null }
-          </fieldset>
         </div>
       </div>
     )

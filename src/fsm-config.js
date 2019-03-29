@@ -13,6 +13,7 @@ import {
 } from 'models/household';
 import { hasJob, hasOtherJobs } from 'models/person';
 import { getDisasters } from 'services/disaster';
+import { createRegistration } from 'services/registration';
 import job from 'models/job';
 
 const STATE_KEY = 'dsnap-registration';
@@ -520,14 +521,24 @@ const submitChart = {
     finalize: {
       invoke: {
         id: 'submitApplication',
-        src: () => new Promise((resolve, reject) => {
-          return setTimeout(() => resolve({ eligible: true }), 1000);
-        }),
+        src: (ctx) => {
+          return createRegistration(ctx);
+        },
         onDone: {
           target: '#next-steps',
           actions: [
-            () => console.log('done submitting to server'),
-            assign({ submitStatus: (_, event) => ({ ...event.data }) })
+            assign({
+              submitStatus: () => ({
+                eligible: true
+              }),
+              registration: (_, event) => ({
+                id: event.data.id,
+                createdAt: event.data.created_date,
+                updatedAt: event.data.modified_date,
+                data: event.data.latest_data
+              })
+            }),
+            (ctx) => localStorage.setItem(STATE_KEY, JSON.stringify(ctx))
           ]
         },
         onError: {
