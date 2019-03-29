@@ -27,6 +27,7 @@ class RadioCheckbox extends React.Component {
   checkbox = React.createRef()
 
   handleChange = () => {
+    this.props.onInput();
     this.checkbox.current.click();
   }
 
@@ -72,7 +73,6 @@ class RadioCheckbox extends React.Component {
           checked={this.isChecked()}
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
-          onInput={this.props.onInput}
           readOnly
         />
         <label

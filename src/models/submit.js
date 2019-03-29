@@ -1,5 +1,5 @@
 export default () => ({
-  acceptedTerms: '',
+  acceptedTerms: null,
   readAgreement: '',
   signature: '',
 });

@@ -1,11 +1,39 @@
 import React from 'react';
+import { yupToFormErrors } from 'formik';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, { FormikRadioGroup } from 'components/formik-field';
 import ErrorAlert from 'components/error-alert';
+import { getFirstName, getMiddleName, getLastName } from 'models/person';
 import { getError } from 'models/error';
+import { getApplicant } from 'models/household';
+import submitSchema from 'schemas/submit';
 
 class SignAndSubmit extends React.Component {
+  handleValidations = ({ household, submit }) => {    
+    const applicant = getApplicant(household);
+    const firstName = getFirstName(applicant).toLowerCase();
+    const middleName = getMiddleName(applicant).toLowerCase();
+    const lastName = getLastName(applicant).toLowerCase();
+    const customerName = [firstName, middleName, lastName].filter(name => name).join(' ');
+
+    const values = {
+      submit: {
+        fullName: customerName,
+        ...submit,
+      },
+    };
+
+    try {
+      submitSchema.validateSync(values, { abortEarly: false });
+    } catch(e) {
+      return yupToFormErrors(e);
+    }
+
+    return {};
+    
+  }
+
   render() {
     const { handleChange, registerStep, t } = this.props;
 
@@ -17,6 +45,7 @@ class SignAndSubmit extends React.Component {
               header={t('submit.header')}
               registerStep={registerStep}
               modelName="submit"
+              validate={this.handleValidations}
             >
               <ErrorAlert text={getError(errors, 'server') ? t('submit.error') : null} />
               <h2>{t('submit.lede')}</h2>
@@ -25,6 +54,7 @@ class SignAndSubmit extends React.Component {
               </div>
               <FormikRadioGroup
                 inline
+                showError={false}
                 options={[{
                   label: t('submit.agree'),
                   value: 'true'
