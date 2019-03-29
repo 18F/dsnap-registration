@@ -45,7 +45,6 @@ class Input extends React.Component {
           onChange={this.props.onChange}
           onInput={this.props.onInput}
           value={this.props.value}
-          
         />
         { this.props.children }
       </React.Fragment>
