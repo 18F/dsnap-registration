@@ -12,9 +12,9 @@ import submitSchema from 'schemas/submit';
 class SignAndSubmit extends React.Component {
   handleValidations = ({ household, submit }) => {    
     const applicant = getApplicant(household);
-    const firstName = getFirstName(applicant).toLowerCase();
-    const middleName = getMiddleName(applicant).toLowerCase();
-    const lastName = getLastName(applicant).toLowerCase();
+    const firstName = getFirstName(applicant).trim().toLowerCase();
+    const middleName = getMiddleName(applicant).trim().toLowerCase();
+    const lastName = getLastName(applicant).trim().toLowerCase();
     const customerName = [firstName, middleName, lastName].filter(name => name).join(' ');
 
     const values = {
