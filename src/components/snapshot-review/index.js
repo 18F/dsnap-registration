@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withLocale from 'components/with-locale';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import Wizard from 'components/wizard';
+import Button from 'components/button';
 import BasicInfoReview from 'components/review/basic-info';
 import HouseholdReview from 'components/review/household';
 import HouseholdMattersReview from 'components/review/household-matters';
@@ -24,22 +25,50 @@ class SnapshotReview extends React.Component {
     });
   }
 
-  renderReviewSections = ({ handleChange, errors }) => {
+  renderReviewSections = ({ handleChange, resetForm, submitCount, isSubmitting, values, errors }) => {
     const { t } = this.props;
+    const disable = submitCount && (
+      Object.keys(errors).length ||
+      isSubmitting ||
+      (values.errors && values.errors.server)
+    );
 
     return (
-      <React.Fragment>
+      <Form>
         <BasicInfoReview
           handleChange={handleChange}
           title={t('review.sections.info')}
           onEdit={this.setCurrentSectionValidator}
         />
-        {/*<HouseholdReview handleChange={handleChange} setParentValues={this.props.setParentValues} />
+        <HouseholdReview
+          title={t('review.sections.household')}
+          handleChange={handleChange}
+          onEdit={this.setCurrentSectionValidator}
+        />
         <HouseholdMattersReview handleChange={handleChange} />
         <DisasterExpensesReview handleChange={handleChange} />
-        <IncomeReviewSection handleChange={handleChange} />*/}
-      </React.Fragment>
+        <IncomeReviewSection handleChange={handleChange} />
+        <div className="margin-y-2">
+          <Button disabled={disable}>
+            { t('review.next') }
+          </Button>
+        </div>
+        <Button
+          type="button"
+          onClick={() => {
+            resetForm(values);
+            this.props.onQuit();
+          }}
+          link
+        >
+          { t('general.quit') }
+        </Button>
+      </Form>
     );
+  }
+
+  onSubmit = (values) => {
+    this.props.onNext({ data: values });
   }
 
   render() {
@@ -52,6 +81,7 @@ class SnapshotReview extends React.Component {
           validateOnChange={false}
           initialValues={rest}
           render={this.renderReviewSections}
+          onSubmit={this.onSubmit}
           validate={this.state.validator}
         />
       </React.Fragment>

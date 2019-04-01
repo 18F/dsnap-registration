@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import withLocale from 'components/with-locale';
 import Button from 'components/button';
 
-const ReviewTableHeader = ({ title, children: actions, editing }) => (
+const ReviewTableHeader = ({ title, children: actions }) => (
   <div className="grid-row bg-base-lighter padding-2">
     <div className="grid-col-fill">
       <h3 className="margin-y-0">
@@ -138,4 +139,4 @@ class ReviewTable extends React.Component {
 }
 
 export { ReviewTableHeader as Header, ReviewTableHeaderAction as HeaderAction };
-export default ReviewTable;
+export default withLocale(ReviewTable);

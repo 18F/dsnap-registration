@@ -209,7 +209,11 @@ class BasicInfoReview extends React.Component {
       >
         {({ editing }) =>
           editing ?
-          <InfoReviewForm t={t} handleChange={this.props.handleChange} values={values} /> :
+          <InfoReviewForm
+            t={t}
+            handleChange={this.props.handleChange}
+            values={values}
+          /> :
           <ReviewTable primaryData={this.getReviewData()} />
         }
       </ReviewSubSection>
