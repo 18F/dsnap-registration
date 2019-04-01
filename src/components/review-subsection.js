@@ -6,7 +6,8 @@ import Button from 'components/button';
 
 class ReviewSubSection extends React.Component {
   static propTypes = {
-    onUpdate: PropTypes.func,
+    onEdit: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired,
     title: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node
@@ -14,8 +15,11 @@ class ReviewSubSection extends React.Component {
   }
 
   static defaultProps = {
+    onEdit: () => {
+      console.log('Default onEdit handler called in review subsection. Do you forget to pass an update handler?')
+    },
     onUpdate: () => {
-      console.log('Default onUpdatehandle called in review subsection. Do you forget to pass an update handler?')
+      console.log('Default onUpdate handler called in review subsection. Do you forget to pass an update handler?')
     }
   }
 
@@ -28,11 +32,17 @@ class ReviewSubSection extends React.Component {
   }
 
   handleToggleEdit = () => {
-    this.setState(state => ({ ...state, editing: !this.state.editing }));
+    this.setState(state => ({ ...state, editing: !this.state.editing }), () => {
+      this.props.onEdit(this.state.editing);
+    });
   }
 
   handleUpdate = () => {
-    this.setState({ editing: false }, this.props.onUpdate);
+    const updated = this.props.onUpdate();
+
+    if (updated) {
+      this.setState({ editing: false });
+    }
   }
 
   renderTitle() {
