@@ -72,7 +72,7 @@ class FormikField extends React.Component {
                 onInput={() => form.setFieldTouched(name, true, true)}
                 {...rest}
               />
-              { this.props.showError && getIn(form.touched, name) ? <FormikError name={name} /> : null }
+              { this.props.showError && (form.submitCount || getIn(form.touched, name)) ? <FormikError name={name} /> : null }
             </React.Fragment>
           );
         }}
