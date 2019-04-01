@@ -110,15 +110,6 @@ class Section extends React.Component {
       formikHandler(eventOrPath);
       this.props.handleChange(eventOrPath);
     }
-    
-
-    // } else {
-    //   const thisHandler = formikHandler(maybeEvent)
-    //   typeof thisHandler === 'function' && thisHandler(maybeValue);
-
-    //   const nextHandler = this.props.handleChange(maybeEvent);
-    //   typeof nextHandler === 'function' && nextHandler(maybeValue);
-    // }
   }
 
   hasErrors(errors = {}) {

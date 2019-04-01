@@ -13,6 +13,8 @@ import { getResidenceAddress, getMailingAddress, getID } from 'models/basic-info
 import { buildNestedKey, phoneMaskRegExp } from 'utils';
 import DateInput from 'components/date-input';
 import AddressFields from 'components/address-input';
+import { getState, getDisaster } from 'models/disaster';
+import yourInfoReviewSchema, { infoReviewSchemaValidator } from 'schemas/your-info';
 
 const formattedAddress = address => (
   !address ?
@@ -22,8 +24,6 @@ const formattedAddress = address => (
   </React.Fragment>
 );
 
-const NullComponent = () => null;
-
 class InfoReviewForm extends React.Component {
   updateMask = (name, data) => {
     this.props.handleChange(name)(data);
@@ -31,6 +31,7 @@ class InfoReviewForm extends React.Component {
 
   render() {
     const { t } = this.props;
+
     return (
       <div className="margin-bottom-2">
         <FormikField
@@ -148,7 +149,7 @@ class BasicInfoReview extends React.Component {
 
   validateSection = () => {
     const { values } = this.props.formik;
-    const { basicInfo } = values;
+    const { basicInfo, disasters } = values;
     const applicant = getApplicant(values.household);
 
     const sectionData = {
@@ -160,19 +161,32 @@ class BasicInfoReview extends React.Component {
         stateId: basicInfo.stateId,
         residenceAddress: basicInfo.residenceAddress,
         mailingAddress: basicInfo.mailingAddress,
+        currentMailingAddress: basicInfo.currentMailingAddress,
       },
-      firstName: getFirstName(applicant),
-      lastName: getLastName(applicant),
+      household: {
+        members: {
+          0: {
+            ssn: applicant.ssn,
+            name: {
+              firstName: getFirstName(applicant),
+              lastName: getLastName(applicant),
+            },
+          }
+        }
+      },
       dob: {
         month: applicant.dob.month,
-        day: applicant.dob.month,
-        year: applicant.dob.month
+        day: applicant.dob.day,
+        year: applicant.dob.year
       }
     };
 
-    console.log(sectionData);
+    console.log('sectionDate', sectionData)
+    const schema = yourInfoReviewSchema({
+      state: getState(getDisaster(disasters, basicInfo.disasterIndex))
+    });
 
-    this.props.handleUpdate();
+    return infoReviewSchemaValidator(schema, sectionData);
   }
 
   handleToggleEdit = (isEditing) => {
@@ -185,7 +199,7 @@ class BasicInfoReview extends React.Component {
     const { t } = this.props;
 
     return (
-      <ReviewSubSection title={this.props.title} onUpdate={this.validateSection}>
+      <ReviewSubSection title={this.props.title} onUpdate={this.validateSection} onEdit={this.handleToggleEdit}>
         {({ editing }) =>
           editing ?
           <InfoReviewForm t={t} handleChange={this.props.handleChange} /> :
