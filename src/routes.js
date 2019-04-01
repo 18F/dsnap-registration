@@ -30,6 +30,16 @@ const Routes = () => (
                   <Switch>
                     <Route path="/form/next-steps/eligible" render={ () => <EligiblePage type="eligible" /> } />
                     <Route path="/form/next-steps/ineligible" render={ () => <EligiblePage type="ineligible" /> } />
+                    <Route
+                      path="/form/review"
+                      render={() => (
+                        <SnapshotReview
+                          values={state}
+                          onNext={transition}
+                          onQuit={() => transition({ command: 'QUIT' })}
+                        />
+                      )}
+                    />
                     <Route path="/form"
                       render={() => {
                         return (
@@ -42,10 +52,6 @@ const Routes = () => (
                           />
                         );
                       }}
-                    />
-                    <Route
-                      path="/review"
-                      render={() => <SnapshotReview values={state} />}
                     />
                     <Route component={Route404} />
                   </Switch>
