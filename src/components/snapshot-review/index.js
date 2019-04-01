@@ -26,7 +26,7 @@ class SnapshotReview extends React.Component {
 
   renderReviewSections = ({ handleChange, errors }) => {
     const { t } = this.props;
-    console.log('errors', errors)
+
     return (
       <React.Fragment>
         <BasicInfoReview
@@ -49,6 +49,7 @@ class SnapshotReview extends React.Component {
       <React.Fragment>
         <Wizard.Progress step={step} steps={totalSteps} />
         <Formik
+          validateOnChange={false}
           initialValues={rest}
           render={this.renderReviewSections}
           validate={this.state.validator}

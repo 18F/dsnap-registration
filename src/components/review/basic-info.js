@@ -30,7 +30,7 @@ class InfoReviewForm extends React.Component {
   };
 
   render() {
-    const { t } = this.props;
+    const { t, values } = this.props;
 
     return (
       <div className="margin-bottom-2">
@@ -78,7 +78,11 @@ class InfoReviewForm extends React.Component {
           name="basicInfo.currentMailingAddress"
           labelText={t('basicInfo.addresses.currentMailingAddress.label')}
         />
-        <AddressFields addressType="mailingAddress" />
+        { 
+          isAffirmative(values.basicInfo.currentMailingAddress) ?
+          null :
+          <AddressFields addressType="mailingAddress" />
+        }
         <FormikField
           type="tel"
           pattern="(XXX)-XXX-XXXX"
@@ -181,7 +185,6 @@ class BasicInfoReview extends React.Component {
       }
     };
 
-    console.log('sectionDate', sectionData)
     const schema = yourInfoReviewSchema({
       state: getState(getDisaster(disasters, basicInfo.disasterIndex))
     });
@@ -191,18 +194,22 @@ class BasicInfoReview extends React.Component {
 
   handleToggleEdit = (isEditing) => {
     if (isEditing) {
-      this.props.onEdit(this.props.title, this.validateSection);
+      this.props.onEdit(this.validateSection);
     }
   }
 
   render() {
-    const { t } = this.props;
+    const { t, formik: { values } } = this.props;
 
     return (
-      <ReviewSubSection title={this.props.title} onUpdate={this.validateSection} onEdit={this.handleToggleEdit}>
+      <ReviewSubSection
+        title={this.props.title}
+        onUpdate={this.props.handleUpdate}
+        onEdit={this.handleToggleEdit}
+      >
         {({ editing }) =>
           editing ?
-          <InfoReviewForm t={t} handleChange={this.props.handleChange} /> :
+          <InfoReviewForm t={t} handleChange={this.props.handleChange} values={values} /> :
           <ReviewTable primaryData={this.getReviewData()} />
         }
       </ReviewSubSection>

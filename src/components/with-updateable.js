@@ -5,12 +5,20 @@ import { withMachineContext } from 'components/fsm';
 const withUpdateable = (Component) => {
   class Updateable extends React.Component {
     onUpdate = () => {
+      const { values, errors } = this.props.formik;
+ 
+      if (Object.keys(errors).length) {
+        return false;
+      }
+
       this.props.fsmTransition({
         command: 'EDIT',
         data: {
-          ...this.props.formik.values
+          ...values
         }
       });
+
+      return true;
     }
 
     render() {
