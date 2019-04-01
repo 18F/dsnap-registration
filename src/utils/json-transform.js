@@ -1,5 +1,8 @@
 import { isAffirmative, stripSpecialChars } from 'utils';
 
+const emptyToNull = value =>
+  typeof value === 'string' && !value.length ? null : value;
+
 function toRegistrationServiceFormat(src) {
     return {
         disaster_id: Number(src.basicInfo.disasterIndex),
@@ -32,7 +35,7 @@ function assembleHousehold(src) {
             last_name: member.name.lastName.trim(),
             dob: `${member.dob.year.trim()}-${member.dob.month.trim()}-${member.dob.day.trim()}`,
             sex: member.sex.trim(),
-            ssn: stripSpecialChars(member.ssn.trim()),
+            ssn: emptyToNull(stripSpecialChars(member.ssn.trim())),
             race: member.race.trim(),
             ethnicity: member.ethnicity.trim(),
             has_food_assistance: isAffirmative(member.hasFoodAssistance),
