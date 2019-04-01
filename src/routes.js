@@ -9,12 +9,7 @@ import fsmConfig from 'fsm-config';
 import wizardRouteConfig from 'route-config';
 import FSMRouter, { MachineConsumer, MachineState } from 'components/fsm';
 import Wizard from 'components/wizard';
-
-class SnapshotReview extends React.Component {
-  render() {
-    return null;
-  }
-}
+import SnapshotReview from 'components/snapshot-review';
 
 const Routes = () => (
   <FSMRouter config={fsmConfig} routeId="form">
@@ -49,8 +44,8 @@ const Routes = () => (
                       }}
                     />
                     <Route
-                      path="/eligibility/review"
-                      render={() => <SnapshotReview state={state} />}
+                      path="/review"
+                      render={() => <SnapshotReview values={state} />}
                     />
                     <Route component={Route404} />
                   </Switch>

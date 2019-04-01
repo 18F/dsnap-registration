@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import withLocale from 'components/with-locale';
 import Button from 'components/button';
 
 const ReviewTableHeader = ({ title, children: actions, editing }) => (
@@ -11,7 +10,7 @@ const ReviewTableHeader = ({ title, children: actions, editing }) => (
         { title }
       </h3>
     </div>
-    { editing ? actions : null }
+    { actions }
   </div>
 );
 
@@ -37,13 +36,11 @@ const ReviewTableDisplayRow = ({ name, data, stripe }) => (
 
 class ReviewTable extends React.Component {
   static propTypes = {
-    editing: PropTypes.bool,
     primaryData: PropTypes.array,
     secondaryData: PropTypes.array,
   }
 
   static defaultProps = {
-    editing: false,
     primaryData: [],
     secondaryData: [],
   }
@@ -63,9 +60,9 @@ class ReviewTable extends React.Component {
   }
 
   renderDetailsAction() {
-    const { t, editing } = this.props;
+    const { t } = this.props;
 
-    if (!this.props.secondaryData.length || editing) {
+    if (!this.props.secondaryData.length) {
       return null;
     }
 
@@ -82,39 +79,23 @@ class ReviewTable extends React.Component {
     )
   }
 
-  renderEditableComponent({ component }) {
-    if (Array.isArray(component)) {
-      return (
-        <React.Fragment>
-          { component.map(({ Component, props}, index) => <Component {...props} key={index} />) }
-        </React.Fragment>
-      );
-    }
-    
-    return <component.Component {...component.props} />;
-  }
-
   renderDatumRow(datum, index) {
     return (
       <div key={`${datum.name}.${index}`}>
-        {
-          this.props.editing ?
-            this.renderEditableComponent(datum) :
-            <ReviewTableDisplayRow {...datum} stripe={index % 2} />
-        }
+        <ReviewTableDisplayRow {...datum} stripe={index % 2} />
       </div>
     );
   }
 
   renderSecondaryData() {
-    const { editing, secondaryData } = this.props;
+    const { secondaryData } = this.props;
 
     if (!secondaryData.length) {
       return null;
     }
 
     const rows = secondaryData.reduce((memo, datum, index) => {
-      if (editing && datum.readonly) {
+      if (datum.readonly) {
         return memo;
       }
 
@@ -126,24 +107,21 @@ class ReviewTable extends React.Component {
 
     return (
       <React.Fragment>
-        { this.showDetails() || editing ? rows : null }
+        { this.showDetails() ? rows : null }
         { this.renderDetailsAction() }
       </React.Fragment>
     )
   }
 
   render() {
-    const { children, editing, primaryData } = this.props;
-    const className = classnames('margin-bottom-2', {
-      'border-1px border-base-lighter': !editing
-    });
+    const { children, primaryData } = this.props;
 
     return (
-      <div className={className}>
+      <div className="margin-bottom-2 border-1px border-base-lighter">
         { children }
         {
           primaryData.reduce((memo, datum, index) => {
-            if ((editing || this.showDetails()) && datum.readonly) {
+            if (this.showDetails() && datum.readonly) {
               return memo;
             }
 
@@ -160,4 +138,4 @@ class ReviewTable extends React.Component {
 }
 
 export { ReviewTableHeader as Header, ReviewTableHeaderAction as HeaderAction };
-export default withLocale(ReviewTable);
+export default ReviewTable;
