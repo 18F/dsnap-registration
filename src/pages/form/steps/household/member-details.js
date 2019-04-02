@@ -8,12 +8,13 @@ import { getCurrentMemberIndex, updateCurrentMemberIndex } from 'models/househol
 
 const modelName = 'memberDetails';
 const incrementCurrentMember = ({ household }) => ({
-  household: updateCurrentMemberIndex(household, getCurrentMemberIndex(household) + 1)
+  household: updateCurrentMemberIndex(household)
 });
 
 const MemberDetails = ({ handleChange, sectionName, t, registerStep }) => (
   <Wizard.Context>
-    {({ household }) => {
+    {(values) => {
+      const household = values.household;
       const memberIndex = getCurrentMemberIndex(household);
       const member = household.members[memberIndex];
       const firstName = member.name.firstName;

@@ -21,18 +21,31 @@ export const getOtherMemberCount = household => getOtherMembers(household).lengt
 
 // TODO: there is probably an opportunity to make a service that connects
 // basic info and household so this accessor doesnt have to be hardcoded
+
 // @return the applicant, who is always the first entry in the members array
 export const getApplicant = household => getMembers(household)[0];
-export const getCurrentMemberIndex = ({ currentMemberIndex }) =>
-  currentMemberIndex === 0 ? currentMemberIndex + 1 : 0;
+export const getCurrentMemberIndex = (household) => {
+  const i = household.currentMemberIndex;
+  let next = i + 1;
 
-export const updateCurrentMemberIndex = household => ({
-  ...household,
-  currentMemberIndex: hasAdditionalMembers(household) ? household.currentMemberIndex + 1 : 0, 
-});
+  if (next > getOtherMemberCount(household)) {
+    next = getOtherMemberCount(household) - 1;
+  }
+
+  return next;
+}
+
+export const updateCurrentMemberIndex = household => {
+  const nextIndex = {
+    ...household,
+    currentMemberIndex: hasAdditionalMembers(household) ? getCurrentMemberIndex(household) : 0,
+  };
+ 
+  return nextIndex;
+};
 
 export const hasAdditionalMembers = household =>
-  getCurrentMemberIndex(household) < getOtherMembers(household);
+  household.currentMemberIndex < getOtherMemberCount(household);
 
 export const addPeopleToHousehold = (household, count) => {
   const { members, ...rest } = household;
