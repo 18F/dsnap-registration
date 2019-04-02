@@ -355,7 +355,7 @@
       },
       "pay": {
         "id": "Take home pay during disaster",
-        "label": "How much take home pay did {{ firstName }} receive from this job between [disaster start date] and [disaster end date]?"
+        "label": "How much take home pay did {{ firstName }} receive from this job between {{ startDate }} and {{ endDate }}?"
       },
       "stateAgency": {
         "id": "Employed by D-SNAP agency",
