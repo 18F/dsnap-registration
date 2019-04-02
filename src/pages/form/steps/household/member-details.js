@@ -1,10 +1,11 @@
 import React from 'react';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
-import FormikField, { FormikRadioGroup, FormikFieldGroup } from 'components/formik-field';
+import FormikField, { FormikRadioGroup, FormikFieldDateGroup } from 'components/formik-field';
 import SecurityAlert from 'components/security-alert';
 import { buildNestedKey } from 'utils';
 import { getCurrentMemberIndex, updateCurrentMemberIndex } from 'models/household';
+import { validateIdentitySchema } from 'schemas/identity';
 
 const modelName = 'memberDetails';
 const incrementCurrentMember = ({ household }) => ({
@@ -25,10 +26,13 @@ const MemberDetails = ({ handleChange, sectionName, t, registerStep }) => (
           modelName={modelName}
           registerStep={registerStep}
           onNext={incrementCurrentMember}
+          validate={validateIdentitySchema(member, memberIndex)}
         >
           <React.Fragment>
-            <FormikFieldGroup
+            <FormikFieldDateGroup
               inline
+              name="dob"
+              showError={false}
               labelText={t(`${buildNestedKey(sectionName, modelName, 'dob', 'label')}`, { firstName })}
               explanation={t(`${buildNestedKey(sectionName, modelName)}.dob.explanation`)}
               fields={[{
