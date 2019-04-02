@@ -643,7 +643,7 @@ const reviewChart = {
         path: '/review'
       },
       on: {
-        ...formNextHandler('#submit')
+        ...formNextHandler('#submit'),
       }
     }
   }

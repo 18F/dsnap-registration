@@ -5,8 +5,10 @@ import { withMachineContext } from 'components/fsm';
 const withUpdateable = (Component) => {
   class Updateable extends React.Component {
     onUpdate = () => {
-      const { values, errors } = this.props.formik;
- 
+      const { values, errors, validate } = this.props.formik;
+
+      validate();
+
       if (Object.keys(errors).length) {
         return false;
       }
@@ -25,7 +27,11 @@ const withUpdateable = (Component) => {
       const { formik, ...rest } = this.props;
  
       return (
-        <Component {...rest} handleUpdate={this.onUpdate} formik={formik} />
+        <Component
+          {...rest}
+          handleUpdate={this.onUpdate}
+          formik={formik}
+        />
       );
     }
   }

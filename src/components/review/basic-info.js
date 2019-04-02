@@ -14,7 +14,7 @@ import { buildNestedKey, phoneMaskRegExp } from 'utils';
 import DateInput from 'components/date-input';
 import AddressFields from 'components/address-input';
 import { getState, getDisaster } from 'models/disaster';
-import yourInfoReviewSchema, { infoReviewSchemaValidator } from 'schemas/your-info';
+import yourInfoReviewSchema, { infoReviewSchemaValidator } from 'schemas/snapshot-review/your-info';
 
 const formattedAddress = address => (
   !address ?

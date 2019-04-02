@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Form } from 'formik';
 import withLocale from 'components/with-locale';
 import withUpdateable from 'components/with-updateable';
 import FormikField, { FormikFieldGroup } from 'components/formik-field';
@@ -9,9 +10,11 @@ import ReviewTable, { Header, HeaderAction} from 'components/review-table';
 import Button from 'components/button';
 import { getFirstName, getFullName, getDOB } from 'models/person';
 import { getOtherMembers, addPeopleToHousehold, deleteMemberFromHousehold } from 'models/household';
-import { buildNestedKey, isAffirmative } from 'utils';
+import { isAffirmative } from 'utils';
 import DateInput from 'components/date-input';
 import NameFields from 'components/name-input';
+import { householdReviewValidator } from 'schemas/snapshot-review/household';
+import { FieldArray } from 'formik';
 
 class HouseholdMemberReviewForm extends React.Component {
   static propTypes = {
@@ -99,6 +102,16 @@ class HouseholdReview extends React.Component {
     formik.setValues(nextState);
   }
 
+  handleToggleEdit = (isEditing) => {
+    if (isEditing) {
+      this.props.onEdit(this.validateSection);
+    }
+  }
+
+  validateSection = () => {
+    return householdReviewValidator(this.props.formik.values);
+  }
+
   render() {
     const { t, formik } = this.props;
     const { household } = formik.values;
@@ -112,28 +125,34 @@ class HouseholdReview extends React.Component {
         {({ editing }) => {
           return (
             <ReviewTableCollection fallback={t('household.memberDetails.none')}>
-              {
-                getOtherMembers(household).map((member, index) => {
-                  const memberIndex = index + 1;
-                  const header = `${t('household.memberNames.person')} ${memberIndex}`;
-
+              <FieldArray
+                name="household.members"
+                render={() => {
                   return (
-                    editing ?
-                    <HouseholdMemberReviewForm
-                      t={t}
-                      header={header}
-                      member={member}
-                      memberIndex={memberIndex}
-                      onRemove={this.handleRemoveMember}
-                    /> :
-                    <ReviewTable
-                      key={`review.household.${index}`}
-                      editing={editing}
-                      primaryData={this.getMemberData(member)}
-                    />
-                  )
-                })
-              }
+                    getOtherMembers(household).map((member, index) => {
+                      const memberIndex = index + 1;
+                      const header = `${t('household.memberNames.person')} ${memberIndex}`;
+    
+                      return (
+                        editing ?
+                        <HouseholdMemberReviewForm
+                          t={t}
+                          header={header}
+                          member={member}
+                          memberIndex={memberIndex}
+                          onRemove={this.handleRemoveMember}
+                          handleChange={this.props.handleChange}
+                        /> :
+                        <ReviewTable
+                          key={`review.household.${index}`}
+                          editing={editing}
+                          primaryData={this.getMemberData(member)}
+                        />
+                      );
+                    })
+                  );
+                }}
+              />
               <Button
                 disabled={!isAffirmative(editing)}
                 type="button"
