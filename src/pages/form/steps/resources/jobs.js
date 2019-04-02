@@ -7,6 +7,7 @@ import YesNoField from 'components/yes-no-field';
 import { buildNestedKey } from 'utils';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, hasOtherJobs, getJobs } from 'models/person';
+import { getDisaster, getBeginDate, getEndDate } from 'models/disaster';
 import { jobSchemaValidator } from 'schemas/job';
 
 const modelName = 'jobs';
@@ -42,7 +43,8 @@ class Jobs extends React.Component {
   render() {
     const { handleChange, sectionName, registerStep, t, formik } = this.props;
     const { values } = formik;
-    const { household, resources } = values;
+    const { household, resources, disasters, basicInfo } = values;
+    const disaster = getDisaster(disasters, basicInfo.disasterIndex);
     const members = getMembers(household);
     const index = resources.membersWithIncome[0] || 0;
     const member = members[index];
@@ -71,7 +73,11 @@ class Jobs extends React.Component {
           eager
         />
         <FormikField
-          labelText={t(buildNestedKey(sectionName, modelName, 'pay', 'label'), { firstName })}
+          labelText={t(buildNestedKey(sectionName, modelName, 'pay', 'label'), {
+            firstName,
+            startDate: getBeginDate(disaster),
+            endDate: getEndDate(disaster)
+          })}
           name={`${jobKey}.pay`}
           onChange={handleChange}
           eager
