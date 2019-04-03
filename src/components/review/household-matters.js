@@ -5,13 +5,10 @@ import YesNoField from 'components/yes-no-field';
 import CurrencyInput from 'components/currency-input';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTable from 'components/review-table';
-import { getApplicant } from 'models/household';
-import { getIncome } from 'models/person';
 import { getLostFood, getLostIncome, getLostMoney } from 'models/impact';
 import { getMoneyOnHand } from 'models/basic-info';
 
-
-class HouseholdMattersReviewForm extends React.Component {
+class IncomeSourcesReviewForm extends React.Component {
   updateMask = (name, data) => {
     this.props.handleChange(name)(data);
   }
@@ -76,7 +73,7 @@ class HouseholdMattersReview extends React.Component {
         {({ editing }) => {
           return (
             editing ?
-            <HouseholdMattersReviewForm t={t} handleChange={handleChange} /> :
+            <IncomeSourcesReviewForm t={t} handleChange={handleChange} /> :
             <ReviewTable
               editing={editing}
               primaryData={this.getHouseholdMoneyData()}

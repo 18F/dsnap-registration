@@ -35,21 +35,30 @@ class SnapshotReview extends React.Component {
       (values.errors && values.errors.server)
     );
     console.log(errors)
+    const extraProps = {
+      handleChange,
+      onEdit: this.setCurrentSectionValidator
+    };
+
     return (
       <Form>
         <BasicInfoReview
-          handleChange={handleChange}
           title={t('review.sections.info')}
-          onEdit={this.setCurrentSectionValidator}
+          {...extraProps}
         />
         <HouseholdReview
           title={t('review.sections.household')}
-          handleChange={handleChange}
-          onEdit={this.setCurrentSectionValidator}
+          {...extraProps}
         />
-        <HouseholdMattersReview handleChange={handleChange} />
-        <DisasterExpensesReview handleChange={handleChange} />
-        <IncomeReviewSection handleChange={handleChange} />
+        <HouseholdMattersReview
+          {...extraProps}
+        />
+        <DisasterExpensesReview
+          {...extraProps}
+        />
+        <IncomeReviewSection
+          {...extraProps}
+        />
         <div className="margin-y-2">
           <Button disabled={disable}>
             { t('review.next') }

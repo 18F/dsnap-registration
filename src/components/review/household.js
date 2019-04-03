@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, yupToFormErrors } from 'formik';
+import { FieldArray, yupToFormErrors } from 'formik';
 import withLocale from 'components/with-locale';
 import withUpdateable from 'components/with-updateable';
-import FormikField, { FormikFieldGroup, FormikFieldDateGroup } from 'components/formik-field';
+import FormikField, { FormikFieldDateGroup } from 'components/formik-field';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTableCollection from 'components/review-table-collection';
 import ReviewTable, { Header, HeaderAction} from 'components/review-table';
@@ -11,10 +11,8 @@ import Button from 'components/button';
 import { getFirstName, getFullName, getDOB } from 'models/person';
 import { getOtherMembers, addPeopleToHousehold, deleteMemberFromHousehold } from 'models/household';
 import { isAffirmative } from 'utils';
-import DateInput from 'components/date-input';
 import NameFields from 'components/name-input';
 import { householdReviewValidator } from 'schemas/snapshot-review/household';
-import { FieldArray } from 'formik';
 
 class HouseholdMemberReviewForm extends React.Component {
   static propTypes = {
@@ -171,7 +169,6 @@ class HouseholdReview extends React.Component {
                         /> :
                         <ReviewTable
                           key={`review.household.${index}`}
-                          editing={editing}
                           primaryData={this.getMemberData(member)}
                         />
                       );
