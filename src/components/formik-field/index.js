@@ -22,6 +22,9 @@ const inputTypes = (type) => {
   }
 };
 
+
+// TODO: if an error has been shown once, we need to show the error
+// regardless - eg when the submit count is over 1
 const FormikError = ({ name }) => (
   <ErrorMessage name={name}>
     { message => <InputError message={message} /> }

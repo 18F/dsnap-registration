@@ -21,7 +21,7 @@ export const hasMailingAddress = info => info.currentMailingAddress !== 'true';
 export const getAddress = address => [
   address.street1,
   address.street2,
-  `${address.city}, ${address.state}, ${address.zip}`
+  `${address.city}, ${address.state}, ${address.zipcode}`
 ];
 export const getMailingAddress = info =>
   isAffirmative(info.currentMailingAddress) ? false : getAddress(info.mailingAddress);
