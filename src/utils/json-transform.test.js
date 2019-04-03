@@ -109,14 +109,14 @@ test('Transform registration to rules service format', () => {
         disaster_id: 11,
         has_inaccessible_liquid_resources: false,
         has_lost_or_inaccessible_income: true,
-        is_authorized_representative: null,
-        is_head_of_household: null,
+        is_authorized_representative: false,
+        is_head_of_household: true,
         purchased_or_plans_to_purchase_food: true,
         receives_SNAP_benefits: false,
-        resided_in_disaster_area_at_disaster_time: null,
+        resided_in_disaster_area_at_disaster_time: true,
         residence_state: "FL",
         size_of_household: 2,
         total_take_home_income: 10200,
-        worked_in_disaster_area_at_disaster_time: null,
+        worked_in_disaster_area_at_disaster_time: false,
     });
 });

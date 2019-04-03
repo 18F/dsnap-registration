@@ -75,10 +75,10 @@ function toRulesServiceFormat(registration) {
         residence_state: registration.residential_address.state,
         accessible_liquid_resources: registration.money_on_hand,
         disaster_expenses: registration.disaster_expenses,
-        is_authorized_representative: null, // TODO
-        is_head_of_household: null, // TODO
-        resided_in_disaster_area_at_disaster_time: null, // TODO
-        worked_in_disaster_area_at_disaster_time: null, // TODO
+        is_authorized_representative: false, // TODO
+        is_head_of_household: true, // TODO
+        resided_in_disaster_area_at_disaster_time: true, // TODO
+        worked_in_disaster_area_at_disaster_time: false, // TODO
         purchased_or_plans_to_purchase_food: registration.purchased_or_plans_to_purchase_food,
         size_of_household: registration.household.length,
         total_take_home_income: totalIncome(registration.household),
