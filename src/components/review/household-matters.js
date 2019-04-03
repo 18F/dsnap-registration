@@ -11,59 +11,54 @@ import { getLostFood, getLostIncome, getLostMoney } from 'models/impact';
 import { getMoneyOnHand } from 'models/basic-info';
 
 
+class HouseholdMattersReviewForm extends React.Component {
+  render() {
+    const { t } = this.props;
+
+    return (
+      <div className="margin-bottom-2">
+        <YesNoField
+          labelText={t('impact.buyFood.label')}
+          name="impact.buyFood"
+        />
+        <YesNoField
+          labelText={t('impact.inaccessibleMoney.label')}
+          name="impact.lostOrInaccessibleIncome"
+        />
+        <YesNoField
+          labelText={t('impact.lostOrInaccessibleIncome.label')}
+          name="impact.inaccessibleMoney"
+        />
+        <CurrencyInput
+          labelText={t('resources.moneyOnHand.id')}
+          name="basicInfo.moneyOnHand"
+        />
+      </div>
+    );
+  }
+}
+
 class HouseholdMattersReview extends React.Component {
   getHouseholdMoneyData() {
-    const { formik, handleChange, t }= this.props;
+    const { formik, t }= this.props;
     const { household, impact } = formik.values;
 
     return [
       {
         name: t('impact.buyFood.id'),
         data: t(`general.${getLostFood(impact) ? 'yes' : 'no'}`),
-        component: {
-          props: {
-            labelText: t('impact.buyFood.label'),
-            name: 'impact.buyFood',
-            onChange: handleChange
-          },
-          Component: YesNoField 
-        }
       },
       {
         name: t('impact.lostOrInaccessibleIncome.id'),
         data: t(`general.${getLostIncome(impact) ? 'yes' : 'no'}`),
-        component: {
-          props: {
-            labelText: t('impact.inaccessibleMoney.label'),
-            name: 'impact.lostOrInaccessibleIncome',
-            onChange: handleChange
-          },
-          Component: YesNoField
-        }
       },
       {
         name: t('impact.inaccessibleMoney.id'),
         data: t(`general.${getLostMoney(impact) ? 'yes' : 'no'}`),
-        component: {
-          props: {
-            labelText: t('impact.lostOrInaccessibleIncome.label'),
-            name: 'impact.inaccessibleMoney',
-            onChange: handleChange
-          },
-          Component: YesNoField
-        }
       },
       {
         name: t('resources.moneyOnHand.id'),
         data: `$${getMoneyOnHand(getIncome(getApplicant(household)))}`,
-        component: {
-          props: {            
-            labelText: t('resources.moneyOnHand.id'),
-            name: 'basicInfo.moneyOnHand',
-            handleChange: handleChange
-          },
-          Component: CurrencyInput
-        }
       }
     ];
   }
@@ -75,6 +70,8 @@ class HouseholdMattersReview extends React.Component {
       <ReviewSubSection title={t('review.sections.householdMatters')} onUpdate={this.props.handleUpdate}>
         {({ editing }) => {
           return (
+            editing ?
+            <HouseholdMattersReviewForm t={t} /> :
             <ReviewTable
               editing={editing}
               primaryData={this.getHouseholdMoneyData()}

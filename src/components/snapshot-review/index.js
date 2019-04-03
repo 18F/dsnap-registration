@@ -10,16 +10,18 @@ import HouseholdMattersReview from 'components/review/household-matters';
 import DisasterExpensesReview from 'components/review/disaster-expenses';
 import IncomeReviewSection from 'components/review/income';
 
+const noOpValidator = () => ({});
+
 class SnapshotReview extends React.Component {
   static propTypes = {
     values: PropTypes.object
   }
 
   state = {
-    validattionFn: () => ({})
+    validator: noOpValidator
   }
 
-  setCurrentSectionValidator = (validator) => {
+  setCurrentSectionValidator = (validator = noOpValidator) => {
     this.setState({
       validator
     });

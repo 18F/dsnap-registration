@@ -90,12 +90,12 @@ export default {
                  {
                     "employerName":"TTS",
                     "pay":"1000",
-                    "isDsnapAgency":"no"
+                    "isDsnapAgency":"false"
                  },
                  {
                     "employerName":"Apollo",
                     "pay": "500",
-                    "isDsnapAgency":"no"
+                    "isDsnapAgency":"false"
                  },
               ]
            }
@@ -164,9 +164,9 @@ export default {
      ]
   },
   "impact":{
-     "lostOrInaccessibleIncome":"yes",
-     "inaccessibleMoney":"no",
-     "buyFood":"yes",
+     "lostOrInaccessibleIncome":"true",
+     "inaccessibleMoney":"false",
+     "buyFood":"false",
      "noOtherExpenses":false,
      "otherExpenses":{
         "foodLoss":{
