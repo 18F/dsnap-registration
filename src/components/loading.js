@@ -8,11 +8,11 @@ const LoadingMessage = ({ message }) =>
 
 const Loading = ({ children, message }) =>
   <MachineState>
-    {({ meta }) =>
-      (meta.loading || meta.loading === undefined) ?
+    {({ meta }) => {
+      return (meta.loading || meta.loading === undefined) ?
         <LoadingMessage message={message} /> :
-        children
-    }
+        children;
+    }}
   </MachineState>
 
 export default Loading;

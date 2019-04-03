@@ -37,6 +37,9 @@ class FSMRouter extends React.Component {
 
     const routeNodes = getNodes(Machine(config));
 
+    // Return an object with all the routes in the application
+    // where the key/value pair is the meta property `path`, as
+    // defined in the state machine config file
     this.routes = routeNodes.reduce((routes, node) => {
       if (node.meta && node.meta.path) {
         // TODO: make `form` key a configurable param / option
@@ -46,6 +49,7 @@ class FSMRouter extends React.Component {
       return routes;
     }, {});
 
+    // Add each available route as an event the state machine can respond to
     const configWithRoutes = {
       ...machineConfig,
       on: {
@@ -62,6 +66,8 @@ class FSMRouter extends React.Component {
     };
 
     const machine = Machine(configWithRoutes);
+    // Create a new xstate state machine with initial state from either localstorage
+    // or the default application data
     const machineWithState = machine.withConfig({ actions, services }, { ...initialState });
 
     this.service = interpret(machineWithState);
@@ -94,9 +100,13 @@ class FSMRouter extends React.Component {
       return this.props.location.pathname;
     }
 
-    let path = `/${this.props.routeId}/${context.currentSection.trim()}`;
+    const { currentStep, currentSection } = context;
+    let path = `/${this.props.routeId}/${currentSection.trim()}`;
 
-    if (context.currentStep) {
+    // some sections / paths have the same step, and we don't want
+    // to duplicate them, as that leads to an invalid path
+    // TODO: this algo needs work; ideally xstate can resolve path issues?
+    if (currentStep && currentStep !== currentSection) {
       path += `/${context.currentStep.trim()}`;
     }
 
@@ -140,8 +150,10 @@ class FSMRouter extends React.Component {
 
       this.stateTransitioning = true;
       this.sendServiceTransition(machinePath);
- 
+  
       if (!matchesState(this.machineState, machinePath)) {
+        this.stateTransitioning = false;
+
         if (debounce) {
           this.historyTransitioning = true;
         }
@@ -152,8 +164,10 @@ class FSMRouter extends React.Component {
           this.props.history.replace(`/${this.props.routeId}${currentNode.meta.path}`);
         }
       }
+    } else {
+      // TODO: we need to handle invalid machine states here
+      console.log('No matching route found. this is a bug!')
     }
-    // TODO: we need to handle invalid machine states here
   }
 
   handleXStateTransition = (state) => {
@@ -170,7 +184,7 @@ class FSMRouter extends React.Component {
 
     if (currentNode.meta && currentNode.meta.path) {
       this.historyTransitioning = true;
-      this.props.history.push(`/${this.props.routeId}${currentNode.meta.path}`);
+      this.props.history.replace(`/${this.props.routeId}${currentNode.meta.path}`);
     }
   }
 

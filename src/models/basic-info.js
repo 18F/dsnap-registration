@@ -1,4 +1,5 @@
 import address from './address';
+import { isAffirmative } from 'utils';
 
 export default () => ({
   personId: 0,
@@ -20,8 +21,8 @@ export const hasMailingAddress = info => info.currentMailingAddress !== 'true';
 export const getAddress = address => [
   address.street1,
   address.street2,
-  `${address.city}, ${address.state}, ${address.zip}`
+  `${address.city}, ${address.state}, ${address.zipcode}`
 ];
 export const getMailingAddress = info =>
-  info.currentMailingAddress ? false : getAddress(info.mailingAddress);
+  isAffirmative(info.currentMailingAddress) ? false : getAddress(info.mailingAddress);
 export const getResidenceAddress = info => getAddress(info.residenceAddress);

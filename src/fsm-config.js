@@ -508,7 +508,10 @@ const resourcesChart = {
 const submitChart = {
   id: 'submit',
   initial: 'sign-and-submit',
-  onEntry: assign({ currentSection: 'sign-and-submit' }),
+  onEntry: assign({
+    currentSection: 'submit',
+    currentStep: 'sign-and-submit',
+  }),
   states: {
     'sign-and-submit': {
       on: {
@@ -624,6 +627,7 @@ const preRegistrationChart = {
       }
     }
 };
+
 const reviewChart = {
   id: 'review',
   initial: 'default',
@@ -643,7 +647,7 @@ const reviewChart = {
         path: '/review'
       },
       on: {
-        ...formNextHandler('#submit')
+        ...formNextHandler('#submit'),
       }
     }
   }
@@ -741,7 +745,7 @@ const formStateConfig = {
     edit: {
       internal: true,
       onEntry: [
-        () => console.log('executing actions'),
+        () => console.log('executing edit actions'),
         'persist',
         assign((_, event) => {
           const { type, ...rest } = event;

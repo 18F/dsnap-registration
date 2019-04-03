@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import withLocale from 'components/with-locale';
 import withUpdateable from 'components/with-updateable';
 import YesNoField from 'components/yes-no-field';
-import FormikField, { FormikFieldGroup, FormikRadioGroup } from 'components/formik-field';
+import FormikField, { FormikRadioGroup } from 'components/formik-field';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTable from 'components/review-table';
 import { isAffirmative } from 'utils';
@@ -10,6 +11,10 @@ import { getFirstName, getLastName, getFullName, getDOB } from 'models/person';
 import { getApplicant } from 'models/household';
 import { getResidenceAddress, getMailingAddress, getID } from 'models/basic-info';
 import { buildNestedKey, phoneMaskRegExp } from 'utils';
+import DateInput from 'components/date-input';
+import AddressFields from 'components/address-input';
+import { getState, getDisaster } from 'models/disaster';
+import yourInfoReviewSchema, { infoReviewSchemaValidator } from 'schemas/snapshot-review/your-info';
 
 const formattedAddress = address => (
   !address ?
@@ -19,11 +24,90 @@ const formattedAddress = address => (
   </React.Fragment>
 );
 
-const NullComponent = () => null;
+class InfoReviewForm extends React.Component {
+  updateMask = (name, data) => {
+    this.props.handleChange(name)(data);
+  };
+
+  render() {
+    const { t, values } = this.props;
+
+    return (
+      <div className="margin-bottom-2">
+        <FormikField
+          name="household.members.0.name.firstName"
+          labelText={t('basicInfo.name.firstName.label')}
+        />
+        <FormikField
+          name="household.members.0.name.middleName"
+          labelText={t('basicInfo.name.middleName.label')}
+        />
+        <FormikField
+          name="household.members.0.name.lastName"
+          labelText={t('basicInfo.name.lastName.label')}
+        />
+        <DateInput memberIndex={0} />
+        <FormikField
+          onChange={this.updateMask}
+          type="mask"
+          pattern="XXX-XX-XXXX"
+          delimiter="-"
+          name="household.members.0.ssn"
+          labelText={t('identity.personalInfo.ssn.label')}
+        />
+        <FormikField
+          name="basicInfo.stateId"
+          labelText={t('identity.personalInfo.stateId.label')}
+        />
+        <FormikRadioGroup
+          inline
+          name="household.members.0.sex"
+          labelText={t('identity.personalInfo.sex.label')}
+          explanation={t('identity.personalInfo.sex.explanation')}
+          options={[{
+            label: t(buildNestedKey('identity', 'personalInfo', 'sex', 'options', 'male')),
+            value: "male"
+          },
+          {
+            label: t(buildNestedKey('identity', 'personalInfo', 'sex', 'options', 'female')),
+            value: "female"
+          }]}
+        />
+        <AddressFields addressType="residenceAddress" />
+        <YesNoField
+          name="basicInfo.currentMailingAddress"
+          labelText={t('basicInfo.addresses.currentMailingAddress.label')}
+        />
+        { 
+          isAffirmative(values.basicInfo.currentMailingAddress) ?
+          null :
+          <AddressFields addressType="mailingAddress" />
+        }
+        <FormikField
+          type="tel"
+          pattern="(XXX)-XXX-XXXX"
+          onChange={this.updateMask}
+          delimiter={phoneMaskRegExp}
+          name="basicInfo.phone"
+          labelText={t('basicInfo.phone.label')}
+        />
+        <FormikField
+          name="basicInfo.email"
+          labelText={t('basicInfo.email.label')}
+        />
+      </div>
+    );
+  }
+}
 
 class BasicInfoReview extends React.Component {
+  static propTypes = {
+    onEdit: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+  }
+
   getReviewData() {
-    const { handleChange, t, formik } = this.props;
+    const { t, formik } = this.props;
     const { basicInfo, household } = formik.values;
     const applicant = getApplicant(household);
 
@@ -31,243 +115,45 @@ class BasicInfoReview extends React.Component {
       {
         name: t('basicInfo.name.id'),
         data: getFullName(applicant),
-        component: [
-          {
-            props: {
-              name: buildNestedKey('household', 'members', '0', 'name', 'firstName'),
-              onChange: handleChange,
-              labelText: t(buildNestedKey('basicInfo', 'name', 'firstName', 'label'))
-            },
-            Component: FormikField
-          },
-          {
-            props: {
-              name: buildNestedKey('household', 'members', '0', 'name', 'middleName'),
-              onChange: handleChange,
-              labelText: t(buildNestedKey('basicInfo', 'name', 'middleName', 'label')),
-            },
-            Component: FormikField
-          },
-          {
-            props: {
-              name: buildNestedKey('household', 'members', '0', 'name', 'lastName'),
-              onChange: handleChange,
-              labelText: t(buildNestedKey('basicInfo', 'name', 'lastName', 'label')),
-            },
-            Component: FormikField
-          }
-        ]
       },
       {
         name: t('identity.personalInfo.dob.id'),
         data: getDOB(applicant),
-        component: {
-          props: {
-            inline: true,
-            compact: true,
-            labelText: t(buildNestedKey('identity', 'personalInfo', 'dob', 'label')),
-            fields: [{
-              name: 'household.members.0.dob.month',
-              onChange: handleChange,
-              labelText: t(buildNestedKey('identity', 'personalInfo', 'dob', 'month')),
-            }, {
-              name: 'household.members.0.dob.day',
-              labelText: t(buildNestedKey('identity', 'personalInfo', 'dob', 'day')),
-              onChange: handleChange
-            }, {
-              name: 'household.members.0.dob.year',
-              labelText: t(buildNestedKey('identity', 'personalInfo', 'dob', 'year')),
-              onChange: handleChange,
-              className: 'desktop:grid-col-9'
-            }]
-          },
-          Component: FormikFieldGroup
-        }
       },
       {
         name: t('identity.personalInfo.ssn.id'),
         data: applicant.ssn,
-        component: {
-          props: {
-            type: 'mask',
-            pattern: 'XXX-XX-XXXX',
-            delimiter: '-',
-            name: 'household.members.0.ssn',
-            onChange: handleChange,
-            labelText: t(buildNestedKey('identity', 'personalInfo', 'ssn', 'label'))
-          },
-          Component: FormikField
-        }
       },
       {
         name: t('identity.personalInfo.stateId.id'),
         data: getID(basicInfo),
-        component: {
-          props: {
-            name: 'basicInfo.stateId',
-            onChange: handleChange,
-            labelText: t(buildNestedKey('identity', 'personalInfo', 'stateId', 'label'))
-          },
-          Component: FormikField
-        }
       },
       {
         name: t('identity.personalInfo.sex.id'),
         data: applicant.sex,
-        component: {
-          props: {
-            inline: 'true',
-            name: 'household.members.0.sex',
-            onChange: handleChange,
-            labelText: t(buildNestedKey('identity', 'personalInfo', 'sex', 'label')),
-            explanation: t(buildNestedKey('identity', 'personalInfo', 'sex', 'explanation')),
-            options: [{
-              label: t(buildNestedKey('identity', 'personalInfo', 'sex', 'options', 'male')),
-              value: "male"
-            },
-            {
-              label: t(buildNestedKey('identity', 'personalInfo', 'sex', 'options', 'female')),
-              value: "female"
-            }]
-          },
-          Component: FormikRadioGroup
-        }
       },
       {
         name: t('basicInfo.addresses.id'),
         data: formattedAddress(getResidenceAddress(basicInfo)),
-        component: [
-          {
-            props: {
-              name: 'basicInfo.residenceAddress.street1',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.street1.label')
-            },
-            Component: FormikField
-          },
-          {
-            props: {
-              name: 'basicInfo.residenceAddress.street2',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.street2.label'),
-            },
-            Component: FormikField
-          },
-          {
-            props: {
-              name: 'basicInfo.residenceAddress.city',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.city.label')
-            },
-            Component: FormikField
-          },
-          {
-            props: {
-              name: 'basicInfo.residenceAddress.state',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.state.label')
-            },
-            Component: FormikField
-          },
-          {
-            props: {
-              name: 'basicInfo.residenceAddress.zip',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.zip.label')
-            },
-            Component: FormikField,
-          },
-          {
-            props: {
-              name: 'basicInfo.currentMailingAddress',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.currentMailingAddress.label')
-            },
-            Component: YesNoField
-          }
-        ],
       },
       {
         name: t('basicInfo.mailingAddress.id'),
         data: formattedAddress(getMailingAddress(basicInfo)),
-        component: isAffirmative(basicInfo.currentMailingAddress) ? {
-          Component: NullComponent
-        } : [
-          {
-            props: {
-              name: 'basicInfo.mailingAddress.street1',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.street1.label'),
-            },
-            Component: FormikField,
-          },
-          {
-            props: {
-              name: 'basicInfo.mailingAddress.street2',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.street2.label')
-            },
-            Component: FormikField
-          },
-          {
-            props: {
-              name: 'basicInfo.mailingAddress.city',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.city.label'),
-            },
-            Component: FormikField
-          },
-          {
-            props: {
-              name: 'basicInfo.mailingAddress.state',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.state.label')
-            },
-            Component: FormikField
-          },
-          {
-            props: {
-              name: 'basicInfo.mailingAddress.zip',
-              onChange: handleChange,
-              labelText: t('basicInfo.addresses.zip.label')
-            },
-            Component: FormikField
-          }
-        ]
       },
       {
         name: t('basicInfo.phone.id'),
         data: basicInfo.phone,
-        component: {
-          props: {
-            type: 'tel',
-            pattern: '(XXX)-XXX-XXXX',
-            delimiter: phoneMaskRegExp,
-            name: 'basicInfo.phone',
-            onChange: handleChange,
-            labelText: t('basicInfo.phone.label'),
-          },
-          Component: FormikField
-        }
       },
       {
         name: t('basicInfo.email.id'),
         data: basicInfo.email,
-        component: {
-          props: {
-            name: 'basicInfo.email',
-            onChange: handleChange,
-            labelText: t('basicInfo.email.label'),
-          },
-          Component: FormikField
-        }
       }
     ];
   }
 
   validateSection = () => {
     const { values } = this.props.formik;
-    const { basicInfo } = values;
+    const { basicInfo, disasters } = values;
     const applicant = getApplicant(values.household);
 
     const sectionData = {
@@ -279,34 +165,57 @@ class BasicInfoReview extends React.Component {
         stateId: basicInfo.stateId,
         residenceAddress: basicInfo.residenceAddress,
         mailingAddress: basicInfo.mailingAddress,
+        currentMailingAddress: basicInfo.currentMailingAddress,
       },
-      firstName: getFirstName(applicant),
-      lastName: getLastName(applicant),
+      household: {
+        members: {
+          0: {
+            ssn: applicant.ssn,
+            name: {
+              firstName: getFirstName(applicant),
+              lastName: getLastName(applicant),
+            },
+          }
+        }
+      },
       dob: {
         month: applicant.dob.month,
-        day: applicant.dob.month,
-        year: applicant.dob.month
+        day: applicant.dob.day,
+        year: applicant.dob.year
       }
     };
 
-    console.log(sectionData);
+    const schema = yourInfoReviewSchema({
+      state: getState(getDisaster(disasters, basicInfo.disasterIndex))
+    });
 
-    this.props.handleUpdate();
+    return infoReviewSchemaValidator(schema, sectionData);
+  }
+
+  handleToggleEdit = (isEditing) => {
+    if (isEditing) {
+      this.props.onEdit(this.validateSection);
+    }
   }
 
   render() {
-    const { t } = this.props;
+    const { t, formik: { values } } = this.props;
 
     return (
-      <ReviewSubSection title={t('review.sections.info')} onUpdate={this.validateSection}>
-        {({ editing }) => {
-          return (
-            <ReviewTable
-              editing={editing}
-              primaryData={this.getReviewData()}
-            />
-          )
-        }}
+      <ReviewSubSection
+        title={this.props.title}
+        onUpdate={this.props.handleUpdate}
+        onEdit={this.handleToggleEdit}
+      >
+        {({ editing }) =>
+          editing ?
+          <InfoReviewForm
+            t={t}
+            handleChange={this.props.handleChange}
+            values={values}
+          /> :
+          <ReviewTable primaryData={this.getReviewData()} />
+        }
       </ReviewSubSection>
     );
   }

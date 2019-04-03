@@ -22,6 +22,9 @@ const inputTypes = (type) => {
   }
 };
 
+
+// TODO: if an error has been shown once, we need to show the error
+// regardless - eg when the submit count is over 1
 const FormikError = ({ name }) => (
   <ErrorMessage name={name}>
     { message => <InputError message={message} /> }
@@ -72,7 +75,7 @@ class FormikField extends React.Component {
                 onInput={() => form.setFieldTouched(name, true, true)}
                 {...rest}
               />
-              { this.props.showError && getIn(form.touched, name) ? <FormikError name={name} /> : null }
+              { this.props.showError && (form.submitCount || getIn(form.touched, name)) ? <FormikError name={name} /> : null }
             </React.Fragment>
           );
         }}
@@ -137,18 +140,36 @@ const FormikFieldGroup = ({
 class FormikFieldDateGroup extends React.Component {
   manageErrors() {
     const { formik: { errors } } = this.props;
+    const resolved = getIn(errors, this.props.name);
 
-    if (this.hasErrors()) {
-      return errors.dob.map(message => <InputError message={message} key={message} />);
+    if (!resolved) {
+      return false;
     }
 
-    return null;
+    const formatted = Array.isArray(resolved) ?
+      resolved :
+      Object.values(resolved).map(v => v);
+
+    if (!formatted.length) {
+      return null;
+    }
+
+    return formatted.map(message => <InputError message={message} key={message} />);
   }
 
   hasErrors() {
     const { formik: { errors } } = this.props;
+    const resolved = getIn(errors, this.props.name);
 
-    return errors.dob && errors.dob.length;
+    if (!resolved) {
+      return false;
+    }
+
+    if (Array.isArray(resolved)) {
+      return resolved.length
+    } else {
+      return Object.keys(resolved).length;
+    }
   }
 
   render() {
@@ -239,7 +260,6 @@ class FormikRadioGroupBase extends React.Component {
         <FormGroupLabel labelText={this.props.labelText} />
         <FormGroupExplanation text={explanation} />
         <div className="margin-top-2">
-          
             {
               this.props.options.map((option, index) => {
                 return (

@@ -5,23 +5,39 @@ import CurrencyInput from 'components/currency-input';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTable from 'components/review-table';
 import { getExpenseTotal, getExpenses } from 'models/impact';
+import { getApplicableValue } from 'models/applicable';
 
+class DisasterExpensesReviewForm extends React.Component {
+  updateMask = (name, value) => {
+    this.props.handleChange(name)(value);
+  }
+
+  render() {
+    const { t, expenses } = this.props;
+
+    return (
+      <div className="margin-bottom-2">
+        { Object.keys(expenses).map((key, index) => 
+            <CurrencyInput
+              key={`${key}.${index}`}
+              onChange={this.updateMask}
+              labelText={t(`impact.expenses.${key}`)}
+              name={`impact.otherExpenses.${key}.value`}
+            />
+          )
+        }
+      </div>
+    );
+  }
+}
 
 class DisasterExpensesReview extends React.Component {
   getExpenses() {
-    const { formik, handleChange, t }= this.props;
+    const { formik, t } = this.props;
     const { impact } = formik.values;
     const expenseFields = Object.entries(getExpenses(impact)).map(([key, expense]) => ({
       name: t(`impact.expenses.${key}`),
-      data: `$${expense.value || 0}`,
-      component: {
-        props: {
-          labelText: t(`impact.expenses.${key}`),
-          name: `impact.otherExpenses.${key}.value`,
-          onChange: handleChange
-        },
-        Component: CurrencyInput
-      }
+      data: `$${getApplicableValue(expense)}`,
     }));
 
 
@@ -29,7 +45,6 @@ class DisasterExpensesReview extends React.Component {
       {
         name: t('impact.otherExpenses.total'),
         data: `$${getExpenseTotal(impact)}`,
-        readonly: true
       }
     ]);
   }
@@ -41,6 +56,12 @@ class DisasterExpensesReview extends React.Component {
       <ReviewSubSection title={t('review.sections.impact')} onUpdate={this.props.handleUpdate}>
         {({ editing }) => {
           return (
+            editing ?
+            <DisasterExpensesReviewForm
+              t={t}
+              expenses={getExpenses(this.props.formik.values.impact)}
+              handleChange={this.props.handleChange}
+            /> :
             <ReviewTable
               editing={editing}
               primaryData={this.getExpenses()}

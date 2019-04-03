@@ -20,6 +20,7 @@ export const getLostFood = impact => isAffirmative(impact.buyFood);
 export const getLostIncome = impact => isAffirmative(impact.lostOrInaccessibleIncome);
 export const getLostMoney = impact => isAffirmative(impact.inaccessibleMoney);
 export const getExpense = (impact, expense) => impact.otherExpenses[expense] || applicable();
+export const getExpenseValue = (impact, expense) => getExpense(impact, expense).value || 0;
 export const getExpenses = impact => impact.otherExpenses;
 
 export default () => ({

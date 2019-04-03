@@ -51,7 +51,7 @@ export default {
               "incomeSources":{
                  "selfEmployed":{
                     "applicable":false,
-                    "value":null
+                    "value":0
                  },
                  "unemployment":{
                     "applicable":true,
@@ -59,43 +59,43 @@ export default {
                  },
                  "cashAssistance":{
                     "applicable":false,
-                    "value":null
+                    "value":0
                  },
                  "disability":{
                     "applicable":false,
-                    "value":null
+                    "value":0
                  },
                  "socialSecurity":{
                     "applicable":false,
-                    "value":null
+                    "value":0
                  },
                  "veteransBenefits":{
                     "applicable":false,
-                    "value":null
+                    "value":0
                  },
                  "alimony":{
                     "applicable":false,
-                    "value":null
+                    "value":0
                  },
                  "childSupport":{
                     "applicable":false,
-                    "value":null
+                    "value":0
                  },
                  "otherSources":{
                     "applicable":false,
-                    "value":null
+                    "value":0
                  }
               },
               "jobs":[
                  {
                     "employerName":"TTS",
                     "pay":"1000",
-                    "isDsnapAgency":"no"
+                    "isDsnapAgency":"false"
                  },
                  {
                     "employerName":"Apollo",
                     "pay": "500",
-                    "isDsnapAgency":"no"
+                    "isDsnapAgency":"false"
                  },
               ]
            }
@@ -127,35 +127,35 @@ export default {
                 },
                 "unemployment":{
                    "applicable":false,
-                   "value":null
+                   "value":0
                 },
                 "cashAssistance":{
                    "applicable":false,
-                   "value":null
+                   "value":0
                 },
                 "disability":{
                    "applicable":false,
-                   "value":null
+                   "value":0
                 },
                 "socialSecurity":{
                    "applicable":false,
-                   "value":null
+                   "value":0
                 },
                 "veteransBenefits":{
                    "applicable":false,
-                   "value":null
+                   "value":0
                 },
                 "alimony":{
                    "applicable":false,
-                   "value":null
+                   "value":0
                 },
                 "childSupport":{
                    "applicable":false,
-                   "value":null
+                   "value":0
                 },
                 "otherSources":{
                    "applicable":false,
-                   "value":null
+                   "value":0
                 }
              },
              "jobs":[],
@@ -164,9 +164,9 @@ export default {
      ]
   },
   "impact":{
-     "lostOrInaccessibleIncome":"yes",
-     "inaccessibleMoney":"no",
-     "buyFood":"yes",
+     "lostOrInaccessibleIncome":"true",
+     "inaccessibleMoney":"false",
+     "buyFood":"false",
      "noOtherExpenses":false,
      "otherExpenses":{
         "foodLoss":{
