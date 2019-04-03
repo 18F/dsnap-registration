@@ -13,7 +13,7 @@ class DisasterExpensesReviewForm extends React.Component {
   }
 
   render() {
-    const { t, expenses, handleChange } = this.props;
+    const { t, expenses } = this.props;
 
     return (
       <div className="margin-bottom-2">

@@ -1,7 +1,6 @@
 import React from 'react';
 import FormikField from 'components/formik-field';
 
-// TODO: do the same thing here that I did with the input mask field
 class CurrencyInput extends React.Component {
   handleChange = (event) => {
     const { name, value } = event.target;
