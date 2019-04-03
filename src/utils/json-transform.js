@@ -13,6 +13,7 @@ function toRegistrationServiceFormat(src) {
         mailing_address: src.basicInfo.mailingAddress,
         county: src.basicInfo.disasterCounty.trim(),
         state_id: src.basicInfo.stateId.trim(),
+        money_on_hand: Number(src.basicInfo.moneyOnHand),
         has_inaccessible_liquid_resources: isAffirmative(src.impact.inaccessibleMoney),
         has_lost_or_inaccessible_income: isAffirmative(src.impact.lostOrInaccessibleIncome),
         purchased_or_plans_to_purchase_food: isAffirmative(src.impact.buyFood),
@@ -39,7 +40,6 @@ function assembleHousehold(src) {
             race: member.race.trim(),
             ethnicity: member.ethnicity.trim(),
             has_food_assistance: isAffirmative(member.hasFoodAssistance),
-            money_on_hand: Number(member.assetsAndIncome.moneyOnHand),
             income: {
                  self_employed: Number(member.assetsAndIncome.incomeSources.selfEmployed.value),
                  unemployment: Number(member.assetsAndIncome.incomeSources.unemployment.value),
