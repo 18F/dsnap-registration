@@ -1,7 +1,7 @@
-import toRegistrationServiceFormat from './json-transform';
+import {toRegistrationServiceFormat, toRulesServiceFormat} from './json-transform';
 import testData from '../test-data';
 
-test('Top-level info', () => {
+test('Transform test data to registration service format', () => {
     expect(toRegistrationServiceFormat(testData)).toEqual({
         disaster_id: 11,
         preferred_language: "en",
@@ -93,5 +93,30 @@ test('Top-level info', () => {
                 jobs: []
             },
         ]
+    });
+});
+
+test('Transform registration to rules service format', () => {
+    expect(toRulesServiceFormat(toRegistrationServiceFormat(testData))).toEqual({
+        accessible_liquid_resources: 1000,
+        disaster_expenses: {
+            evacuation_expenses: 0,
+            food_loss: 129,
+            home_or_business_repairs: 0,
+            other: 1000,
+            temporary_shelter_expenses: 550,
+        },
+        disaster_id: 11,
+        has_inaccessible_liquid_resources: false,
+        has_lost_or_inaccessible_income: true,
+        is_authorized_representative: false,
+        is_head_of_household: true,
+        purchased_or_plans_to_purchase_food: true,
+        receives_SNAP_benefits: false,
+        resided_in_disaster_area_at_disaster_time: true,
+        residence_state: "FL",
+        size_of_household: 2,
+        total_take_home_income: 10200,
+        worked_in_disaster_area_at_disaster_time: false,
     });
 });
