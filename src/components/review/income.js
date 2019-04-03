@@ -15,6 +15,40 @@ import { getIncomeTotal } from 'models/income-sources';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, getJobs, getIncome } from 'models/person';
 
+class IncomeSourcesReviewForm extends React.Component {
+  static propTypes = {
+    memberIndex: PropTypes.number,
+    incomeSources: PropTypes.object,
+    handleChange: PropTypes.func,
+    t: PropTypes.func,
+  }
+
+  updateMask = (name, value) => {
+    this.props.handleChange(name)(value);
+  }
+
+  render() {
+    const { incomeSources, memberIndex, t } = this.props;
+    const prefix = 'resources.assetsAndIncome.income';
+
+    return (
+      <div className="margin-bottom-2">
+        {
+          Object.keys(incomeSources).map((key, index) => (
+            <CurrencyInput
+              key={`${memberIndex}.${key}.${index}`}
+              className="grid-col-6"
+              labelText={t(`${prefix}.${key}`)}
+              name={`household.members.${memberIndex}.assetsAndIncome.incomeSources.${key}.value`}
+              onChange={this.updateMask}
+            />
+          ))
+        }
+      </div>
+    );
+  }
+}
+
 class IncomeReviewSection extends React.Component {
   static propTypes = {
     values: PropTypes.object,
@@ -72,13 +106,12 @@ class IncomeReviewSection extends React.Component {
       {
         name: t('resources.assetsAndIncome.incomeSources.total'),
         data: `$${getIncomeTotal(Object.entries(income.incomeSources))}`,
-        readonly: true
       }
     ]
   }
 
-  getSecondaryIncomeData(memberIndex, income) {
-    const { t, handleChange } = this.props;
+  getSecondaryIncomeData(income) {
+    const { t } = this.props;
     const { incomeSources } = income;
     const prefix = 'resources.assetsAndIncome.income';
 
@@ -86,15 +119,6 @@ class IncomeReviewSection extends React.Component {
       return {
         name: t(`${prefix}.${key}`),
         data: `$${incomeSources[key].value || 0}`,
-        component: {
-          props: {
-            className: 'grid-col-6',
-            labelText: t(`${prefix}.${key}`),
-            name: `household.members.${memberIndex}.assetsAndIncome.incomeSources.${key}.value`,
-            onChange: handleChange
-          },
-          Component: CurrencyInput
-        }
       }
     });
   }
@@ -183,13 +207,22 @@ class IncomeReviewSection extends React.Component {
                 >
                   { t('review.addJob') }
                 </Button>
-                <ReviewTable
-                  editing={editing}
-                  primaryData={this.getPrimaryIncomeData(income)}
-                  secondaryData={this.getSecondaryIncomeData(memberIndex, income)}
-                >
-                  <Header title={t('resources.assetsAndIncome.incomeSources.id')} />
-                </ReviewTable>
+                {
+                  editing ?
+                  <IncomeSourcesReviewForm
+                    handleChange={this.props.handleChange}
+                    t={t}
+                    memberIndex={memberIndex}
+                    incomeSources={income.incomeSources}
+                  /> :
+                  <ReviewTable
+                    editing={editing}
+                    primaryData={this.getPrimaryIncomeData(income)}
+                    secondaryData={this.getSecondaryIncomeData(income)}
+                  >
+                    <Header title={t('resources.assetsAndIncome.incomeSources.id')} />
+                  </ReviewTable>
+                }
               </React.Fragment>
             )}
           </ReviewSubSection>
