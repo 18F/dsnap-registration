@@ -19,8 +19,11 @@ const applicantInfoSchema = (validDisasterState) =>
           .required(i18n.t('errors.required')),
       }),
       phone: Yup.string()
-        .required(i18n.t('errors.required'))
         .test('isValidUSPhone', i18n.t('errors.phone'), (value) => {
+            if (!value) {
+              return true;
+            }
+
             value = value.replace(/[^\d]/g, '');
             return isValidPhoneNumber(value);
         }),
