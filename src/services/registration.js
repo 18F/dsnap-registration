@@ -1,5 +1,5 @@
 import axios from 'axios';
-import toRegistrationServiceFormat from 'utils/json-transform';
+import { toRegistrationServiceFormat } from 'utils/json-transform';
 
 const endpoint = 'registrations';
 const location = process.env.NODE_ENV === 'development' ?

@@ -6,8 +6,8 @@ const emptyToNull = value =>
 function toRegistrationServiceFormat(src) {
     return {
         disaster_id: Number(src.basicInfo.disasterIndex),
-        preferred_language: src.config.language.trim(),
-        phone: stripSpecialChars(src.basicInfo.phone),
+        preferred_language: emptyToNull(src.config.language.trim()) || 'en',
+        phone: emptyToNull(stripSpecialChars(src.basicInfo.phone)),
         email: src.basicInfo.email.trim(),
         residential_address: src.basicInfo.residenceAddress,
         mailing_address: src.basicInfo.mailingAddress,
@@ -90,4 +90,4 @@ function totalIncome(household) {
     const memberIncome = incomeSources => Object.values(incomeSources).reduce((acc, value) => acc + value);
     return household.reduce((acc, value) => acc + memberIncome(value.income), 0);
 }
-export {toRegistrationServiceFormat, toRulesServiceFormat};
+export { toRegistrationServiceFormat, toRulesServiceFormat };
