@@ -1,7 +1,7 @@
 export default {
   "basicInfo":{
      "personId": 0,
-     "preferredLanguage": "English",
+     "preferredLanguage": "en",
      "disasterIndex": "11",
      "disasterCounty": "Baker",
      "phone":"2165555555",
@@ -175,7 +175,7 @@ export default {
         },
         "evacuation":{
            "applicable":false,
-           "value":null
+           "value":0
         },
         "tempShelter":{
            "applicable":true,
@@ -183,7 +183,7 @@ export default {
         },
         "repairs":{
            "applicable":false,
-           "value":null
+           "value":0
         },
         "other": {
            applicable: true,

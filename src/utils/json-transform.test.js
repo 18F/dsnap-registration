@@ -4,7 +4,7 @@ import testData from '../test-data';
 test('Top-level info', () => {
     expect(toRegistrationServiceFormat(testData)).toEqual({
         disaster_id: 11,
-        preferred_language: "English",
+        preferred_language: "en",
         phone: "2165555555",
         email: "adam@email.biz",
         residential_address: {
@@ -23,14 +23,15 @@ test('Top-level info', () => {
         },
         county: "Baker",
         state_id: "Y9456A7",
+        money_on_hand: 1000,
         has_inaccessible_liquid_resources: false,
         has_lost_or_inaccessible_income: true,
         purchased_or_plans_to_purchase_food: true,
         disaster_expenses: {
             food_loss: 129,
-            home_or_business_repairs: null,
+            home_or_business_repairs: 0,
             temporary_shelter_expenses: 550,
-            evacuation_expenses: null,
+            evacuation_expenses: 0,
             other: 1000
         },
         household: [
@@ -44,17 +45,16 @@ test('Top-level info', () => {
                 race: "",
                 ethnicity: "Not Hispanic or Latino",
                 has_food_assistance: false,
-                money_on_hand: 1000,
                 income: {
-                    self_employed: null,
+                    self_employed: 0,
                     unemployment: 200,
-                    cash_assistance: null,
-                    disability: null,
-                    social_security: null,
-                    veterans_benefits: null,
-                    alimony: null,
-                    child_support: null,
-                    other_sources: null,
+                    cash_assistance: 0,
+                    disability: 0,
+                    social_security: 0,
+                    veterans_benefits: 0,
+                    alimony: 0,
+                    child_support: 0,
+                    other_sources: 0,
                 },
                 jobs: [
                  {
@@ -79,17 +79,16 @@ test('Top-level info', () => {
                 race: "",
                 ethnicity: "",
                 has_food_assistance: false,
-                money_on_hand: 5,
                 income: {
                     self_employed: 10000,
-                    unemployment: null,
-                    cash_assistance: null,
-                    disability: null,
-                    social_security: null,
-                    veterans_benefits: null,
-                    alimony: null,
-                    child_support: null,
-                    other_sources: null,
+                    unemployment: 0,
+                    cash_assistance: 0,
+                    disability: 0,
+                    social_security: 0,
+                    veterans_benefits: 0,
+                    alimony: 0,
+                    child_support: 0,
+                    other_sources: 0,
                 },
                 jobs: []
             },
