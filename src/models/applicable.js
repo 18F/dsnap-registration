@@ -3,6 +3,7 @@ const applicable = (applicable = false, value = '') => ({
   value,
 });
 
+export const getApplicableValue = applicable => applicable.value || 0;
 export const getApplicablesTotal = applicables =>
   applicables
     .filter(([_, item]) => item.applicable || Number(item.value))

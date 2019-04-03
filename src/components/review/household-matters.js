@@ -12,6 +12,10 @@ import { getMoneyOnHand } from 'models/basic-info';
 
 
 class HouseholdMattersReviewForm extends React.Component {
+  updateMask = (name, data) => {
+    this.props.handleChange(name)(data);
+  }
+
   render() {
     const { t } = this.props;
 
@@ -32,6 +36,7 @@ class HouseholdMattersReviewForm extends React.Component {
         <CurrencyInput
           labelText={t('resources.moneyOnHand.id')}
           name="basicInfo.moneyOnHand"
+          onChange={this.updateMask}
         />
       </div>
     );
@@ -41,7 +46,7 @@ class HouseholdMattersReviewForm extends React.Component {
 class HouseholdMattersReview extends React.Component {
   getHouseholdMoneyData() {
     const { formik, t }= this.props;
-    const { household, impact } = formik.values;
+    const { basicInfo, impact } = formik.values;
 
     return [
       {
@@ -58,20 +63,20 @@ class HouseholdMattersReview extends React.Component {
       },
       {
         name: t('resources.moneyOnHand.id'),
-        data: `$${getMoneyOnHand(getIncome(getApplicant(household)))}`,
+        data: `$${getMoneyOnHand(basicInfo)}`,
       }
     ];
   }
 
   render() {
-    const { t } = this.props;
+    const { t, handleChange } = this.props;
     
     return (
       <ReviewSubSection title={t('review.sections.householdMatters')} onUpdate={this.props.handleUpdate}>
         {({ editing }) => {
           return (
             editing ?
-            <HouseholdMattersReviewForm t={t} /> :
+            <HouseholdMattersReviewForm t={t} handleChange={handleChange} /> :
             <ReviewTable
               editing={editing}
               primaryData={this.getHouseholdMoneyData()}
