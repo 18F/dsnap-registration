@@ -4,13 +4,19 @@ import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
 import householdCountSchema from 'schemas/household-count';
 import { buildNestedKey } from 'utils';
-import { addPeopleToHousehold } from 'models/household';
+import { addPeopleToHousehold, getOtherMemberCount } from 'models/household';
 import { getDisaster, getBeginDate } from 'models/disaster';
 
 const modelName = 'count';
-const addToHousehold = household => values => ({
-  household: addPeopleToHousehold(household, values.household.numMembers)
-});
+const addToHousehold = household => values => {
+  if (getOtherMemberCount(household) >= values.household.numMembers) {
+    return household;
+  }
+
+  return {
+    household: addPeopleToHousehold(household, values.household.numMembers)
+  };
+};
 
 const HowMany = ({ handleChange, sectionName, t, registerStep }) =>
   <Wizard.Context>

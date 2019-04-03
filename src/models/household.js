@@ -50,7 +50,7 @@ export const hasAdditionalMembers = household =>
 export const addPeopleToHousehold = (household, count) => {
   const { members, ...rest } = household;
 
-  if (getOtherMemberCount(household) >= count || !count || count < 0) {
+  if (!count || count < 0) {
     return household;
   }
 

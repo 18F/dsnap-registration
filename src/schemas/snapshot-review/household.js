@@ -19,9 +19,9 @@ const householdReviewValidator = (values) => {
   let errors = {};
 
   try {
-    householdReviewSchema.validateSync(values);
+    householdReviewSchema.validateSync(values, { abortEarly: false });
   } catch(e) {
-    errors = setIn(errors, e.path, e.message);
+    return e;
   }
 
   return errors;

@@ -32,7 +32,7 @@ class SnapshotReview extends React.Component {
       isSubmitting ||
       (values.errors && values.errors.server)
     );
-
+    console.log(errors)
     return (
       <Form>
         <BasicInfoReview

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form } from 'formik';
+import { Form, yupToFormErrors } from 'formik';
 import withLocale from 'components/with-locale';
 import withUpdateable from 'components/with-updateable';
-import FormikField, { FormikFieldGroup } from 'components/formik-field';
+import FormikField, { FormikFieldGroup, FormikFieldDateGroup } from 'components/formik-field';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTableCollection from 'components/review-table-collection';
 import ReviewTable, { Header, HeaderAction} from 'components/review-table';
@@ -32,7 +32,7 @@ class HouseholdMemberReviewForm extends React.Component {
   }
 
   render() {
-    const { member, memberIndex, t } = this.props;
+    const { member, memberIndex, t, handleChange } = this.props;
 
     return (
       <div className="margin-bottom-2">
@@ -45,7 +45,27 @@ class HouseholdMemberReviewForm extends React.Component {
           />
         </Header>
         <NameFields memberIndex={memberIndex} />
-        <DateInput memberIndex={memberIndex} />
+        <FormikFieldDateGroup
+          inline
+          name={`household.members.${memberIndex}.dob`}
+          showError={false}
+          labelText={t('identity.personalInfo.dob.label')}
+          explanation={t('identity.personalInfo.dob.explanation')}
+          fields={[{
+            name: `household.members.${memberIndex}.dob.month`,
+            onChange: handleChange,
+            labelText: t('identity.personalInfo.dob.month'),
+          }, {
+            name: `household.members.${memberIndex}.dob.day`,
+            labelText: t('identity.personalInfo.dob.day'),
+            onChange: handleChange
+          }, {
+            name: `household.members.${memberIndex}.dob.year`,
+            labelText: t('identity.personalInfo.dob.year'),
+            onChange: handleChange,
+            className: 'desktop:grid-col-9'
+          }]}
+        />
         <FormikField
           type="mask"
           pattern="XXX-XX-XXXX"
@@ -109,7 +129,13 @@ class HouseholdReview extends React.Component {
   }
 
   validateSection = () => {
-    return householdReviewValidator(this.props.formik.values);
+    const e = householdReviewValidator(this.props.formik.values);
+
+    if (!Object.keys(e).length) {
+      return e;
+    }
+
+    return yupToFormErrors(e)
   }
 
   render() {
