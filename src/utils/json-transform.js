@@ -87,7 +87,7 @@ function toRulesServiceFormat(registration) {
 }
 
 function totalIncome(household) {
-    const memberIncome = member => Object.values(member).reduce((acc, value) => acc + value);
+    const memberIncome = incomeSources => Object.values(incomeSources).reduce((acc, value) => acc + value);
     return household.reduce((acc, value) => acc + memberIncome(value.income), 0);
 }
 export {toRegistrationServiceFormat, toRulesServiceFormat};
