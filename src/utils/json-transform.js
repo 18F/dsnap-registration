@@ -66,4 +66,28 @@ function assembleJobs(member) {
     });
 }
 
-export default toRegistrationServiceFormat;
+function toRulesServiceFormat(registration) {
+    return {
+        disaster_id: registration.disaster_id,
+        has_inaccessible_liquid_resources: registration.has_inaccessible_liquid_resources,
+        has_lost_or_inaccessible_income: registration.has_lost_or_inaccessible_income,
+        purchased_or_plans_to_purchase_food: registration.purchased_or_plans_to_purchase_food,
+        residence_state: registration.residential_address.state,
+        accessible_liquid_resources: registration.money_on_hand,
+        disaster_expenses: registration.disaster_expenses,
+        is_authorized_representative: null, // TODO
+        is_head_of_household: null, // TODO
+        resided_in_disaster_area_at_disaster_time: null, // TODO
+        worked_in_disaster_area_at_disaster_time: null, // TODO
+        purchased_or_plans_to_purchase_food: registration.purchased_or_plans_to_purchase_food,
+        size_of_household: registration.household.length,
+        total_take_home_income: totalIncome(registration.household),
+        receives_SNAP_benefits: registration.household.some(member => member.has_food_assistance),
+    };
+}
+
+function totalIncome(household) {
+    const memberIncome = member => Object.values(member).reduce((acc, value) => acc + value);
+    return household.reduce((acc, value) => acc + memberIncome(value.income), 0);
+}
+export {toRegistrationServiceFormat, toRulesServiceFormat};
