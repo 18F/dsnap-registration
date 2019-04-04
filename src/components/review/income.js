@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//import { FieldArray, yupToFormErrors } from 'formik';
+import { FieldArray, yupToFormErrors } from 'formik';
 import withUpdateable from 'components/with-updateable';
 import withLocale from 'components/with-locale';
 import FormikField from 'components/formik-field';
@@ -15,6 +15,7 @@ import job, { isGovernmentAgency } from 'models/job';
 import { getIncomeTotal } from 'models/income-sources';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, getLastName, getJobs, getIncome } from 'models/person';
+import { incomeReviewValidator } from 'schemas/snapshot-review/income';
 
 class IncomeSourcesReviewForm extends React.Component {
   static propTypes = {
@@ -187,74 +188,103 @@ class IncomeReviewSection extends React.Component {
   }
 
   validateSection = () => {
-    return {};
+    const { values } = this.props.formik;
+    const errors = incomeReviewValidator(values);
+
+    if (!Object.keys(errors).length) {
+      return errors;
+    }
+
+    return yupToFormErrors(errors);
   }
 
   render() {
     const { t, formik, handleUpdate } = this.props;
 
     return (
-      getMembers(formik.values.household).map((member, memberIndex) => {
-        const firstName = getFirstName(member);
-        const lastName = getLastName(member);
-        const title = t('review.sections.income', {
-          firstName
-        });
-        const income = getIncome(member);
-        const jobs = getJobs(member);
-
-        return (
-          <ReviewSubSection
-            title={title}
-            onUpdate={handleUpdate}
-            onEdit={this.handleToggleEdit}
-            key={`income.${firstName}.${lastName}.${memberIndex}`}
-          >
-            {({ editing }) => (
-              <React.Fragment>
-                <ReviewTableCollection fallback={t('resources.jobs.none')}>
-                  {
-                    jobs.map((job, jobIndex) => {
-                      const tableHeader = `${t('resources.jobs.id')} ${jobIndex + 1}`;
-                      const key = `income.${firstName}.${memberIndex}.${jobIndex}`;
-
-                      if (editing) {
-                        return <JobsReviewForm memberIndex={memberIndex} jobIndex={jobIndex} t={t} handleChange={this.props.handleChange} handleRemoveJob={this.handleRemoveJob} header={tableHeader} key={key} />;
-                      }
-                      
-                      return <ReviewTable key={key} primaryData={this.getJobData(memberIndex, jobIndex, job)} />;
-                    })
-                  }
-                </ReviewTableCollection>
-                <Button
-                  disabled={!isAffirmative(editing)}
-                  type="button"
-                  onClick={() => this.handleAddJob(memberIndex, member)}
-                  className="margin-y-4"
+      <FieldArray
+        name="household.members"
+        render={() => {
+          return (
+            getMembers(formik.values.household).map((member, memberIndex) => {
+              const firstName = getFirstName(member);
+              const lastName = getLastName(member);
+              const title = t('review.sections.income', {
+                firstName
+              });
+              const income = getIncome(member);
+              const jobs = getJobs(member);
+      
+              return (
+                <ReviewSubSection
+                  title={title}
+                  onUpdate={handleUpdate}
+                  onEdit={this.handleToggleEdit}
+                  key={`income.${firstName}.${lastName}.${memberIndex}`}
                 >
-                  { t('review.addJob') }
-                </Button>
-                {
-                  editing ?
-                  <IncomeSourcesReviewForm
-                    handleChange={this.props.handleChange}
-                    t={t}
-                    memberIndex={memberIndex}
-                    incomeSources={income.incomeSources}
-                  /> :
-                  <ReviewTable
-                    editing={editing}
-                    primaryData={this.getPrimaryIncomeData(income)}
-                    secondaryData={this.getSecondaryIncomeData(income)}
-                  >
-                    <Header title={t('resources.assetsAndIncome.incomeSources.id')} />
-                  </ReviewTable>
-                }
-              </React.Fragment>
-            )}
-          </ReviewSubSection>
-        );
-      })
+                  {({ editing }) => (
+                    <React.Fragment>
+                      <ReviewTableCollection fallback={t('resources.jobs.none')}>
+                        {
+                          jobs.map((job, jobIndex) => {
+                            const tableHeader = `${t('resources.jobs.id')} ${jobIndex + 1}`;
+                            const key = `income.${firstName}.${memberIndex}.${jobIndex}`;
+
+                            if (editing) {
+                              return (
+                                <JobsReviewForm
+                                  memberIndex={memberIndex}
+                                  jobIndex={jobIndex}
+                                  t={t}
+                                  handleChange={this.props.handleChange}
+                                  handleRemoveJob={this.handleRemoveJob}
+                                  header={tableHeader}
+                                  key={key}
+                                />
+                              );
+                            }
+
+                            return (
+                              <ReviewTable
+                                key={key}
+                                primaryData={this.getJobData(memberIndex, jobIndex, job)}
+                              />
+                            );
+                          })
+                        }
+                      </ReviewTableCollection>
+                      <Button
+                        disabled={!isAffirmative(editing)}
+                        type="button"
+                        onClick={() => this.handleAddJob(memberIndex, member)}
+                        className="margin-y-4"
+                      >
+                        { t('review.addJob') }
+                      </Button>
+                      {
+                        editing ?
+                        <IncomeSourcesReviewForm
+                          handleChange={this.props.handleChange}
+                          t={t}
+                          memberIndex={memberIndex}
+                          incomeSources={income.incomeSources}
+                        /> :
+                        <ReviewTable
+                          editing={editing}
+                          primaryData={this.getPrimaryIncomeData(income)}
+                          secondaryData={this.getSecondaryIncomeData(income)}
+                        >
+                          <Header title={t('resources.assetsAndIncome.incomeSources.id')} />
+                        </ReviewTable>
+                      }
+                    </React.Fragment>
+                  )}
+                </ReviewSubSection>
+              );
+            })
+          );
+        }}
+      />
     );
   }
 }

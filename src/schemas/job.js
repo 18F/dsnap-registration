@@ -1,18 +1,22 @@
 import { buildSchema, shapeOf, bool, string } from './index';
 import { setIn } from 'formik';
 
+const jobDetailsSchema = buildSchema(({ t }) => ({
+  employerName: string()
+    .required(t('errors.required')),
+  pay: string()
+    .required(t('errors.required')),
+  isDsnapAgency: bool()
+    .nullable()
+    .required(t('errors.yesNo'))
+}));
+
 const jobSchema = buildSchema(({ _, t }) => {
   return shapeOf({
     hasOtherJobs: bool()
       .nullable()
       .required(t('errors.yesNo')),
-    employerName: string()
-      .required(t('errors.required')),
-    pay: string()
-      .required(t('errors.required')),
-    isDsnapAgency: bool()
-      .nullable()
-      .required(t('errors.yesNo'))
+    ...jobDetailsSchema
   });
 });
 
@@ -36,5 +40,5 @@ const jobSchemaValidator = (dataToValidate, jobErrorPath, index) => () => {
   return errors;
 }
 
-export { jobSchemaValidator }
+export { jobDetailsSchema, jobSchemaValidator }
 export default jobSchema;
