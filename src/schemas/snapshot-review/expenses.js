@@ -1,37 +1,51 @@
 import { setIn } from 'formik';
-import { buildSchema, shapeOf, bool } from 'schemas';
-import { moneySchema } from 'schemas/assets';
+import { buildSchema, shapeOf, string } from 'schemas';
+import { isPositiveNumber } from 'validators';
 
-const expensesReviewValidator = (values) => {
+const expenseReviewValidator = (values) => {
   let errors = {};
 
   try {
-    console.log(expensesReviewSchema())
-    expensesReviewSchema().validateSync(values)
+    expenseReviewSchema.validateSync(values);
   } catch(e) {
     errors = setIn(errors, e.path, e.message);
   }
-
   return errors;
-};
+}
 
-const expensesReviewSchema = () => buildSchema(({ t }) =>
+const expenseReviewSchema = buildSchema(({ t }) =>
   shapeOf({
     impact: shapeOf({
-      buyFood: bool()
-        .nullable()
-        .required(t('errors.yesNo')),
-      lostOrInaccessibleIncome: bool()
-        .nullable()
-        .required(t('errors.yesNo')),
-      inaccessibleMoney: bool()
-        .nullable()
-        .required(t('errors.yesNo')),
-    }),
-    basicInfo: moneySchema,
+      otherExpenses: shapeOf({
+        repairs: shapeOf({
+          value: string()
+            .required(t('errors.required'))
+            .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber),
+        }),
+        tempShelter: shapeOf({
+          value: string()
+            .required(t('errors.required'))
+            .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber),
+        }),
+        evacuation: shapeOf({
+          value: string()
+            .required(t('errors.required'))
+            .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber),
+        }),
+        foodLoss: shapeOf({
+          value: string()
+            .required(t('errors.required'))
+            .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber),
+        }),
+        other: shapeOf({
+          value: string()
+            .required(t('errors.required'))
+            .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber),
+        }),
+      })
+    })
   })
 );
 
-
-export { expensesReviewValidator };
-export default expensesReviewSchema;
+export { expenseReviewValidator };
+export default expenseReviewSchema;

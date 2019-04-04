@@ -6,6 +6,7 @@ import ReviewSubSection from 'components/review-subsection';
 import ReviewTable from 'components/review-table';
 import { getExpenseTotal, getExpenses } from 'models/impact';
 import { getApplicableValue } from 'models/applicable';
+import { expenseReviewValidator } from 'schemas/snapshot-review/expenses';
 
 class DisasterExpensesReviewForm extends React.Component {
   updateMask = (name, value) => {
@@ -49,11 +50,35 @@ class DisasterExpensesReview extends React.Component {
     ]);
   }
 
+  validateSection = () => {
+    const { impact } = this.props.formik.values;
+
+    const values = {
+      impact: {
+        otherExpenses: {
+          ...getExpenses(impact)
+        }
+      }
+    };
+
+    return expenseReviewValidator(values);
+  }
+
+  handleToggleEdit = (isEditing) => {
+    if (isEditing) {
+      this.props.onEdit(this.validateSection);
+    }
+  }
+
   render() {
     const { t } = this.props;
     
     return (
-      <ReviewSubSection title={t('review.sections.impact')} onUpdate={this.props.handleUpdate}>
+      <ReviewSubSection
+        onEdit={this.handleToggleEdit}
+        title={t('review.sections.impact')}
+        onUpdate={this.props.handleUpdate}
+      >
         {({ editing }) => {
           return (
             editing ?

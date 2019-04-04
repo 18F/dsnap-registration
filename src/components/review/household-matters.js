@@ -7,7 +7,7 @@ import ReviewSubSection from 'components/review-subsection';
 import ReviewTable from 'components/review-table';
 import { getLostFood, getLostIncome, getLostMoney } from 'models/impact';
 import { getMoneyOnHand } from 'models/basic-info';
-import { expensesReviewValidator } from 'schemas/snapshot-review/expenses';
+import { impactReviewValidator } from 'schemas/snapshot-review/impact';
 
 class IncomeSourcesReviewForm extends React.Component {
   updateMask = (name, data) => {
@@ -76,7 +76,7 @@ class HouseholdMattersReview extends React.Component {
       }
     };
 
-    return expensesReviewValidator(values);
+    return impactReviewValidator(values);
   }
 
   handleToggleEdit = (isEditing) => {
