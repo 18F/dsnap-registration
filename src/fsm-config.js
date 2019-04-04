@@ -43,6 +43,11 @@ const initialState = () => {
     previousStep: '',
     previousSection: '',
     errors: '',
+    disasters: disaster(),
+    meta: {
+      loading: undefined
+    },
+    config: config(),
     /**
      * totalSteps refers to the number of sections a user will move through
      * while filling out the form. It doesn't necessarily reflect
@@ -52,11 +57,6 @@ const initialState = () => {
      * but is not exposed to the user. Therefore, it is not included in the total
      * number of steps
      */
-    disasters: disaster(),
-    meta: {
-      loading: undefined
-    },
-    config: config(),
     totalSteps: 6,
   };
   let state;
@@ -648,8 +648,26 @@ const reviewChart = {
       },
       on: {
         ...formNextHandler('#submit'),
+        EDIT: 'edit'
       }
-    }
+    },
+    edit: {
+      internal: true,
+      onEntry: [
+        () => console.log('executing edit actions'),
+        'persist',
+        assign((_, event) => {
+          const { type, ...rest } = event;
+
+          return {
+            ...rest
+          };
+        })
+      ],
+      on: {
+        ...formNextHandler('#submit'),
+      }
+    },
   }
 };
 
@@ -742,28 +760,11 @@ const formStateConfig = {
         },
       }
     },
-    edit: {
-      internal: true,
-      onEntry: [
-        () => console.log('executing edit actions'),
-        'persist',
-        assign((_, event) => {
-          const { type, ...rest } = event;
-
-          return {
-            ...rest
-          };
-        })
-      ],
-    }
   },
   on: {
     QUIT: {
       target: '.quit',
     },
-    EDIT: {
-      target: '.edit'
-    }
   }
 };
 
