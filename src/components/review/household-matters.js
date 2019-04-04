@@ -7,6 +7,7 @@ import ReviewSubSection from 'components/review-subsection';
 import ReviewTable from 'components/review-table';
 import { getLostFood, getLostIncome, getLostMoney } from 'models/impact';
 import { getMoneyOnHand } from 'models/basic-info';
+import { expensesReviewValidator } from 'schemas/snapshot-review/expenses';
 
 class IncomeSourcesReviewForm extends React.Component {
   updateMask = (name, data) => {
@@ -65,11 +66,34 @@ class HouseholdMattersReview extends React.Component {
     ];
   }
 
+  validateSection = () => {
+    const { impact, basicInfo } = this.props.formik.values;
+
+    const values = {
+      impact: { ...impact },
+      basicInfo: {
+        moneyOnHand: basicInfo.moneyOnHand
+      }
+    };
+
+    return expensesReviewValidator(values);
+  }
+
+  handleToggleEdit = (isEditing) => {
+    if (isEditing) {
+      this.props.onEdit(this.validateSection);
+    }
+  }
+
   render() {
     const { t, handleChange } = this.props;
     
     return (
-      <ReviewSubSection title={t('review.sections.householdMatters')} onUpdate={this.props.handleUpdate}>
+      <ReviewSubSection
+        onEdit={this.handleToggleEdit}
+        title={t('review.sections.householdMatters')}
+        onUpdate={this.props.handleUpdate}
+      >
         {({ editing }) => {
           return (
             editing ?
