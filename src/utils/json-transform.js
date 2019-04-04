@@ -66,13 +66,14 @@ function assembleJobs(member) {
     });
 }
 
-function toRulesServiceFormat(registration) {
+// TODO: ask vraj to return disaster_request_no in payload from persistence service
+// ask if we need the disaster_id and residential_state fields, since they fail validation
+function toRulesServiceFormat(requestNumber, registration) {
     return {
-        disaster_id: registration.disaster_id,
+        disaster_request_no: requestNumber,
         has_inaccessible_liquid_resources: registration.has_inaccessible_liquid_resources,
         has_lost_or_inaccessible_income: registration.has_lost_or_inaccessible_income,
         purchased_or_plans_to_purchase_food: registration.purchased_or_plans_to_purchase_food,
-        residence_state: registration.residential_address.state,
         accessible_liquid_resources: registration.money_on_hand,
         disaster_expenses: registration.disaster_expenses,
         is_authorized_representative: false, // TODO
