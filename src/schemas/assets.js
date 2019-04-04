@@ -1,15 +1,18 @@
 import { buildSchema, shapeOf, string } from './index';
 import { isPositiveNumber } from 'validators';
 
-const assetsSchema = buildSchema(({ Yup, t }) =>
+const moneySchema = buildSchema(({ t }) =>
   shapeOf({
-    basicInfo: shapeOf({
-      moneyOnHand: string()
-        .nullable()
-        .required(t('errors.required'))
-        .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber)
-    })
+    moneyOnHand: string()
+      .nullable()
+      .required(t('errors.required'))
+      .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber)
   })
 );
 
+const assetsSchema = shapeOf({
+  basicInfo: moneySchema
+});
+
+export { moneySchema };
 export default assetsSchema;
