@@ -27,7 +27,7 @@ class SnapshotReview extends React.Component {
     });
   }
 
-  renderReviewSections = ({ handleChange, resetForm, submitCount, isSubmitting, values, errors }) => {
+  renderReviewSections = ({ handleChange, resetForm, submitCount, isSubmitting, values, errors, handleSubmit }) => {
     const { t } = this.props;
     const disable = submitCount && (
       Object.keys(errors).length ||
@@ -41,7 +41,7 @@ class SnapshotReview extends React.Component {
     };
 
     return (
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <BasicInfoReview
           title={t('review.sections.info')}
           {...extraProps}
