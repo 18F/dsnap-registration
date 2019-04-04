@@ -1,34 +1,38 @@
-import { buildSchema, shapeOf, bool } from './index';
+import { buildSchema, shapeOf, bool, string } from './index';
 import { isPositiveNumber } from 'validators';
 import { isAffirmative } from 'utils';
 
-const impactSchema = buildSchema(({ Yup, t }) => {
-  const expenseSchema = () =>
-    shapeOf({
-      applicable: Yup.string().nullable(),
-      value: Yup.string()
-        .when('applicable', {
-          is: value => isAffirmative(value),
-          then: Yup.string()
-            .required(t('errors.required'))
-            .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber)
-        })
-    });
+const expenseSchema = buildSchema(({ t }) => 
+  shapeOf({
+    applicable: string().nullable(),
+    value: string()
+      .when('applicable', {
+        is: value => isAffirmative(value),
+        then: string()
+          .required(t('errors.required'))
+          .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber)
+      })
+  })
+);
 
+const expensesSchema = shapeOf({
+  repairs: expenseSchema,
+  tempShelter: expenseSchema,
+  evacuation: expenseSchema,
+  foodLoss: expenseSchema,
+  other: expenseSchema
+});
+
+const impactSchema = buildSchema(({ Yup, t }) => {
   return shapeOf({
     impact: shapeOf({
       buyFood: bool().nullable().required(t('errors.yesNo')),
       lostOrInaccessibleIncome: bool().nullable().required(t('errors.yesNo')),
       inaccessibleMoney: bool().nullable().required(t('errors.yesNo')),
-      otherExpenses: shapeOf({
-        repairs: expenseSchema(),
-        tempShelter: expenseSchema(),
-        evacuation: expenseSchema(),
-        foodLoss: expenseSchema(),
-        other: expenseSchema()
-      })
+      otherExpenses: expensesSchema
     })
   });
 });
 
+export { expensesSchema }
 export default impactSchema;
