@@ -1,4 +1,3 @@
-import { setIn } from 'formik';
 import { shapeOf, arrayOf } from 'schemas';
 import { memberNameSchema } from 'schemas/name';
 import { dateSchema, ssnSchema } from 'schemas/identity';

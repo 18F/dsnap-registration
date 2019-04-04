@@ -79,7 +79,6 @@ function toRulesServiceFormat(registration) {
         is_head_of_household: true, // TODO
         resided_in_disaster_area_at_disaster_time: true, // TODO
         worked_in_disaster_area_at_disaster_time: false, // TODO
-        purchased_or_plans_to_purchase_food: registration.purchased_or_plans_to_purchase_food,
         size_of_household: registration.household.length,
         total_take_home_income: totalIncome(registration.household),
         receives_SNAP_benefits: registration.household.some(member => member.has_food_assistance),

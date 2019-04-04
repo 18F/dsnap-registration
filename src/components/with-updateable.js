@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect, yupToFormErrors } from 'formik';
+import { connect } from 'formik';
 import { withMachineContext } from 'components/fsm';
 
 const withUpdateable = (Component) => {
