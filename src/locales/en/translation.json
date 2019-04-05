@@ -401,12 +401,18 @@
     "next": "Submit registration",
     "error": "Something went wrong with your submission. Please wait a moment and try again."
   },
-  "ineligible": {
-    "header": "It looks like you may not be eligible for D-SNAP.",
-    "lede": "You may still complete an interview at your designated D-SNAP application site."
-  },
-  "eligible": {
-    "header": "You are now ready for your interview.",
-    "lede": "It looks like you are potentially eligible to receive D-SNAP benefits."
+  "eligibility": {
+    "registration": {
+      "name": "Registrant's name",
+      "id": "Registration number"
+    },
+    "ineligible": {
+      "header": "It looks like you may not be eligible for D-SNAP.",
+      "lede": "You may still complete an interview at your designated D-SNAP application site."
+    },
+    "eligible": {
+      "header": "You are now ready for your interview.",
+      "lede": "It looks like you are potentially eligible to receive D-SNAP benefits."
+    }
   }
 }

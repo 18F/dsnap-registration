@@ -14,6 +14,7 @@ import {
 import { hasJob, hasOtherJobs } from 'models/person';
 import { getDisasters } from 'services/disaster';
 import { createRegistration } from 'services/registration';
+import { createEligibility } from 'services/eligibility';
 import job from 'models/job';
 
 const STATE_KEY = 'dsnap-registration';
@@ -525,20 +526,39 @@ const submitChart = {
       invoke: {
         id: 'submitApplication',
         src: (ctx) => {
-          return createRegistration(ctx);
+          let results = {
+            registration: {}
+          };
+
+          return createRegistration(ctx)
+            .then((data) => {
+              const { basicInfo, disasters } = ctx;
+              const requestNumber = disasters.data[basicInfo.disasterIndex].disaster_request_no;
+
+              results.registration = {
+                id: data.id,
+                createdAt: data.created_date,
+                updatedAt: data.modified_date,
+              };
+
+              return createEligibility(requestNumber, data);
+            })
+            .then((eData) => {
+              results.registration = {
+                ...results.registration,
+                eligible: eData.eligible
+              };
+
+              return Promise.resolve(results);
+            });
         },
         onDone: {
           target: '#next-steps',
           actions: [
             assign({
-              submitStatus: () => ({
-                eligible: true
-              }),
+              errors: () => ({ server: false }),
               registration: (_, event) => ({
-                id: event.data.id,
-                createdAt: event.data.created_date,
-                updatedAt: event.data.modified_date,
-                data: event.data.latest_data
+                ...event.data.registration
               })
             }),
             (ctx) => localStorage.setItem(STATE_KEY, JSON.stringify(ctx))
@@ -715,13 +735,13 @@ const formStateConfig = {
               {
                 target: 'eligible',
                 cond: (context) => {
-                  return context.submitStatus.eligible;
+                  return context.registration.eligible;
                 }
               },
               {
                 target: 'ineligible',
                 cond: (context) => {
-                  return !context.submitStatus.eligible;
+                  return !context.registration.eligible;
                 }
               }
             ]
