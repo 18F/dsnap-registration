@@ -220,7 +220,21 @@ export const withMachineContext = (Component) =>
         </MachineContext.Consumer>
       );
     }
-  }
+  };
+
+export const withMachineState = Component =>
+  class extends React.Component {
+    render() {
+      return (
+        <MachineStateContext.Consumer>
+          {(state) => (
+            <Component {...this.props} context={state} />
+          )}
+        </MachineStateContext.Consumer>
+      );
+    }
+  };
+
 export const MachineConsumer = MachineContext.Consumer
 export const MachineState = MachineStateContext.Consumer;
 export default withRouter(FSMRouter);
