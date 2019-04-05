@@ -2,6 +2,7 @@ import { shapeOf, string } from './index';
 import { t } from 'i18next';
 import moment from 'moment'
 import { setIn } from 'formik';
+import { isEnumeratedEthnicity, isEnumeratedRace } from 'validators';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const OLDEST_VALID_DOB = '1890-01-01';
@@ -57,9 +58,16 @@ export const ssnSchema = string()
     return value.length === 9;
   });
 
+export const raceSchema = string() 
+  .test('isEnumeratedRace', t('errors.ethnicity'), isEnumeratedRace);
+export const ethnicitySchema = string()
+  .test('isEnumeratedEthnicity', t('errors.ethnicity'), isEnumeratedEthnicity);
+
 const identitySchema = shapeOf({
   dob: dateSchema,
-  ssn: ssnSchema
+  ssn: ssnSchema,
+  race: raceSchema,
+  ethnicity: ethnicitySchema
 });
 
 const validateIdentitySchema = (member, index) => () => {
