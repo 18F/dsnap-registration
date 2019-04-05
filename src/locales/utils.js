@@ -22,7 +22,7 @@ const renderListT = ({ name }) => (
 );
 
 const renderLineBreaksT = name => (
-  <>
+  <React.Component>
     {
       i18n.t(`${name}`).split('\n').map((text, index) => (
         <p key={`${name}.${index}`}>
@@ -30,10 +30,18 @@ const renderLineBreaksT = name => (
         </p>
       ))
     }
-  </>
-)
+  </React.Component>
+);
+
+const getEnumeratedValues = (name) =>
+  i18n.t(name, { returnObjects: true })
+    .map((value) => ({
+      label: value,
+      value
+    }));
 
 export default {
   renderListT,
   renderLineBreaksT,
+  getEnumeratedValues,
 };

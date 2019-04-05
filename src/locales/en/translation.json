@@ -11,19 +11,19 @@
     "delete": "delete",
     "notApplicable": "Not applicable",
     "leaveBlank": "You can leave this blank if you don't want to answer",
-    "race": {
-      "options": [
-        { "label": "Hispanic or latino" },
-        { "label": "Not Hispanic or Latino" }
-      ]
-    },
     "ethnicity": {
       "options": [
-        { "label": "American Indian or Alaskan Native" },
-        { "label": "Asian" },
-        { "label": "Black or African American" },
-        { "label": "Native Hawaiian or Other Pacific Islander" },
-        { "label": "White" }
+        "Hispanic or Latino",
+        "Not Hispanic or Latino"
+      ]
+    },
+    "race": {
+      "options": [
+        "American Indian or Alaskan Native",
+        "Asian",
+        "Black or African American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White"
       ]
     }
   },
@@ -37,6 +37,7 @@
       "year": "Provide a valid year - Ex 1999"
     },
     "dropdown": "Please choose a value from this list",
+    "ethnicity": "Please choose from the available options",
     "email": "Provide a valid email address",
     "firstName": "Provide first name",
     "fullName": "Provide your full name",

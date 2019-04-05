@@ -101,10 +101,19 @@ class PersonalInfo extends React.Component {
           labelText={t(buildNestedKey(sectionName, modelName, 'sex', 'label'))}
           explanation={t(buildNestedKey(sectionName, modelName, 'sex', 'explanation'))}
         />
-        <FormikField
+        <FormikRadioGroup
+          name="household.members.0.ethnicity"
+          onChange={handleChange}
+          labelText={t('identity.personalInfo.ethnicity.label')}
+          explanation={t('general.leaveBlank')}
+          options={helpers.getEnumeratedValues('general.ethnicity.options')}
+        />
+        <FormikRadioGroup
           name="household.members.0.race"
           onChange={handleChange}
-          labelText={t(buildNestedKey(sectionName, modelName, 'race', 'label'))}
+          labelText={t('identity.personalInfo.race.label')}
+          explanation={t('general.leaveBlank')}
+          options={helpers.getEnumeratedValues('general.race.options')}
         />
         <SecurityAlert />
       </Wizard.Step>

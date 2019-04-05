@@ -1,6 +1,6 @@
 import { shapeOf, arrayOf } from 'schemas';
 import { memberNameSchema } from 'schemas/name';
-import { dateSchema, ssnSchema } from 'schemas/identity';
+import { dateSchema, ssnSchema, ethnicitySchema, raceSchema } from 'schemas/identity';
 
 const householdReviewSchema = shapeOf({
   household: shapeOf({
@@ -8,7 +8,9 @@ const householdReviewSchema = shapeOf({
       shapeOf({
         name: memberNameSchema,
         ssn: ssnSchema,
-        dob: dateSchema
+        dob: dateSchema,
+        ethnicity: ethnicitySchema,
+        race: raceSchema,
       })
     )
   })

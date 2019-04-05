@@ -6,6 +6,7 @@ import SecurityAlert from 'components/security-alert';
 import { buildNestedKey } from 'utils';
 import { getCurrentMemberIndex, updateCurrentMemberIndex } from 'models/household';
 import { validateIdentitySchema } from 'schemas/identity';
+import { helpers } from 'locales';
 
 const modelName = 'memberDetails';
 const incrementCurrentMember = ({ household }) => ({
@@ -64,10 +65,19 @@ const MemberDetails = ({ handleChange, sectionName, t, registerStep }) => (
               labelText={t(`${buildNestedKey(sectionName, modelName, 'sex', 'label')}`, { firstName })}
               explanation={t(`${buildNestedKey(sectionName, modelName, 'sex', 'explanation')}`)}
             />
-            <FormikField
-              name={buildNestedKey(sectionName, 'members', memberIndex, 'race')}
-              labelText={t(`${buildNestedKey(sectionName, modelName, 'race', 'label')}`, { firstName })}
+            <FormikRadioGroup
+              name={`household.members.${memberIndex}.ethnicity`}
               onChange={handleChange}
+              labelText={t('household.memberDetails.ethnicity.label')}
+              explanation={t('general.leaveBlank')}
+              options={helpers.getEnumeratedValues('general.ethnicity.options')}
+            />
+            <FormikRadioGroup
+              name={`household.members.${memberIndex}.race`}
+              onChange={handleChange}
+              labelText={t('household.memberDetails.race.label')}
+              explanation={t('general.leaveBlank')}
+              options={helpers.getEnumeratedValues('general.race.options')}
             />
             <FormikField
               type="mask"
