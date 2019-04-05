@@ -9,7 +9,23 @@
     "loading": "Loading",
     "select": "Please choose an option",
     "delete": "delete",
-    "notApplicable": "Not applicable"
+    "notApplicable": "Not applicable",
+    "leaveBlank": "You can leave this blank if you don't want to answer",
+    "race": {
+      "options": [
+        { "label": "Hispanic or latino" },
+        { "label": "Not Hispanic or Latino" }
+      ]
+    },
+    "ethnicity": {
+      "options": [
+        { "label": "American Indian or Alaskan Native" },
+        { "label": "Asian" },
+        { "label": "Black or African American" },
+        { "label": "Native Hawaiian or Other Pacific Islander" },
+        { "label": "White" }
+      ]
+    }
   },
   "errors": {
     "city": "Provide city",
@@ -194,7 +210,10 @@
         }
       },
       "race": {
-        "label": "Race?"
+        "label": "What is your race?"
+      },
+      "ethnicity": {
+        "label": "What is your ethnicity?"
       },
       "whyAsk": {
         "header": "Why do we ask?",
@@ -258,6 +277,9 @@
       },
       "race": {
         "label": "What is {{ firstName }}'s race?"
+      },
+      "ethnicity": {
+        "label": "What is {{ firstName }}'s ethnicity?"
       }
     },
     "foodAssistance": {
