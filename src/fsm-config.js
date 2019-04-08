@@ -532,9 +532,6 @@ const submitChart = {
 
           return createRegistration(ctx)
             .then((data) => {
-              const { basicInfo, disasters } = ctx;
-              const requestNumber = disasters.data[basicInfo.disasterIndex].disaster_request_no;
-
               results.registration = {
                 id: data.id,
                 createdAt: data.created_date,
