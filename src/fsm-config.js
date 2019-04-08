@@ -541,7 +541,7 @@ const submitChart = {
                 updatedAt: data.modified_date,
               };
 
-              return createEligibility(requestNumber, data);
+              return createEligibility(data);
             })
             .then((eData) => {
               results.registration = {
