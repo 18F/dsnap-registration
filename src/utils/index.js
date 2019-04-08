@@ -1,5 +1,7 @@
 const YES = 'yes';
 
+export const supportedLanguages = [ 'en', 'es' ];
+
 export const buildNestedKey = (baseKey = '', ...keys) =>
   keys.reduce((prevKeys, key) => `${prevKeys}.${key}` , baseKey);
 

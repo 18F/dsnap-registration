@@ -14,11 +14,6 @@ const formatRouteWithDots = string =>
 class FSMRouter extends React.Component {
   static propTypes = {
     config: PropTypes.object.isRequired,
-    routeId: PropTypes.string
-  }
-
-  static defaultProps = {
-    routeId: 'form'
   }
 
   routes = null
@@ -42,8 +37,7 @@ class FSMRouter extends React.Component {
     // defined in the state machine config file
     this.routes = routeNodes.reduce((routes, node) => {
       if (node.meta && node.meta.path) {
-        // TODO: make `form` key a configurable param / option
-        routes[`/${this.props.routeId}${node.meta.path}`] = node.meta.path;
+        routes[node.meta.path] = node.meta.path;
       }
 
       return routes;
@@ -71,11 +65,10 @@ class FSMRouter extends React.Component {
     const machineWithState = machine.withConfig({ actions, services }, { ...initialState });
 
     this.service = interpret(machineWithState);
-    this.machine = machine;
-    this.machineState = machine.initialState;
-    
-    this.service.onTransition(this.handleXStateTransition);
+    this.machine = this.service.machine;
+    this.machineState = this.machine.initialState;
     this.service.start();
+    this.service.onTransition(this.handleXStateTransition);    
 
     const { context } = this.machineState;
 
@@ -100,8 +93,9 @@ class FSMRouter extends React.Component {
       return this.props.location.pathname;
     }
 
-    const { currentStep, currentSection } = context;
-    let path = `/${this.props.routeId}/${currentSection.trim()}`;
+    const { currentStep, currentSection, prefix = '' } = context;
+    const pathStart = prefix ? `/${prefix}` : prefix;
+    let path = `${pathStart}/${currentSection.trim()}`;
 
     // some sections / paths have the same step, and we don't want
     // to duplicate them, as that leads to an invalid path
@@ -161,12 +155,18 @@ class FSMRouter extends React.Component {
         const currentNode = this.getCurrentNode();
     
         if (currentNode.meta && currentNode.meta.path) {
-          this.props.history.replace(`/${this.props.routeId}${currentNode.meta.path}`);
+          this.props.history.replace(`${currentNode.meta.path}`);
+        }
+      } else {
+        const currentNode = this.getCurrentNode();
+    
+        if (currentNode.meta && currentNode.meta.path) {
+          this.props.history.replace(`${currentNode.meta.path}`);
         }
       }
     } else {
       // TODO: we need to handle invalid machine states here
-      console.log('No matching route found. this is a bug!')
+      // this.props.history.replace(pathname);
     }
   }
 
@@ -184,7 +184,7 @@ class FSMRouter extends React.Component {
 
     if (currentNode.meta && currentNode.meta.path) {
       this.historyTransitioning = true;
-      this.props.history.replace(`/${this.props.routeId}${currentNode.meta.path}`);
+      this.props.history.replace(`${currentNode.meta.path}`);
     }
   }
 

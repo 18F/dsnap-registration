@@ -205,6 +205,9 @@ export default {
      language: 'en',
      disaster: ''
   },
+  meta: {
+     loading: undefined
+  },
   submit: {
    acceptedTerms: null,
    readAgreement: '',

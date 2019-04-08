@@ -22,7 +22,7 @@ const renderListT = ({ name }) => (
 );
 
 const renderLineBreaksT = name => (
-  <React.Component>
+  <React.Fragment>
     {
       i18n.t(`${name}`).split('\n').map((text, index) => (
         <p key={`${name}.${index}`}>
@@ -30,7 +30,7 @@ const renderLineBreaksT = name => (
         </p>
       ))
     }
-  </React.Component>
+  </React.Fragment>
 );
 
 const getEnumeratedValues = (name) =>
