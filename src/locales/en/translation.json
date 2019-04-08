@@ -25,6 +25,12 @@
         "Native Hawaiian or Other Pacific Islander",
         "White"
       ]
+    },
+    "language": {
+      "options": {
+        "en": "English",
+        "es": "Spanish"
+      }
     }
   },
   "errors": {
@@ -57,7 +63,7 @@
   },
   "welcome": {
     "header": "Welcome!",
-    "byline": "This site will help you apply for disaster-related food assistance (D-SNAP).",
+    "lede": "This site will help you apply for disaster-related food assistance (D-SNAP).",
     "conditions": {
       "header": "You may qualify if:",
       "body": [

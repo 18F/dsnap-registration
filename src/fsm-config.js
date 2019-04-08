@@ -39,7 +39,7 @@ const initialState = () => {
 
   const machineState = {
     ...modelState,
-    currentSection: 'pre-registration',
+    currentSection: 'welcome',
     currentStep: '',
     previousStep: '',
     previousSection: '',
@@ -108,7 +108,7 @@ const basicInfoChart = {
         ...formNextHandler('address')
       },
       meta: {
-        path: '/basic-info/applicant-name'
+        path: '/form/basic-info/applicant-name'
       },
       onEntry: [
         assign({ currentStep: 'applicant-name', previousStep: '' })
@@ -122,7 +122,7 @@ const basicInfoChart = {
         ...formNextHandler('mailing-address-check'),
       },
       meta: {
-        path: '/basic-info/address'
+        path: '/form/basic-info/address'
       },
       onEntry: [
         assign({ currentStep: 'address' })
@@ -151,7 +151,7 @@ const basicInfoChart = {
         ...formNextHandler('shortcut')
       },
       meta: {
-        path: '/basic-info/mailing-address',
+        path: '/form/basic-info/mailing-address',
       },
       onEntry: [
         assign({ currentStep: 'mailing-address'})
@@ -168,7 +168,7 @@ const basicInfoChart = {
         ...formNextHandler('#identity'),
       },
       meta: {
-        path: '/basic-info/shortcut'
+        path: '/form/basic-info/shortcut'
       },
       onEntry: [
         assign({ currentStep: 'shortcut' })
@@ -204,7 +204,7 @@ const identityChart = {
         ...formNextHandler('#household')
       },
       meta: {
-        path: '/identity/personal-info',
+        path: '/form/identity/personal-info',
       },
     },
   }
@@ -229,7 +229,7 @@ const householdChart = {
         ...formNextHandler('member-info-branch')
       },
       meta: {
-        path: '/household/how-many',
+        path: '/form/household/how-many',
       },
       onEntry: [
         assign({ currentStep: 'how-many' })
@@ -267,7 +267,7 @@ const householdChart = {
         ...formNextHandler('get-prepared')
       },
       meta: {
-        path: '/household/member-names',
+        path: '/form/household/member-names',
       }
     },
     'get-prepared': {
@@ -281,7 +281,7 @@ const householdChart = {
         ...formNextHandler('member-details')
       },
       meta: {
-        path: '/household/get-prepared',
+        path: '/form/household/get-prepared',
       }
     },
     'member-details': {
@@ -295,7 +295,7 @@ const householdChart = {
         ...formNextHandler('member-details-loop')
       },
       meta: {
-        path: '/household/member-details',
+        path: '/form/household/member-details',
       }
     },
     'member-details-loop': {
@@ -320,7 +320,7 @@ const householdChart = {
         assign({ previousStep: 'food-assistance' })
       ],
       meta: {
-        path: '/household/food-assistance'
+        path: '/form/household/food-assistance'
       },
       on: {
         ...formNextHandler('#impact')
@@ -351,7 +351,7 @@ const impactChart = {
         assign({ previousStep: 'adverse-effects' }),
       ],
       meta: {
-        path: '/impact/adverse-effects'
+        path: '/form/impact/adverse-effects'
       },
       on: {
         ...formNextHandler('#resources'),
@@ -384,7 +384,7 @@ const resourcesChart = {
         assign({ previousStep: 'assets' }),
       ],
       meta: {
-        path: '/resources/assets'
+        path: '/form/resources/assets'
       },
       on: {
         ...formNextHandler('income-branch'),
@@ -416,7 +416,7 @@ const resourcesChart = {
         assign({ previousStep: 'income' }),
       ],
       meta: {
-        path: '/resources/income'
+        path: '/form/resources/income'
       },
       on: {
         ...formNextHandler('jobs-branch'),
@@ -472,7 +472,7 @@ const resourcesChart = {
       }),
       onExit: assign({ previousStep: 'jobs' }),
       meta: {
-        path: '/resources/jobs'
+        path: '/form/resources/jobs'
       },
       on: {
         ...formNextHandler('other-jobs-loop')
@@ -519,7 +519,7 @@ const submitChart = {
         ...formNextHandler('finalize')
       },
       meta: {
-        path: '/submit/sign-and-submit'
+        path: '/form/submit/sign-and-submit'
       }
     },
     finalize: {
@@ -577,72 +577,71 @@ const submitChart = {
 };
 
 const preRegistrationChart = {
-    id: 'pre-registration',
-    internal: true,
-    initial: 'loading',
-    onEntry: [
-      () => console.log('enter prereg'),
-      assign({
-        currentSection: 'pre-registration',
-        currentStep: ''
-      }),
-    ],
-    states: {
-      loading: {
-        onEntry: assign({ meta: (context) => ({
-          ...context.meta,
-          loading: true
-        })}),
-        invoke: {
-          id: 'getDisasters',
-          src: () => getDisasters(),
-          onError: {
-            target: 'set-up',
-            actions: [
-              assign({
-                errors: () => ({
-                  server: true
-                }),
-                meta: (context) => ({
-                  ...context.meta,
-                  loading: false
-                }),
-                disasters: disaster(),
-              })
-            ]
-          },
-          onDone: {
-            target: 'set-up',
-            actions: [
-              assign({
-               disasters: (_, event) => {
-                 return {
-                   data: event.data.reduce((memo, d) => {
-                      return {
-                        ...memo,
-                        [d.id]: d
-                      }
-                    }, {})
-                  };
-               },
-                meta: (context) => ({
-                  ...context.meta,
-                  loading: false
-                })
-              })
-            ]
-          },
-        }
-      },
-      'set-up': {
-        meta: {
-          path: '/pre-registration'
+  id: 'pre-registration',
+  internal: true,
+  initial: 'loading',
+  onEntry: [
+    assign({
+      currentSection: 'pre-registration',
+      currentStep: ''
+    }),
+  ],
+  states: {
+    loading: {
+      onEntry: assign({ meta: (context) => ({
+        ...context.meta,
+        loading: true
+      })}),
+      invoke: {
+        id: 'getDisasters',
+        src: () => getDisasters(),
+        onError: {
+          target: 'set-up',
+          actions: [
+            assign({
+              errors: () => ({
+                server: true
+              }),
+              meta: (context) => ({
+                ...context.meta,
+                loading: false
+              }),
+              disasters: disaster(),
+            })
+          ]
         },
-        on: {
-          ...formNextHandler('#prepare')
-        }
+        onDone: {
+          target: 'set-up',
+          actions: [
+            assign({
+              disasters: (_, event) => {
+                return {
+                  data: event.data.reduce((memo, d) => {
+                    return {
+                      ...memo,
+                      [d.id]: d
+                    }
+                  }, {})
+                };
+              },
+              meta: (context) => ({
+                ...context.meta,
+                loading: false
+              })
+            })
+          ]
+        },
       }
+    },
+    'set-up': {
+      meta: {
+        path: '/form/pre-registration'
+      },
+      on: {
+        ...formNextHandler('#(machine).form.get-prepared')
+      } 
     }
+  },
 };
 
 const reviewChart = {
@@ -661,7 +660,7 @@ const reviewChart = {
   states: {
     default: {
       meta: {
-        path: '/review'
+        path: '/form/review'
       },
       on: {
         ...formNextHandler('#submit'),
@@ -688,32 +687,47 @@ const reviewChart = {
   }
 };
 
+const welcomeChart = {
+  id: 'welcome',
+  internal: true,
+  strict: true,
+  initial: 'welcome',
+  onEntry: assign({
+    currentSection: 'welcome',
+    currentStep: ''
+  }), 
+  states: {
+    welcome: {
+      meta: {
+        path: '/welcome'
+      },
+      on: {
+        ...formNextHandler('#form')
+      }
+    }
+  }
+};
 
 const formStateConfig = {
   id: 'form',
   strict: true,
   internal: true,
-  initial: 'idle',
+  initial: 'pre-registration',
+  onEntry: [
+    assign({ prefix: 'form' }),
+  ],
+  onExit: assign({ prefix: '' }),
   states: {
-    idle: {
-      onEntry: () => console.log('enter idle'),
-    },
     'pre-registration': preRegistrationChart,
-    prepare: {
-      id: 'prepare',
-      initial: 'default',
-      states: {
-        default: {
-          onEntry: assign({ currentStep: 'prepare' }),
-          onExit: assign({ previousStep: 'prepare' }),
-          meta: {
-            path: '/get-prepared'
-          },
-          on: {
-            NEXT: 'basic-info'
-          }
-        }
+    'get-prepared': {
+      onEntry: assign({ currentSection: 'get-prepared' }),
+      onExit: assign({ previousSection: 'get-prepared' }),
+      meta: {
+        path: '/form/get-prepared'
       },
+      on: {
+        NEXT: 'basic-info'
+      }
     },
     'basic-info': basicInfoChart,
     identity: identityChart,
@@ -747,13 +761,13 @@ const formStateConfig = {
         eligible: {
           onEntry: assign({currentStep: 'eligible'}),
           meta: {
-            path: '/next-steps/eligible'
+            path: '/form/next-steps/eligible'
           }
         },
         ineligible: {
           onEntry: assign({ currentStep: 'ineligible' }),
           meta: {
-            path: '/next-steps/ineligible',
+            path: '/form/next-steps/ineligible',
           }
         }
       }
@@ -785,9 +799,21 @@ const formStateConfig = {
   }
 };
 
+const appChart = {
+  initial: 'idle',
+  strict: true,
+  states: {
+    idle: {},
+    welcome: welcomeChart,
+    form: formStateConfig
+  }
+};
+
 const extraActions = {
   persist: (context, {type, ...data}) => {
-    if (!isAffirmative(context.config.useLocalStorage)) {
+    const shouldStoreState = context.config.useLocalStorage;
+
+    if (shouldStoreState !== null && !isAffirmative(shouldStoreState)) {
       return;
     }
 
@@ -822,7 +848,7 @@ const extraActions = {
 };
 
 export default {
-  config: formStateConfig,
+  config: appChart,
   actions: extraActions,
   services: {},
   initialState: initialState(),

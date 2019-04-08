@@ -24,7 +24,7 @@ const Routes = () => (
                 </Route>
                 <Route
                   path="/welcome"
-                  render={() => <WelcomePage name="welcome" />}
+                  render={() => <WelcomePage onNext={transition} values={state} />}
                 />
                 <AppContainer>
                   <Switch>

@@ -3,26 +3,27 @@ import { Form, Formik } from 'formik';
 import { withRouter } from 'react-router-dom';
 import { helpers } from 'locales';
 import withLocale from 'components/with-locale';
-import preregistration from 'models/preregistration';
-import preregistrationValidator from 'validators/preregistration';
-import Dropdown from 'components/dropdown';
+import languageSchema from 'schemas/language';
+import FormikField from 'components/formik-field';
 import Button from 'components/button';
-
-const languageOptions = [{
-  text: 'English',
-  value: 'en'
-}, {
-  text: 'Spanish',
-  value: 'sp'
-}];
 
 class PreregistrationSection extends React.Component {
   handleSubmit = () => {
-    this.props.history.push('/form/pre-registration');
+    this.props.onNext({ data: this.props.values });
+  }
+
+  getLanguageOptions() {
+    return [{
+      text: this.props.t('general.language.options.en'),
+      value: 'en'
+    }, {
+      text: this.props.t('general.language.options.es'),
+      value: 'es'
+    }]
   }
 
   render() {
-    const { t, name } = this.props;
+    const { t } = this.props;
 
     return (
       <section>
@@ -31,10 +32,10 @@ class PreregistrationSection extends React.Component {
             <div className="grid-container">
               <div className="text-white margin-x-3 margin-y-3 padding-bottom-3">
                 <h1>
-                  { t(`${name}.header`) }
+                  { t('welcome.header') }
                 </h1>
                 <p className="font-serif-md">
-                  { t(`${name}.byline`) }
+                  { t('welcome.lede') }
                 </p>
               </div>
             </div>
@@ -42,24 +43,27 @@ class PreregistrationSection extends React.Component {
         </div>
         <div className="grid-container">
           <section className="margin-x-5">
-            <h2>{ t(`${name}.conditions.header`) }</h2>
-            { helpers.renderListT({ name: `${name}.conditions.body` }) }
+            <h2>{ t('welcome.conditions.header') }</h2>
+            { helpers.renderListT({ name: 'welcome.conditions.body' }) }
           </section>
           <Formik
-            initialValues={{ preregistration }}
+            initialValues={this.props.values}
             onSubmit={this.handleSubmit}
-            validate={preregistrationValidator}
-            render={({ handleSubmit }) => {
+            validationSchema={languageSchema}
+            render={({ handleSubmit, errors, isSubmitting }) => {
+              const disabled = Object.keys(errors).length || isSubmitting;
+
               return (
                 <Form className="grid-container margin-x-0" onSubmit={handleSubmit}>
-                  <Dropdown
-                    labelText={t(`${name}.language.header`)}
-                    name={`${name}.language`}
-                    options={languageOptions}
+                  <FormikField
+                    type="select"
+                    labelText={t('welcome.language.header')}
+                    name={'config.language'}
+                    options={this.getLanguageOptions()}
                   />
                   <div className="margin-y-2">
-                    <Button>
-                      {t(`${name}.language.action`)}
+                    <Button disabled={disabled}>
+                      {t('welcome.language.action')}
                     </Button>
                   </div>
                 </Form>
