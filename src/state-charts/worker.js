@@ -12,39 +12,56 @@ const initialState = () => ({
 });
 
 const workerChart = {
-  id: 'worker', 
-  initial: 'search',
+  id: 'worker',
+  key: 'worker',
+  initial: 'idle',
   strict: true,
-  states: {    
-    search: {
-      meta: {
-        path: '/search'
-      }
-    },
-    loading: {
-      invoke: {
-        id: 'doSearch',
-        src: (_, { type, ...searchParams }) => {
-          return getRegistrations(searchParams);
+  states: {
+    idle: {},
+    worker: {
+      states: {
+        search: {
+          meta: {
+            path: '/worker/search'
+          }
         },
-        onDone: {
-          target: 'loaded',
-          actions: [
-            assign({ registrations: (_, data) => data.data })
-          ]
+        loading: {
+          invoke: {
+            id: 'doSearch',
+            src: (_, { type, ...searchParams }) => {
+              return getRegistrations(searchParams);
+            },
+            onDone: {
+              target: 'loaded',
+              actions: [
+                assign({ registrations: (_, data) => data.data })
+              ]
+            },
+            onError: {
+              target: 'loaded',
+            }
+          }
         },
-        onError: {
-          target: 'loaded',
+        loaded: {
+          internal: true
+        },
+        review: {
+          meta: {
+            path: '/worker/review'
+          }
         }
       }
-    },
-    loaded: {
-      internal: true
     },
   },
   on: {
     SEARCH: {
-      target: '.loading',
+      target: 'worker.loading'
+    },
+    SELECT_REGISTRATION: {
+      target: 'worker.review',
+      actions: assign({ currentRegistration: (_, data) =>
+        data.registrationId
+      })
     }
   }
 };

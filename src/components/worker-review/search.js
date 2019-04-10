@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import withLocale from 'components/with-locale';
 import AppContainer from 'components/app-container';
@@ -7,7 +8,6 @@ import FormikField, { FormikFieldDateGroup } from 'components/formik-field';
 import Button from 'components/button';
 import { getFullName, getDOB, getSSN } from 'models/person';
 import { getApplicant } from 'models/household';
-import SnapshotReview from 'components/snapshot-review';
 
 const searchFields = {
   state_id: '',
@@ -20,13 +20,44 @@ const searchFields = {
   registrant_last_name: ''
 };
 
-class WorkerSearchResults extends React.Component {
-  static defaultProps = {
-    registrations:  []
+class WorkerSearchResult extends React.Component {
+  static propTypes = {
+    applicant: PropTypes.object.isRequired,
+    onSelectRegistration: PropTypes.func.isRequired,
+    registrationIndex: PropTypes.number.isRequired
   }
 
   handleSelect = () => {
-    this.props.onSelectRegistration();
+    this.props.onSelectRegistration(this.props.registrationIndex);
+  }
+
+  render() {
+    const { applicant } = this.props;
+
+    return (
+      <tr>
+        <th scope="row">
+          { getFullName(applicant) }    
+        </th>
+        <td>
+          { getDOB(applicant) }
+        </td>
+        <td>
+          { getSSN(applicant) }
+        </td>
+        <td>
+          <Button type="button" onClick={this.handleSelect}>
+            Edit information
+          </Button>
+        </td>
+      </tr>
+    );
+  }
+}
+
+class WorkerSearchResults extends React.Component {
+  static defaultProps = {
+    registrations:  []
   }
 
   renderRegistrationTable() {
@@ -51,22 +82,12 @@ class WorkerSearchResults extends React.Component {
               const applicant = getApplicant(registration.household);
 
               return (
-                <tr key={index}>
-                  <th scope="row">
-                    { getFullName(applicant) }    
-                  </th>
-                  <td>
-                    { getDOB(applicant) }
-                  </td>
-                  <td>
-                    { getSSN(applicant) }
-                  </td>
-                  <td>
-                    <Button type="button" onClick={this.handleSelect}>
-                      Edit information
-                    </Button>
-                  </td>
-                </tr>
+                <WorkerSearchResult
+                  applicant={applicant}
+                  registrationIndex={index}
+                  key={index}
+                  onSelectRegistration={this.props.onSelectRegistration}
+                />
               );
             })
           }
@@ -95,13 +116,13 @@ class WorkerSearchResults extends React.Component {
 
 const LocalizedSearchResults = withLocale(WorkerSearchResults);
 
-class WorkerReview extends React.Component {
+class WorkerSearch extends React.Component {
   handleSearch = (values) => {
     this.props.transition({ command: 'SEARCH', data: { ...values } });
   }
 
   handleEdit = (registrationId) => {
-    this.props.transition({ command: 'EDIT_REGISTRANT', data: {
+    this.props.transition({ command: 'SELECT_REGISTRATION', data: {
       registrationId
     }});
   };
@@ -110,7 +131,7 @@ class WorkerReview extends React.Component {
     const { t } = this.props;
 
     return (
-      <AppContainer>
+      <React.Fragment>
         <UI.Header border size="lg">
           { t('worker.search.header') }
         </UI.Header>
@@ -167,11 +188,11 @@ class WorkerReview extends React.Component {
         />
         <LocalizedSearchResults
           registrations={this.props.machineState.registrations}
-          onSelectRegistration={this.props.handleEdit}
+          onSelectRegistration={this.handleEdit}
         />
-      </AppContainer>
+      </React.Fragment>
     );
   }
 }
 
-export default withLocale(WorkerReview);
+export default withLocale(WorkerSearch);

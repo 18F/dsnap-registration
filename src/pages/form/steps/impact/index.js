@@ -33,7 +33,6 @@ class AdverseEffects extends React.Component {
   }
 
   render() {
-    debugger
     const { handleChange, sectionName, registerStep, t, formik } = this.props;
     const { impact, disasters, basicInfo } = formik.values;
     const disaster = getDisaster(disasters, basicInfo.disasterId);

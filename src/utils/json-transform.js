@@ -12,7 +12,7 @@ function toRegistrationServiceFormat(src) {
     email: src.basicInfo.email.trim(),
     residential_address: src.basicInfo.residenceAddress,
     mailing_address: src.basicInfo.mailingAddress,
-    current_mailing_address: isAffirmative(src.basicInfo.currentMailingAddress),
+    //current_mailing_address: isAffirmative(src.basicInfo.currentMailingAddress),
     county: src.basicInfo.county.trim(),
     state_id: src.basicInfo.stateId.trim(),
     money_on_hand: Number(src.basicInfo.moneyOnHand),

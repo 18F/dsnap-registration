@@ -12,22 +12,27 @@ class MaskedInput extends React.Component {
     pattern: PropTypes.string.isRequired,
   }
 
+  mask = null;
+
+  componentWillMount() {
+    const { delimiter, pattern } = this.props;
+
+    this.mask = new Mask({ delimiter, pattern });
+  }
+
   handleChange = (event) => { 
     const { name, value } = event.target;
-    const { pattern, delimiter } = this.props;
-    const mask = new Mask({ pattern, delimiter })
 
-    this.props.onChange(name, mask.formatValue(value));
+    this.props.onChange(name, this.mask.formatValue(value));
   }
 
   render() {
     const { onChange, children, value, pattern, delimiter, ...rest } = this.props;
-    const mask = new Mask({ pattern, delimiter });
 
     return (
       <Input
         onChange={this.handleChange}
-        value={mask.formatValue(value)}
+        value={this.mask.formatValue(value)}
         {...rest}
       >
         { children }

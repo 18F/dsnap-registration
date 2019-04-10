@@ -26,7 +26,7 @@ class FSMRouter extends React.Component {
   stateTransitioning = false
 
   state = {
-    machineState: { context: {} }
+    machineState: null
   }
 
   constructor(props) {
@@ -86,6 +86,14 @@ class FSMRouter extends React.Component {
     
   }
 
+  getMachineState() {
+    if (!this.state.machineState) {
+      return this.machineState;
+    }
+
+    return this.state.machineState;
+  }
+
   usePathForRouting() {
     if (process.env.REACT_APP_DEBUG_PATH && process.env.NODE_ENV === 'development') {
       return true;
@@ -143,6 +151,7 @@ class FSMRouter extends React.Component {
   }
 
   handleHistoryTransition = ({ pathname }, debounce = false) => {
+    console.log(getNodes(this.machine))
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
       return;
@@ -179,9 +188,9 @@ class FSMRouter extends React.Component {
       }
     } else {
       // TODO: we need to handle invalid machine states here
-      debugger
-      const initialPath = this.machine.getStateNode(this.machine.initial);
-      this.props.history.replace(initialPath.meta.path);
+     // debugger
+      //const initialPath = this.machine.getStateNode(this.machine.initial);
+      //this.props.history.replace(initialPath.meta.path);
     }
   }
 
@@ -216,10 +225,11 @@ class FSMRouter extends React.Component {
   }
 
   render() {
-    console.log('fsm render :: machine state', this.state.machineState)
+    console.log('fsm render :: machine state', this.state.machineState);
+
     return (
       <MachineContext.Provider value={this.transition}>
-        <MachineStateContext.Provider value={this.state.machineState.context}>
+        <MachineStateContext.Provider value={this.getMachineState().context}>
           { this.props.children }
         </MachineStateContext.Provider>
       </MachineContext.Provider>
