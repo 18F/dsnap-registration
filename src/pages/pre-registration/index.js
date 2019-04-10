@@ -46,7 +46,7 @@ class PreRegistrationPage extends React.Component {
 const Step = ({ registerStep, handleChange, t }) => (
   <Wizard.Context>
     {({ disasters, basicInfo }) => {
-      const disasterCounties = getCounties(disasters, Number(basicInfo.disasterIndex), 0);
+      const disasterCounties = getCounties(disasters, Number(basicInfo.disasterId), 0);
 
       return (
         <Wizard.Step
@@ -59,17 +59,17 @@ const Step = ({ registerStep, handleChange, t }) => (
             labelText={t('preregistration.disaster.label')}
             fields={getDisasters(disasters).map((disaster) => ({
               type: 'radio',
-              name: `basicInfo.disasterIndex`,
+              name: `basicInfo.disasterId`,
               labelText: disaster.title,
               explanation: disaster.description,
               onChange: handleChange,
               radioValue: String(disaster.id),
-              id: `basicInfo.disasterIndex.${disaster.id}`
+              id: `basicInfo.disasterId.${disaster.id}`
             }))}
           />  
-          { !basicInfo.disasterIndex ? null :
+          { !basicInfo.disasterId ? null :
             <FormikField
-              name="basicInfo.disasterCounty"
+              name="basicInfo.county"
               onChange={handleChange}
               labelText={t('preregistration.disasterCounty.label')}
               type="select"

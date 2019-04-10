@@ -1,4 +1,24 @@
 {
+  "worker": {
+    "search": {
+      "action": "Search",
+      "header": "Find a registration",
+      "lede": "Fill in at least one of these fields to find a registration",
+      "results": "Results",
+      "ssn": {
+        "label": "Registrant's social security number"
+      },
+      "dob": {
+        "label": "Registrant's date of birth"
+      },
+      "lastName": {
+        "label": "Registrant's last name"
+      },
+      "stateId": {
+        "label": "Registrant's state id number"
+      }
+    }
+  },
   "general": {
     "header": "D-SNAP Benefits Registration",
     "next": "Next",
@@ -103,7 +123,7 @@
   },
   "preparation": {    
     "header": "Before you apply, we'll need some info.",
-    "byline": "This will help us get you benefits faster.",
+    "lede": "This will help us get you benefits faster.",
     "conditions": {
       "header": "Here's some info we need:",
       "body": [
@@ -236,7 +256,7 @@
     },
     "memberNames": {
       "header": "OK {{ customerName }}, you share meals with {{ count }} people.",
-      "byline": "Who are they?",
+      "lede": "Who are they?",
       "person": "Person",
       "firstName": {
         "label": "Legal first name"

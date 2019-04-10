@@ -7,6 +7,7 @@ import Debug from './debug';
 import Button from 'components/button';
 import RouteWithSubRoutes from 'components/route-with-subroutes';
 import withLocale from 'components/with-locale';
+import StepHeader from 'components/step-header';
 
 const WizardContext = React.createContext();
 
@@ -219,24 +220,10 @@ class Step extends React.Component {
     this.props.registerStep();
   }
 
-  renderHeader() {
-    if (!this.props.header) {
-      return null;
-    }
-
-    return (
-      <h1 className="font-sans-2xl">
-        {this.props.header}
-      </h1>
-    );
-  }
-
   render() {
     return (
       <div>
-        <div className="border-bottom-1px border-base-lighter margin-bottom-2">
-          { this.renderHeader() }
-        </div>
+        <StepHeader text={this.props.header} />
         {this.props.children }
       </div>
     )

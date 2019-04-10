@@ -1,9 +1,7 @@
 export default {
   "basicInfo":{
-     "personId": 0,
-     "preferredLanguage": "en",
-     "disasterIndex": "11",
-     "disasterCounty": "Baker",
+     "disasterId": "11",
+     "county": "Baker",
      "phone":"2165555555",
      "email":"adam@email.biz",
      "residenceAddress":{

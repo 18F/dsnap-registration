@@ -805,7 +805,7 @@ const appChart = {
   states: {
     idle: {},
     welcome: welcomeChart,
-    form: formStateConfig
+    form: formStateConfig,
   }
 };
 

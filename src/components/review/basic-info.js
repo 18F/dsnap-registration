@@ -186,7 +186,7 @@ class BasicInfoReview extends React.Component {
     };
 
     const schema = yourInfoReviewSchema({
-      state: getState(getDisaster(disasters, basicInfo.disasterIndex))
+      state: getState(getDisaster(disasters, basicInfo.disasterId))
     });
 
     return infoReviewSchemaValidator(schema, sectionData);

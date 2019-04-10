@@ -47,7 +47,7 @@ class Income extends React.Component {
             return null;
           }
 
-          const disaster = getDisaster(disasters, basicInfo.disasterIndex);
+          const disaster = getDisaster(disasters, basicInfo.disasterId);
           const members = getMembers(household);
           const index = resources.membersWithIncome[0];
           const member = members[index];

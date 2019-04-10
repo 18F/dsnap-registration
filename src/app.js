@@ -6,11 +6,13 @@ import LocaleContext from './locale-context';
 
 class App extends React.Component {
   render() {
-    const { t } = this.props;
+    const { t, location } = this.props;
+    const className = location.pathname.indexOf('worker') !== -1 ?
+      'bg-secondary-darker' : 'bg-primary-darker';
 
     return (
       <LocaleContext.Provider value={ t }>
-        <Header text={t('general.header')} />
+        <Header text={t('general.header')} className={className} />
         <ScrollToTop>
           <main>
             { this.props.children }

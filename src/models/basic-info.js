@@ -2,9 +2,8 @@ import address from './address';
 import { isAffirmative } from 'utils';
 
 export default () => ({
-  personId: 0,
-  disasterIndex: '',
-  disasterCounty: '',
+  disasterId: '',
+  county: '',
   phone: '',
   email: '',
   residenceAddress: address(),

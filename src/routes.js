@@ -10,9 +10,33 @@ import wizardRouteConfig from 'route-config';
 import FSMRouter, { MachineConsumer, MachineState } from 'components/fsm';
 import Wizard from 'components/wizard';
 import SnapshotReview from 'components/snapshot-review';
+import WorkerReview from 'components/worker-review';
+import workerConfig from 'state-charts/worker';
 
-const Routes = () => (
-  <FSMRouter config={fsmConfig} routeId="form">
+class Test extends React.Component {
+  render() {
+    return (
+      <FSMRouter config={workerConfig}>
+        <MachineConsumer>
+          {(transition) => {
+            return (
+              <MachineState>
+                {(state) => {
+                  return (
+                    <WorkerReview transition={transition} machineState={state} />
+                  );
+                }}
+              </MachineState>
+            );
+          }}
+        </MachineConsumer>
+      </FSMRouter>
+    )
+  }
+}
+
+const ClientRoutes = () =>
+  <FSMRouter config={fsmConfig}>
     <MachineConsumer>
       {(transition) => (
         <MachineState>
@@ -28,8 +52,8 @@ const Routes = () => (
                 />
                 <AppContainer>
                   <Switch>
-                    <Route path="/form/next-steps/eligible" render={ () => <EligiblePage type="eligible" /> } />
-                    <Route path="/form/next-steps/ineligible" render={ () => <EligiblePage type="ineligible" /> } />
+                    <Route path="/form/next-steps/eligible" render={() => <EligiblePage type="eligible" />} />
+                    <Route path="/form/next-steps/ineligible" render={() => <EligiblePage type="ineligible" />} />
                     <Route
                       path="/form/review"
                       render={() => (
@@ -63,7 +87,13 @@ const Routes = () => (
         </MachineState>
       )}
     </MachineConsumer>
-  </FSMRouter>
+  </FSMRouter>;
+
+const Routes = () => (
+  <Switch>
+    <Route path="/worker" component={Test} />
+    <Route path="/" render={() => <ClientRoutes />} />
+  </Switch>
 );
 
 export default Routes;
