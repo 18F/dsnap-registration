@@ -39,7 +39,7 @@ class Assets extends React.Component {
       <Wizard.Context>
         {({ basicInfo, household, disasters }) => {
           const members = getMembers(household);
-          const disaster = getDisaster(disasters, basicInfo.disasterIndex);
+          const disaster = getDisaster(disasters, basicInfo.disasterId);
 
           return (
             <Wizard.Step

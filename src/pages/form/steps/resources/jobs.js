@@ -44,7 +44,7 @@ class Jobs extends React.Component {
     const { handleChange, sectionName, registerStep, t, formik } = this.props;
     const { values } = formik;
     const { household, resources, disasters, basicInfo } = values;
-    const disaster = getDisaster(disasters, basicInfo.disasterIndex);
+    const disaster = getDisaster(disasters, basicInfo.disasterId);
     const members = getMembers(household);
     const index = resources.membersWithIncome[0] || 0;
     const member = members[index];

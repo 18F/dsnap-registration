@@ -30,7 +30,7 @@ const HowMany = ({ handleChange, sectionName, t, registerStep }) =>
       >
         <FormikField
           labelText={t(buildNestedKey(sectionName, modelName, 'label'), {
-            benefitStartDate: getBeginDate(getDisaster(disasters, basicInfo.disasterIndex))
+            benefitStartDate: getBeginDate(getDisaster(disasters, basicInfo.disasterId))
           })}
           explanation={t(buildNestedKey(sectionName, modelName, 'explanation'))}
           onChange={handleChange}

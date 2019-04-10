@@ -27,7 +27,7 @@ const MemberNames = ({ handleChange, sectionName, t, registerStep }) => (
         >
           <React.Fragment>
             <UI.Header type="h2" size="sm">
-              { t(`${sectionName}.${modelName}.byline`)}
+              { t(`${sectionName}.${modelName}.lede`)}
             </UI.Header>
             <FieldArray
               name={`${sectionName}.members`}

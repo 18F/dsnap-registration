@@ -39,7 +39,7 @@ class ResidenceAddress extends React.Component {
     const { modelName, tKey } = ResidenceAddress;
     const { values } = this.props.formik;
     const { basicInfo, disasters } = values;
-    const disasterState = getState(getDisaster(disasters, basicInfo.disasterIndex))
+    const disasterState = getState(getDisaster(disasters, basicInfo.disasterId))
 
     return (
       <Wizard.Step

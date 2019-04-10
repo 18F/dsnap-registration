@@ -14,8 +14,14 @@ const formatRouteWithDots = string =>
 class FSMRouter extends React.Component {
   static propTypes = {
     config: PropTypes.object.isRequired,
+    usePath: PropTypes.bool,
   }
 
+  static defaultProps = {
+    usePath: false,
+  }
+
+  mounted = false
   routes = null
   machine = null
   service = null
@@ -24,7 +30,12 @@ class FSMRouter extends React.Component {
   historyTransitioning = false
   stateTransitioning = false
 
+  state = {
+    machineState: null
+  }
+
   constructor(props) {
+    console.log('construct')
     super(props);
 
     const { config, actions, services, initialState } = props.config;
@@ -77,16 +88,27 @@ class FSMRouter extends React.Component {
     }, true);
 
     this.historySubscriber = props.history.listen(this.historyHandler);
+    
+  }
+
+  getMachineState() {
+    if (!this.state.machineState) {
+      return this.machineState;
+    }
+
+    return this.state.machineState;
   }
 
   usePathForRouting() {
-    if (process.env.REACT_APP_DEBUG_PATH && process.env.NODE_ENV === 'development') {
+    if (
+      (process.env.REACT_APP_DEBUG_PATH && process.env.NODE_ENV === 'development') ||
+      this.props.usePath
+    ) {
       return true;
      }
 
      return false;
   }
-
 
   computeURLPathFromContext(context) {
     if (this.usePathForRouting()) {
@@ -106,6 +128,11 @@ class FSMRouter extends React.Component {
 
     return path;
   };
+
+  componentDidMount() {
+    this.mounted = true;
+    this.setState({ machineState: this.machineState });
+  }
 
   componentWillUnmount() {
     this.historySubscriber();
@@ -132,9 +159,14 @@ class FSMRouter extends React.Component {
   }
 
   handleHistoryTransition = ({ pathname }, debounce = false) => {
+    console.log(getNodes(this.machine))
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
       return;
+    }
+
+    if (debounce) {
+      this.historyTransitioning = true;
     }
 
     const matchingRoute = this.hasMatchingRoute(pathname);
@@ -144,36 +176,40 @@ class FSMRouter extends React.Component {
 
       this.stateTransitioning = true;
       this.sendServiceTransition(machinePath);
-  
+
       if (!matchesState(this.machineState, machinePath)) {
         this.stateTransitioning = false;
 
-        if (debounce) {
-          this.historyTransitioning = true;
-        }
-
         const currentNode = this.getCurrentNode();
     
         if (currentNode.meta && currentNode.meta.path) {
-          this.props.history.replace(`${currentNode.meta.path}`);
+          this.props.history.push(`${currentNode.meta.path}`);
         }
       } else {
-        const currentNode = this.getCurrentNode();
+        this.stateTransitioning = false;
+
+        const node = this.getCurrentNode();
     
-        if (currentNode.meta && currentNode.meta.path) {
-          this.props.history.replace(`${currentNode.meta.path}`);
+        if (node.meta && node.meta.path) {
+          this.props.history.push(`${node.meta.path}`);
         }
       }
     } else {
       // TODO: we need to handle invalid machine states here
-      // this.props.history.replace(pathname);
+     // debugger
+      //const initialPath = this.machine.getStateNode(this.machine.initial);
+      //this.props.history.replace(initialPath.meta.path);
     }
   }
 
   handleXStateTransition = (state) => {
     console.log('xstate transition machine state', state);
-
-    this.machineState = state;
+    
+    if (this.mounted) {
+      this.setState({ machineState: state })
+    } else {
+      this.machineState = state
+    }
 
     if (this.stateTransitioning) {
       this.stateTransitioning = false;
@@ -197,17 +233,17 @@ class FSMRouter extends React.Component {
   }
 
   render() {
-    console.log('fsm render :: machine state', this.machineState)
+    console.log('fsm render :: machine state', this.state.machineState);
+
     return (
       <MachineContext.Provider value={this.transition}>
-        <MachineStateContext.Provider value={this.machineState.context}>
+        <MachineStateContext.Provider value={this.getMachineState().context}>
           { this.props.children }
         </MachineStateContext.Provider>
       </MachineContext.Provider>
     )
   }
 }
-
 
 export const withMachineContext = (Component) =>
   class extends React.Component {

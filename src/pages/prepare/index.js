@@ -27,7 +27,7 @@ class PreparePage extends React.Component {
         <UI.Header className="margin-bottom-4 font-sans-xl" type="h1" border>
           {t(`${tKey}.header`)}
         </UI.Header>
-        <p className="margin-bottom-4">{t(`${tKey}.byline`)}</p>
+        <p className="margin-bottom-4">{t(`${tKey}.lede`)}</p>
         <b>{t(`${tKey}.conditions.header`)}</b>
         { helpers.renderListT({ name: `${tKey}.conditions.body` }) }
         <div className="margin-y-4">
