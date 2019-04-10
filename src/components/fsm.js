@@ -14,6 +14,11 @@ const formatRouteWithDots = string =>
 class FSMRouter extends React.Component {
   static propTypes = {
     config: PropTypes.object.isRequired,
+    usePath: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    usePath: false,
   }
 
   mounted = false
@@ -95,7 +100,10 @@ class FSMRouter extends React.Component {
   }
 
   usePathForRouting() {
-    if (process.env.REACT_APP_DEBUG_PATH && process.env.NODE_ENV === 'development') {
+    if (
+      (process.env.REACT_APP_DEBUG_PATH && process.env.NODE_ENV === 'development') ||
+      this.props.usePath
+    ) {
       return true;
      }
 

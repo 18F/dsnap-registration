@@ -26,6 +26,9 @@ const workerChart = {
           }
         },
         loading: {
+          onEntry: assign({
+            meta: { loading: true }
+          }),
           invoke: {
             id: 'doSearch',
             src: (_, { type, ...searchParams }) => {
@@ -43,7 +46,10 @@ const workerChart = {
           }
         },
         loaded: {
-          internal: true
+          internal: true,
+          onEntry: assign({
+            meta: { loading: false }
+          })
         },
         review: {
           meta: {

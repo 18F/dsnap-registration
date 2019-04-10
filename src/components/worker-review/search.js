@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form } from 'formik';
+import { Formik, Form, connect } from 'formik';
 import withLocale from 'components/with-locale';
 import AppContainer from 'components/app-container';
 import UI from 'components/ui';
@@ -10,6 +10,7 @@ import { getFullName, getDOB, getSSN } from 'models/person';
 import { getApplicant } from 'models/household';
 
 const searchFields = {
+  id: '',
   state_id: '',
   registrant_ssn: '',
   registrant_dob: {
@@ -116,19 +117,85 @@ class WorkerSearchResults extends React.Component {
 
 const LocalizedSearchResults = withLocale(WorkerSearchResults);
 
+class WorkerSearchForm extends React.Component {
+  componentDidUpdate(prevProps) {
+    const isLoading = this.props.loading;
+    const wasLoading = prevProps.loading;
+
+    if (!isLoading && wasLoading) {
+      this.props.formik.setSubmitting(false);
+    }
+  }
+
+  render() {
+    const { t, disableSubmit, loading } = this.props;
+
+    return (
+      <Form>
+        <fieldset className="margin-bottom-4">
+          <FormikField
+            name="id"
+            labelText={t('worker.search.id.label')}
+          />
+          <FormikField
+            type="mask"
+            pattern="XXX-XX-XXXX"
+            delimiter="-"
+            labelText={t('worker.search.ssn.label')}
+            name='registrant_ssn'
+            onChange={(name, data) => this.props.formik.handleChange(name)(data)}
+          />
+          <FormikField
+            labelText={t('worker.search.stateId.label')}
+            name='state_id'
+          />
+          <FormikFieldDateGroup
+            inline
+            showError={false}
+            labelText={t('worker.search.dob.label')}
+            name='registrant_dob'
+            fields={[{
+              name: 'registrant_dob.month',
+              labelText: t('identity.personalInfo.dob.month')
+            }, {
+              name: 'registrant_dob.day',
+              labelText: t('identity.personalInfo.dob.day')
+            }, {
+              name: 'registrant_dob.year',
+              labelText: t('identity.personalInfo.dob.year')
+            }]}
+          />
+          <FormikField
+            labelText={t('worker.search.lastName.label')}
+            name='registrant_last_name'
+          />
+        </fieldset>
+        <Button disabled={loading || disableSubmit}>
+          { t('worker.search.action') }
+        </Button>
+      </Form>
+    )
+  }
+}
+
+const FormikWorkerSearchForm = connect(withLocale(WorkerSearchForm));
+
 class WorkerSearch extends React.Component {
   handleSearch = (values) => {
     this.props.transition({ command: 'SEARCH', data: { ...values } });
   }
 
   handleEdit = (registrationId) => {
-    this.props.transition({ command: 'SELECT_REGISTRATION', data: {
-      registrationId
-    }});
+    this.props.transition({
+      command: 'SELECT_REGISTRATION',
+      data: {
+        registrationId
+      }
+    });
   };
 
   render() {
-    const { t } = this.props;
+    const { t, machineState } = this.props;
 
     return (
       <React.Fragment>
@@ -141,49 +208,11 @@ class WorkerSearch extends React.Component {
           validateOnChange={false}
           initialValues={searchFields}
           render={(formik) => {
-            const disabled = !formik.dirty || !formik.isValid || formik.isSubmitting;
+            const disabled = !formik.dirty ||
+              !formik.isValid ||
+              formik.isSubmitting;
 
-            return (
-              <Form>
-                <fieldset className="margin-bottom-4">
-                  <FormikField
-                    type="mask"
-                    pattern="XXX-XX-XXXX"
-                    delimiter="-"
-                    labelText={t('worker.search.ssn.label')}
-                    name='registrant_ssn'
-                    onChange={(name, data) => formik.handleChange(name)(data)}
-                  />
-                  <FormikField
-                    labelText={t('worker.search.stateId.label')}
-                    name='state_id'
-                  />
-                  <FormikFieldDateGroup
-                    inline
-                    showError={false}
-                    labelText={t('worker.search.dob.label')}
-                    name='registrant_dob'
-                    fields={[{
-                      name: 'registrant_dob.month',
-                      labelText: t('identity.personalInfo.dob.month')
-                    }, {
-                      name: 'registrant_dob.day',
-                      labelText: t('identity.personalInfo.dob.day')
-                    }, {
-                      name: 'registrant_dob.year',
-                      labelText: t('identity.personalInfo.dob.year')
-                    }]}
-                  />
-                  <FormikField
-                    labelText={t('worker.search.lastName.label')}
-                    name='registrant_last_name'
-                  />
-                </fieldset>
-                <Button disabled={false}>
-                  { t('worker.search.action') }
-                </Button>
-              </Form>
-            );
+            return <FormikWorkerSearchForm disabled={disabled} loading={machineState.meta.loading} />
           }}
         />
         <LocalizedSearchResults
@@ -195,4 +224,4 @@ class WorkerSearch extends React.Component {
   }
 }
 
-export default withLocale(WorkerSearch);
+export default connect(withLocale(WorkerSearch));

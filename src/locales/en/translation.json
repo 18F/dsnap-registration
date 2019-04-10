@@ -5,6 +5,9 @@
       "header": "Find a registration",
       "lede": "Fill in at least one of these fields to find a registration",
       "results": "Results",
+      "id": {
+        "label": "Registration id"
+      },
       "ssn": {
         "label": "Registrant's social security number"
       },

@@ -11,28 +11,39 @@ const formatDate = date =>
   '' :
   `${date.day}-${date.month}-${date.year}`;
 
-export const getRegistrations = ({ registrant_dob, registrant_ssn, ...rest}) => {
-  const transformedFilters = {
-    ...rest,
-    registrant_dob: formatDate(registrant_dob),
-    registrant_ssn: '111111111'//registrant_ssn.replace(/[^0-9A]/g, '')
-  };
+const transformFilters = ({ registrant_dob, registrant_ssn, ...rest }) => ({
+  ...rest,
+  registrant_dob: formatDate(registrant_dob),
+  registrant_ssn: '111111111'//registrant_ssn.replace(/[^0-9A]/g, ''),
+});
 
-  const formattedFilters = Object.entries(transformedFilters)
-    .reduce((accum, [key, value]) => {
-      if (!value) {
-        return accum;
-      }
+const formatQueryParams = (data) =>
+  Object.entries(data)
+  .reduce((accum, [key, value]) => {
+    if (!value) {
+      return accum;
+    }
 
-      return [
-        ...accum,
-        `${key}=${value}`,
-      ];
-    }, []).join('&');
+    return [
+      ...accum,
+      `${key}=${value}`,
+    ];
+  }, []).join('&');
 
-  return axios.get(`${location}/${endpoint}?${formattedFilters}`)
-    .then((response) => {
-      return response.data.map(({ latest_data }) => {
+export const getRegistrations = (filters) => {
+  let url = `${location}/${endpoint}`;
+
+  if (!filters.id) {
+    const { id, ...otherFilters } = filters;
+    url = `${url}?${formatQueryParams(transformFilters(otherFilters))}`;
+  } else {
+    url = `${url}/${filters.id}`;
+  }
+
+  return axios.get(url)
+    .then(({ data }) => {
+      const registrations = Array.isArray(data) ? data : [data];
+      return registrations.map(({ latest_data }) => {
         return fromRegistrationServiceFormat(latest_data);
       });
     });

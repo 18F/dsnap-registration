@@ -17,7 +17,7 @@ import workerConfig from 'state-charts/worker';
 class Test extends React.Component {
   render() {
     return (
-      <FSMRouter config={workerConfig}>
+      <FSMRouter config={workerConfig} usePath>
         <MachineConsumer>
           {(transition) => {
             return (
