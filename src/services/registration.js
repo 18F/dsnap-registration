@@ -14,7 +14,7 @@ const formatDate = date =>
 const transformFilters = ({ registrant_dob, registrant_ssn, ...rest }) => ({
   ...rest,
   registrant_dob: formatDate(registrant_dob),
-  registrant_ssn: '111111111'//registrant_ssn.replace(/[^0-9A]/g, ''),
+  registrant_ssn: registrant_ssn.replace(/[^0-9A]/g, ''),
 });
 
 const formatQueryParams = (data) =>
@@ -43,8 +43,8 @@ export const getRegistrations = (filters) => {
   return axios.get(url)
     .then(({ data }) => {
       const registrations = Array.isArray(data) ? data : [data];
-      return registrations.map(({ latest_data }) => {
-        return fromRegistrationServiceFormat(latest_data);
+      return registrations.map(({ id, latest_data }) => {
+        return fromRegistrationServiceFormat(id, latest_data);
       });
     });
 };
