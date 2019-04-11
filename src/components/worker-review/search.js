@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, connect } from 'formik';
 import withLocale from 'components/with-locale';
-import AppContainer from 'components/app-container';
 import UI from 'components/ui';
 import FormikField, { FormikFieldDateGroup } from 'components/formik-field';
 import Button from 'components/button';
@@ -79,8 +78,8 @@ class WorkerSearchResults extends React.Component {
         </thead>
         <tbody>
           {
-            registrations.map((registration, index) => {
-              const applicant = getApplicant(registration.household);
+            registrations.map(({ client }, index) => {
+              const applicant = getApplicant(client.household);
 
               return (
                 <WorkerSearchResult
@@ -212,11 +211,16 @@ class WorkerSearch extends React.Component {
               !formik.isValid ||
               formik.isSubmitting;
 
-            return <FormikWorkerSearchForm disabled={disabled} loading={machineState.meta.loading} />
+            return (
+              <FormikWorkerSearchForm
+                disabled={disabled}
+                loading={machineState.meta.loading}
+              />
+            );
           }}
         />
         <LocalizedSearchResults
-          registrations={this.props.machineState.registrations}
+          registrations={machineState.registrations}
           onSelectRegistration={this.handleEdit}
         />
       </React.Fragment>

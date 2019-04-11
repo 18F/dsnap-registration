@@ -20,6 +20,13 @@
       "stateId": {
         "label": "Registrant's state id number"
       }
+    },
+    "review": {
+      "eligibility": {
+        "header": "Based on the information below, this applicant appears to be:"
+      },
+      "eligible": "Eligible",
+      "ineligible": "Ineligible"
     }
   },
   "general": {

@@ -44,7 +44,10 @@ export const getRegistrations = (filters) => {
     .then(({ data }) => {
       const registrations = Array.isArray(data) ? data : [data];
       return registrations.map(({ id, latest_data }) => {
-        return fromRegistrationServiceFormat(id, latest_data);
+        return {
+          server: latest_data,
+          client: fromRegistrationServiceFormat(id, latest_data)
+        }
       });
     });
 };

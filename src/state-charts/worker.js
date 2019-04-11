@@ -1,15 +1,23 @@
 import { assign } from 'xstate';
-import modelState from 'models';
 import { getRegistrations } from 'services/registration';
+import { createEligibility } from 'services/eligibility';
 
-const initialState = () => ({
-  registrations: [],
-  currentRegistration: null,
-  errors: '',
-  meta: {
-    loading: undefined
-  },
-});
+const STORAGE_KEY = 'worker-state';
+
+const initialState = () => {
+  const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  const { eligibility, currentRegistration } = savedState;
+
+  return {
+    registrations: [],
+    currentRegistration: currentRegistration || null,
+    eligibility: eligibility || null,
+    errors: '',
+    meta: {
+      loading: false
+    },
+  };
+}
 
 const workerChart = {
   id: 'worker',
@@ -19,8 +27,13 @@ const workerChart = {
   states: {
     idle: {},
     worker: {
+      initial: 'idle',
       states: {
+        idle: {},
         search: {
+          onEntry: () => {
+            localStorage.removeItem(STORAGE_KEY)
+          },
           meta: {
             path: '/worker/search'
           }
@@ -37,7 +50,10 @@ const workerChart = {
             onDone: {
               target: 'loaded',
               actions: [
-                assign({ registrations: (_, data) => data.data })
+                assign({
+                  registrations: (_, data) => data.data,
+                  meta: { loading: false }
+                }),
               ]
             },
             onError: {
@@ -47,14 +63,40 @@ const workerChart = {
         },
         loaded: {
           internal: true,
-          onEntry: assign({
-            meta: { loading: false }
-          })
+        },
+        'check-eligibility': {
+          onEntry: assign({ meta: { loading: true }}),
+          invoke: {
+            id: 'checkEligibility',
+            src: (ctx, _) => {
+              const registration = ctx.registrations[ctx.currentRegistration].server;
+              return createEligibility(registration);
+            },
+            onError: {
+              actions: () => console.log('error?')
+            },
+            onDone: {
+              target: '#review',
+              actions: [
+                assign({
+                  eligibility: (_, data) => data.data,
+                  meta: { loading: false }
+                }),
+                (_, event) => {
+                  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                    ...(JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}),
+                    eligibility: event.data
+                  }))
+                }
+              ]
+            }
+          }
         },
         review: {
+          id:'review',
           meta: {
             path: '/worker/review'
-          }
+          },
         }
       }
     },
@@ -64,10 +106,18 @@ const workerChart = {
       target: 'worker.loading'
     },
     SELECT_REGISTRATION: {
-      target: 'worker.review',
-      actions: assign({ currentRegistration: (_, data) =>
-        data.registrationId
-      })
+      target: 'worker.check-eligibility',
+      actions: [
+        assign({ currentRegistration: (ctx, data) =>
+          ctx.registrations[data.registrationId]
+        }),
+        (ctx, event) => {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            ...(JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}),
+            currentRegistration: ctx.registrations[event.registrationId]
+          }))
+        }
+      ]
     }
   }
 };
