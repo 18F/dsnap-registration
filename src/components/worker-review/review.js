@@ -35,7 +35,7 @@ class EligibilityDisplay extends React.Component {
     const eligibleClassName = this.eligibleClassName(eligibility.eligible);
 
     return (
-      <section className="grid-col padding-4 bg-accent-warm-lighter text-black">
+      <section className="grid-col padding-4 bg-accent-warm-lighter text-black margin-bottom-4">
         <div className="font-sans-lg margin-bottom-2">
           <span>
             Based on the information below, this applicant appears to be:
@@ -68,6 +68,12 @@ class EligibilityDisplay extends React.Component {
             })
           }
         </ul>
+        <p className="font-sans-md margin-top-4 margin-bottom-1">
+          <b>Allotment</b>
+        </p>
+        <span>
+          ${eligibility.metrics.allotment}
+        </span>
       </section>
     );
   }
