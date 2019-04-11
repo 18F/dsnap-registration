@@ -28,6 +28,20 @@ ul.bulleted li::before {
   top: .25rem;
 }
 
+ul.fa li.success:before {
+  font-family: 'Font Awesome 5 Free';
+  content: "\f00c";
+  margin:0 5px 0 -15px;
+  color:#538200;
+}
+
+ul.fa li.failure:before {
+  font-family: 'Font Awesome 5 Free';
+  content: "\f00d";
+  margin:0 5px 0 -15px;
+  color: #e52207;
+}
+
 .usa-button-link {
   background-color: transparent;
   border: none;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import AppContainer from './components/app-container';
 import Route404 from 'components/404-route';
 import NoMatch from 'components/no-match';
