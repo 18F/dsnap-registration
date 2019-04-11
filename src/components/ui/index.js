@@ -6,8 +6,9 @@ class Header extends React.Component {
   static propTypes = {
     border: PropTypes.bool,
     className: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
-    type: PropTypes.oneOf([ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
     size: PropTypes.oneOf([ 'sm', 'md', 'lg', 'xl', '2xl' ]),
+    text: PropTypes.string,
+    type: PropTypes.oneOf([ 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
   }
 
   static defaultProps = {
@@ -16,8 +17,10 @@ class Header extends React.Component {
   }
 
   buildHeader(additionalProps) {
-    const { children, type } = this.props;
-    return React.createElement(`${type}`, { children, ...additionalProps });
+    const { children, text, type } = this.props;
+    const elementContent = text ? text : children;
+
+    return React.createElement(`${type}`, { children: elementContent, ...additionalProps });
   }
 
   className() {
@@ -37,6 +40,7 @@ class Header extends React.Component {
     return (
       <div className={this.className()}>
         { this.buildHeader({ className: classnames(this.props.className) }) }
+        { this.props.children && this.props.text ? this.props.children : null}
       </div>
     );
   }

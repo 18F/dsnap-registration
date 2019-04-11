@@ -12,7 +12,6 @@ function toRegistrationServiceFormat(src) {
     email: src.basicInfo.email.trim(),
     residential_address: src.basicInfo.residenceAddress,
     mailing_address: src.basicInfo.mailingAddress,
-    //current_mailing_address: isAffirmative(src.basicInfo.currentMailingAddress),
     county: src.basicInfo.county.trim(),
     state_id: src.basicInfo.stateId.trim(),
     money_on_hand: Number(src.basicInfo.moneyOnHand),
@@ -30,7 +29,7 @@ function toRegistrationServiceFormat(src) {
   };
 }
 
-function fromRegistrationServiceFormat(src) {
+function fromRegistrationServiceFormat(id, src) {
   const basicInfo = {
     disasterId: src.disaster_id,
     county: src.county,
@@ -137,6 +136,7 @@ function fromRegistrationServiceFormat(src) {
   });
 
   return {
+    id,
     basicInfo, 
     impact,
     household: {
