@@ -1,19 +1,8 @@
 import { assign } from 'xstate';
 import { getRegistrations, updateRegistration } from 'services/registration';
 import { createEligibility } from 'services/eligibility';
-import { fromRegistrationServiceFormat } from 'utils/json-transform';
 
 const STORAGE_KEY = 'worker-state';
-
-const formatRegistrations = (data) => {
-  const registrations = Array.isArray(data) ? data : [data];
-  return registrations.map(({ id, latest_data }) => {
-    return {
-      server: latest_data,
-      client: fromRegistrationServiceFormat(id, latest_data)
-    }
-  });
-};
 
 const initialState = () => {
   const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};

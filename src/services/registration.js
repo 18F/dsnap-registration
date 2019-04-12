@@ -57,7 +57,7 @@ export const createRegistration = (registrationData) => {
     .then(response => response.data);
 };
 
-export const updateRegistration = ({ id, ... registrationData }) => {
+export const updateRegistration = ({ id, ...registrationData }) => {
   const transformedData = toRegistrationServiceFormat(registrationData);
 
   return axios.put(`${location}/${endpoint}/${id}`, transformedData)
