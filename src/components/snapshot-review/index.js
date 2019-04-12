@@ -14,7 +14,12 @@ const noOpValidator = () => ({});
 
 class SnapshotReview extends React.Component {
   static propTypes = {
+    actions: PropTypes.node,
     values: PropTypes.object,
+  }
+
+  static defaultProps = {
+    render: () => { return null; }
   }
 
   state = {
@@ -27,21 +32,16 @@ class SnapshotReview extends React.Component {
     });
   }
 
-  renderReviewSections = ({ handleChange, resetForm, submitCount, isSubmitting, values, errors, handleSubmit }) => {
-    const { t } = this.props;
-    const disable = submitCount && (
-      Object.keys(errors).length ||
-      isSubmitting ||
-      (values.errors && values.errors.server)
-    );
-    console.log(errors)
+  renderReviewSections = (formik) => {
+    const { t, actions } = this.props;
+
     const extraProps = {
-      handleChange,
+      handleChange: formik.handleChange,
       onEdit: this.setCurrentSectionValidator
     };
 
     return (
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <BasicInfoReview
           title={t('review.sections.info')}
           {...extraProps} 
@@ -59,21 +59,7 @@ class SnapshotReview extends React.Component {
         <IncomeReviewSection
           {...extraProps}
         />
-        <div className="margin-y-2">
-          <Button disabled={disable}>
-            { t('review.next') }
-          </Button>
-        </div>
-        <Button
-          type="button"
-          onClick={() => {
-            resetForm(values);
-            this.props.onQuit();
-          }}
-          link
-        >
-          { t('general.quit') }
-        </Button>
+        { this.props.render(formik) }
       </Form>
     );
   }
