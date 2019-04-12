@@ -27,7 +27,10 @@ class EligibilityDisplay extends React.Component {
   }
 
   eligibleClassName(eligible) {
-    return eligible ? 'text-green' : 'text-red';
+    return classnames('margin-top-2', {
+      'text-green': eligible,
+      'text-red': !eligible
+    });
   }
 
   render() {
@@ -88,6 +91,10 @@ class WorkerReview extends React.Component {
     }
   }
 
+  handleUpdate = (values) => {
+    debugger
+  }
+
   render() {
     const { machineState, transition, t } = this.props;
     const registration = machineState.currentRegistration;
@@ -111,8 +118,8 @@ class WorkerReview extends React.Component {
         </div>
         <EligibilityDisplay eligibility={machineState.eligibility} />
         <SnapshotReview
-          values={registration.client}
-          onNext={transition}
+          values={{ disasters: machineState.disasters, ...registration.client }}
+          onNext={this.handleUpdate}
           onQuit={() => transition({ command: 'QUIT' })}
         />
       </React.Fragment>

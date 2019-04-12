@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { toRegistrationServiceFormat, fromRegistrationServiceFormat } from 'utils/json-transform';
+import {
+  toRegistrationServiceFormat,
+  formatRegistrationForClient,
+} from 'utils/json-transform';
 
 const endpoint = 'registrations';
 const location = process.env.NODE_ENV === 'development' ?
@@ -43,12 +46,7 @@ export const getRegistrations = (filters) => {
   return axios.get(url)
     .then(({ data }) => {
       const registrations = Array.isArray(data) ? data : [data];
-      return registrations.map(({ id, latest_data }) => {
-        return {
-          server: latest_data,
-          client: fromRegistrationServiceFormat(id, latest_data)
-        }
-      });
+      return registrations.map(formatRegistrationForClient);
     });
 };
 
@@ -58,3 +56,10 @@ export const createRegistration = (registrationData) => {
   return axios.post(`${location}/${endpoint}`, transformedData)
     .then(response => response.data);
 };
+
+export const updateRegistration = ({ id, ... registrationData }) => {
+  const transformedData = toRegistrationServiceFormat(registrationData);
+
+  return axios.put(`${location}/${endpoint}/${id}`, transformedData)
+    .then(({ data }) => formatRegistrationForClient(data));
+}
