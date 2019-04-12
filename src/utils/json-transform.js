@@ -4,6 +4,10 @@ import moment from 'moment';
 const emptyToNull = value =>
   typeof value === 'string' && !value.length ? null : value;
 
+const nullToEmpty = value => value === null ? '' : value;
+
+const toString = value => String(value);
+
 function toRegistrationServiceFormat(src) {
   return {
     disaster_id: Number(src.basicInfo.disasterId),
@@ -33,37 +37,40 @@ function fromRegistrationServiceFormat(id, src) {
   const basicInfo = {
     disasterId: src.disaster_id,
     county: src.county,
-    phone: src.phone,
-    email: src.email,
+    phone: nullToEmpty(src.phone),
+    email: nullToEmpty(src.email),
     residenceAddress: src.residential_address,
     mailingAddress: src.mailing_address,
     moneyOnHand: src.money_on_hand,
     stateId: src.state_id,
     currentMailingAddress: src.current_mailing_address || true,
   };
+  const config = {
+    language: src.preferred_language
+  };
   const impact = {
-    inaccessibleMoney: src.has_inaccessible_liquid_resources,
-    lostOrInaccessibleIncome: src.has_lost_or_inaccessible_income,
-    buyFood: src.purchased_or_plans_to_purchase_food,
+    inaccessibleMoney: toString(src.has_inaccessible_liquid_resources),
+    lostOrInaccessibleIncome: toString(src.has_lost_or_inaccessible_income),
+    buyFood: toString(src.purchased_or_plans_to_purchase_food),
     otherExpenses: {
       foodLoss:{
-        applicable: true,
+        applicable: toString(true),
         value: src.disaster_expenses.food_loss
      },
      evacuation:{
-        applicable: true,
+        applicable: toString(true),
         value: src.disaster_expenses.evacuation_expenses
      },
      tempShelter:{
-        applicable: true,
+        applicable: toString(true),
         value: src.disaster_expenses.temporary_shelter_expenses
      },
      repairs:{
-        applicable: true,
+        applicable: toString(true),
         value: src.disaster_expenses.home_or_business_repairs
      },
      other: {
-        applicable: true,
+        applicable: toString(true),
         value: src.disaster_expenses.other
      }
     }
@@ -78,58 +85,58 @@ function fromRegistrationServiceFormat(id, src) {
         lastName: member.last_name,
       },
       dob: {
-        month: dob.months + 1,
-        day: dob.date,
-        year: dob.years,
+        month: String(dob.months + 1),
+        day: String(dob.date),
+        year: String(dob.years),
       },
       sex: member.sex,
-      ssn: member.ssn,
+      ssn: nullToEmpty(member.ssn),
       race: member.race,
       ethnicity: member.ethnicity,
       hasFoodAssistance: member.has_food_assistance,
       assetsAndIncome: {
         incomeSources: {
           selfEmployed:{
-            applicable: true,
+            applicable: toString(true),
             value: member.income.self_employed || 0,
           },
           unemployment:{
-            applicable: true,
+            applicable: toString(true),
             value: member.income.unemployment || 0,
           },
           cashAssistance:{
-            applicable: true,
+            applicable: toString(true),
             value: member.income.cash_assistance || 0,
           },
           disability:{
-            applicable: true,
+            applicable: toString(true),
             value: member.income.disability || 0,
           },
           socialSecurity:{
-            applicable: true,
+            applicable: toString(true),
             value: member.income.social_security || 0,
           },
           veteransBenefits:{
-            applicable: true,
+            applicable: toString(true),
             value: member.income.veterans_benefits || 0,
           },
           alimony:{
-            applicable: true,
+            applicable: toString(true),
             value: member.income.alimony || 0,
           },
           childSupport:{
-            applicable: true,
+            applicable: toString(true),
             value: member.income.child_support || 0,
           },
           otherSources:{
-            applicable: true,
+            applicable: toString(true),
             value: member.income.other_sources || 0,
           }
         },    
         jobs: member.jobs.map((job) => ({
           employerName: job.employer_name,
           pay: job.pay || 0,
-          isDsnapAgency: job.is_dsnap_agency
+          isDsnapAgency: toString(job.is_dsnap_agency),
         }))
       },
     }
@@ -141,7 +148,8 @@ function fromRegistrationServiceFormat(id, src) {
     impact,
     household: {
       members
-    }
+    },
+    config
   };
 }
 
@@ -202,12 +210,24 @@ function toRulesServiceFormat(registration) {
   };
 }
 
-function totalIncome(household) {
-  const memberIncome = incomeSources => Object.values(incomeSources).reduce((acc, value) => acc + value);
+function formatRegistrationForClient({ id, latest_data }) {
+  return {
+    server: latest_data,
+    client: fromRegistrationServiceFormat(id, latest_data),
+  };
+}
+
+
+const totalIncome = (household) => {
+  const memberIncome = incomeSources =>
+    Object.values(incomeSources).reduce((acc, value) => acc + value);
+
   return household.reduce((acc, value) => acc + memberIncome(value.income), 0);
 }
+
 export {
   toRegistrationServiceFormat,
   toRulesServiceFormat,
-  fromRegistrationServiceFormat
+  fromRegistrationServiceFormat,
+  formatRegistrationForClient
 };

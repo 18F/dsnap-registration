@@ -14,7 +14,7 @@ const noOpValidator = () => ({});
 
 class SnapshotReview extends React.Component {
   static propTypes = {
-    values: PropTypes.object
+    values: PropTypes.object,
   }
 
   state = {
@@ -44,7 +44,7 @@ class SnapshotReview extends React.Component {
       <Form onSubmit={handleSubmit}>
         <BasicInfoReview
           title={t('review.sections.info')}
-          {...extraProps}
+          {...extraProps} 
         />
         <HouseholdReview
           title={t('review.sections.household')}
