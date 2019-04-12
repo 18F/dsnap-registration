@@ -1,0 +1,8 @@
+---
+applications:
+  - name: dsnap-registration
+    path: ../build
+    buildpack: nginx_buildpack
+    env:
+      RULES_SERVICE_URL: https://dsnap-rules-staging.app.cloud.gov
+      REGISTRATION_SERVICE_URL: https://dsnap-registration-service-staging.app.cloud.gov
