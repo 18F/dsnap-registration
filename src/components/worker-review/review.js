@@ -5,8 +5,38 @@ import { withRouter } from 'react-router-dom';
 import withLocale from 'components/with-locale';
 import UI from 'components/ui';
 import SnapshotReview from 'components/snapshot-review';
+import Button from 'components/button';
 import { getApplicant } from 'models/household';
 import { getFullName } from 'models/person';
+import './styles.scss';
+
+class ApprovalStatusDisplay extends React.Component {
+  static propTypes = {
+    approved: PropTypes.bool
+  }
+
+  render() {
+    const { approved } = this.props;
+    const computedClassName = classnames('grid-col padding-y-2 padding-x-4 text-white margin-bottom-4', {
+      'bg-secondary': !approved,
+      'bg-mint': approved
+    });
+
+    if (typeof approved !== 'boolean') {
+      return null;
+    }
+
+    return (
+      <div className={computedClassName}>
+        <UI.Header type="h2">
+          { approved ? 'Approved' : 'Denied' }
+        </UI.Header>
+        <p>Date: Date from server</p>
+        <p>By: Email address of worker</p>
+      </div>
+    );
+  }
+}
 
 class EligibilityDisplay extends React.Component {
   static propTypes = {
@@ -82,6 +112,12 @@ class EligibilityDisplay extends React.Component {
   }
 }
 
+// class ReviewApprovalActions extends React.Component {
+//   render() {
+
+//   }
+// }
+
 class WorkerReview extends React.Component {
   componentDidMount() {
     const { machineState: { currentRegistration } } = this.props;
@@ -92,11 +128,11 @@ class WorkerReview extends React.Component {
   }
 
   handleUpdate = (values) => {
-    debugger
+    console.log(this.props)
   }
 
   render() {
-    const { machineState, transition, t } = this.props;
+    const { machineState, t } = this.props;
     const registration = machineState.currentRegistration;
 
     if (!registration) {
@@ -116,11 +152,34 @@ class WorkerReview extends React.Component {
             </div>
           </UI.Header>
         </div>
+        <ApprovalStatusDisplay approved={machineState.approval} />
         <EligibilityDisplay eligibility={machineState.eligibility} />
         <SnapshotReview
           values={{ disasters: machineState.disasters, ...registration.client }}
           onNext={this.handleUpdate}
-          onQuit={() => transition({ command: 'QUIT' })}
+          render={(formik) => {
+            console.log(formik)
+            return (
+              typeof machineState.approval === 'boolean' ?
+              null :
+              <div>
+                <Button
+                  className="worker-approve bg-mint"
+                  disabled={formik.isSubmitting}
+                  onClick={() => this.props.transition({ command: 'APPROVE' }) }
+                >
+                  Approve
+                </Button>
+                <Button
+                  className="worker-deny bg-red"
+                  disabled={formik.isSubmitting}
+                  onClick={() => this.props.transition({ command: 'DENY' })}
+                >
+                  Deny
+                </Button>
+              </div>
+            );
+          }}
         />
       </React.Fragment>
     )
