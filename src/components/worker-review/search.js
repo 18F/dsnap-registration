@@ -43,7 +43,7 @@ class WorkerSearchResult extends React.Component {
           { getDOB(applicant) }
         </td>
         <td>
-          { getSSN(applicant) }
+          { getSSN(applicant) || 'n/a' }
         </td>
         <td>
           <Button type="button" onClick={this.handleSelect}>

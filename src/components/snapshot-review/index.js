@@ -29,9 +29,10 @@ class SnapshotReview extends React.Component {
   }
 
   renderReviewSections = (formik) => {
-    const { t } = this.props;
+    const { t, readonly } = this.props;
 
     const extraProps = {
+      readonly,
       handleChange: formik.handleChange,
       onEdit: this.setCurrentSectionValidator
     };

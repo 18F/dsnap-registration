@@ -121,7 +121,7 @@ class EligibilityDisplay extends React.Component {
           <b>Allotment</b>
         </p>
         <span>
-          ${eligibility.metrics.allotment}
+          ${eligibility.metrics.allotment || 0}
         </span>
       </section>
     );
@@ -132,6 +132,9 @@ class EligibilityDisplay extends React.Component {
 class WorkerReview extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      readonly: false
+    };
     this.scrollRef = React.createRef();
   }
 
@@ -148,10 +151,12 @@ class WorkerReview extends React.Component {
   }
 
   handleApprove = () => {
+    this.setState({ readonly: true });
     this.props.transition({ command: 'APPROVE' });
   }
 
   handleDeny = () => {
+    this.setState({ readonly: true });
     this.props.transition({ command: 'DENY' });
   }
 
@@ -179,10 +184,10 @@ class WorkerReview extends React.Component {
         <ApprovalStatusDisplay approved={machineState.approval} />
         <EligibilityDisplay eligibility={machineState.eligibility} />
         <SnapshotReview
+          readonly={this.state.readonly}
           values={{ disasters: machineState.disasters, ...registration.client }}
           onNext={this.handleUpdate}
           render={(formik) => {
-            console.log(formik)
             return (
               typeof machineState.approval === 'boolean' ?
               null :

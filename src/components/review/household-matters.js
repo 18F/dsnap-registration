@@ -93,6 +93,7 @@ class HouseholdMattersReview extends React.Component {
         onEdit={this.handleToggleEdit}
         title={t('review.sections.householdMatters')}
         onUpdate={this.props.handleUpdate}
+        readonly={this.props.readonly}
       >
         {({ editing }) => {
           return (
