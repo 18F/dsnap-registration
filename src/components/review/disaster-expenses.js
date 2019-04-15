@@ -78,6 +78,7 @@ class DisasterExpensesReview extends React.Component {
         onEdit={this.handleToggleEdit}
         title={t('review.sections.impact')}
         onUpdate={this.props.handleUpdate}
+        readonly={this.props.readonly}
       >
         {({ editing }) => {
           return (

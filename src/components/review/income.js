@@ -221,6 +221,7 @@ class IncomeReviewSection extends React.Component {
                   onUpdate={handleUpdate}
                   onEdit={this.handleToggleEdit}
                   key={`income.${firstName}.${lastName}.${memberIndex}`}
+                  readonly={this.props.readonly}
                 >
                   {({ editing }) => (
                     <React.Fragment>

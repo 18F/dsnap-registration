@@ -31,6 +31,10 @@ class ReviewSubSection extends React.Component {
     return this.state.editing;
   }
 
+  isReadonly() {
+    return this.props.readonly;
+  }
+
   handleToggleEdit = () => {
     this.setState(state => ({ ...state, editing: !this.state.editing }), () => {
       this.props.onEdit(this.state.editing);
@@ -57,7 +61,7 @@ class ReviewSubSection extends React.Component {
   }
 
   renderEditAction() {
-    if (this.isEditMode()) {
+    if (this.isEditMode() || this.isReadonly()) {
       return null;
     }
 
@@ -84,7 +88,7 @@ class ReviewSubSection extends React.Component {
   }
 
   renderUpdateAction() {
-    if (!this.isEditMode()) {
+    if (!this.isEditMode() || this.isReadonly()) {
       return null;
     }
 

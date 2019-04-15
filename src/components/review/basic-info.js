@@ -206,6 +206,7 @@ class BasicInfoReview extends React.Component {
         title={this.props.title}
         onUpdate={this.props.handleUpdate}
         onEdit={this.handleToggleEdit}
+        readonly={this.props.readonly}
       >
         {({ editing }) =>
           editing ?
