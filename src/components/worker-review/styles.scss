@@ -1,0 +1,11 @@
+.worker-approve {
+  &:hover, &:active, &:focus {
+    background: #009664;
+  }
+}
+
+.worker-deny {
+  &:hover, &:active, &:focus {
+    background: #8b1303;
+  }
+}

@@ -16,9 +16,10 @@ const initialState = () => {
     meta: {
       loading: false
     },
-    disasters: disasters || null
+    disasters: disasters || null,
+    approval: null,
   };
-}
+};
 
 const workerChart = {
   id: 'worker',
@@ -122,7 +123,8 @@ const workerChart = {
           meta: {
             path: '/worker/review'
           },
-        }
+        },
+        finish: {}
       }
     },
   },
@@ -167,6 +169,14 @@ const workerChart = {
           }))
         }
       ]
+    },
+    APPROVE: {
+      target: 'worker.finish',
+      actions: assign({ approval: true })
+    },
+    DENY: {
+      target: 'worker.finish',
+      actions: assign({ approval: false })
     }
   }
 };

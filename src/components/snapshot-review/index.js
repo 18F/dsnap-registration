@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import withLocale from 'components/with-locale';
 import { Form, Formik } from 'formik';
 import Wizard from 'components/wizard';
-import Button from 'components/button';
 import BasicInfoReview from 'components/review/basic-info';
 import HouseholdReview from 'components/review/household';
 import HouseholdMattersReview from 'components/review/household-matters';
@@ -14,6 +13,8 @@ const noOpValidator = () => ({});
 
 class SnapshotReview extends React.Component {
   static propTypes = {
+    actions: PropTypes.node,
+    render: PropTypes.func,
     values: PropTypes.object,
   }
 
@@ -27,21 +28,16 @@ class SnapshotReview extends React.Component {
     });
   }
 
-  renderReviewSections = ({ handleChange, resetForm, submitCount, isSubmitting, values, errors, handleSubmit }) => {
+  renderReviewSections = (formik) => {
     const { t } = this.props;
-    const disable = submitCount && (
-      Object.keys(errors).length ||
-      isSubmitting ||
-      (values.errors && values.errors.server)
-    );
-    console.log(errors)
+
     const extraProps = {
-      handleChange,
+      handleChange: formik.handleChange,
       onEdit: this.setCurrentSectionValidator
     };
 
     return (
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <BasicInfoReview
           title={t('review.sections.info')}
           {...extraProps} 
@@ -59,27 +55,14 @@ class SnapshotReview extends React.Component {
         <IncomeReviewSection
           {...extraProps}
         />
-        <div className="margin-y-2">
-          <Button disabled={disable}>
-            { t('review.next') }
-          </Button>
-        </div>
-        <Button
-          type="button"
-          onClick={() => {
-            resetForm(values);
-            this.props.onQuit();
-          }}
-          link
-        >
-          { t('general.quit') }
-        </Button>
+        { this.props.render && this.props.render(formik) }
       </Form>
     );
   }
 
-  onSubmit = (values) => {
-    this.props.onNext({ data: values });
+  // Passes formik methods up to caller, to maintain consistency with formik api
+  onSubmit = (values, formikMethods) => {
+    this.props.onNext({ data: values }, formikMethods);
   }
 
   render() {

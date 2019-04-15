@@ -9,7 +9,7 @@ import fsmConfig from 'fsm-config';
 import wizardRouteConfig from 'route-config';
 import FSMRouter, { MachineConsumer, MachineState } from 'components/fsm';
 import Wizard from 'components/wizard';
-import SnapshotReview from 'components/snapshot-review';
+import ApplicantReview from 'components/review';
 import WorkerSearch from 'components/worker-review/search';
 import WorkerReview from 'components/worker-review/review';
 import workerConfig from 'state-charts/worker';
@@ -78,11 +78,7 @@ const ClientRoutes = () =>
                     <Route
                       path="/form/review"
                       render={() => (
-                        <SnapshotReview
-                          values={state}
-                          onNext={transition}
-                          onQuit={() => transition({ command: 'QUIT' })}
-                        />
+                        <ApplicantReview state={state} transition={transition} />
                       )}
                     />
                     <Route path="/form"

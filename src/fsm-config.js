@@ -781,7 +781,7 @@ const formStateConfig = {
           resolve(initialState())
         }),
         onDone: {
-          target: 'pre-registration',
+          target: '#welcome',
           internal: true,
           actions: [
             assign((_, event) => {
