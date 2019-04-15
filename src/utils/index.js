@@ -29,6 +29,16 @@ export const isPrimitive = value =>
 export const stripSpecialChars = (value) =>
   value.replace(/[^0-9A-Za-z]/g, '');
 
+export const leftPad = (string, padString = 0, length = 2) => {
+  let output = string;
+
+  while (output.length < length) {
+      output = `${padString}${output}`;
+  }
+
+  return output;
+};
+
 export class Mask {
   constructor({ pattern, delimiter }) {
     this.pattern = pattern;
