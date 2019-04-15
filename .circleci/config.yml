@@ -95,7 +95,7 @@ jobs:
               echo "deploying to production"
               export PATH=$HOME/bin:$PATH
               cf login -a https://api.fr.cloud.gov -u $CF_DSNAP_PROD_USER -p $CF_DSNAP_PROD_PASS -o gsa-10x-prototyping -s dsnap_prod
-              cf zero-downtime-push dsnap-registration -f manifests/manifest_prod.yml
+              cf zero-downtime-push dsnap-registration-app -f manifests/manifest_prod.yml
             else
               echo "skipped"
             fi
