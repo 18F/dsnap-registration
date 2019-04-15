@@ -1,0 +1,477 @@
+{
+  "worker": {
+    "search": {
+      "action": "Search",
+      "header": "Find a registration",
+      "lede": "Fill in at least one of these fields to find a registration",
+      "results": "Results",
+      "id": {
+        "label": "Registration id"
+      },
+      "ssn": {
+        "label": "Registrant's social security number"
+      },
+      "dob": {
+        "label": "Registrant's date of birth"
+      },
+      "lastName": {
+        "label": "Registrant's last name"
+      },
+      "stateId": {
+        "label": "Registrant's state id number"
+      }
+    },
+    "review": {
+      "eligibility": {
+        "header": "Based on the information below, this applicant appears to be:"
+      },
+      "eligible": "Eligible",
+      "ineligible": "Ineligible"
+    }
+  },
+  "general": {
+    "header": "D-SNAP Benefits Registration",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No",
+    "quit": "Quit registration",
+    "security": "This information is kept confidential and secure as required by law. <1>Learn more</1>",
+    "loading": "Loading",
+    "select": "Please choose an option",
+    "delete": "delete",
+    "notApplicable": "Not applicable",
+    "leaveBlank": "You can leave this blank if you don't want to answer",
+    "ethnicity": {
+      "options": [
+        "Hispanic or Latino",
+        "Not Hispanic or Latino"
+      ]
+    },
+    "race": {
+      "options": [
+        "American Indian or Alaskan Native",
+        "Asian",
+        "Black or African American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White"
+      ]
+    },
+    "language": {
+      "options": {
+        "en": "English",
+        "es": "Spanish"
+      }
+    }
+  },
+  "errors": {
+    "city": "Provide city",
+    "county": "Please choose county from the menu",
+    "date": "Please provide a valid date",
+    "dob": {
+      "day": "Provide a valid day - Ex 1 or 01",
+      "month": "Provide a valid month - Ex 1 or 01",
+      "year": "Provide a valid year - Ex 1999"
+    },
+    "dropdown": "Please choose a value from this list",
+    "ethnicity": "Please choose from the available options",
+    "email": "Provide a valid email address",
+    "firstName": "Provide first name",
+    "fullName": "Provide your full name",
+    "language": "Select a language",
+    "lastName": "Provide last name",
+    "matchingName": "Your signature must match the name you entered at the beignning of the form",
+    "noMatch": "Invalid selection",
+    "length": "{{ fieldName }} must be exactly {{ length }} digits",
+    "positiveNumber": "This value can't be less than zero",
+    "phone": "Enter a 10 digit phone number staring with area code",
+    "ssn": "The Social Security Number should be 9 numbers long",
+    "state": "Select a state from the menu options; This D-SNAP program is for {{ state }} residents only",
+    "street": "Provide street address",
+    "required": "This field is required",
+    "yesNo": "Choose one",
+    "zipcode": "Provide 5 digit ZIP code - Ex. 48154"
+  },
+  "welcome": {
+    "header": "Welcome!",
+    "lede": "This site will help you apply for disaster-related food assistance (D-SNAP).",
+    "conditions": {
+      "header": "You may qualify if:",
+      "body": [
+        "You do not get SNAP assistance already or other food assistance",
+        "You lived (or sometimes worked) in an affected area during the disaster. See the state's D-SNAP website for dates and locations affected by the disaster.",
+        "The disaster damaged your home or self-employment property, delayed, reduced, or stopped your income, caused you to lose food, or created any additional expense for your household"
+      ]
+    },
+    "language": {
+      "header": "What language do you prefer?",
+      "action": "Get started",
+      "error": "Please select a language before continuing."
+    }
+  },
+  "preregistration": {
+    "header": "Let’s get you in the right place.",
+    "disaster": {
+      "label": "Which disaster were you affected by?",
+      "error": {
+        "server": "We are experiencing issues contacting the server. Please try again in a few moments"
+      }
+    },
+    "disasterCounty": {
+      "label": "Which area were you affected in?"
+    },
+    "storage": {
+      "label": "Are you using a public computer or private computer or phone now?",
+      "confirm": {
+        "label": "Private computer or phone",
+        "explanation": "We’ll save your information on your computer or phone as you go."
+      },
+      "deny": {
+        "label": "Public computer",
+        "explanation": "We won’t save your information on this computer, so be sure to finish registering now."
+      }
+    }
+  },
+  "preparation": {    
+    "header": "Before you apply, we'll need some info.",
+    "lede": "This will help us get you benefits faster.",
+    "conditions": {
+      "header": "Here's some info we need:",
+      "body": [
+        "You and your household, addresses, and date of birth",
+        "Phone number to follow-up, which helps you get benefits quicker",
+        "Money from jobs or other sources, and employer info"
+      ]
+    },
+    "immigrants": {
+      "header": "Info for immigrants",
+      "apply": "Applying for these programs will not affect your or your family's immigration status.",
+      "benefit": "If you or someone in your household is not a citizen, you may still be able to receive some benefits.",
+      "reassure": "We ask about citizenship so that we can help you find out what programs you qualify for."
+    },
+    "copy": "We'll take you through step-by-step",
+    "action": "Start registering"
+  },
+  "basicInfo": {
+    "name": {
+      "id": "Name",
+      "header": "Let’s start with the basics.",
+      "firstName": {
+        "label": "What is your legal first name?",
+        "explanation": "As shown on legal documents such as a birth certificate. This helps us verify who you are."
+      },
+      "middleName": {
+        "label": "What is your middle name?"
+      },
+      "lastName":{
+        "label": "What is your last name?"
+      }
+    },
+    "addresses": {
+      "id": "Residence address",
+      "header": "Where did you live on the date the disaster struck?",
+      "street1": {
+        "label": "Street address 1"
+      },
+      "street2": {
+        "label": "Street address 2"
+      },
+      "city": {
+        "label": "City"
+      },
+      "state": {
+        "label": "State"
+      },
+      "county": {
+        "id": "County",
+        "label": "County"
+      },
+      "zip": {
+        "label": "Zip code"
+      },
+      "currentMailingAddress": {
+        "label": "Is this where you currently receive mail?",
+        "options": [
+          { "label": "Yes" },
+          { "label": "No" }
+        ]
+      }
+    },
+    "phone": {
+      "id": "Phone",
+      "label": "What is your phone number?",
+      "explanation": "This is the best way for us to follow-up regarding your application."
+    },
+    "email": {
+      "id": "Email",
+      "label": "What is your email address, if you have one?"
+    },
+    "mailingAddress": {
+      "id": "Mailing address",
+      "header": "Where do you receive mail?"
+    },
+    "offramp": {
+      "header": "Great start, {{ customerName }}! Let’s keep going.",
+      "copy": "You are legally allowed to submit your application with your name and address. This will take longer as we will mail you the rest of the paperwork to complete.",
+      "action": "Next",
+      "link": "Stop working now and submit application now"
+    }
+  },
+  "identity": {
+    "personalInfo": {
+      "header": "Now, a few more questions about you.",
+      "dob": {
+        "id": "Date of birth",
+        "label": "What is your date of birth?",
+        "explanation": "For example: 12 30 1975",
+        "month": "Month",
+        "day": "Day",
+        "year": "Year"
+      },
+      "stateId": {
+        "id": "Driver's License / State ID",
+        "label": "What is your driver's license or state ID number?",
+        "explanation": "You can leave this blank if you don't know it or don't have one. Providing one will help verify and move you faster in the application process."
+      },
+      "ssn": {
+        "id": "Social security number",
+        "label": "What is your Social Security Number (SSN)?",
+        "explanation": "You can leave this blank if you don't know it or don't have one. Providing one will help verify and move you faster in the application process."
+      },
+      "sex": {
+        "id": "Sex",
+        "label": "Sex?",
+        "explanation": "As shown in legal documents such as a birth certificate.",
+        "options": {
+          "male": "Male",
+          "female": "Female"
+        }
+      },
+      "race": {
+        "label": "What is your race?"
+      },
+      "ethnicity": {
+        "label": "What is your ethnicity?"
+      },
+      "whyAsk": {
+        "header": "Why do we ask?",
+        "copy": "We use your Social Security Number to check information about to find out what you qualify for as we go through these steps.\n With your Social Security Number, we may be able to sign you up for services today.\n You do not have to provide your Social Security Number right now, but if you choose not to, you will be asked to provide documents that prove things like your income sources."
+      }
+    }
+  },
+  "household": {
+    "count": {
+      "header": "Now tell us about people you share food with.",
+      "label": "On {{ benefitStartDate }}, how many people in your home did you regularly buy food for and prepare meals with?",
+      "explanation": "Count your roommates if you often buy food and cook together."
+    },
+    "memberNames": {
+      "header": "OK {{ customerName }}, you share meals with {{ count }} people.",
+      "lede": "Who are they?",
+      "person": "Person",
+      "firstName": {
+        "label": "Legal first name"
+      },
+      "middleName": {
+        "label": "Middle name"
+      },
+      "lastName":{
+        "label": "Last name"
+      }
+    },
+    "getPrepared": {
+      "header": "Now, we'll need some info about each person.",
+      "conditions": {
+        "header": "We’ll ask about the following from the people you listed so far:",
+        "body": [
+          "Social Security Number",
+          "Date of birth",
+          "Sex",
+          "Race"
+        ]
+      }
+    },
+    "memberDetails": {
+      "none": "You didn't indicate any other members of your household",
+      "header": "Great! Let’s get more info about {{ firstName }}.",
+      "dob": {
+        "label": "What is {{ firstName }}'s date of birth?",
+        "explanation": "For example: 12 30 1975",
+        "month": "Month",
+        "day": "Day",
+        "year": "Year"
+      },
+      "ssn": {
+        "label": "What is {{ firstName }}'s Social Security Number (SSN)?",
+        "explanation": "You can leave this blank if you don't know it or if they don't have one. Providing one will help verify and move you faster in the application process."
+      },
+      "sex": {
+        "label": "What is {{ firstName }}'s sex?",
+        "explanation": "As shown in legal documents such as a birth certificate.",
+        "options": {
+          "male": "Male",
+          "female": "Female"
+        }
+      },
+      "race": {
+        "label": "What is {{ firstName }}'s race?"
+      },
+      "ethnicity": {
+        "label": "What is {{ firstName }}'s ethnicity?"
+      }
+    },
+    "foodAssistance": {
+      "header": "We need to ask you about food assistance",
+      "id": "Receiving food assistance",
+      "label": "Check all people who receive food assistance",
+      "explanation": "more text here"
+    }
+  },
+  "impact": {
+    "header": "Now, tell us how you were impacted by the disaster.",
+    "buyFood": {
+      "id": "Bought or buying food",
+      "label": "Has your household bought food or plan to buy food between {{ benefitStartDate }} and {{ benefitEndDate }}?"
+    },
+    "lostOrInaccessibleIncome": {
+      "id": "Delayed, reduced, or stopped income",
+      "label": "Did the disaster delay, reduce, or stop your income or the income of any of the other members of your household?"
+    },
+    "inaccessibleMoney": {
+      "id": "Inaccessible money",
+      "label": "Are you or any other member of your household unable to access some of your money?"
+    },
+    "otherExpenses": {
+      "label": "What expenses caused by the disaster did your household pay or expect to pay between {{ benefitStartDate }} and {{ benefitEndDate }}?",
+      "total": "Total disaster expenses",
+      "explanation": "How much?",
+      "error": "Please enter an amount for this expense.",
+      "repairs": "Home or business repairs",
+      "tempShelter": "Temporary shelter expenses",
+      "evacuation": "Evacuation exepenses",
+      "foodLoss": "Food lost or spoiled during disaster",
+      "other": "Other expenses",
+      "none": "None"
+    },
+    "expenses": {
+      "repairs": "Home/business repair expenses",
+      "tempShelter": "Temporary shelter expenses",
+      "evacuation": "Evacuation expenses",
+      "foodLoss": "Food loss expenses",
+      "other": "Other expenses"
+    }
+  },
+  "resources": {
+    "header": "We need to ask you some money questions.",
+    "moneyOnHand": {
+      "id": "Money on hand",
+      "label": "How much money do you have on hand today?",
+      "explanation": "Give your best estimate. This includes money in checking accounts, savings accounts, and any other cash you have available. Do not include income you recieved between [disaster start date] and [disaster end date]."
+    },
+    "incomeRecipients": {
+      "label": "Who received income between {{ benefitStartDate }} and {{ benefitEndDate }}?"
+    },
+    "whyWeAsk": {
+      "header": "Why do we ask?",
+      "copy": "TBD"
+    },
+    "assetsAndIncome": {
+      "header": "Now, tell us about {{ firstName }}’s income during the disaster.",
+      "incomeSources": {
+        "id": "Other income",
+        "total": "Total other income",
+        "label": "Check all sources of income {{ firstName }} received between {{ benefitStartDate }} and {{ benefitEndDate }}?",
+        "explanation": "How much?",
+        "hasJobs": "{{ firstName }} has one or more jobs",
+        "selfEmployed": "{{ firstName }} is self-employed",
+        "unemployment": "{{ firstName }} got unemployment benefits",
+        "cashAssistance": "{{ firstName }} got cash assistance (TANF)",
+        "disability": "{{ firstName }} got disability payments",
+        "socialSecurity": "{{ firstName }} got Social Security payments",
+        "veteransBenefits": "{{ firstName }} got Veteran’s benefits",
+        "alimony": "{{ firstName }} got alimony",
+        "childSupport": "{{ firstName }} got child support",
+        "otherSources": "{{ firstName }} has other sources of income"
+      },
+      "income": {
+        "selfEmployed": "Self-employment income",
+        "unemployment": "Unemployment benefits",
+        "cashAssistance": "Cash assistance (TANF)",
+        "disability": "Disability payments",
+        "socialSecurity": "Social Security payments",
+        "veteransBenefits": "Veteran's benefits",
+        "alimony": "Alimony payments",
+        "childSupport": "Child support payments",
+        "otherSources": "Other sources of income"
+      }
+    },
+    "jobs": {
+      "id": "Job",
+      "header": "Tell us about {{ firstName }}’s job(s).",
+      "none": "No job income",
+      "employerName": {
+        "id": "Employer name",
+        "label": "What is the employer's name?"
+      },
+      "pay": {
+        "id": "Take home pay during disaster",
+        "label": "How much take home pay did {{ firstName }} receive from this job between {{ startDate }} and {{ endDate }}?"
+      },
+      "stateAgency": {
+        "id": "Employed by D-SNAP agency",
+        "label": "Is this employer a D-SNAP agency?"
+      },
+      "otherJobs": {
+        "id": "Add job",
+        "label": "Does {{ firstName }} have another job?"
+      }
+    }
+  },
+  "review": {
+    "header": "Please review your information.",
+    "sections": {
+      "info": "Your info",
+      "household": "Your household",
+      "householdMatters": "Household matters",
+      "impact": "Disaster expenses",
+      "money": "Money",
+      "income": "{{ firstName }}'s income"
+    },
+    "next": "Looks good!",
+    "edit": {
+      "inactive": "Edit",
+      "active": "Stop editing"
+    },
+    "details": {
+      "inactive": "See details",
+      "active": "Hide details"
+    },
+    "update": "Update",
+    "addJob": "Add job",
+    "addMember": "Add new household member"
+  },
+  "submit": {
+    "header": "Please review the terms and sign below, then you’re done!",
+    "lede": "Scroll down to agree and sign below.",
+    "eula": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis vel eros donec ac odio tempor orci dapibus. In egestas erat imperdiet sed euismod nisi. Non sodales neque sodales ut etiam. Accumsan tortor posuere ac ut. Elit sed vulputate mi sit amet mauris commodo quis imperdiet. Elit ullamcorper dignissim cras tincidunt lobortis. Purus in massa tempor nec feugiat nisl. Cursus metus aliquam eleifend mi in nulla. Tortor pretium viverra suspendisse potenti. Morbi tristique senectus et netus et malesuada. Aliquam sem et tortor consequat id porta. Enim lobortis scelerisque fermentum dui faucibus in. Proin libero nunc consequat interdum varius. Lectus urna duis convallis convallis. Non nisi est sit amet facilisis magna etiam tempor orci. Sit amet nulla facilisi morbi tempus iaculis urna id volutpat. Commodo elit at imperdiet dui accumsan sit. Aliquam ut porttitor leo a diam. Sed ullamcorper morbi tincidunt ornare massa eget egestas. Quis commodo odio aenean sed adipiscing diam donec adipiscing tristique. Massa eget egestas purus viverra accumsan. Ut tortor pretium viverra suspendisse potenti nullam ac tortor vitae. Tortor consequat id porta nibh venenatis cras sed. Augue eget arcu dictum varius duis at consectetur. Semper auctor neque vitae tempus. Massa placerat duis ultricies lacus sed turpis tincidunt. Tempor orci dapibus ultrices in iaculis nunc sed. Morbi leo urna molestie at elementum eu facilisis sed. Consequat interdum varius sit amet mattis vulputate. Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Amet risus nullam eget felis. Vitae aliquet nec ullamcorper sit amet. Nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Volutpat est velit egestas dui id ornare arcu odio ut. Egestas congue quisque egestas diam in arcu cursus. Sagittis purus sit amet volutpat consequat. Dignissim sodales ut eu sem integer vitae justo eget magna. Semper quis lectus nulla at volutpat diam ut venenatis. Egestas erat imperdiet sed euismod nisi porta lorem mollis aliquam. Luctus accumsan tortor posuere ac ut consequat. Enim neque volutpat ac tincidunt vitae semper. Quam lacus suspendisse faucibus interdum posuere lorem. In egestas erat imperdiet sed euismod nisi. Sed adipiscing diam donec adipiscing tristique. Eu tincidunt tortor aliquam nulla facilisi. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Pulvinar proin gravida hendrerit lectus. Ac orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Vivamus arcu felis bibendum ut tristique et egestas quis ipsum. Dolor sit amet consectetur adipiscing elit ut. A iaculis at erat pellentesque adipiscing commodo elit at. Vivamus arcu felis bibendum ut tristique et. Duis ultricies lacus sed turpis. Bibendum est ultricies integer quis auctor elit sed vulputate. Turpis tincidunt id aliquet risus feugiat. Faucibus vitae aliquet nec ullamcorper sit amet. Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna. Nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi. Sit amet mauris commodo quis imperdiet massa tincidunt nunc. Facilisis gravida neque convallis a cras semper auctor. Pharetra sit amet aliquam id diam maecenas ultricies mi. At imperdiet dui accumsan sit amet. Hac habitasse platea dictumst vestibulum rhoncus est pellentesque elit. Lacinia quis vel eros donec ac odio tempor",
+    "agree": "I agree",
+    "disagree": "I do not agree",
+    "label": "Enter your full legal name to sign this registration",
+    "body": [],
+    "next": "Submit registration",
+    "error": "Something went wrong with your submission. Please wait a moment and try again."
+  },
+  "eligibility": {
+    "registration": {
+      "name": "Registrant's name",
+      "id": "Registration number"
+    },
+    "ineligible": {
+      "header": "It looks like you may not be eligible for D-SNAP.",
+      "lede": "You may still complete an interview at your designated D-SNAP application site."
+    },
+    "eligible": {
+      "header": "You are now ready for your interview.",
+      "lede": "It looks like you are potentially eligible to receive D-SNAP benefits."
+    }
+  }
+}

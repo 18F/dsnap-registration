@@ -1,0 +1,99 @@
+import React from 'react';
+import withLocale from 'components/with-locale';
+import Wizard from 'components/wizard';
+import FormikField, { FormikRadioGroup, FormikFieldDateGroup } from 'components/formik-field';
+import SecurityAlert from 'components/security-alert';
+import { buildNestedKey } from 'utils';
+import { getCurrentMemberIndex, updateCurrentMemberIndex } from 'models/household';
+import { validateIdentitySchema } from 'schemas/identity';
+import { helpers } from 'locales';
+
+const modelName = 'memberDetails';
+const incrementCurrentMember = ({ household }) => ({
+  household: updateCurrentMemberIndex(household)
+});
+
+const MemberDetails = ({ handleChange, sectionName, t, registerStep }) => (
+  <Wizard.Context>
+    {(values) => {
+      const household = values.household;
+      const memberIndex = getCurrentMemberIndex(household);
+      const member = household.members[memberIndex];
+      const firstName = member.name.firstName;
+
+      return (
+        <Wizard.Step
+          header={t(`${buildNestedKey(sectionName, modelName, 'header')}`, { firstName })}
+          modelName={modelName}
+          registerStep={registerStep}
+          onNext={incrementCurrentMember}
+          validate={validateIdentitySchema(member, memberIndex)}
+        >
+          <React.Fragment>
+            <FormikFieldDateGroup
+              inline
+              name="dob"
+              showError={false}
+              labelText={t(`${buildNestedKey(sectionName, modelName, 'dob', 'label')}`, { firstName })}
+              explanation={t(`${buildNestedKey(sectionName, modelName)}.dob.explanation`)}
+              fields={[{
+                name: `${sectionName}.members.${memberIndex}.dob.month`,
+                labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.month`),
+                onChange: handleChange,
+              }, {
+                name: `${sectionName}.members.${memberIndex}.dob.day`,
+                labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.day`),
+                onChange: handleChange
+              }, {
+                name: `${sectionName}.members.${memberIndex}.dob.year`,
+                labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.year`),
+                onChange: handleChange,
+                className: 'desktop:grid-col-9'
+              }]}
+            />
+            <FormikRadioGroup
+              inline
+              options={[{
+                label: t(buildNestedKey(sectionName, modelName, 'sex', 'options', 'male')),
+                value: "male"
+              },
+              {
+                label: t(buildNestedKey(sectionName, modelName, 'sex', 'options', 'female')),
+                value: "female"
+              }]}
+              name={buildNestedKey(sectionName, 'members', memberIndex, 'sex')}
+              labelText={t(`${buildNestedKey(sectionName, modelName, 'sex', 'label')}`, { firstName })}
+              explanation={t(`${buildNestedKey(sectionName, modelName, 'sex', 'explanation')}`)}
+            />
+            <FormikRadioGroup
+              name={`household.members.${memberIndex}.ethnicity`}
+              onChange={handleChange}
+              labelText={t('household.memberDetails.ethnicity.label')}
+              explanation={t('general.leaveBlank')}
+              options={helpers.getEnumeratedValues('general.ethnicity.options')}
+            />
+            <FormikRadioGroup
+              name={`household.members.${memberIndex}.race`}
+              onChange={handleChange}
+              labelText={t('household.memberDetails.race.label')}
+              explanation={t('general.leaveBlank')}
+              options={helpers.getEnumeratedValues('general.race.options')}
+            />
+            <FormikField
+              type="mask"
+              pattern="XXX-XX-XXXX"
+              delimiter="-"
+              name={buildNestedKey(sectionName, 'members', memberIndex, 'ssn')}
+              labelText={t(`${buildNestedKey(sectionName, modelName, 'ssn', 'label')}`, { firstName })}
+              explanation={t(`${buildNestedKey(sectionName, modelName, 'ssn', 'explanation')}`)}
+              onChange={handleChange}
+            />
+          </React.Fragment>
+          <SecurityAlert />
+        </Wizard.Step>
+      );
+    }}
+  </Wizard.Context>
+);
+
+export default withLocale(MemberDetails);

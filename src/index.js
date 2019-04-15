@@ -1,12 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { withNamespaces } from 'react-i18next';
 import 'uswds/dist/css/uswds.css';
-import App from './app';
-// import * as serviceWorker from './serviceWorker';
+import './fa/regular.min.css';
+import './fa/fontawesome.min.css';
+import 'app.scss';
+import Routes from './routes';
+import App from 'app';
+import './i18n';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// inject i18m library functions as props to the App component
+const LocalizedApp = withNamespaces()(App);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-// serviceWorker.unregister();
+ReactDOM.render(
+  <BrowserRouter>
+    <LocalizedApp>
+      <Routes />
+    </LocalizedApp>
+  </BrowserRouter>,
+  document.getElementById('root')
+);

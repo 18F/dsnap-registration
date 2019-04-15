@@ -1,0 +1,7 @@
+.usa-label > p {
+  font-size: 1.4rem;
+}
+
+.usa-input-error-label > p {
+  font-weight: initial;
+}

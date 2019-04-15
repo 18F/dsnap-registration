@@ -1,0 +1,79 @@
+html, body, main {
+  width: 100%;
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.bulleted {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+ul.bulleted li {
+  list-style-position: outside;
+  text-indent: -1em;
+}
+
+ul.bulleted li::before {
+  color: #13912d;
+  /* unicode for a bullet */
+  content: "\2022";
+  font-size: 1.75rem;
+  padding-right: .5rem;
+  position: relative;
+  top: .25rem;
+}
+
+ul.fa li.success:before {
+  font-family: 'Font Awesome 5 Free';
+  content: "\f00c";
+  margin:0 5px 0 -15px;
+  color:#538200;
+}
+
+ul.fa li.failure:before {
+  font-family: 'Font Awesome 5 Free';
+  content: "\f00d";
+  margin:0 5px 0 -15px;
+  color: #e52207;
+}
+
+.usa-button-link {
+  background-color: transparent;
+  border: none;
+  color: #005ea2;
+  text-decoration: underline;
+}
+
+.usa-button-link:active, .usa-button-link:hover {
+  color: #162e51;
+}
+
+.input-prefix-wrapper {
+  position: reelative;
+
+  .input-prefix {
+    color: #2e8540;
+    font-size: 1.5rem;
+    font-weight: 700;
+    left: 2rem;
+    top: 1.9rem;
+    position: absolute;
+    z-index: 1;
+  }
+
+  > input {
+    padding-left: 1.75rem;
+  }
+}
+
+@media only screen and (max-width: 40rem) {
+  .grid-container {
+    margin: 0;
+    padding: 0;
+  }
+}

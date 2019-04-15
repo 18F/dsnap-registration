@@ -1,0 +1,61 @@
+.combo-field.usa-form-group-error {
+  padding-left: 0;
+
+  &:before {
+    width: 0;
+  }
+}
+
+.combo-field {
+  margin-bottom: 1rem;
+  margin-left: 3rem;
+  margin-top: -1.5rem;
+  padding-bottom: 1rem;
+  position: relative;
+
+  .usa-form-group-error {
+    &:before {
+      background-color: transparent;
+      width: 0;
+    }
+  }
+
+  &:before {
+    background-color: #dcdee0;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: .25rem;
+    z-index: 0;
+  }
+
+  > * {
+    margin-left: 1.5rem;
+  }
+  
+  input {
+    padding-left: 1.5rem;
+  }
+}
+
+.currency-field {
+  .input-prefix-wrapper {
+    position: relative;
+
+    .input-prefix {
+      color: #2e8540;
+      font-size: 1.5rem;
+      font-weight: 700;
+      left: .5rem;
+      top: .25rem;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+
+  > input {
+    padding-left: 1.5rem;
+  }
+}

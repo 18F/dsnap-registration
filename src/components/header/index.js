@@ -1,24 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import './header.css';
 
 const propTypes = {
+  className: PropTypes.string,
   text: PropTypes.string.isRequired
 };
 
-const Header = ({ text }) =>
-  <header className="usa-header bg-primary-darker padding-1">
-    <div className="usa-navbar">
-      <div className="usa-logo margin-top-0">
-        <em className="usa-logo-text text-white">
-          <span className="site-title">
-            { text }
-          </span>
-        </em>
+const Header = ({ text, className }) => (
+  <>
+    <header className={`usa-header ${className} padding-x-1 padding-bottom-2`}>
+      <div className="usa-navbar">
+        <div className="usa-logo">
+          <Link to="/">
+            <em className="usa-logo-text text-white">
+              <span className="site-title font-sans-lg">
+                { text }
+              </span>
+            </em>
+          </Link>
+        </div>
       </div>
-    </div>
-  </header>;
+    </header>
+  </>
+);
 
 Header.propTypes = propTypes;
+Header.defaultProps = {
+  className: 'bg-primary-darker'
+};
 
 export default Header;

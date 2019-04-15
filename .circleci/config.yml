@@ -1,0 +1,106 @@
+version: 2
+
+references:
+  container: &container
+    docker:
+      - image: circleci/node:10.14
+    working_directory: ~/repo
+  
+  restore_deps: &restore_deps
+    restore_cache:
+      keys:
+        - yarn-packages-{{ checksum "yarn.lock" }}
+        - yarn-packages-
+
+  save_deps: &save_deps
+    save_cache:
+      paths:
+        - ~/repo/node_modules
+      key: yarn-packages-{{ checksum "yarn.lock" }}
+  
+  install_deps: &install_deps    
+    run:
+      name: install dependencies
+      command: yarn install --frozen-lockfile
+
+  unit_test: &unit_test
+    run:
+      name: front-end tests
+      command: yarn test
+
+jobs:
+  test:
+    <<: *container
+    steps:
+      - checkout
+      - *restore_deps
+      - *install_deps
+      - *save_deps
+      - *unit_test
+
+
+  deploy:
+    <<: *container
+    steps:
+      - checkout
+      - *restore_deps
+      - *install_deps
+      - run:
+          name: Setup Environment Variables
+          command: echo 'export NODE_ENV="production"' >> $BASH_ENV
+      - run:
+          name: Install cf cli
+          command: |
+            mkdir -p $HOME/bin
+            export PATH=$HOME/bin:$PATH
+            curl -L "https://cli.run.pivotal.io/stable?release=linux64-binary" | tar xzv -C $HOME/bin
+            cf install-plugin autopilot -f -r CF-Community
+      - run: 
+          name: build assets
+          command: |
+            if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+              export REACT_APP_RULES_SERVICE_URL="https://dsnap-rules.app.cloud.gov"
+              export REACT_APP_REGISTRATION_SERVICE_URL="https://dsnap-registration-service.app.cloud.gov"
+            else
+              export REACT_APP_RULES_SERVICE_URL="https://dsnap-rules-staging.app.cloud.gov"
+              export REACT_APP_REGISTRATION_SERVICE_URL="https://dsnap-registration-service-staging.app.cloud.gov"
+            fi
+            yarn build
+      - run:
+          name: Deploy to dev
+          command: |
+            if [[ -n "${CIRCLE_BRANCH}" && "${CIRCLE_BRANCH}" != "master" && "${CIRCLE_BRANCH}" != "develop" ]]; then
+              echo "deploying to develop"
+              export PATH=$HOME/bin:$PATH
+              cf login -a https://api.fr.cloud.gov -u $CF_DSNAP_DEV_USER -p $CF_DSNAP_DEV_PASS -o gsa-10x-prototyping -s dsnap_dev
+              cf zero-downtime-push dsnap-registration-dev -f manifests/manifest_dev.yml
+            else
+              echo "skipped"
+            fi
+      - run:
+          name: Deploy to staging
+          command: |
+            if [[ "${CIRCLE_BRANCH}" == "develop" ]]; then
+              echo "deploying to staging"
+              export PATH=$HOME/bin:$PATH
+              cf login -a https://api.fr.cloud.gov -u $CF_DSNAP_STAGING_USER -p $CF_DSNAP_STAGING_PASS -o gsa-10x-prototyping -s dsnap_staging
+              cf zero-downtime-push dsnap-registration-staging -f manifests/manifest_staging.yml
+            else 
+              echo "skipped"
+            fi
+      - run:
+          name: Deploy to production
+          command: |
+            if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+              echo "deploying to production"
+              export PATH=$HOME/bin:$PATH
+              cf login -a https://api.fr.cloud.gov -u $CF_DSNAP_PROD_USER -p $CF_DSNAP_PROD_PASS -o gsa-10x-prototyping -s dsnap_prod
+              cf zero-downtime-push dsnap-registration -f manifests/manifest_prod.yml
+            else
+              echo "skipped"
+            fi
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - deploy
