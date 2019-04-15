@@ -3,6 +3,7 @@ import {
   toRegistrationServiceFormat,
   formatRegistrationForClient,
 } from 'utils/json-transform';
+import { leftPad } from 'utils';
 
 const endpoint = 'registrations';
 const location = process.env.NODE_ENV === 'development' ?
@@ -12,7 +13,7 @@ const location = process.env.NODE_ENV === 'development' ?
 const formatDate = date =>
   !Object.values(date).every(v => !!v) ?
   '' :
-  `${date.day}-${date.month}-${date.year}`;
+  `${date.year}-${leftPad(date.month)}-${leftPad(date.day)}`;
 
 const transformFilters = ({ registrant_dob, registrant_ssn, ...rest }) => ({
   ...rest,

@@ -3,20 +3,11 @@ import { t } from 'i18next';
 import moment from 'moment'
 import { setIn } from 'formik';
 import { isEnumeratedEthnicity, isEnumeratedRace } from 'validators';
+import { leftPad } from 'utils';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const OLDEST_VALID_DOB = '1890-01-01';
 const LATEST_VALID_DOB = '2009-12-31';
-
-const leftPad = (string, padString = 0, length = 2) => {
-  let output = string;
-
-  while (output.length < length) {
-      output = `${padString}${output}`;
-  }
-  
-  return output;
-}
 
 export const dateSchema = shapeOf({
   month: string()
