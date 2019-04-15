@@ -57,7 +57,15 @@ jobs:
             cf install-plugin autopilot -f -r CF-Community
       - run: 
           name: build assets
-          command: yarn build
+          command: |
+            if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+              export REACT_APP_RULES_SERVICE_URL="https://dsnap-rules.app.cloud.gov"
+              export REACT_APP_REGISTRATION_SERVICE_URL="https://dsnap-registration-service.app.cloud.gov"
+            else
+              export REACT_APP_RULES_SERVICE_URL="https://dsnap-rules-staging.app.cloud.gov"
+              export REACT_APP_REGISTRATION_SERVICE_URL="https://dsnap-registration-service-staging.app.cloud.gov"
+            fi
+            yarn build
       - run:
           name: Deploy to dev
           command: |

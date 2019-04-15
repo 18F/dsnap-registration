@@ -6,7 +6,7 @@ import {
 
 const endpoint = 'registrations';
 const location = process.env.NODE_ENV === 'development' ?
-  'http://localhost:8001' : 'https://dsnap-registration-service-staging.app.cloud.gov';
+  'http://localhost:8001' : process.env.REACT_APP_REGISTRATION_SERVICE_URL;
 
 
 const formatDate = date =>

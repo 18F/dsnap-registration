@@ -3,7 +3,7 @@ import { toRulesServiceFormat } from 'utils/json-transform';
 
 const endpoint = '';
 const location = process.env.NODE_ENV === 'development' ?
-  'http://localhost:8000' : 'https://dsnap-rules-staging.app.cloud.gov';
+  'http://localhost:8000' : process.env.REACT_APP_RULES_SERVICE_URL;
 
 export const createEligibility = (data) => {
   const transformedData = toRulesServiceFormat(data);
