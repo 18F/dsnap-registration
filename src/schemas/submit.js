@@ -8,9 +8,7 @@ const submitSchema = buildSchema(({ Yup, t }) =>
         .nullable()
         .required(t('errors.yesNo')),
       signature: string()
-        .test('matchingName', t('errors.matchingName'), function(value) {
-          return this.parent.fullName === value;
-        })
+        .required(t('errors.required'))
     })
   })
 );
