@@ -75,7 +75,10 @@ const workerChart = {
               return createEligibility(registration);
             },
             onError: {
-              actions: () => console.log('error?')
+              actions: [
+                () => console.log('error?'),
+                assign({ meta: { loading: false } })
+              ]
             },
             onDone: {
               target: '#review',
