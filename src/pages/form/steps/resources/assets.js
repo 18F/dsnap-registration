@@ -15,7 +15,7 @@ import assetsSchema from 'schemas/assets';
 
 const modelName = 'otherExpenses';
 
-const setMembersWithIncome = (household, members) => () => ({
+const setMembersWithIncome = (household, members, basicInfo) => () => ({
   household: {
     ...household,
     members
@@ -29,6 +29,7 @@ const setMembersWithIncome = (household, members) => () => ({
       return memo;
     }, [])
   },
+  basicInfo
 });
 
 class Assets extends React.Component {
@@ -46,7 +47,7 @@ class Assets extends React.Component {
               header={t(`${buildNestedKey(sectionName, 'header')}`)}
               registerStep={registerStep}
               modelName={modelName}
-              onNext={setMembersWithIncome(household, members)}
+              onNext={setMembersWithIncome(household, members, basicInfo)}
               validationSchema={assetsSchema}
             >
               <CurrencyField
