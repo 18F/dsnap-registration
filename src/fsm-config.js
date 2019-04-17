@@ -1,4 +1,4 @@
-import { actions, assign } from 'xstate';
+import { assign } from 'xstate';
 import { isAffirmative, isPrimitive } from 'utils';
 import testData from './test-data';
 import modelState from 'models';
@@ -92,15 +92,18 @@ const formNextHandler = (target, extraActions = []) => ({
 
 const basicInfoChart = {
   id: 'basic-info',
+  internal: true,
   initial: 'applicant-name',
   onEntry: [
     assign({
       currentSection: 'basic-info',
       step: 1,
-    })
+    }),
+    'persist'
   ],
   onExit: [
     assign({ previousSection: 'basic-info' }),
+    'persist',
   ],
   states: {
     'applicant-name': {
@@ -111,7 +114,8 @@ const basicInfoChart = {
         path: '/form/basic-info/applicant-name'
       },
       onEntry: [
-        assign({ currentStep: 'applicant-name', previousStep: '' })
+        () => console.log('enter applicant name'),
+        assign({ currentStep: 'applicant-name' })
       ],
       onExit: [
         assign({ previousStep: 'applicant-name' }),
@@ -128,8 +132,7 @@ const basicInfoChart = {
         assign({ currentStep: 'address' })
       ],
       onExit: [
-        assign({ previousStep: 'address' }),
-        (context) => actions.send({ type: 'NEXT', ...context })
+        assign({ previousStep: 'address' })
       ]
     },
     'mailing-address-check': {
@@ -428,6 +431,10 @@ const resourcesChart = {
           {
             target: 'jobs',
             cond: (context) => {
+              /**
+               * Determine whether or not the state machine should transition back to the
+               * `job` info screen.
+               */
               console.log('jobs guard?')
               const memberId = context.resources.membersWithIncome[0];
               const member = getMembers(context.household)[memberId];
@@ -580,11 +587,11 @@ const preRegistrationChart = {
   id: 'pre-registration',
   internal: true,
   initial: 'loading',
-  onEntry: [
-    assign({
-      currentSection: 'pre-registration',
-      currentStep: ''
-    }),
+  strict: true,
+  onEntry: [ 'persist' ],
+  onExit: [
+    assign({ previousSection: 'pre-registration' }),
+    'persist',
   ],
   states: {
     loading: {
@@ -614,12 +621,13 @@ const preRegistrationChart = {
           target: 'set-up',
           actions: [
             assign({
+              errors: () => ({ server: false }),
               disasters: (_, event) => {
                 return {
-                  data: event.data.reduce((memo, d) => {
+                  data: event.data.reduce((memo, disaster) => {
                     return {
                       ...memo,
-                      [d.id]: d
+                      [disaster.id]: disaster
                     }
                   }, {})
                 };
@@ -634,11 +642,16 @@ const preRegistrationChart = {
       }
     },
     'set-up': {
+      onEntry:
+        assign({
+          currentSection: 'pre-registration',
+          currentStep: ''
+        }),
       meta: {
         path: '/form/pre-registration'
       },
       on: {
-        ...formNextHandler('#(machine).form.get-prepared')
+        ...formNextHandler('#get-prepared')
       } 
     }
   },
@@ -692,10 +705,17 @@ const welcomeChart = {
   internal: true,
   strict: true,
   initial: 'welcome',
-  onEntry: assign({
-    currentSection: 'welcome',
-    currentStep: ''
-  }), 
+  onEntry: [
+    assign({
+      currentSection: 'welcome',
+      currentStep: ''
+    }),
+    'persist',
+  ],
+  onExit: [
+    assign({ previousSection: 'welcome' }),
+    'persist'
+  ],
   states: {
     welcome: {
       meta: {
@@ -720,13 +740,16 @@ const formStateConfig = {
   states: {
     'pre-registration': preRegistrationChart,
     'get-prepared': {
-      onEntry: assign({ currentSection: 'get-prepared' }),
-      onExit: assign({ previousSection: 'get-prepared' }),
+      id: 'get-prepared',
+      internal: true,
+      strict: true,
+      onEntry: assign({ currentSection: 'get-prepared', currentStep: '' }),
+      onExit: assign({ previousSection: 'get-prepared', previousStep: '' }),
       meta: {
         path: '/form/get-prepared'
       },
       on: {
-        NEXT: 'basic-info'
+        ...formNextHandler('#basic-info')
       }
     },
     'basic-info': basicInfoChart,
@@ -776,10 +799,11 @@ const formStateConfig = {
     quit: {
       invoke: {
         id: 'clearSessionState',
-        src: () => new Promise((resolve) => {
-          localStorage.removeItem(STATE_KEY);
-          resolve(initialState())
-        }),
+        src: () =>
+          new Promise((resolve) => {
+            localStorage.removeItem(STATE_KEY);
+            resolve(initialState())
+          }),
         onDone: {
           target: '#welcome',
           internal: true,
@@ -822,7 +846,7 @@ const extraActions = {
 
     const nextState = (() => {
       // we are transitioning through a null state, which doesn't provide
-      // data to the state machine. so, just write the current context to local storage
+      // data to the state machine. so, write the current context to local storage
       if (!type) {
         return context;
       }

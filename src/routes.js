@@ -62,6 +62,7 @@ const ClientRoutes = () =>
       {(transition) => (
         <MachineState>
           {(state) => {
+            console.log('Actual machine state being provided to forms', state)
             return (
               <Switch>
                 <Route exact path="/">

@@ -35,7 +35,6 @@ class FSMRouter extends React.Component {
   }
 
   constructor(props) {
-    console.log('construct')
     super(props);
 
     const { config, actions, services, initialState } = props.config;
@@ -79,15 +78,13 @@ class FSMRouter extends React.Component {
     this.machine = this.service.machine;
     this.machineState = this.machine.initialState;
     this.service.start();
-    this.service.onTransition(this.handleXStateTransition);    
-
-    const { context } = this.machineState;
+    this.service.onTransition(this.handleXStateTransition);
 
     this.handleHistoryTransition({
-      pathname: this.computeURLPathFromContext(context)
-    }, true);
+      pathname: this.computeURLPathFromContext(this.machineState.context)
+    }, null, false);
 
-    this.historySubscriber = props.history.listen(this.historyHandler);
+    this.historySubscriber = props.history.listen(this.handleHistoryTransition);
     
   }
 
@@ -116,6 +113,7 @@ class FSMRouter extends React.Component {
     }
 
     const { currentStep, currentSection, prefix = '' } = context;
+    debugger
     const pathStart = prefix ? `/${prefix}` : prefix;
     let path = `${pathStart}/${currentSection.trim()}`;
 
@@ -135,6 +133,7 @@ class FSMRouter extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log('did i unmount?')
     this.historySubscriber();
     this.service.stop();
   }
@@ -143,29 +142,19 @@ class FSMRouter extends React.Component {
     return !!this.routes[maybeRoute];
   }
 
-  historyHandler = (location) => {
-    if (this.historyTransitioning) {
-      this.historyTransitioning = false;
-      return;
-    }
-
-    this.handleHistoryTransition(location, true);
-  }
-
-  getCurrentNode(state = this.machineState) {
+  getCurrentNode(machineState) {
+    const state = machineState || this.getMachineState();
     const path = state.tree.paths[0];
 
     return this.service.machine.getStateNodeByPath(path);
   }
 
-  handleHistoryTransition = ({ pathname }, debounce = false) => {
+  handleHistoryTransition = ({ pathname }, _, debounce = true) => {
+    debugger
+
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
       return;
-    }
-
-    if (debounce) {
-      this.historyTransitioning = true;
     }
 
     const matchingRoute = this.hasMatchingRoute(pathname);
@@ -175,34 +164,26 @@ class FSMRouter extends React.Component {
 
       this.stateTransitioning = true;
       this.sendServiceTransition(machinePath);
-
-      if (!matchesState(this.machineState, machinePath)) {
+      debugger
+      if (!matchesState(this.getMachineState(), machinePath)) {
         this.stateTransitioning = false;
 
         const currentNode = this.getCurrentNode();
     
         if (currentNode.meta && currentNode.meta.path) {
-          this.props.history.push(`${currentNode.meta.path}`);
-        }
-      } else {
-        this.stateTransitioning = false;
-
-        const node = this.getCurrentNode();
-    
-        if (node.meta && node.meta.path) {
-          this.props.history.push(`${node.meta.path}`);
+          if (debounce) {
+            this.historyTransitioning = true;
+          }
+          this.props.history.replace(`${currentNode.meta.path}`);
         }
       }
     } else {
-      // TODO: we need to handle invalid machine states here
-     // debugger
-      //const initialPath = this.machine.getStateNode(this.machine.initial);
-      //this.props.history.replace(initialPath.meta.path);
+      // TODO: handle invalid machine states here?
     }
   }
 
   handleXStateTransition = (state) => {
-    console.log('xstate transition machine state', state);
+    debugger
     
     if (this.mounted) {
       this.setState({ machineState: state })
@@ -219,16 +200,16 @@ class FSMRouter extends React.Component {
 
     if (currentNode.meta && currentNode.meta.path) {
       this.historyTransitioning = true;
-      this.props.history.replace(`${currentNode.meta.path}`);
+      this.props.history.push(`${currentNode.meta.path}`);
     }
   }
 
   sendServiceTransition(path) {
-    this.machineState = this.service.send(path);
+    this.service.send(path);
   }
 
   transition = ({ command = 'NEXT', data = {} }) => {
-    this.machineState = this.service.send({ type: command, ...data });
+    this.service.send({ type: command, ...data });
   }
 
   render() {
