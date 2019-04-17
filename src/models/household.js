@@ -47,14 +47,42 @@ export const updateCurrentMemberIndex = household => {
 export const hasAdditionalMembers = household =>
   household.currentMemberIndex < getOtherMemberCount(household);
 
+
+export const updateHouseholdMembers = (household, count) => {
+  const currentMemberCount = getOtherMemberCount(household);
+  let updatedHousehold;
+
+  if (count === currentMemberCount || count < 0) {
+    updatedHousehold = { ...household };
+  } else if (count < currentMemberCount) {
+    updatedHousehold = {
+      ...household,
+      members: household.members.slice(0, count + 1),
+    };
+  } else if (count > currentMemberCount) {
+    updatedHousehold = {
+      ...household,
+      members: [
+        ...household.members,
+        ...Array.apply(null, {
+          length: count - currentMemberCount
+        }).map(person)
+      ]
+    };
+  }
+
+  return updatedHousehold;
+};
+
 export const addPeopleToHousehold = (household, count) => {
+  debugger
   const { members, ...rest } = household;
 
   if (!count || count < 0) {
     return household;
   }
 
-  return {
+  const next = {
     ...rest,
     members: [
       ...members,
@@ -63,6 +91,8 @@ export const addPeopleToHousehold = (household, count) => {
       }).map(person)
     ]
   };
+
+  return next;
 };
 
 export const deleteMemberFromHousehold = (household, index) => {

@@ -113,7 +113,7 @@ class FSMRouter extends React.Component {
     }
 
     const { currentStep, currentSection, prefix = '' } = context;
-    debugger
+    //debugger
     const pathStart = prefix ? `/${prefix}` : prefix;
     let path = `${pathStart}/${currentSection.trim()}`;
 
@@ -132,8 +132,7 @@ class FSMRouter extends React.Component {
     this.setState({ machineState: this.machineState });
   }
 
-  componentWillUnmount() {
-    console.log('did i unmount?')
+  componentWillUnmount() {    
     this.historySubscriber();
     this.service.stop();
   }
@@ -150,7 +149,7 @@ class FSMRouter extends React.Component {
   }
 
   handleHistoryTransition = ({ pathname }, _, debounce = true) => {
-    debugger
+    //debugger
 
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
@@ -164,7 +163,7 @@ class FSMRouter extends React.Component {
 
       this.stateTransitioning = true;
       this.sendServiceTransition(machinePath);
-      debugger
+     // debugger
       if (!matchesState(this.getMachineState(), machinePath)) {
         this.stateTransitioning = false;
 
@@ -183,7 +182,7 @@ class FSMRouter extends React.Component {
   }
 
   handleXStateTransition = (state) => {
-    debugger
+    //debugger
     
     if (this.mounted) {
       this.setState({ machineState: state })

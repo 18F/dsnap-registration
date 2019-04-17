@@ -9,7 +9,7 @@ import {
   getHouseholdCount,
   getMembers,
   hasAdditionalMembers,
-  updateMemberAtIndex
+  updateMemberAtIndex,
 } from 'models/household';
 import { hasJob, hasOtherJobs } from 'models/person';
 import { getDisasters } from 'services/disaster';
@@ -235,10 +235,12 @@ const householdChart = {
         path: '/form/household/how-many',
       },
       onEntry: [
-        assign({ currentStep: 'how-many' })
+        assign({ currentStep: 'how-many' }),
+        'persist'
       ],
       onExit: [
         assign({ previousStep: 'how-many' }),
+        'persist'
       ],
     },
     'member-info-branch': {
@@ -261,10 +263,12 @@ const householdChart = {
     },
     'member-names': {
       onEntry: [
-        assign({ currentStep: 'member-names' })
+        assign({ currentStep: 'member-names' }),
+        'persist',
       ],
       onExit: [
-        assign({ previousStep: 'member-names' })
+        assign({ previousStep: 'member-names' }),
+        'persist',
       ],
       on: {
         ...formNextHandler('get-prepared')
@@ -275,10 +279,12 @@ const householdChart = {
     },
     'get-prepared': {
       onEntry: [
-        assign({ currentStep: 'get-prepared' })
+        assign({ currentStep: 'get-prepared' }),
+        'persist',
       ],
       onExit: [
-        assign({ previousStep: 'get-prepared' })
+        assign({ previousStep: 'get-prepared' }),
+        'persist',
       ],
       on: {
         ...formNextHandler('member-details')
