@@ -10,7 +10,7 @@ export default () => ({
   mailingAddress: address(),
   currentMailingAddress: null,
   stateId: '',
-  moneyOnHand: null,
+  moneyOnHand: 0,
 });
 
 export const getID = info => info.stateId;
