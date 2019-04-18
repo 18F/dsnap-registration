@@ -24,44 +24,56 @@ export const getOtherMemberCount = household => getOtherMembers(household).lengt
 
 // @return the applicant, who is always the first entry in the members array
 export const getApplicant = household => getMembers(household)[0];
+
 export const getCurrentMemberIndex = (household) => {
   const i = household.currentMemberIndex;
-  let next = i + 1;
+  let next = i;
 
-  if (next > getOtherMemberCount(household)) {
-    next = getOtherMemberCount(household) - 1;
+  if (next < 0) {
+    next = 0;
+  } else if (next === 0) {
+    next += 1; 
+  } else if (i >= getOtherMemberCount(household)) {
+    next = getOtherMemberCount(household);
   }
 
   return next;
 }
 
 export const updateCurrentMemberIndex = household => {
-  const nextIndex = {
+  const nextHousehold = {
     ...household,
-    currentMemberIndex: hasAdditionalMembers(household) ? getCurrentMemberIndex(household) : 0,
+    currentMemberIndex: household.currentMemberIndex >= getOtherMemberCount(household) ?
+      getOtherMemberCount(household) : household.currentMemberIndex + 1
   };
  
-  return nextIndex;
+  return nextHousehold;
 };
 
-export const hasAdditionalMembers = household =>
-  household.currentMemberIndex < getOtherMemberCount(household);
+export const decrementMemberIndex = ({ currentMemberIndex }) => {
+  return currentMemberIndex - 1 <= 0 ? 0 : currentMemberIndex - 1;
+};
 
+export const hasAdditionalMembers = household => {
+  return household.currentMemberIndex < getOtherMemberCount(household);
+};
 
 export const updateHouseholdMembers = (household, count) => {
   const currentMemberCount = getOtherMemberCount(household);
   let updatedHousehold;
 
   if (count === currentMemberCount || count < 0) {
-    updatedHousehold = { ...household };
+    updatedHousehold = { ...household, currentMemberIndex: 0 };
   } else if (count < currentMemberCount) {
     updatedHousehold = {
       ...household,
+      currentMemberIndex: 0,
       members: household.members.slice(0, count + 1),
     };
   } else if (count > currentMemberCount) {
     updatedHousehold = {
       ...household,
+      currentMemberIndex: 0,
       members: [
         ...household.members,
         ...Array.apply(null, {

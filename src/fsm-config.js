@@ -1,4 +1,4 @@
-import { assign } from 'xstate';
+import { assign , actions} from 'xstate';
 import { isAffirmative, isPrimitive } from 'utils';
 import testData from './test-data';
 import modelState from 'models';
@@ -10,6 +10,7 @@ import {
   getMembers,
   hasAdditionalMembers,
   updateMemberAtIndex,
+  decrementMemberIndex,
 } from 'models/household';
 import { hasJob, hasOtherJobs } from 'models/person';
 import { getDisasters } from 'services/disaster';
@@ -225,6 +226,35 @@ const householdChart = {
   onExit: [
     assign({ previousSection: 'household' }),
   ],
+  on: {
+    DECREMENT_CURRENT_MEMBER_INDEX: [
+      {
+        target: '.get-prepared',
+        internal: true,
+        cond: (ctx) => {
+          return ctx.household.currentMemberIndex === 0;
+        },
+      },
+      {
+        internal: true,
+        target: '.member-details-loop',
+        cond: (ctx) => {
+          return ctx.household.currentMemberIndex !== 0;
+        },
+        actions: [
+          assign({
+            household: (ctx) => {
+              return {
+                ...ctx.household,
+                currentMemberIndex: decrementMemberIndex(ctx.household)
+              }
+            }
+          }),
+          'persist'
+        ]
+      }
+    ]
+  },
   strict: true,
   states: {
     'how-many': {
@@ -287,7 +317,7 @@ const householdChart = {
         'persist',
       ],
       on: {
-        ...formNextHandler('member-details')
+        ...formNextHandler('member-details-loop')
       },
       meta: {
         path: '/form/household/get-prepared',
@@ -295,38 +325,57 @@ const householdChart = {
     },
     'member-details': {
       onEntry: [
-        assign({ currentStep: 'member-details' })
+        assign({
+          currentStep: 'member-details',
+         // household: ({ household }) => updateCurrentMemberIndex(household)
+        }),
+        'persist'
       ],
       onExit: [
-        assign({ previousStep: 'member-details'})
+        assign({ previousStep: 'member-details' }),
+        'persist'
       ],
       on: {
-        ...formNextHandler('member-details-loop')
+        ...formNextHandler('member-details-loop'),
+        '': {
+          target: 'member-details-loop',
+          cond: (context) => {
+            return !hasAdditionalMembers(context.household);
+          },
+          actions: [ actions.send('DECREMENT_CURRENT_MEMBER_INDEX') ]
+        }
       },
       meta: {
         path: '/form/household/member-details',
       }
     },
     'member-details-loop': {
+      internal: true,
       on: {
         '': [
           {
             target: 'member-details',
-            cond: (context) => hasAdditionalMembers(context.household),
+            cond: (context) => {
+              return hasAdditionalMembers(context.household)
+            }
           },
           {
             target: 'food-assistance',
-            cond: (context) => !hasAdditionalMembers(context.household),
+            cond: (context) => {
+              return !hasAdditionalMembers(context.household);
+            }
           }
         ],
       },
     },
     'food-assistance': {
       onEntry: [
-        assign({ currentStep: 'food-assistance' })
+        assign({ currentStep: 'food-assistance' }),
+        'persist'
       ],
       onExit: [
-        assign({ previousStep: 'food-assistance' })
+        assign({ previousStep: 'food-assistance' }),
+        'persist'
       ],
       meta: {
         path: '/form/household/food-assistance'

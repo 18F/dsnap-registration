@@ -150,7 +150,6 @@ class FSMRouter extends React.Component {
 
   handleHistoryTransition = ({ pathname }, _, debounce = true) => {
     //debugger
-
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
       return;
@@ -183,7 +182,6 @@ class FSMRouter extends React.Component {
 
   handleXStateTransition = (state) => {
     //debugger
-    
     if (this.mounted) {
       this.setState({ machineState: state })
     } else {
