@@ -87,7 +87,6 @@ export const updateHouseholdMembers = (household, count) => {
 };
 
 export const addPeopleToHousehold = (household, count) => {
-  debugger
   const { members, ...rest } = household;
 
   if (!count || count < 0) {
