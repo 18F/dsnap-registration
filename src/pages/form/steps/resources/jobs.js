@@ -20,6 +20,7 @@ const handleNext = (values) => {
   const members = getMembers(household);
   const index = getCurrentResourceHolderId(resources);
   const member = members[index];
+
   const nextHousehold = updateMemberAtIndex(household, index, member);
 
   let nextState = {
@@ -29,8 +30,18 @@ const handleNext = (values) => {
   };
 
   if (!hasOtherJobs(member)) {
+    const nextMember = {
+      ...member,
+      assetsAndIncome: {
+        ...member.assetsAndIncome,
+        jobs: getJobs(member).slice(0, member.assetsAndIncome.currentJobIndex + 1),
+        hasOtherJobs: false
+      }
+    };
+
     nextState = {
       ...nextState,
+      household: updateMemberAtIndex(household, index, nextMember),
       resources: {
         ...resources,
         currentMemberIndex: values.resources.currentMemberIndex + 1
@@ -74,6 +85,11 @@ class Jobs extends React.Component {
     const members = getMembers(household);
     const index =  getCurrentResourceHolderId(resources);
     const member = members[index];
+
+    if (!member) {
+      return null;
+    }
+
     const firstName = getFirstName(member);
     const memberJobs = getJobs(member);
     const { currentJobIndex } = getIncome(member);

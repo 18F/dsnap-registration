@@ -9,12 +9,11 @@ export const countMembersWithIncome = resources =>
 export const updateCurrentMemberIndex = (resources, amount) => {
   const nextIndex = resources.currentMemberIndex + amount;
 
-  return nextIndex >= countMembersWithIncome(resources) ?
-    resources.currentMemberIndex : nextIndex;
+  return nextIndex;
 };
 
 export const pendingMembersWithResources = resources =>
-  resources.currentMemberIndex < countMembersWithIncome(resources) - 1;
+  resources.currentMemberIndex <= (countMembersWithIncome(resources) - 1);
 
 export const getCurrentResourceHolderId = resources => {
   return resources.membersWithIncome[resources.currentMemberIndex];

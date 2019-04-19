@@ -1,9 +1,33 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { withMachineContext } from 'components/fsm';
 import withLocale from 'components/with-locale';
 import Button from 'components/button';
 import SnapshotReview from 'components/snapshot-review';
 
 class ApplicantReview extends React.Component {
+  unlisten = null
+
+  componentDidMount() {
+    this.unlisten = this.props.history.listen((event, action) => {
+      return setTimeout(() => {
+        return this.rewindMemberIndex(event, action);
+      }, 0);
+    });
+  }
+
+  componentWillUnmount() {
+    setTimeout(() => this.unlisten(), 0);
+  }
+
+  rewindMemberIndex = (_, action) => {
+    if (action === 'POP') {
+      this.props.fsmTransition({
+        command: 'RESET_CURRENT_RESOURCE_MEMBER_INDEX',
+      });
+    }
+  }
+
   render() {
     const { state, transition, t } = this.props;
 
@@ -41,4 +65,4 @@ class ApplicantReview extends React.Component {
   }
 }
 
-export default withLocale(ApplicantReview);
+export default withMachineContext(withRouter(withLocale(ApplicantReview)));

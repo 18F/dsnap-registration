@@ -449,7 +449,7 @@ const resourcesChart = {
         target: '.assets',
         internal: true,
         cond: (ctx) => {
-          debugger
+          // debugger
           return ctx.resources.currentMemberIndex === 0;
         },
       },
@@ -480,7 +480,7 @@ const resourcesChart = {
           const memberIndex = getCurrentResourceHolderId(ctx.resources);
           const member = getMembers(ctx.household)[memberIndex];
           const income = getIncome(member);
-          debugger
+          // debugger
           return income.currentJobIndex < 0;
         }
       },
@@ -500,9 +500,10 @@ const resourcesChart = {
               const memberIndex = getCurrentResourceHolderId(ctx.resources);
               const member = getMembers(ctx.household)[memberIndex];
               const income = getIncome(member);
-              debugger
+              // debugger
               const nextMember = {
                 ...member,
+                hasOtherJobs: income.jobs.length ? true : false,
                 assetsAndIncome: {
                   ...income,
                   currentJobIndex: income.currentJobIndex - 1,
@@ -542,12 +543,13 @@ const resourcesChart = {
       },
     },
     'income-branch': {
+      internal: true,
       on: {
         '': [
           {
             target: '#review',
             cond: (ctx) => {
-              debugger
+              // debugger
               return !pendingMembersWithResources(ctx.resources);
             },
             actions: 'persist'
@@ -556,10 +558,12 @@ const resourcesChart = {
             target: 'income',
             cond: (ctx) => {
               console.log('in income branch')
-              debugger
+              // debugger
               return pendingMembersWithResources(ctx.resources);
             },
-            actions: 'persist'
+            actions: [
+              'persist'
+            ]
           }
         ]
       }
@@ -605,7 +609,7 @@ const resourcesChart = {
                * Determine whether or not the state machine should transition back to the
                * `job` info screen.
                */
-              debugger
+              // debugger
               const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
   
@@ -615,7 +619,7 @@ const resourcesChart = {
           {
             target: 'income-branch',
             cond: (context) => {
-              debugger
+              // debugger
               const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
 
@@ -631,7 +635,7 @@ const resourcesChart = {
           currentStep: 'jobs',
           // determine if a new job should be to the household member's list of jobs
           household: (ctx) => {
-            debugger
+            // debugger
             // TODO: move this logic into a method and import it
             const { household, resources } = ctx
             const memberIndex = getCurrentResourceHolderId(resources);
@@ -641,54 +645,45 @@ const resourcesChart = {
             if (income.jobs[income.currentJobIndex] !== undefined) {
               return { ...household };
             }
-            
-            // if (income.currentJobIndex <= (income.jobs.length - 1)) {
-            //   if (income.currentJobIndex < 0) {
-            //     const nextMember = {
-            //       ...member,
-            //       assetsAndIncome: {
-            //         ...income,
-            //         currentJobIndex: 0,
-            //       }
-            //     };
 
-            //     return updateMemberAtIndex(household, memberIndex, nextMember);
-            //   } else {
-            //     const nextMember = {
-            //       ...member,
-            //       assetsAndIncome: {
-            //         ...income,
-            //         currentJobIndex: income.currentJobIndex + 1,
-            //       }
-            //     };
+            const nextMember = {
+              ...member,
+              hasOtherJobs: member.assetsAndIncome.jobs.length ? false : null,
+              assetsAndIncome: {
+                ...member.assetsAndIncome,
+                jobs: member.assetsAndIncome.jobs.concat([job()]),
+                currentJobIndex: member.assetsAndIncome.jobs.length,
+              }
+            };
 
-            //     return updateMemberAtIndex(household, memberIndex, nextMember);
-            //   }
-            // } else {
-              const nextMember = {
-                ...member,
-                hasOtherJobs: member.assetsAndIncome.jobs.length ? false : null,
-                assetsAndIncome: {
-                  ...member.assetsAndIncome,
-                  jobs: member.assetsAndIncome.jobs.concat([job()]),
-                  currentJobIndex: member.assetsAndIncome.jobs.length - 1,
-                }
-              };
+            const nextHousehold = updateMemberAtIndex(household, memberIndex, nextMember);
 
-              const nextHousehold = updateMemberAtIndex(household, memberIndex, nextMember);
-
-              return nextHousehold;
-            //}
+            return nextHousehold;
           }
         }),
         'persist',
       ],
-      onExit: assign({ previousStep: 'jobs' }),
+      onExit: [
+        assign({ previousStep: 'jobs' }),
+        'persist'
+      ],
       meta: {
         path: '/form/resources/jobs'
       },
       on: {
-        ...formNextHandler('other-jobs-loop')
+        ...formNextHandler('other-jobs-loop'),
+        '': [
+          {
+            target: 'income-branch',
+            cond: (ctx) => {
+              // debugger
+              const memberId = getCurrentResourceHolderId(ctx.resources);
+              const member = getMembers(ctx.household)[memberId];
+      
+              return member && !hasJob(member);
+            },
+          }
+        ]
       }
     },
     'other-jobs-loop': {
@@ -697,7 +692,7 @@ const resourcesChart = {
           {
             target: 'jobs',
             cond: (context) => {
-              debugger
+              // debugger
               const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
 
@@ -724,7 +719,7 @@ const resourcesChart = {
           {
             target: 'income-branch',
             cond: (context) => {
-              const memberId = context.resources.membersWithIncome[0];
+              const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
 
               return !member || !hasOtherJobs(member);
@@ -884,15 +879,41 @@ const reviewChart = {
   id: 'review',
   initial: 'default',
   strict: true,
-  onEntry: assign({
-    currentSection: 'review',
-    currentStep: 'review',
-    step: 6
-  }),
+  onEntry: [
+    assign({
+      currentSection: 'review',
+      currentStep: 'review',
+      step: 6,
+      resources: (ctx) => {
+        return {
+          ...ctx.resources,
+          currentMemberIndex: 0
+        }
+      }
+    }),
+    'persist'
+  ],
   onExit: assign({
     previousSection: 'review',
     previousStep: 'review'
   }),
+  on: {
+    'RESET_CURRENT_RESOURCE_MEMBER_INDEX': {
+      target: '#form.resources',
+      actions: [
+        assign({
+          resources: (ctx) => {
+            // debugger
+            return {
+              ...ctx.resources,
+              currentMemberIndex: 0
+            }
+          }
+        }),
+        'persist'
+      ]
+    }
+  },
   states: {
     default: {
       meta: {

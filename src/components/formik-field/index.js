@@ -279,6 +279,7 @@ class FormikRadioGroupBase extends React.Component {
                     type="radio"
                     radioValue={option.value}
                     labelText={option.label}
+                    id={`${option.label}.${rest.name}`}
                     groupClassName={this.fieldGroupClassname()}
                     className={this.fieldClassName()}
                   />

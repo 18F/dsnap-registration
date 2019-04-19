@@ -82,6 +82,11 @@ class Income extends React.Component {
           const members = getMembers(household);
           const index = getCurrentResourceHolderId(resources);
           const member = members[index];
+
+          if (!member) {
+            return null;
+          }
+
           const firstName = getFirstName(member);
           const { incomeSources } = member.assetsAndIncome;
           const assetsAndIncomeId = buildNestedKey('household', 'members', index, 'assetsAndIncome');
