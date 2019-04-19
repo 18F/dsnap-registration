@@ -7,7 +7,6 @@ import { leftPad } from 'utils';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const OLDEST_VALID_DOB = '1890-01-01';
-const LATEST_VALID_DOB = '2009-12-31';
 
 export const dateSchema = shapeOf({
   month: string()
@@ -32,8 +31,7 @@ export const dateSchema = shapeOf({
     const fullDate = moment(dob, DATE_FORMAT, true);
 
     return fullDate.isValid() &&
-      fullDate.isAfter(OLDEST_VALID_DOB) &&
-      fullDate.isBefore(LATEST_VALID_DOB);
+      fullDate.isAfter(OLDEST_VALID_DOB);
   }
 
   return true;
