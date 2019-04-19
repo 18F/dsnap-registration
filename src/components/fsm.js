@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { matchPath } from "react-router";
 import { Machine, matchesState } from 'xstate';
 import { getNodes } from 'xstate/lib/graph';
 import { interpret } from 'xstate/lib/interpreter'
@@ -149,6 +150,7 @@ class FSMRouter extends React.Component {
   }
 
   handleHistoryTransition = ({ pathname }, _, debounce = true) => {
+    //const m = matchPath;
     //debugger
     if (this.historyTransitioning) {
       this.historyTransitioning = false;

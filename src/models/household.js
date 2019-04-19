@@ -23,7 +23,9 @@ export const getOtherMemberCount = household => getOtherMembers(household).lengt
 // basic info and household so this accessor doesnt have to be hardcoded
 
 // @return the applicant, who is always the first entry in the members array
-export const getApplicant = household => getMembers(household)[0];
+export const getApplicant = household => getMemberAtIndex(household, 0);
+
+export const getMemberAtIndex = (household, index) => getMembers(household)[index];
 
 export const getCurrentMemberIndex = (household) => {
   const i = household.currentMemberIndex;
@@ -122,4 +124,21 @@ export const updateMemberAtIndex = (household, index, member) => {
     ...household,
     members: nextMembers
   }
+};
+
+export const methods = {
+  updateMemberAtIndex,
+  deleteMemberFromHousehold,
+  addPeopleToHousehold,
+  updateHouseholdMembers,
+  getHouseholdCount,
+  getMembers,
+  getOtherMembers,
+  getOtherMemberCount,
+  getApplicant,
+  getCurrentMemberIndex,
+  updateCurrentMemberIndex,
+  decrementMemberIndex,
+  hasAdditionalMembers,
+  getMemberAtIndex,
 };

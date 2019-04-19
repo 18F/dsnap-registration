@@ -14,7 +14,7 @@ export const updateCurrentMemberIndex = (resources, amount) => {
 };
 
 export const pendingMembersWithResources = resources =>
-  resources.currentMemberIndex <= countMembersWithIncome(resources);
+  resources.currentMemberIndex < countMembersWithIncome(resources) - 1;
 
 export const getCurrentResourceHolderId = resources => {
   return resources.membersWithIncome[resources.currentMemberIndex];

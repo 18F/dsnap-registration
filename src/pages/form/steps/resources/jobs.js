@@ -32,6 +32,7 @@ const handleNext = (values) => {
     nextState = {
       ...nextState,
       resources: {
+        ...resources,
         currentMemberIndex: values.resources.currentMemberIndex + 1
       }
     };
@@ -91,6 +92,7 @@ class Jobs extends React.Component {
         onNext={handleNext}
         validate={jobValidationFn}
       >
+        <span>eediting job {currentJobIndex + 1}</span>
         <FormikField
           labelText={t(buildNestedKey(sectionName, modelName, 'employerName', 'label'))}
           name={`${jobKey}.employerName`}

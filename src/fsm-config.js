@@ -22,6 +22,7 @@ import {
   updateCurrentMemberIndex,
   getCurrentResourceHolderId
 } from 'models/resources';
+import { memberJobs } from 'services/member-jobs';
 
 const STATE_KEY = 'dsnap-registration';
 // ignore these when running the persistence algo, the context is responsible
@@ -566,7 +567,21 @@ const resourcesChart = {
     income: {
       internal: true,
       onEntry: [
-        assign({ currentStep: 'income' }),
+        assign({
+          currentStep: 'income',
+          household: (ctx) => {
+            const { household, resources } = ctx;
+            const memberIndex = getCurrentResourceHolderId(resources);
+
+            return {
+              ...updateMemberAtIndex(
+                household,
+                memberIndex,
+                memberJobs.updateCurrentJobForMember(memberIndex, household.members, 0)
+              )
+            }
+          }
+        }),
         'persist',
       ],
       onExit: [
@@ -590,7 +605,6 @@ const resourcesChart = {
                * Determine whether or not the state machine should transition back to the
                * `job` info screen.
                */
-              console.log('jobs guard?')
               debugger
               const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
@@ -602,7 +616,6 @@ const resourcesChart = {
             target: 'income-branch',
             cond: (context) => {
               debugger
-              console.log('income branch guard?')
               const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
 
@@ -616,6 +629,7 @@ const resourcesChart = {
       onEntry: [
         assign({
           currentStep: 'jobs',
+          // determine if a new job should be to the household member's list of jobs
           household: (ctx) => {
             debugger
             // TODO: move this logic into a method and import it
@@ -623,37 +637,48 @@ const resourcesChart = {
             const memberIndex = getCurrentResourceHolderId(resources);
             const member = getMembers(household)[memberIndex];
             const income = getIncome(member);
-            
-            if (income.currentJobIndex <= (income.jobs.length - 1)) {
-              if (income.currentJobIndex < 0) {
-                const nextMember = {
-                  ...member,
-                  assetsAndIncome: {
-                    ...income,
-                    currentJobIndex: 0,
-                  }
-                };
 
-                return updateMemberAtIndex(household, memberIndex, nextMember);
-              }
-              
+            if (income.jobs[income.currentJobIndex] !== undefined) {
               return { ...household };
-            } else {
+            }
+            
+            // if (income.currentJobIndex <= (income.jobs.length - 1)) {
+            //   if (income.currentJobIndex < 0) {
+            //     const nextMember = {
+            //       ...member,
+            //       assetsAndIncome: {
+            //         ...income,
+            //         currentJobIndex: 0,
+            //       }
+            //     };
+
+            //     return updateMemberAtIndex(household, memberIndex, nextMember);
+            //   } else {
+            //     const nextMember = {
+            //       ...member,
+            //       assetsAndIncome: {
+            //         ...income,
+            //         currentJobIndex: income.currentJobIndex + 1,
+            //       }
+            //     };
+
+            //     return updateMemberAtIndex(household, memberIndex, nextMember);
+            //   }
+            // } else {
               const nextMember = {
                 ...member,
                 hasOtherJobs: member.assetsAndIncome.jobs.length ? false : null,
                 assetsAndIncome: {
                   ...member.assetsAndIncome,
                   jobs: member.assetsAndIncome.jobs.concat([job()]),
-                  currentJobIndex: member.assetsAndIncome.jobs.length,
+                  currentJobIndex: member.assetsAndIncome.jobs.length - 1,
                 }
               };
 
               const nextHousehold = updateMemberAtIndex(household, memberIndex, nextMember);
 
               return nextHousehold;
-              //debugger
-            }
+            //}
           }
         }),
         'persist',
@@ -667,17 +692,34 @@ const resourcesChart = {
       }
     },
     'other-jobs-loop': {
-      onExit: assign({ previousStep: 'other-jobs-loop' }),
       on: {
         '': [
           {
             target: 'jobs',
             cond: (context) => {
-              const memberId = context.resources.membersWithIncome[0];
+              debugger
+              const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
 
               return member && hasOtherJobs(member);
-            }
+            },
+            actions: [
+              assign({
+                household: (ctx) => {
+                  const { household, resources } = ctx;
+                  const memberIndex = getCurrentResourceHolderId(resources);
+      
+                  return {
+                    ...updateMemberAtIndex(
+                      household,
+                      memberIndex,
+                      memberJobs.incrementJobIndexForMember(memberIndex, household.members)
+                    )
+                  }
+                }
+              }),
+              'persist'
+            ],
           },
           {
             target: 'income-branch',
