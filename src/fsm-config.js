@@ -12,7 +12,7 @@ import {
   updateMemberAtIndex,
   decrementMemberIndex,
 } from 'models/household';
-import { hasJob, hasOtherJobs } from 'models/person';
+import { hasJob, hasOtherJobs, getIncome } from 'models/person';
 import { getDisasters } from 'services/disaster';
 import { createRegistration } from 'services/registration';
 import { createEligibility } from 'services/eligibility';
@@ -470,6 +470,50 @@ const resourcesChart = {
           'persist'
         ]
       }
+    ],
+    DECREMENT_CURRENT_JOB_INDEX: [
+      {
+        target: '.income',
+        internal: true,
+        cond: (ctx) => {
+          const memberIndex = getCurrentResourceHolderId(ctx.resources);
+          const member = getMembers(ctx.household)[memberIndex];
+          const income = getIncome(member);
+          debugger
+          return income.currentJobIndex < 0;
+        }
+      },
+      {
+        target: '.jobs-branch',
+        internal: true,
+        cond: (ctx) => {
+          const memberIndex = getCurrentResourceHolderId(ctx.resources);
+          const member = getMembers(ctx.household)[memberIndex];
+          const income = getIncome(member);
+
+          return income.currentJobIndex >= 0;
+        },
+        actions: [
+          assign({
+            household: (ctx) => {
+              const memberIndex = getCurrentResourceHolderId(ctx.resources);
+              const member = getMembers(ctx.household)[memberIndex];
+              const income = getIncome(member);
+              debugger
+              const nextMember = {
+                ...member,
+                assetsAndIncome: {
+                  ...income,
+                  currentJobIndex: income.currentJobIndex - 1,
+                },
+              };
+
+              return updateMemberAtIndex(ctx.household, memberIndex, nextMember);
+            }
+          }),
+          'persist'
+        ]
+      }
     ]
   },
   states: {
@@ -564,57 +608,56 @@ const resourcesChart = {
 
               return !member || !hasJob(member);
             },
-            // actions: [
-            //   assign({
-            //     household: (ctx) => {
-            //       debugger
-            //       const memberId = getCurrentResourceHolderId(ctx.resources);
-            //       const member = getMembers(ctx.household)[memberId];
-            //       const nextMember = {
-            //         ...member,
-            //         assetsAndIncome: {
-            //           ...member.assetsAndIncome,
-            //           jobs: []
-            //         }
-            //       };
-
-            //       return {
-            //         ...updateMemberAtIndex(ctx.household, ctx.resources.currentMemberIndex, nextMember)
-            //       }
-            //     },
-            //     resources: (ctx) => ({
-            //       ...ctx.resources,
-            //       currentMemberIndex: updateCurrentMemberIndex(ctx.resources, 1)
-            //     })
-            //   }),
-            //   'persist'
-            // ]
           }
         ]
       }
     },
     jobs: {
-      onEntry: assign({
-        currentStep: 'jobs',
-        household: (ctx) => {
-          // TODO: move this logic into a method and import it
-          const { household, resources } = ctx
-          const memberIndex = resources.membersWithIncome[0] || 0;
-          const member = household.members[memberIndex];
-          const nextMember = {
-            ...member,
-            hasOtherJobs: member.assetsAndIncome.jobs.length ? false : null,
-            assetsAndIncome: {
-              ...member.assetsAndIncome,
-              jobs: member.assetsAndIncome.jobs.concat([job()]),
+      onEntry: [
+        assign({
+          currentStep: 'jobs',
+          household: (ctx) => {
+            debugger
+            // TODO: move this logic into a method and import it
+            const { household, resources } = ctx
+            const memberIndex = getCurrentResourceHolderId(resources);
+            const member = getMembers(household)[memberIndex];
+            const income = getIncome(member);
+            
+            if (income.currentJobIndex <= (income.jobs.length - 1)) {
+              if (income.currentJobIndex < 0) {
+                const nextMember = {
+                  ...member,
+                  assetsAndIncome: {
+                    ...income,
+                    currentJobIndex: 0,
+                  }
+                };
+
+                return updateMemberAtIndex(household, memberIndex, nextMember);
+              }
+              
+              return { ...household };
+            } else {
+              const nextMember = {
+                ...member,
+                hasOtherJobs: member.assetsAndIncome.jobs.length ? false : null,
+                assetsAndIncome: {
+                  ...member.assetsAndIncome,
+                  jobs: member.assetsAndIncome.jobs.concat([job()]),
+                  currentJobIndex: member.assetsAndIncome.jobs.length,
+                }
+              };
+
+              const nextHousehold = updateMemberAtIndex(household, memberIndex, nextMember);
+
+              return nextHousehold;
+              //debugger
             }
-          };
-
-          const nextHousehold = updateMemberAtIndex(household, memberIndex, nextMember);
-
-          return nextHousehold;
-        }
-      }),
+          }
+        }),
+        'persist',
+      ],
       onExit: assign({ previousStep: 'jobs' }),
       meta: {
         path: '/form/resources/jobs'

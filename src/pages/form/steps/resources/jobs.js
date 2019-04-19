@@ -1,13 +1,16 @@
 import React from 'react';
 import { connect } from 'formik';
+import { withRouter } from 'react-router-dom';
+import { withMachineContext } from 'components/fsm';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
 import YesNoField from 'components/yes-no-field';
 import { buildNestedKey } from 'utils';
 import { getMembers, updateMemberAtIndex } from 'models/household';
-import { getFirstName, hasOtherJobs, getJobs } from 'models/person';
+import { getFirstName, hasOtherJobs, getJobs, getIncome } from 'models/person';
 import { getDisaster, getBeginDate, getEndDate } from 'models/disaster';
+import { getCurrentResourceHolderId } from 'models/resources';  
 import { jobSchemaValidator } from 'schemas/job';
 
 const modelName = 'jobs';
@@ -15,7 +18,7 @@ const modelName = 'jobs';
 const handleNext = (values) => {
   const { household, resources } = values;
   const members = getMembers(household);
-  const index = resources.membersWithIncome[0];
+  const index = getCurrentResourceHolderId(resources);
   const member = members[index];
   const nextHousehold = updateMemberAtIndex(household, index, member);
 
@@ -29,7 +32,7 @@ const handleNext = (values) => {
     nextState = {
       ...nextState,
       resources: {
-        membersWithIncome: values.resources.membersWithIncome.slice(1)
+        currentMemberIndex: values.resources.currentMemberIndex + 1
       }
     };
   };
@@ -40,21 +43,43 @@ const handleNext = (values) => {
 };
 
 class Jobs extends React.Component {
+  unlisten = null
+
+  componentDidMount() {
+    this.unlisten = this.props.history.listen((event, action) => {
+      return setTimeout(() => {
+        return this.rewindJobIndex(event, action);
+      }, 0);
+    });
+  }
+
+  componentWillUnmount() {
+    setTimeout(() => this.unlisten(), 0);
+  }
+
+  rewindJobIndex = (_, action) => {
+    if (action === 'POP') {
+      this.props.fsmTransition({
+        command: 'DECREMENT_CURRENT_JOB_INDEX',
+      });
+    }
+  }
+
   render() {
     const { handleChange, sectionName, registerStep, t, formik } = this.props;
     const { values } = formik;
     const { household, resources, disasters, basicInfo } = values;
     const disaster = getDisaster(disasters, basicInfo.disasterId);
     const members = getMembers(household);
-    const index = resources.membersWithIncome[0] || 0;
+    const index =  getCurrentResourceHolderId(resources);
     const member = members[index];
     const firstName = getFirstName(member);
     const memberJobs = getJobs(member);
-    const jobIndex = memberJobs.length <= 1 ? 0 : memberJobs.length - 1;
-    const jobKey = buildNestedKey('household', 'members', index, 'assetsAndIncome', 'jobs', jobIndex);
+    const { currentJobIndex } = getIncome(member);
+    const jobKey = buildNestedKey('household', 'members', index, 'assetsAndIncome', 'jobs', currentJobIndex);
 
     const jobValidationFn = jobSchemaValidator({
-      ...memberJobs[jobIndex],
+      ...memberJobs[currentJobIndex],
       hasOtherJobs: member.hasOtherJobs
     }, jobKey, index);
 
@@ -100,4 +125,4 @@ class Jobs extends React.Component {
 }
 
 export { Jobs }
-export default connect(withLocale(Jobs));
+export default withMachineContext(withRouter(connect(withLocale(Jobs))));

@@ -1,6 +1,6 @@
 const resources = () => ({
   membersWithIncome: [],
-  currentMemberIndex: 0
+  currentMemberIndex: 0,
 });
 
 export const countMembersWithIncome = resources =>

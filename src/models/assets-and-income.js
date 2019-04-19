@@ -19,4 +19,5 @@ export default () => ({
   hasIncome: false,
   incomeSources: incomeSources(),
   jobs: [],
+  currentJobIndex: 0
 });
