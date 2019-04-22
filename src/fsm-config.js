@@ -558,7 +558,7 @@ const submitChart = {
                 ...event.data.registration
               })
             }),
-            (ctx) => localStorage.setItem(STATE_KEY, JSON.stringify(ctx))
+            (ctx) => localStorage.removeItem(STATE_KEY),
           ]
         },
         onError: {
@@ -796,6 +796,9 @@ const formStateConfig = {
     QUIT: {
       target: '.quit',
     },
+    RESET: {
+      target: '.quit'
+    }
   }
 };
 
