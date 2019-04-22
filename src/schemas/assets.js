@@ -4,8 +4,6 @@ import { isPositiveNumber } from 'validators';
 const moneySchema = buildSchema(({ t }) =>
   shapeOf({
     moneyOnHand: string()
-      .nullable()
-      .required(t('errors.required'))
       .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber)
   })
 );

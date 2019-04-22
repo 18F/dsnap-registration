@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  message: PropTypes.string.isRequired,
+  message: PropTypes.oneOf([
+    PropTypes.string,
+    PropTypes.object,
+  ]).isRequired,
 };
 
 const InputError = ({ message }) => (

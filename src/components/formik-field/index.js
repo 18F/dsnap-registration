@@ -27,7 +27,10 @@ const inputTypes = (type) => {
 // regardless - eg when the submit count is over 1
 const FormikError = ({ name }) => (
   <ErrorMessage name={name}>
-    { message => <InputError message={message} /> }
+    { 
+      (message) => <InputError message={message} />
+    }
+  }
   </ErrorMessage>
 );
 
@@ -53,7 +56,7 @@ class FormikField extends React.Component {
   }
 
   render() {
-    const { name, onChange, onBlur, type, eager, validate, ...rest } = this.props;
+    const { name, onChange, onFocus, onBlur, type, eager, validate, ...rest } = this.props;
     const BaseComponent = eager ? Field : FastField;
     const InputComponent = inputTypes(type);
     let preparedProps = { name };
@@ -72,8 +75,14 @@ class FormikField extends React.Component {
                 {...field}
                 type={type}
                 onChange={onChange || field.onChange}
+                onBlur={(event) => {
+                  onBlur && onBlur(event, field, form);
+                  field.onBlur(event);
+                }}
+                onFocus={(event) => {
+                  onFocus && onFocus(event, field, form);
+                }}
                 onInput={() => form.setFieldTouched(name, true, true)}
-                onBlur={onBlur || field.onBlur}
                 {...rest}
               />
               { this.props.showError && (form.submitCount || getIn(form.touched, name)) ? <FormikError name={name} /> : null }
