@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  message: PropTypes.oneOf([
+  message: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
   ]).isRequired,
