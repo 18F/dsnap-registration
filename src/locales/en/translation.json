@@ -156,6 +156,7 @@
     "action": "Start registering"
   },
   "basicInfo": {
+    "moneyOnHand": "Money on hand",
     "name": {
       "id": "Name",
       "header": "Let’s start with the basics.",

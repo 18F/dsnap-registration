@@ -43,6 +43,7 @@ class Input extends React.Component {
           className={this.props.className}
           name={this.props.name}
           onBlur={this.props.onBlur}
+          onFocus={this.props.onFocus}
           onChange={this.props.onChange}
           onInput={this.props.onInput}
           value={this.props.value}

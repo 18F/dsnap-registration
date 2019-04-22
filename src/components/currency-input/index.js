@@ -1,7 +1,37 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FormikField from 'components/formik-field';
 
 class CurrencyInput extends React.Component {
+  static propsTypes = {
+    groupClassName: PropTypes.string
+  }
+
+  static defaultProps = {
+    groupClassName: 'currency-field'
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+  }
+
+  handleFocus = (event, _, { setFieldValue }) => {
+    const { value } = event.target;
+
+    if (Number(value) === 0) {
+      setFieldValue(this.props.name, '', false);
+    }
+  }
+
+  handleBlur = (_, field, { setFieldValue }) => {
+    if (field.value === '') {
+      setFieldValue(this.props.name, 0);
+    }
+  }
+
   handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -13,9 +43,11 @@ class CurrencyInput extends React.Component {
     return (
       <FormikField
         className="desktop:grid-col-2"
-        groupClassName="currency-field"
+        groupClassName={this.props.groupClassName}
         prefix="$"
         onChange={this.handleChange}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
         {...rest}    
       />
     );
