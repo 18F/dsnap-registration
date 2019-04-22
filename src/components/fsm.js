@@ -159,7 +159,6 @@ class FSMRouter extends React.Component {
   }
 
   handleHistoryTransition = ({ pathname }, debounce = false) => {
-    console.log(getNodes(this.machine))
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
       return;
