@@ -11,6 +11,7 @@ export default () => ({
   currentMailingAddress: null,
   stateId: '',
   moneyOnHand: 0,
+  ebtCardNumber: ''
 });
 
 export const getID = info => info.stateId;
@@ -25,3 +26,4 @@ export const getAddress = address => [
 export const getMailingAddress = info =>
   isAffirmative(info.currentMailingAddress) ? false : getAddress(info.mailingAddress);
 export const getResidenceAddress = info => getAddress(info.residenceAddress);
+export const getEBTCardNumber = info => info.getEBTCardNumber;

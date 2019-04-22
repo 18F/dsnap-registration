@@ -1,5 +1,6 @@
 export default {
   "basicInfo":{
+     "ebtCardNumber": "1234567891234567",
      "disasterId": "11",
      "county": "Baker",
      "phone":"2165555555",
