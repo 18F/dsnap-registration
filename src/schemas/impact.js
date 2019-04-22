@@ -9,7 +9,6 @@ const expenseSchema = buildSchema(({ t }) =>
       .when('applicable', {
         is: value => isAffirmative(value),
         then: string()
-          .required(t('errors.required'))
           .test('isPositiveNumber', t('errors.positiveNumber'), isPositiveNumber)
       })
   })

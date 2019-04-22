@@ -27,10 +27,10 @@ const inputTypes = (type) => {
 // regardless - eg when the submit count is over 1
 const FormikError = ({ name }) => (
   <ErrorMessage name={name}>
-    { message => {
-      debugger
-    return <InputError message={message} />; 
-  }}
+    { 
+      (message) => <InputError message={message} />
+    }
+  }
   </ErrorMessage>
 );
 
@@ -83,7 +83,6 @@ class FormikField extends React.Component {
                   onFocus && onFocus(event, field, form);
                 }}
                 onInput={() => form.setFieldTouched(name, true, true)}
-                onBlur={onBlur || field.onBlur}
                 {...rest}
               />
               { this.props.showError && (form.submitCount || getIn(form.touched, name)) ? <FormikError name={name} /> : null }
