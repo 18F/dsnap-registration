@@ -44,7 +44,11 @@ export const getRegistrations = (filters) => {
     url = `${url}/${filters.id}`;
   }
 
-  return axios.get(url)
+  return axios.get(url, {
+    headers: {
+      'Authorization': `Basic ${btoa('admin:9NWwq9bA')}`
+    }
+  })
     .then(({ data }) => {
       const registrations = Array.isArray(data) ? data : [data];
       return registrations.map(formatRegistrationForClient);
@@ -54,13 +58,21 @@ export const getRegistrations = (filters) => {
 export const createRegistration = (registrationData) => {
   const transformedData = toRegistrationServiceFormat(registrationData);
 
-  return axios.post(`${location}/${endpoint}`, transformedData)
+  return axios.post(`${location}/${endpoint}`, transformedData, {
+    headers: {
+      'Authorization': `Basic ${btoa('admin:9NWwq9bA')}`
+    }
+  })
     .then(response => response.data);
 };
 
 export const updateRegistration = ({ id, ...registrationData }) => {
   const transformedData = toRegistrationServiceFormat(registrationData);
 
-  return axios.put(`${location}/${endpoint}/${id}`, transformedData)
+  return axios.put(`${location}/${endpoint}/${id}`, transformedData, {
+    headers: {
+      'Authorization': `Basic ${btoa('admin:9NWwq9bA')}`
+    }
+  })
     .then(({ data }) => formatRegistrationForClient(data));
 }
