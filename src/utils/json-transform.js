@@ -10,6 +10,7 @@ const toString = value => String(value);
 
 function toRegistrationServiceFormat(src) {
   return {
+    ebt_card_number: src.basicInfo.ebtCardNumber,
     disaster_id: Number(src.basicInfo.disasterId),
     preferred_language: emptyToNull(src.config.language.trim()) || 'en',
     phone: emptyToNull(stripSpecialChars(src.basicInfo.phone)),
@@ -35,6 +36,7 @@ function toRegistrationServiceFormat(src) {
 
 function fromRegistrationServiceFormat(id, src) {
   const basicInfo = {
+    ebtCardNumber: src.ebt_card_number,
     disasterId: src.disaster_id,
     county: src.county,
     phone: nullToEmpty(src.phone),

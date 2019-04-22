@@ -56,6 +56,7 @@ class SnapshotReview extends React.Component {
         <IncomeReviewSection
           {...extraProps}
         />
+        { this.props.sections && this.props.sections.map(section => section) }
         { this.props.render && this.props.render(formik) }
       </Form>
     );
