@@ -22,6 +22,10 @@
       }
     },
     "review": {
+      "ebt": {
+        "header": "EBT",
+        "label": "EBT card number"
+      },
       "eligibility": {
         "header": "Based on the information below, this applicant appears to be:"
       },

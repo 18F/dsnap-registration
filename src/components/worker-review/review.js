@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
+import withUpdateable from 'components/with-updateable';
 import withLocale from 'components/with-locale';
 import UI from 'components/ui';
 import SnapshotReview from 'components/snapshot-review';
+import FormikField from 'components/formik-field';
 import Button from 'components/button';
 import { getApplicant } from 'models/household';
 import { getFullName } from 'models/person';
@@ -128,6 +130,39 @@ class EligibilityDisplay extends React.Component {
   }
 }
 
+class EBTSection extends React.Component {
+  static propTypes = {
+    formik: PropTypes.shape({
+      values: PropTypes.object
+    }),
+    t: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired
+  }
+
+  render() {
+    return (
+      <section className="margin-bottom-4">
+        <div className="border-bottom-1px border-base-lighter margin-bottom-2">
+          <div className="grid-row margin-bottom-05">
+            <h2
+              className="margin-0 grid-col-fill text-bottom display-inline-block"
+              style={{ alignSelf: 'flex-end' }}
+            >
+              { this.props.title }
+            </h2>
+          </div>
+        </div>
+        <FormikField
+          labelText={this.props.t('worker.review.ebt.label')}
+          name="basicInfo.ebtCardNumber"
+          onBlur={this.props.handleUpdate}
+        />
+      </section>
+    );
+  }
+}
+
+const EBTReviewSection = withUpdateable(withLocale(EBTSection));
 
 class WorkerReview extends React.Component {
   constructor(props) {
@@ -187,6 +222,7 @@ class WorkerReview extends React.Component {
           readonly={this.state.readonly}
           values={{ disasters: machineState.disasters, ...registration.client }}
           onNext={this.handleUpdate}
+          sections={[<EBTReviewSection title={t('worker.review.ebt.header')} />]}
           render={(formik) => {
             return (
               typeof machineState.approval === 'boolean' ?

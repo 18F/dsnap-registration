@@ -53,7 +53,7 @@ class FormikField extends React.Component {
   }
 
   render() {
-    const { name, onChange, type, eager, validate, ...rest } = this.props;
+    const { name, onChange, onBlur, type, eager, validate, ...rest } = this.props;
     const BaseComponent = eager ? Field : FastField;
     const InputComponent = inputTypes(type);
     let preparedProps = { name };
@@ -73,6 +73,7 @@ class FormikField extends React.Component {
                 type={type}
                 onChange={onChange || field.onChange}
                 onInput={() => form.setFieldTouched(name, true, true)}
+                onBlur={onBlur || field.onBlur}
                 {...rest}
               />
               { this.props.showError && (form.submitCount || getIn(form.touched, name)) ? <FormikError name={name} /> : null }
