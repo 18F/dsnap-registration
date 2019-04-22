@@ -449,7 +449,7 @@ const resourcesChart = {
         target: '.assets',
         internal: true,
         cond: (ctx) => {
-          // debugger
+          debugger
           return ctx.resources.currentMemberIndex === 0;
         },
       },
@@ -631,21 +631,18 @@ const resourcesChart = {
     },
     jobs: {
       onEntry: [
-        assign({
-          currentStep: 'jobs',
-          // determine if a new job should be to the household member's list of jobs
-          household: (ctx) => {
-            // debugger
-            // TODO: move this logic into a method and import it
-            const { household, resources } = ctx
-            const memberIndex = getCurrentResourceHolderId(resources);
-            const member = getMembers(household)[memberIndex];
-            const income = getIncome(member);
+        assign((ctx) => {
+          // debugger
+          // TODO: move this logic into a method and import it
+          const { household, resources } = ctx
+          const memberIndex = getCurrentResourceHolderId(resources);
+          const member = getMembers(household)[memberIndex];
+          const income = getIncome(member);
+          let nextHousehold;
 
-            if (income.jobs[income.currentJobIndex] !== undefined) {
-              return { ...household };
-            }
-
+          if (income.jobs[income.currentJobIndex] !== undefined) {
+            nextHousehold = { ...household };
+          } else {
             const nextMember = {
               ...member,
               hasOtherJobs: member.assetsAndIncome.jobs.length ? false : null,
@@ -656,9 +653,13 @@ const resourcesChart = {
               }
             };
 
-            const nextHousehold = updateMemberAtIndex(household, memberIndex, nextMember);
+            nextHousehold = updateMemberAtIndex(household, memberIndex, nextMember);
+          }
 
-            return nextHousehold;
+          return {
+            currentStep: 'jobs',
+            // determine if a new job should be to the household member's list of jobs
+            household: nextHousehold,
           }
         }),
         'persist',
@@ -880,16 +881,11 @@ const reviewChart = {
   initial: 'default',
   strict: true,
   onEntry: [
+    () => { debugger},
     assign({
       currentSection: 'review',
       currentStep: 'review',
       step: 6,
-      resources: (ctx) => {
-        return {
-          ...ctx.resources,
-          currentMemberIndex: 0
-        }
-      }
     }),
     'persist'
   ],
@@ -899,19 +895,7 @@ const reviewChart = {
   }),
   on: {
     'RESET_CURRENT_RESOURCE_MEMBER_INDEX': {
-      target: '#form.resources',
-      actions: [
-        assign({
-          resources: (ctx) => {
-            // debugger
-            return {
-              ...ctx.resources,
-              currentMemberIndex: 0
-            }
-          }
-        }),
-        'persist'
-      ]
+      target: '#resources',
     }
   },
   states: {

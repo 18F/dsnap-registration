@@ -16,7 +16,11 @@ export const pendingMembersWithResources = resources =>
   resources.currentMemberIndex <= (countMembersWithIncome(resources) - 1);
 
 export const getCurrentResourceHolderId = resources => {
-  return resources.membersWithIncome[resources.currentMemberIndex];
+  const { currentMemberIndex } = resources;
+  const membersLength = countMembersWithIncome(resources);
+  const clampedIndex = currentMemberIndex >= membersLength ? membersLength - 1 : currentMemberIndex;
+
+  return resources.membersWithIncome[clampedIndex];
 };
 
 export default resources;

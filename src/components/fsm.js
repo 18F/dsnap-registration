@@ -31,7 +31,8 @@ class FSMRouter extends React.Component {
   stateTransitioning = false
 
   state = {
-    machineState: null
+    machineState: null,
+    history: []
   }
 
   constructor(props) {
@@ -137,6 +138,12 @@ class FSMRouter extends React.Component {
     this.service.stop();
   }
 
+  updateComponentHistory(route) {
+    this.setState({
+      history: [...this.state.history, route]
+    }, () => console.log('routes visited', this.state.history));
+  }
+
   hasMatchingRoute(maybeRoute) {
     return !!this.routes[maybeRoute];
   }
@@ -149,7 +156,7 @@ class FSMRouter extends React.Component {
   }
 
   handleHistoryTransition = ({ pathname }, _, debounce = true) => {
-    // debugger
+    debugger
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
       return;
@@ -164,6 +171,7 @@ class FSMRouter extends React.Component {
       this.sendServiceTransition(machinePath);
      // debugger
       if (!matchesState(this.getMachineState(), machinePath)) {
+        debugger
         this.stateTransitioning = false;
 
         const currentNode = this.getCurrentNode();
@@ -172,8 +180,13 @@ class FSMRouter extends React.Component {
           if (debounce) {
             this.historyTransitioning = true;
           }
-          this.props.history.replace(`${currentNode.meta.path}`);
+          
+          this.updateComponentHistory(`${currentNode.meta.path}`);
+
+          this.props.history.push(`${currentNode.meta.path}`);
         }
+      } else {
+        debugger
       }
     } else {
       // TODO: handle invalid machine states here?
@@ -181,7 +194,7 @@ class FSMRouter extends React.Component {
   }
 
   handleXStateTransition = (state) => {
-    //debugger
+    debugger
     if (this.mounted) {
       this.setState({ machineState: state })
     } else {
@@ -197,6 +210,9 @@ class FSMRouter extends React.Component {
 
     if (currentNode.meta && currentNode.meta.path) {
       this.historyTransitioning = true;
+
+      this.updateComponentHistory(`${currentNode.meta.path}`);
+
       this.props.history.push(`${currentNode.meta.path}`);
     }
   }
