@@ -10,7 +10,7 @@ export const createEligibility = (data) => {
 
   return axios.post(`${location}/${endpoint}`, transformedData, {
     headers: {
-      'Authorization': `Basic ${btoa('admin:9NWwq9bA')}`
+      'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
     }
   })
     .then(response => response.data);

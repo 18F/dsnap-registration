@@ -46,7 +46,7 @@ export const getRegistrations = (filters) => {
 
   return axios.get(url, {
     headers: {
-      'Authorization': `Basic ${btoa('admin:9NWwq9bA')}`
+      'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
     }
   })
     .then(({ data }) => {
@@ -60,7 +60,7 @@ export const createRegistration = (registrationData) => {
 
   return axios.post(`${location}/${endpoint}`, transformedData, {
     headers: {
-      'Authorization': `Basic ${btoa('admin:9NWwq9bA')}`
+      'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
     }
   })
     .then(response => response.data);
@@ -71,7 +71,7 @@ export const updateRegistration = ({ id, ...registrationData }) => {
 
   return axios.put(`${location}/${endpoint}/${id}`, transformedData, {
     headers: {
-      'Authorization': `Basic ${btoa('admin:9NWwq9bA')}`
+      'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
     }
   })
     .then(({ data }) => formatRegistrationForClient(data));
