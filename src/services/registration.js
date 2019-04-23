@@ -58,11 +58,7 @@ export const getRegistrations = (filters) => {
 export const createRegistration = (registrationData) => {
   const transformedData = toRegistrationServiceFormat(registrationData);
 
-  return axios.post(`${location}/${endpoint}`, transformedData, {
-    headers: {
-      'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
-    }
-  })
+  return axios.post(`${location}/${endpoint}`, transformedData)
     .then(response => response.data);
 };
 
