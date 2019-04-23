@@ -3,6 +3,7 @@ import testData from '../test-data';
 
 test('Transform test data to registration service format', () => {
   expect(toRegistrationServiceFormat(testData)).toEqual({
+    ebt_card_number: "1234567891234567",
     disaster_id: 11,
     preferred_language: "en",
     phone: "2165555555",
@@ -26,7 +27,7 @@ test('Transform test data to registration service format', () => {
     money_on_hand: 1000,
     has_inaccessible_liquid_resources: false,
     has_lost_or_inaccessible_income: true,
-    purchased_or_plans_to_purchase_food: false,
+    purchased_or_plans_to_purchase_food: true,
     disaster_expenses: {
       food_loss: 129,
       home_or_business_repairs: 0,

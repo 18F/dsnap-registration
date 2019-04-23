@@ -83,7 +83,6 @@
     "fullName": "Provide your full name",
     "language": "Select a language",
     "lastName": "Provide last name",
-    "matchingName": "Your signature must match the name you entered at the beginning of the form",
     "noMatch": "Invalid selection",
     "length": "{{ fieldName }} must be exactly {{ length }} digits",
     "positiveNumber": "This value can't be less than zero",
