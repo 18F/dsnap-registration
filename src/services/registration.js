@@ -47,7 +47,8 @@ export const getRegistrations = (filters) => {
   return axios.get(url, {
     headers: {
       'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
-    }
+    },
+    withCredentials: true
   })
     .then(({ data }) => {
       const registrations = Array.isArray(data) ? data : [data];
