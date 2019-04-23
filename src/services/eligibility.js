@@ -8,10 +8,6 @@ const location = process.env.NODE_ENV === 'development' ?
 export const createEligibility = (data) => {
   const transformedData = toRulesServiceFormat(data);
 
-  return axios.post(`${location}/${endpoint}`, transformedData, {
-    headers: {
-      'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
-    }
-  })
+  return axios.post(`${location}/${endpoint}`, transformedData)
     .then(response => response.data);
 };
