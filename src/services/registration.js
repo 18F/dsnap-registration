@@ -69,7 +69,8 @@ export const updateRegistration = ({ id, ...registrationData }) => {
   return axios.put(`${location}/${endpoint}/${id}`, transformedData, {
     headers: {
       'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
-    }
+    },
+    withCredentials: true
   })
     .then(({ data }) => formatRegistrationForClient(data));
 }
