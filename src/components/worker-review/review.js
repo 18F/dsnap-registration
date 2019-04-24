@@ -10,11 +10,14 @@ import FormikField from 'components/formik-field';
 import Button from 'components/button';
 import { getApplicant } from 'models/household';
 import { getFullName } from 'models/person';
+import moment from 'moment';
 import './styles.scss';
 
 class ApprovalStatusDisplay extends React.Component {
   static propTypes = {
-    approved: PropTypes.bool
+    approved: PropTypes.bool,
+    approvedBy: PropTypes.string,
+    approvedAt: PropTypes.string,
   }
 
   constructor(props) {
@@ -33,7 +36,7 @@ class ApprovalStatusDisplay extends React.Component {
   }
 
   render() {
-    const { approved } = this.props;
+    const { approved, approvedAt, approvedBy } = this.props;
     const computedClassName = classnames('grid-col padding-y-2 padding-x-4 text-white margin-bottom-4', {
       'bg-secondary': !approved,
       'bg-mint': approved
@@ -48,8 +51,8 @@ class ApprovalStatusDisplay extends React.Component {
         <UI.Header type="h2">
           { approved ? 'Approved' : 'Denied' }
         </UI.Header>
-        <p>Date: Date from server</p>
-        <p>By: Email address of worker</p>
+        <p>Date: {moment(approvedAt).format("dddd, MMMM Do YYYY, h:mm:ss a")}</p>
+        <p>By: {approvedBy} </p>
       </div>
     );
   }
@@ -198,6 +201,7 @@ class WorkerReview extends React.Component {
   render() {
     const { machineState, t } = this.props;
     const registration = machineState.currentRegistration;
+    const { client } = registration;
 
     if (!registration) {
       return null;
@@ -208,24 +212,28 @@ class WorkerReview extends React.Component {
         <div className="margin-bottom-4">
           <UI.Header
             border
-            text={getFullName(getApplicant(registration.client.household))}
+            text={getFullName(getApplicant(client.household))}
           >
             <div>
               <p>{ t('worker.search.id.label') }:</p>
-              <b>{ registration.client.id }</b>
+              <b>{ client.id }</b>
             </div>
           </UI.Header>
         </div>
-        <ApprovalStatusDisplay approved={machineState.approval} />
+        <ApprovalStatusDisplay
+          approved={client.approved}
+          approvedAt={client.approvedAt}
+          approvedBy={client.approvedBy}
+        />
         <EligibilityDisplay eligibility={machineState.eligibility} />
         <SnapshotReview
           readonly={this.state.readonly}
-          values={{ disasters: machineState.disasters, ...registration.client }}
+          values={{ disasters: machineState.disasters, ...client }}
           onNext={this.handleUpdate}
           sections={[<EBTReviewSection title={t('worker.review.ebt.header')} />]}
           render={(formik) => {
             return (
-              typeof machineState.approval === 'boolean' ?
+              typeof client.approved === 'boolean' ?
               null :
               <div>
                 <Button

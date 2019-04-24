@@ -146,6 +146,9 @@ function fromRegistrationServiceFormat(id, src) {
 
   return {
     id,
+    approvedAt: src.approved_at,
+    approvedBy: src.approved_by,
+    approved: src.user_approved,
     basicInfo, 
     impact,
     household: {
@@ -212,13 +215,12 @@ function toRulesServiceFormat(registration) {
   };
 }
 
-function formatRegistrationForClient({ id, latest_data }) {
+function formatRegistrationForClient({ id, latest_data, approved_by, approved_at, user_approved }) {
   return {
     server: latest_data,
-    client: fromRegistrationServiceFormat(id, latest_data),
+    client: fromRegistrationServiceFormat(id, { ...latest_data, approved_at, approved_by, user_approved }),
   };
 }
-
 
 const totalIncome = (household) => {
   const memberIncome = incomeSources =>

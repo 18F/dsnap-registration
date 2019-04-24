@@ -73,4 +73,19 @@ export const updateRegistration = ({ id, ...registrationData }) => {
     withCredentials: true
   })
     .then(({ data }) => formatRegistrationForClient(data));
+};
+
+export const updateRegistrationStatus = (id, approvalStatus) => {
+  return axios.put(`${location}/${endpoint}/${id}/status`, approvalStatus, {
+    headers: {
+      'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
+    },
+    withCredentials: true
+  })
+    .then(({ data }) => {
+      return {
+        approvedAt: data.approved_at,
+        approvedBy: data.approved_by,
+      };
+    });
 }
