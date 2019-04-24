@@ -10,7 +10,7 @@ import { buildNestedKey } from 'utils';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, hasOtherJobs, getJobs, getIncome } from 'models/person';
 import { getDisaster, getBeginDate, getEndDate } from 'models/disaster';
-import { getCurrentResourceHolderId, updateCurrentMemberIndex } from 'models/resources';  
+import { getCurrentResourceHolderId } from 'models/resources';  
 import { jobSchemaValidator } from 'schemas/job';
 
 const modelName = 'jobs';
