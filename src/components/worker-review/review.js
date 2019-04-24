@@ -8,6 +8,7 @@ import UI from 'components/ui';
 import SnapshotReview from 'components/snapshot-review';
 import FormikField from 'components/formik-field';
 import Button from 'components/button';
+import Collapsible from 'components/collapsible';
 import { getApplicant } from 'models/household';
 import { getFullName } from 'models/person';
 import moment from 'moment';
@@ -89,46 +90,54 @@ class EligibilityDisplay extends React.Component {
     const eligibleClassName = this.eligibleClassName(eligibility.eligible);
 
     return (
-      <section className="grid-col padding-4 bg-accent-warm-lighter text-black margin-bottom-4">
-        <div className="font-sans-lg margin-bottom-2">
-          <span>
-            Based on the information below, this applicant appears to be:
-          </span>
-          <p className={eligibleClassName}>
-            <b>
-              { eligibility.eligible ? 'Eligible' : 'Ineligible' }
-            </b>
+      <Collapsible
+        collapsed={this.props.isOpen}
+        header="Eligibility Info"
+        gridClassName="grid-col"
+        buttonClassName="bg-accent-warm-lighter hover:bg-accent-warm-lighter text-black"
+        contentClassName="bg-accent-warm-lighter"
+      >
+        <section className="grid-col padding-4 bg-accent-warm-lighter text-black margin-bottom-4">
+          <div className="font-sans-lg margin-bottom-2">
+            <span>
+              Based on the information below, this applicant appears to be:
+            </span>
+            <p className={eligibleClassName}>
+              <b>
+                { eligibility.eligible ? 'Eligible' : 'Ineligible' }
+              </b>
+            </p>
+          </div>
+          <p className="font-sans-md margin-top-4 margin-bottom-2">
+            <b>Findings</b>
           </p>
-        </div>
-        <p className="font-sans-md margin-top-4 margin-bottom-2">
-          <b>Findings</b>
-        </p>
-        <ul className="add-list-reset fa">
-          {
-            eligibility.findings.map((finding, index) => {
-              const listItemClass = classnames('margin-bottom-2 margin-left-2', {
-                'success': finding.succeeded,
-                'failure': !finding.succeeded,
-              });
+          <ul className="add-list-reset fa">
+            {
+              eligibility.findings.map((finding, index) => {
+                const listItemClass = classnames('margin-bottom-2 margin-left-2', {
+                  'success': finding.succeeded,
+                  'failure': !finding.succeeded,
+                });
 
-              return (
-                <li
-                  key={`findings.${index}`}
-                  className={listItemClass}
-                >
-                  { finding.text }
-                </li>
-              )
-            })
-          }
-        </ul>
-        <p className="font-sans-md margin-top-4 margin-bottom-1">
-          <b>Allotment</b>
-        </p>
-        <span>
-          ${eligibility.metrics.allotment || 0}
-        </span>
-      </section>
+                return (
+                  <li
+                    key={`findings.${index}`}
+                    className={listItemClass}
+                  >
+                    { finding.text }
+                  </li>
+                )
+              })
+            }
+          </ul>
+          <p className="font-sans-md margin-top-4 margin-bottom-1">
+            <b>Allotment</b>
+          </p>
+          <span>
+            ${eligibility.metrics.allotment || 0}
+          </span>
+        </section>
+      </Collapsible>
     );
   }
 }
@@ -225,7 +234,10 @@ class WorkerReview extends React.Component {
           approvedAt={client.approvedAt}
           approvedBy={client.approvedBy}
         />
-        <EligibilityDisplay eligibility={machineState.eligibility} />
+        <EligibilityDisplay
+          eligibility={machineState.eligibility}
+          isOpen={typeof client.approved === 'boolean'}
+        />
         <SnapshotReview
           readonly={this.state.readonly}
           values={{ disasters: machineState.disasters, ...client }}
