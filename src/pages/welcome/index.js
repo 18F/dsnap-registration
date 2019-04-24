@@ -8,8 +8,8 @@ import FormikField from 'components/formik-field';
 import Button from 'components/button';
 
 class PreregistrationSection extends React.Component {
-  handleSubmit = () => {
-    this.props.onNext({ data: this.props.values });
+  handleSubmit = (values) => {
+    this.props.onNext({ data: values });
   }
 
   getLanguageOptions() {
@@ -58,7 +58,7 @@ class PreregistrationSection extends React.Component {
                   <FormikField
                     type="select"
                     labelText={t('welcome.language.header')}
-                    name={'config.language'}
+                    name="config.language"
                     options={this.getLanguageOptions()}
                   />
                   <div className="margin-y-2">

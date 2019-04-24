@@ -15,12 +15,13 @@ import assetsSchema from 'schemas/assets';
 
 const modelName = 'otherExpenses';
 
-const setMembersWithIncome = (household, members, basicInfo) => () => ({
+const setMembersWithIncome = ({ resources, household, members, basicInfo }) => () => ({
   household: {
     ...household,
     members
   },
   resources: {
+    ...resources,
     membersWithIncome: members.reduce((memo, member, index) => {
       if (hasIncome(getIncome(member))) {
         memo.push(index);
@@ -38,7 +39,7 @@ class Assets extends React.Component {
 
     return (
       <Wizard.Context>
-        {({ basicInfo, household, disasters }) => {
+        {({ basicInfo, household, disasters, resources }) => {
           const members = getMembers(household);
           const disaster = getDisaster(disasters, basicInfo.disasterId);
 
@@ -47,7 +48,7 @@ class Assets extends React.Component {
               header={t(`${buildNestedKey(sectionName, 'header')}`)}
               registerStep={registerStep}
               modelName={modelName}
-              onNext={setMembersWithIncome(household, members, basicInfo)}
+              onNext={setMembersWithIncome({ resources, household, members, basicInfo })}
               validationSchema={assetsSchema}
             >
               <CurrencyField

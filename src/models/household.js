@@ -23,29 +23,70 @@ export const getOtherMemberCount = household => getOtherMembers(household).lengt
 // basic info and household so this accessor doesnt have to be hardcoded
 
 // @return the applicant, who is always the first entry in the members array
-export const getApplicant = household => getMembers(household)[0];
+export const getApplicant = household => getMemberAtIndex(household, 0);
+
+export const getMemberAtIndex = (household, index) => getMembers(household)[index];
+
 export const getCurrentMemberIndex = (household) => {
   const i = household.currentMemberIndex;
-  let next = i + 1;
+  let next = i;
 
-  if (next > getOtherMemberCount(household)) {
-    next = getOtherMemberCount(household) - 1;
+  if (next < 0) {
+    next = 0;
+  } else if (next === 0) {
+    next += 1; 
+  } else if (i >= getOtherMemberCount(household)) {
+    next = getOtherMemberCount(household);
   }
 
   return next;
 }
 
 export const updateCurrentMemberIndex = household => {
-  const nextIndex = {
+  const nextHousehold = {
     ...household,
-    currentMemberIndex: hasAdditionalMembers(household) ? getCurrentMemberIndex(household) : 0,
+    currentMemberIndex: household.currentMemberIndex >= getOtherMemberCount(household) ?
+      getOtherMemberCount(household) : household.currentMemberIndex + 1
   };
  
-  return nextIndex;
+  return nextHousehold;
 };
 
-export const hasAdditionalMembers = household =>
-  household.currentMemberIndex < getOtherMemberCount(household);
+export const decrementMemberIndex = ({ currentMemberIndex }) => {
+  return currentMemberIndex - 1 <= 0 ? 0 : currentMemberIndex - 1;
+};
+
+export const hasAdditionalMembers = household => {
+  return household.currentMemberIndex < getOtherMemberCount(household);
+};
+
+export const updateHouseholdMembers = (household, count) => {
+  const currentMemberCount = getOtherMemberCount(household);
+  let updatedHousehold;
+
+  if (count === currentMemberCount || count < 0) {
+    updatedHousehold = { ...household, currentMemberIndex: 0 };
+  } else if (count < currentMemberCount) {
+    updatedHousehold = {
+      ...household,
+      currentMemberIndex: 0,
+      members: household.members.slice(0, count + 1),
+    };
+  } else if (count > currentMemberCount) {
+    updatedHousehold = {
+      ...household,
+      currentMemberIndex: 0,
+      members: [
+        ...household.members,
+        ...Array.apply(null, {
+          length: count - currentMemberCount
+        }).map(person)
+      ]
+    };
+  }
+
+  return updatedHousehold;
+};
 
 export const addPeopleToHousehold = (household, count) => {
   const { members, ...rest } = household;
@@ -54,7 +95,7 @@ export const addPeopleToHousehold = (household, count) => {
     return household;
   }
 
-  return {
+  const next = {
     ...rest,
     members: [
       ...members,
@@ -63,6 +104,8 @@ export const addPeopleToHousehold = (household, count) => {
       }).map(person)
     ]
   };
+
+  return next;
 };
 
 export const deleteMemberFromHousehold = (household, index) => {
@@ -81,4 +124,21 @@ export const updateMemberAtIndex = (household, index, member) => {
     ...household,
     members: nextMembers
   }
+};
+
+export const methods = {
+  updateMemberAtIndex,
+  deleteMemberFromHousehold,
+  addPeopleToHousehold,
+  updateHouseholdMembers,
+  getHouseholdCount,
+  getMembers,
+  getOtherMembers,
+  getOtherMemberCount,
+  getApplicant,
+  getCurrentMemberIndex,
+  updateCurrentMemberIndex,
+  decrementMemberIndex,
+  hasAdditionalMembers,
+  getMemberAtIndex,
 };

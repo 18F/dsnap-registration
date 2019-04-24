@@ -4,11 +4,7 @@ import impact from './impact';
 import submit from './submit';
 import errors from './error';
 import config from './config';
-
-const resources = () => ({
-  membersWithIncome: [],
-  currentMemberIndex: null
-});
+import resources from './resources';
 
 const combine = (obj) =>
   Object.entries(obj).reduce((accum, [ name, statefn ]) => (

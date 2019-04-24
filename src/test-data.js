@@ -43,7 +43,7 @@ export default {
            "race":"",
            "ethnicity": "Not Hispanic or Latino",
            "hasFoodAssistance":false,
-           "hasOtherJobs":"no",
+           "hasOtherJobs":false,
            "hasJobs":true,
            "assetsAndIncome":{
               "hasIncome":true,
@@ -116,7 +116,7 @@ export default {
           "ethnicity": "",
           "hasFoodAssistance":false,
           "hasOtherJobs":"no",
-          "hasJobs":true,
+          "hasJobs":false,
           "assetsAndIncome":{
              "hasIncome":true,
              "incomeSources":{
