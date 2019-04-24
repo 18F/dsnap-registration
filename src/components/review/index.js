@@ -9,9 +9,7 @@ class ApplicantReview extends React.Component {
   unlisten = null
 
   componentDidMount() {
-    debugger
     this.unlisten = this.props.history.listen((event, action) => {
-      debugger
       return setTimeout(() => {
         return this.rewindMemberIndex(event, action);
       }, 0);
@@ -23,12 +21,10 @@ class ApplicantReview extends React.Component {
   }
 
   rewindMemberIndex = (_, action) => {
-    debugger
     if (action === 'POP') {
-      // debugger
-      // this.props.fsmTransition({
-      //   command: 'RESET_CURRENT_RESOURCE_MEMBER_INDEX',
-      // });
+      this.props.fsmTransition({
+        command: 'RESET_CURRENT_RESOURCE_MEMBER_INDEX',
+      });
     }
   }
 

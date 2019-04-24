@@ -316,9 +316,9 @@ class Wizard extends React.Component {
           initialValues={rest}
           onSubmit={this.handleSubmit}
           validate={this.validate}
-          render={({ values, handleSubmit, handleChange, setValues, errors }) => {
+          render={({ values, handleSubmit, handleChange, setValues, errors, isSubmitting }) => {
             let providedValues = this.formStarted ? values : this.props.initialValues;
-
+            console.log(isSubmitting)
             return (
               <React.Fragment>
                 <WizardContext.Provider value={providedValues}>

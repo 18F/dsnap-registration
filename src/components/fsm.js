@@ -114,7 +114,7 @@ class FSMRouter extends React.Component {
     }
 
     const { currentStep, currentSection, prefix = '' } = context;
-    //debugger
+
     const pathStart = prefix ? `/${prefix}` : prefix;
     let path = `${pathStart}/${currentSection.trim()}`;
 
@@ -155,8 +155,7 @@ class FSMRouter extends React.Component {
     return this.service.machine.getStateNodeByPath(path);
   }
 
-  handleHistoryTransition = ({ pathname }, _, debounce = true) => {
-    debugger
+  handleHistoryTransition = ({ pathname }, action, debounce = true) => {
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
       return;
@@ -168,10 +167,11 @@ class FSMRouter extends React.Component {
       const machinePath = formatRouteWithDots(pathname);
 
       this.stateTransitioning = true;
-      this.sendServiceTransition(machinePath);
+
+      this.sendServiceTransition(machinePath, action);
      // debugger
       if (!matchesState(this.getMachineState(), machinePath)) {
-        debugger
+       // s debugger
         this.stateTransitioning = false;
 
         const currentNode = this.getCurrentNode();
@@ -182,19 +182,17 @@ class FSMRouter extends React.Component {
           }
           
           this.updateComponentHistory(`${currentNode.meta.path}`);
-
           this.props.history.push(`${currentNode.meta.path}`);
         }
       } else {
-        debugger
+        //debugger
       }
     } else {
       // TODO: handle invalid machine states here?
     }
   }
 
-  handleXStateTransition = (state) => {
-    debugger
+  handleXStateTransition = (state, action) => {
     if (this.mounted) {
       this.setState({ machineState: state })
     } else {
@@ -208,11 +206,18 @@ class FSMRouter extends React.Component {
 
     const currentNode = this.getCurrentNode(state);
 
+    // We only want the browser history to be updated when
+    // we are explicitly moving forward, otherwise multiple
+    // instances of the same page are going to get pushed
+    // onto the stack
+    if (action.type !== 'NEXT' && !currentNode.meta && currentNode.key !== 'idle') {
+      return;
+    }
+
     if (currentNode.meta && currentNode.meta.path) {
       this.historyTransitioning = true;
 
       this.updateComponentHistory(`${currentNode.meta.path}`);
-
       this.props.history.push(`${currentNode.meta.path}`);
     }
   }

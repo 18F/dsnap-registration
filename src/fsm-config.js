@@ -11,8 +11,9 @@ import {
   hasAdditionalMembers,
   updateMemberAtIndex,
   decrementMemberIndex,
+  getMemberAtIndex,
 } from 'models/household';
-import { hasJob, hasOtherJobs, getIncome } from 'models/person';
+import { hasJob, hasOtherJobs, getIncome, getJobs } from 'models/person';
 import { getDisasters } from 'services/disaster';
 import { createRegistration } from 'services/registration';
 import { createEligibility } from 'services/eligibility';
@@ -449,22 +450,30 @@ const resourcesChart = {
         target: '.assets',
         internal: true,
         cond: (ctx) => {
-          debugger
           return ctx.resources.currentMemberIndex === 0;
         },
       },
       {
         internal: true,
-        target: '.income-branch',
+        target: '.check-member',
         cond: (ctx) => {
           return ctx.resources.currentMemberIndex !== 0;
         },
         actions: [
           assign({
             resources: (ctx) => {
+              const currentMemberIndex = ctx.resources.currentMemberIndex;
+              const membersWithIncomeLen = ctx.resources.membersWithIncome.length;
+              let modifier = -1;
+              
+              // This handle the (edge) case where the user clicks the back button and the browser
+              // history listener doesnt fire. We need to decrement to currentMemberIndex by more than 1
+              if (currentMemberIndex >= membersWithIncomeLen) {
+                modifier = -(membersWithIncomeLen);
+              }
               return {
                 ...ctx.resources,
-                currentMemberIndex: updateCurrentMemberIndex(ctx.resources, -1)
+                currentMemberIndex: updateCurrentMemberIndex(ctx.resources, modifier)
               }
             }
           }),
@@ -474,15 +483,60 @@ const resourcesChart = {
     ],
     DECREMENT_CURRENT_JOB_INDEX: [
       {
-        target: '.income',
-        internal: true,
+        /**
+         * wee cant redirect to the income branch becuase the code will see that the current
+         * member's index has been decremented and skip the income screen of the last user
+         * additionally, this will break on the final member, since the currentMemberIndex
+         * will be set to a negative number.
+         * 
+         * We also cant redirect just to the jobs-branch, since that will cuase the code to immediately
+         * redirect to the income page since the next user has jobs, and redirecting there resets
+         * the currentJobIndex to zero.
+         * 
+         * Therefore, we need a third state that is only accessible from this branch, that 
+         * decrements the member index and sends the user back to the jobs page if they have jobs,
+         * or to the income branch if they dont. alternatively, we could potentially use the other-jobs branch
+         */
+        target: '.income-branch',
         cond: (ctx) => {
           const memberIndex = getCurrentResourceHolderId(ctx.resources);
           const member = getMembers(ctx.household)[memberIndex];
           const income = getIncome(member);
-          // debugger
-          return income.currentJobIndex < 0;
-        }
+
+          return income.currentJobIndex <= 0;
+        },
+        actions: [
+          assign({
+            resources: (ctx) => {
+              let indexOffset = -1;
+
+              if (ctx.resources.currentMemberIndex - 1 < 0) {
+                indexOffset = 0;
+              }
+
+              return {
+                ...ctx.resources,
+                currentMemberIndex: updateCurrentMemberIndex(ctx.resources, indexOffset)
+              }
+            },
+            household: (ctx) => {
+              const memberIndex = getCurrentResourceHolderId(ctx.resources);
+              const member = getMembers(ctx.household)[memberIndex];
+              const income = getIncome(member);
+
+              const nextMember = {
+                ...member,
+                hasOtherJobs: income.jobs.length ? true : false,
+                assetsAndIncome: {
+                  ...income,
+                  currentJobIndex: income.currentJobIndex - 1,
+                },
+              };
+              return updateMemberAtIndex(ctx.household, memberIndex, nextMember);
+            },
+          }),
+          'persist'
+        ]
       },
       {
         target: '.jobs-branch',
@@ -492,7 +546,7 @@ const resourcesChart = {
           const member = getMembers(ctx.household)[memberIndex];
           const income = getIncome(member);
 
-          return income.currentJobIndex >= 0;
+          return income.currentJobIndex > 0;
         },
         actions: [
           assign({
@@ -500,7 +554,7 @@ const resourcesChart = {
               const memberIndex = getCurrentResourceHolderId(ctx.resources);
               const member = getMembers(ctx.household)[memberIndex];
               const income = getIncome(member);
-              // debugger
+
               const nextMember = {
                 ...member,
                 hasOtherJobs: income.jobs.length ? true : false,
@@ -509,8 +563,20 @@ const resourcesChart = {
                   currentJobIndex: income.currentJobIndex - 1,
                 },
               };
-
               return updateMemberAtIndex(ctx.household, memberIndex, nextMember);
+            },
+            resources: (ctx) => {
+              let indexOffset = -1;
+
+              if (ctx.resources.currentMemberIndex - 1 < 0) {
+                indexOffset = 0;
+              }
+              // only decrement if they dont have jobs?
+
+              return {
+                ...ctx.resources,
+                currentMemberIndex: updateCurrentMemberIndex(ctx.resources, indexOffset)
+              }
             }
           }),
           'persist'
@@ -542,6 +608,28 @@ const resourcesChart = {
         ...formNextHandler('income-branch'),
       },
     },
+    'check-member': {
+      '': [
+        {
+          target: 'income-branch',
+          cond: (ctx) => {
+            const memberIndex = getCurrentResourceHolderId(ctx.resources);
+            const member = getMembers(ctx.household)[memberIndex];
+
+            return !hasJob(member);
+          }
+        },
+        {
+          target: 'other-jobs-loop',
+          cond: (ctx) => {
+            const memberIndex = getCurrentResourceHolderId(ctx.resources);
+            const member = getMembers(ctx.household)[memberIndex];
+
+            return hasJob(member) && hasOtherJobs(member);
+          }
+        }
+      ]
+    },
     'income-branch': {
       internal: true,
       on: {
@@ -549,7 +637,6 @@ const resourcesChart = {
           {
             target: '#review',
             cond: (ctx) => {
-              // debugger
               return !pendingMembersWithResources(ctx.resources);
             },
             actions: 'persist'
@@ -557,8 +644,6 @@ const resourcesChart = {
           {
             target: 'income',
             cond: (ctx) => {
-              console.log('in income branch')
-              // debugger
               return pendingMembersWithResources(ctx.resources);
             },
             actions: [
@@ -577,6 +662,7 @@ const resourcesChart = {
             const { household, resources } = ctx;
             const memberIndex = getCurrentResourceHolderId(resources);
 
+            /// set new job index
             return {
               ...updateMemberAtIndex(
                 household,
@@ -600,26 +686,59 @@ const resourcesChart = {
       }
     },
     'jobs-branch': {
+      internal: true,
       on: {
         '': [
           {
             target: 'jobs',
+            internal: true,
             cond: (context) => {
               /**
                * Determine whether or not the state machine should transition back to the
                * `job` info screen.
                */
-              // debugger
               const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
   
               return member && hasJob(member);
             },
+            actions: [
+              // set `hasOtherJobs` flag to true if the number of total jobs the user has
+              // is greater than the `currentJobIndex` prop
+              assign({
+                household: (ctx) => {
+                  const { household, resources } = ctx;
+                  const memberIndex = getCurrentResourceHolderId(resources);
+                  const member = getMemberAtIndex(household, memberIndex);
+
+                  if (!member) {
+                    return household;
+                  }
+                  
+                  const income = getIncome(member);
+                  const jobs = getJobs(member);
+                  const nextJobIndex = income.currentJobIndex + 1;
+
+                  const nextMember = {
+                    ...member,
+                    hasOtherJobs: !jobs.length || jobs.length > nextJobIndex
+                  };
+
+                  /// set new job index
+                  return updateMemberAtIndex(
+                    household,
+                    memberIndex,
+                    nextMember
+                  );
+                }
+              }),
+              'persist'
+            ]
           },
           {
             target: 'income-branch',
+            internal: true,
             cond: (context) => {
-              // debugger
               const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
 
@@ -632,7 +751,7 @@ const resourcesChart = {
     jobs: {
       onEntry: [
         assign((ctx) => {
-          // debugger
+          
           // TODO: move this logic into a method and import it
           const { household, resources } = ctx
           const memberIndex = getCurrentResourceHolderId(resources);
@@ -641,7 +760,7 @@ const resourcesChart = {
           let nextHousehold;
 
           if (income.jobs[income.currentJobIndex] !== undefined) {
-            nextHousehold = { ...household };
+            nextHousehold = household;
           } else {
             const nextMember = {
               ...member,
@@ -673,27 +792,14 @@ const resourcesChart = {
       },
       on: {
         ...formNextHandler('other-jobs-loop'),
-        '': [
-          {
-            target: 'income-branch',
-            cond: (ctx) => {
-              // debugger
-              const memberId = getCurrentResourceHolderId(ctx.resources);
-              const member = getMembers(ctx.household)[memberId];
-      
-              return member && !hasJob(member);
-            },
-          }
-        ]
       }
     },
     'other-jobs-loop': {
       on: {
         '': [
           {
-            target: 'jobs',
+            target: 'jobs-branch',
             cond: (context) => {
-              // debugger
               const memberId = getCurrentResourceHolderId(context.resources);
               const member = getMembers(context.household)[memberId];
 
@@ -725,7 +831,18 @@ const resourcesChart = {
 
               return !member || !hasOtherJobs(member);
             },
-          }
+            actions: [
+              assign({
+                resources: (ctx) => {
+                  return {
+                    ...ctx.resources,
+                    currentMemberIndex: updateCurrentMemberIndex(ctx.resources, 1)
+                  }
+                }
+              }),
+              'persist'
+            ]
+          },
         ]
       }
     }
@@ -881,7 +998,6 @@ const reviewChart = {
   initial: 'default',
   strict: true,
   onEntry: [
-    () => { debugger},
     assign({
       currentSection: 'review',
       currentStep: 'review',

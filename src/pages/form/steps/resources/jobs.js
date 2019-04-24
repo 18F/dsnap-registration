@@ -10,7 +10,7 @@ import { buildNestedKey } from 'utils';
 import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, hasOtherJobs, getJobs, getIncome } from 'models/person';
 import { getDisaster, getBeginDate, getEndDate } from 'models/disaster';
-import { getCurrentResourceHolderId } from 'models/resources';  
+import { getCurrentResourceHolderId, updateCurrentMemberIndex } from 'models/resources';  
 import { jobSchemaValidator } from 'schemas/job';
 
 const modelName = 'jobs';
@@ -32,20 +32,16 @@ const handleNext = (values) => {
   if (!hasOtherJobs(member)) {
     const nextMember = {
       ...member,
+      hasOtherJobs: false,
       assetsAndIncome: {
         ...member.assetsAndIncome,
         jobs: getJobs(member).slice(0, member.assetsAndIncome.currentJobIndex + 1),
-        hasOtherJobs: false
       }
     };
 
     nextState = {
       ...nextState,
       household: updateMemberAtIndex(household, index, nextMember),
-      resources: {
-        ...resources,
-        currentMemberIndex: values.resources.currentMemberIndex + 1
-      }
     };
   };
 
