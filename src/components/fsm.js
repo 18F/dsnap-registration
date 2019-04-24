@@ -139,9 +139,11 @@ class FSMRouter extends React.Component {
   }
 
   updateComponentHistory(route) {
-    this.setState({
-      history: [...this.state.history, route]
-    }, () => console.log('routes visited', this.state.history));
+    if (this.mounted) {
+      this.setState({
+        history: [...this.state.history, route]
+      }, () => console.log('routes visited', this.state.history));
+    }
   }
 
   hasMatchingRoute(maybeRoute) {

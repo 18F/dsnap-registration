@@ -25,14 +25,13 @@ const inputTypes = (type) => {
 
 // TODO: if an error has been shown once, we need to show the error
 // regardless - eg when the submit count is over 1
-const FormikError = ({ name }) => (
-  <ErrorMessage name={name}>
-    { 
-      (message) => <InputError message={message} />
-    }
-  }
-  </ErrorMessage>
-);
+const FormikError = ({ name }) => {
+  return (
+    <ErrorMessage name={name}>
+      { (message) => <InputError message={message} /> }
+    </ErrorMessage>
+  );
+};
 
 class FormikField extends React.Component {
   static propTypes = {
@@ -53,6 +52,16 @@ class FormikField extends React.Component {
   static defaultProps = {
     eager: true,
     showError: true
+  }
+
+  renderError(form) {
+    const { name, showError } = this.props;
+
+    if (showError && (form.submitCount || getIn(form.touched, name))) {
+      return  <FormikError name={name} />
+    }
+
+    return null;
   }
 
   render() {
@@ -85,7 +94,7 @@ class FormikField extends React.Component {
                 onInput={() => form.setFieldTouched(name, true, true)}
                 {...rest}
               />
-              { this.props.showError && (form.submitCount || getIn(form.touched, name)) ? <FormikError name={name} /> : null }
+              { this.renderError(form) }
             </React.Fragment>
           );
         }}
