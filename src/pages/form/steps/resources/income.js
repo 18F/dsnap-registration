@@ -1,40 +1,71 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { withMachineContext } from 'components/fsm';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField, { FormikFieldGroup } from 'components/formik-field';
 import ComboField from 'components/combo-field';
 import { validateIncomeSchema } from 'schemas/income';
 import { buildNestedKey } from 'utils';
-import { getMembers } from 'models/household';
+import { getMembers, updateMemberAtIndex } from 'models/household';
 import { getFirstName, hasJob } from 'models/person';
 import { getDisaster } from 'models/disaster';
+import {
+  getCurrentResourceHolderId,
+  updateCurrentMemberIndex
+} from 'models/resources';
 
 const modelName = 'assetsAndIncome';
 
-const updateMembersWithIncome = state => () => {
-  const members = getMembers(state.household);
-  const index = state.resources.membersWithIncome[0];
-  const member = members[index];
+const updateMemberIncome = (values) => {
+  const memberId = getCurrentResourceHolderId(values.resources);
+  const member = getMembers(values.household)[memberId];
 
   if (!hasJob(member)) {
-    /**
-     * this person doesnt have a job, but did have income, so we
-     * need to indicate that all of their income has been reported.
-     * Remove them from the memberWithIncome array so that either the
-     * next household member will be processed, or the state machine
-     * should move to the next section
-     */
+    const nextMember = {
+      ...member,
+      assetsAndIncome: {
+        ...member.assetsAndIncome,
+        jobs: []
+      }
+    };
+
     return {
+      ...values,
+      household: updateMemberAtIndex(values.household, values.resources.currentMemberIndex, nextMember),
       resources: {
-        membersWithIncome: state.resources.membersWithIncome.slice(1)
+        ...values.resources,
+        currentMemberIndex: updateCurrentMemberIndex(values.resources, 1)
       }
     };
   }
 
-  return state;
-};
+  return values;
+}
 
 class Income extends React.Component {
+  unlisten = null
+
+  componentDidMount() {
+    this.unlisten = this.props.history.listen((event, action) => {
+      return setTimeout(() => {
+        return this.rewindMemberIndex(event, action);
+      }, 0);
+    });
+  }
+
+  componentWillUnmount() {
+    setTimeout(() => this.unlisten(), 0);
+  }
+
+  rewindMemberIndex = (_, action) => {
+    if (action === 'POP') {
+      this.props.fsmTransition({
+        command: 'DECREMENT_CURRENT_MEMBER_INDEX',
+      });
+    }
+  }
+
   render() {
     const { handleChange, sectionName, registerStep, t } = this.props;
 
@@ -49,8 +80,13 @@ class Income extends React.Component {
 
           const disaster = getDisaster(disasters, basicInfo.disasterId);
           const members = getMembers(household);
-          const index = resources.membersWithIncome[0];
+          const index = getCurrentResourceHolderId(resources);
           const member = members[index];
+
+          if (!member) {
+            return null;
+          }
+
           const firstName = getFirstName(member);
           const { incomeSources } = member.assetsAndIncome;
           const assetsAndIncomeId = buildNestedKey('household', 'members', index, 'assetsAndIncome');
@@ -61,7 +97,7 @@ class Income extends React.Component {
               header={t(`${buildNestedKey(sectionName, modelName, 'header')}`, { firstName })}
               registerStep={registerStep}
               modelName={modelName}
-              onNext={updateMembersWithIncome(values)}
+              onNext={updateMemberIncome}
               validate={validatorFn}
             >
               <FormikFieldGroup
@@ -106,4 +142,4 @@ class Income extends React.Component {
 }
 
 export { Income }
-export default withLocale(Income);
+export default withMachineContext(withRouter(withLocale(Income)));

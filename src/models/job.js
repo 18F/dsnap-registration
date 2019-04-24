@@ -1,6 +1,6 @@
 const initialState = {
   employerName: '',
-  pay: '',
+  pay: 0,
   isDsnapAgency: null
 };
 

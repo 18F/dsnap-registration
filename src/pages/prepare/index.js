@@ -16,7 +16,7 @@ class PreparePage extends React.Component {
   }
 
   handleClick = () => {
-    this.props.history.push('/form/basic-info/applicant-name');
+    this.props.onNext({ command: 'NEXT' });
   }
 
   render() {

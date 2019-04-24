@@ -5,7 +5,7 @@ import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
 import { buildNestedKey } from 'utils';
 import { getFirstName } from 'models/person';
-import { getMembers, getApplicant } from 'models/household';
+import { getMembers, getApplicant, getOtherMemberCount } from 'models/household';
 import UI from 'components/ui';
 import nameSchema from 'schemas/name';
 
@@ -15,11 +15,12 @@ const MemberNames = ({ handleChange, sectionName, t, registerStep }) => (
   <Wizard.Context>
     {({ household }) => {
       const customerName = getFirstName(getApplicant(household));
+      const count = getOtherMemberCount(household);
 
       return (
         <Wizard.Step
           header={
-            t(`${buildNestedKey(sectionName, modelName, 'header')}`, { customerName })
+            t(`${buildNestedKey(sectionName, modelName, 'header')}`, { customerName, count })
           }
           modelName={modelName}
           registerStep={registerStep}

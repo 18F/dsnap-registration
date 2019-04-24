@@ -31,11 +31,11 @@ class RadioCheckbox extends React.Component {
     this.checkbox.current.click();
   }
 
-  normalizeValue() {
-    switch(this.props.value) {
+  normalizeValue(value = this.props.value) {
+    switch(value) {
       case 'true': return true;
       case 'false': return false;
-      default: return this.props.value;
+      default: return value;
     }
   };
   
@@ -45,7 +45,7 @@ class RadioCheckbox extends React.Component {
   
   isChecked() {
     if (this.isRadio()) {
-      return this.props.value === this.props.radioValue;
+      return this.normalizeValue(this.props.value) === this.normalizeValue(this.props.radioValue);
     }
 
     return this.normalizeValue();
