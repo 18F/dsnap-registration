@@ -4,7 +4,6 @@ import CollapsibleContent from './collapsible-content';
 
 const propTypes = {
   body: PropTypes.string,
-  className: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
   buttonClassName: PropTypes.string,
   gridClassName: PropTypes.string,
   header: PropTypes.string.isRequired,
