@@ -87,6 +87,7 @@ class FormikField extends React.Component {
                 onBlur={(event) => {
                   onBlur && onBlur(event, field, form);
                   field.onBlur(event);
+                  event.target.blur();
                 }}
                 onFocus={(event) => {
                   onFocus && onFocus(event, field, form);

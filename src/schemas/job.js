@@ -5,6 +5,7 @@ const jobDetailsSchema = buildSchema(({ t }) => ({
   employerName: string()
     .required(t('errors.required')),
   pay: string()
+    .nullable()
     .required(t('errors.required')),
   isDsnapAgency: bool()
     .nullable()
