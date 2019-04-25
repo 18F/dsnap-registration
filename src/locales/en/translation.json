@@ -266,14 +266,14 @@
   },
   "household": {
     "count": {
+      "justMeOption": "Just me", 
       "header": "Now tell us about people you share food with.",
-      "label": "On {{ benefitStartDate }}, how many people in your home did you regularly buy food for and prepare meals with?",
+      "label": "On {{ benefitStartDate }}, how many people in your home did you regularly buy food for and prepare meals with, including yourself?",
       "explanation": "Count your roommates if you often buy food and cook together."
     },
     "memberNames": {
       "header": "OK {{ customerName }}, you share meals with {{ count }} people.",
-      "lede": "Who are they?",
-      "person": "Person",
+      "lede": "People buying and sharing food:",
       "firstName": {
         "label": "Legal first name"
       },

@@ -19,12 +19,13 @@ const addToHousehold = household => values => {
 class HowMany extends React.Component {
   buildOptions() {
     const { t } = this.props;
+    const initial = [{ text: t('household.count.justMeOption'), value: 1 }]
 
-    return Array.apply(null, { length: 13 })
+    return initial.concat(Array.apply(null, { length: 12 })
       .map((_, index) => ({
-        text: `${index + 1} ${index < 1 ? t('general.person') : t('general.people')}`,
-        value: index + 1
-      }))
+        text: `${index + 2} ${t('general.people')}`,
+        value: index + 2
+      })));
   }
 
   render() {
