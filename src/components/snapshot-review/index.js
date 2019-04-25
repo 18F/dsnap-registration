@@ -9,27 +9,32 @@ import HouseholdMattersReview from 'components/review/household-matters';
 import DisasterExpensesReview from 'components/review/disaster-expenses';
 import IncomeReviewSection from 'components/review/income';
 
-const noOpValidator = () => ({});
+const noOp = () => ({});
 
 class SnapshotReview extends React.Component {
   static propTypes = {
     actions: PropTypes.node,
+    onNext: PropTypes.func,
     render: PropTypes.func,
-    values: PropTypes.object,
+    values: PropTypes.object.isRequired,
+  }
+
+  static defaultProps = {
+    onNext: noOp,
   }
 
   state = {
-    validator: noOpValidator
+    validator: noOp
   }
 
-  setCurrentSectionValidator = (validator = noOpValidator) => {
+  setCurrentSectionValidator = (validator = noOp) => {
     this.setState({
       validator
     });
   }
 
   renderReviewSections = (formik) => {
-    const { t, readonly } = this.props;
+    const { t, readonly, sections } = this.props;
 
     const extraProps = {
       readonly,
@@ -56,7 +61,11 @@ class SnapshotReview extends React.Component {
         <IncomeReviewSection
           {...extraProps}
         />
-        { this.props.sections && this.props.sections.map(section => section) }
+        {
+          sections && sections.map((section, i) =>
+            React.cloneElement(section, { key: i })
+          )
+        }
         { this.props.render && this.props.render(formik) }
       </Form>
     );
