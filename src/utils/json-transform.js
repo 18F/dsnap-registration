@@ -222,7 +222,7 @@ function formatRegistrationForClient({ id, latest_data }) {
 
 const totalIncome = (household) => {
   const memberIncome = member =>
-    Object.values(member.income).reduce((acc, value) => acc + value)
+    Object.values(member.income).reduce((acc, value) => acc + value, 0)
     + member.jobs.reduce((acc, value) => acc + value.pay, 0);
 
   return household.reduce((acc, value) => acc + memberIncome(value), 0);
