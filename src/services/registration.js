@@ -11,7 +11,7 @@ const location = process.env.NODE_ENV === 'development' ?
 
 const authenticationOptions = {
   headers: {
-    'Authorization': `Basic ${btoa('admin:ToBeChanged')}`
+    'Authorization': `Basic ${btoa('dummy:ToBeChanged')}`
   },
   withCredentials: true
 };
