@@ -16,27 +16,45 @@ const addToHousehold = household => values => {
   };
 };
 
-const HowMany = ({ handleChange, sectionName, t, registerStep }) =>
-  <Wizard.Context>
-    { ({ household, basicInfo, disasters }) => (
-      <Wizard.Step
-        header={t(`${buildNestedKey(sectionName, modelName, 'header')}`)}
-        modelName='numMembers'
-        registerStep={registerStep}
-        validationSchema={householdCountSchema}
-        onNext={addToHousehold(household)}
-      >
-        <FormikField
-          labelText={t(buildNestedKey(sectionName, modelName, 'label'), {
-            benefitStartDate: getBeginDate(getDisaster(disasters, basicInfo.disasterId))
-          })}
-          explanation={t(buildNestedKey(sectionName, modelName, 'explanation'))}
-          onChange={handleChange}
-          name={`${sectionName}.numMembers`}
-          className="desktop:grid-col-1"
-        />
-      </Wizard.Step>
-    )}
-  </Wizard.Context>
+class HowMany extends React.Component {
+  buildOptions() {
+    const { t } = this.props;
 
+    return Array.apply(null, { length: 13 })
+      .map((_, index) => ({
+        text: `${index + 1} ${index < 1 ? t('general.person') : t('general.people')}`,
+        value: index + 1
+      }))
+  }
+
+  render() {
+    const { handleChange, sectionName, t, registerStep } = this.props;
+
+    return (
+      <Wizard.Context>
+        { ({ household, basicInfo, disasters }) => (
+          <Wizard.Step
+            header={t(`${buildNestedKey(sectionName, modelName, 'header')}`)}
+            modelName='numMembers'
+            registerStep={registerStep}
+            validationSchema={householdCountSchema}
+            onNext={addToHousehold(household)}
+          >
+            <FormikField
+              labelText={t(buildNestedKey(sectionName, modelName, 'label'), {
+                benefitStartDate: getBeginDate(getDisaster(disasters, basicInfo.disasterId))
+              })}
+              explanation={t(buildNestedKey(sectionName, modelName, 'explanation'))}
+              onChange={handleChange}
+              name={`${sectionName}.numMembers`}
+              className="desktop:grid-col-1"
+              type="select"
+              options={this.buildOptions()}
+            />
+          </Wizard.Step>
+        )}
+      </Wizard.Context>
+    );
+  }
+}
 export default withLocale(HowMany);
