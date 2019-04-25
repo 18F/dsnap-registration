@@ -12,7 +12,7 @@ const addToHousehold = household => values => {
   const nextMemberCount = Number(values.household.numMembers);
 
   return {
-    household: { ...updateHouseholdMembers(household, nextMemberCount) }
+    household: { ...updateHouseholdMembers(household, nextMemberCount - 1) }
   };
 };
 

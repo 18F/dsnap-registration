@@ -4,7 +4,7 @@ import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
 import { buildNestedKey } from 'utils';
-import { getFirstName, getFullName } from 'models/person';
+import { getFirstName, getFullName, getDOB } from 'models/person';
 import { getMembers, getApplicant, getOtherMemberCount } from 'models/household';
 import UI from 'components/ui';
 import nameSchema from 'schemas/name';
@@ -35,10 +35,12 @@ const MemberNames = ({ handleChange, sectionName, t, registerStep }) => (
               render={() => {
                 return (
                   <div className="font-sans-md">
-                    <div className="border-bottom border-bottom-1px border-dashed border-base-lighter margin-top-2 padding-bottom-2 margini-bottom-8">
-                      <h3>{`${t('general.person')} 1`}</h3>
+                    <div className="border-top-0 border-x-0 border-bottom-1px border-dashed border-base-lighter padding-bottom-2 margin-bottom-6">
+                      <h3 className="margin-top-2">{`${t('general.person')} 1`}</h3>
                       <p className="margin-bottom-2">
                         { getFullName(getApplicant(household)) }
+                        <br />
+                        Born: { getDOB(getApplicant(household)) }
                       </p>
                     </div>
                     {
