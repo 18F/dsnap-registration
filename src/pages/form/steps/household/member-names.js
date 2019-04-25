@@ -4,7 +4,7 @@ import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
 import { buildNestedKey } from 'utils';
-import { getFirstName } from 'models/person';
+import { getFirstName, getFullName, getDOB } from 'models/person';
 import { getMembers, getApplicant, getOtherMemberCount } from 'models/household';
 import UI from 'components/ui';
 import nameSchema from 'schemas/name';
@@ -33,29 +33,43 @@ const MemberNames = ({ handleChange, sectionName, t, registerStep }) => (
             <FieldArray
               name={`${sectionName}.members`}
               render={() => {
-                return getMembers(household).slice(1).map((_, index) =>
-                  <div key={index} className="padding-bottom-4">
-                    <h3>Person { index + 1 }</h3>
-                    <FormikField
-                      name={`${sectionName}.members.${index + 1}.name.firstName`}
-                      labelText={t(`${sectionName}.memberNames.firstName.label`)}
-                      onChange={handleChange}
-                      quietLabel
-                    />
-                    <FormikField
-                      name={`${sectionName}.members.${index + 1}.name.middleName`}
-                      labelText={t(`${sectionName}.memberNames.middleName.label`)}
-                      onChange={handleChange}
-                      quietLabel
-                    />
-                    <FormikField
-                      name={`${sectionName}.members.${index + 1}.name.lastName`}
-                      labelText={t(`${sectionName}.memberNames.lastName.label`)}
-                      onChange={handleChange}
-                      quietLabel
-                    />
+                return (
+                  <div className="font-sans-md">
+                    <div className="border-top-0 border-x-0 border-bottom-1px border-dashed border-base-lighter padding-bottom-2 margin-bottom-6">
+                      <h3 className="margin-top-2">{`${t('general.person')} 1`}</h3>
+                      <p className="margin-bottom-2">
+                        { getFullName(getApplicant(household)) }
+                        <br />
+                        Born: { getDOB(getApplicant(household)) }
+                      </p>
+                    </div>
+                    {
+                      getMembers(household).slice(1).map((_, index) =>
+                        <div key={index} className="padding-bottom-4 margin-top-2">
+                          <h3>{`${t('general.person')} ${index + 2}` }</h3>
+                          <FormikField
+                            name={`${sectionName}.members.${index + 1}.name.firstName`}
+                            labelText={t(`${sectionName}.memberNames.firstName.label`)}
+                            onChange={handleChange}
+                            quietLabel
+                          />
+                          <FormikField
+                            name={`${sectionName}.members.${index + 1}.name.middleName`}
+                            labelText={t(`${sectionName}.memberNames.middleName.label`)}
+                            onChange={handleChange}
+                            quietLabel
+                          />
+                          <FormikField
+                            name={`${sectionName}.members.${index + 1}.name.lastName`}
+                            labelText={t(`${sectionName}.memberNames.lastName.label`)}
+                            onChange={handleChange}
+                            quietLabel
+                          />
+                        </div>
+                      )
+                    }
                   </div>
-                );
+                )
               }}
             />
           </React.Fragment>

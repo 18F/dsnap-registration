@@ -156,7 +156,7 @@ class HouseholdReview extends React.Component {
                   return (
                     getOtherMembers(household).map((member, index) => {
                       const memberIndex = index + 1;
-                      const header = `${t('household.memberNames.person')} ${memberIndex}`;
+                      const header = `${t('general.person')} ${memberIndex}`;
     
                       return (
                         editing ?
