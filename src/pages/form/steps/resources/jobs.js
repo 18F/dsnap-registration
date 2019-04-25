@@ -5,6 +5,7 @@ import { withMachineContext } from 'components/fsm';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
 import FormikField from 'components/formik-field';
+import CurrencyField from 'components/currency-input';
 import YesNoField from 'components/yes-no-field';
 import { buildNestedKey } from 'utils';
 import { getMembers, updateMemberAtIndex } from 'models/household';
@@ -109,9 +110,8 @@ class Jobs extends React.Component {
           labelText={t(buildNestedKey(sectionName, modelName, 'employerName', 'label'))}
           name={`${jobKey}.employerName`}
           onChange={handleChange}
-          eager
         />
-        <FormikField
+        <CurrencyField
           labelText={t(buildNestedKey(sectionName, modelName, 'pay', 'label'), {
             firstName,
             startDate: getBeginDate(disaster),
@@ -119,19 +119,16 @@ class Jobs extends React.Component {
           })}
           name={`${jobKey}.pay`}
           onChange={handleChange}
-          eager
         />
         <YesNoField
           labelText={t(buildNestedKey(sectionName, modelName, 'stateAgency', 'label'))}
           name={`${jobKey}.isDsnapAgency`}
           onChange={handleChange}
-          eager
         />              
         <YesNoField
           labelText={t(buildNestedKey(sectionName, modelName, 'otherJobs', 'label'), { firstName })}
           name={buildNestedKey('household', 'members', index, 'hasOtherJobs')}
           onChange={handleChange}
-          eager
         />
       </Wizard.Step>
     );

@@ -22,13 +22,13 @@ class CurrencyInput extends React.Component {
     const { value } = event.target;
 
     if (Number(value) === 0) {
-      setFieldValue(this.props.name, '', false);
+      setFieldValue(this.props.name, '', true);
     }
   }
 
   handleBlur = (_, field, { setFieldValue }) => {
     if (field.value === '') {
-      setFieldValue(this.props.name, 0);
+      setFieldValue(this.props.name, '0', true);
     }
   }
 
@@ -40,6 +40,7 @@ class CurrencyInput extends React.Component {
 
   render() {
     const { onChange, ...rest } = this.props;
+
     return (
       <FormikField
         className="desktop:grid-col-2"
