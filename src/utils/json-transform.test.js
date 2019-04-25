@@ -115,7 +115,7 @@ test('Transform registration to rules service format', () => {
     resided_in_disaster_area_at_disaster_time: true,
     residence_state: "FL",
     size_of_household: 2,
-    total_take_home_income: 10200,
+    total_take_home_income: 11700,
     worked_in_disaster_area_at_disaster_time: false,
   });
 });
