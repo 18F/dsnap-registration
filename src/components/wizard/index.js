@@ -23,7 +23,7 @@ class Section extends React.Component {
   }
 
   static defaultProps = {
-    validateOnChange: false,
+    validateOnChange: true,
     validateOnBlur: true
   }
 

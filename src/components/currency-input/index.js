@@ -40,6 +40,7 @@ class CurrencyInput extends React.Component {
 
   render() {
     const { onChange, ...rest } = this.props;
+
     return (
       <FormikField
         className="desktop:grid-col-2"
