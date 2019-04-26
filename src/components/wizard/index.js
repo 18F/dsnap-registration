@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { Formik, Form, connect } from 'formik';
 import Route404 from 'components/404-route';
-import Debug from './debug';
 import Button from 'components/button';
 import RouteWithSubRoutes from 'components/route-with-subroutes';
 import withLocale from 'components/with-locale';
@@ -24,7 +23,7 @@ class Section extends React.Component {
   }
 
   static defaultProps = {
-    validateOnChange: false,
+    validateOnChange: true,
     validateOnBlur: true
   }
 
@@ -317,7 +316,7 @@ class Wizard extends React.Component {
           initialValues={rest}
           onSubmit={this.handleSubmit}
           validate={this.validate}
-          render={({ values, handleSubmit, handleChange, setValues, errors }) => {
+          render={({ values, handleSubmit, handleChange, setValues, errors, isSubmitting }) => {
             let providedValues = this.formStarted ? values : this.props.initialValues;
 
             return (
@@ -350,7 +349,6 @@ class Wizard extends React.Component {
                       }
                       <Route component={Route404} />
                     </Switch>
-                    <Debug name="Complete form state" />
                 </WizardContext.Provider>
               </React.Fragment>
             );

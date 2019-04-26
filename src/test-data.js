@@ -1,5 +1,6 @@
 export default {
   "basicInfo":{
+     "ebtCardNumber": "1234567891234567",
      "disasterId": "11",
      "county": "Baker",
      "phone":"2165555555",
@@ -42,7 +43,7 @@ export default {
            "race":"",
            "ethnicity": "Not Hispanic or Latino",
            "hasFoodAssistance":false,
-           "hasOtherJobs":"no",
+           "hasOtherJobs":false,
            "hasJobs":true,
            "assetsAndIncome":{
               "hasIncome":true,
@@ -115,7 +116,7 @@ export default {
           "ethnicity": "",
           "hasFoodAssistance":false,
           "hasOtherJobs":"no",
-          "hasJobs":true,
+          "hasJobs":false,
           "assetsAndIncome":{
              "hasIncome":true,
              "incomeSources":{
@@ -164,7 +165,7 @@ export default {
   "impact":{
      "lostOrInaccessibleIncome":"true",
      "inaccessibleMoney":"false",
-     "buyFood":"false",
+     "buyFood":"true",
      "noOtherExpenses":false,
      "otherExpenses":{
         "foodLoss":{

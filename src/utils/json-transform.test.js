@@ -3,6 +3,7 @@ import testData from '../test-data';
 
 test('Transform test data to registration service format', () => {
   expect(toRegistrationServiceFormat(testData)).toEqual({
+    ebt_card_number: "1234567891234567",
     disaster_id: 11,
     preferred_language: "en",
     phone: "2165555555",
@@ -26,7 +27,7 @@ test('Transform test data to registration service format', () => {
     money_on_hand: 1000,
     has_inaccessible_liquid_resources: false,
     has_lost_or_inaccessible_income: true,
-    purchased_or_plans_to_purchase_food: false,
+    purchased_or_plans_to_purchase_food: true,
     disaster_expenses: {
       food_loss: 129,
       home_or_business_repairs: 0,
@@ -114,7 +115,7 @@ test('Transform registration to rules service format', () => {
     resided_in_disaster_area_at_disaster_time: true,
     residence_state: "FL",
     size_of_household: 2,
-    total_take_home_income: 10200,
+    total_take_home_income: 11700,
     worked_in_disaster_area_at_disaster_time: false,
   });
 });

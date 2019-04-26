@@ -1,6 +1,7 @@
 import { assign } from 'xstate';
 import { getRegistrations, updateRegistration } from 'services/registration';
 import { createEligibility } from 'services/eligibility';
+import { updateRegistrationStatus } from '../services/registration';
 
 const STORAGE_KEY = 'worker-state';
 
@@ -75,7 +76,10 @@ const workerChart = {
               return createEligibility(registration);
             },
             onError: {
-              actions: () => console.log('error?')
+              actions: [
+                () => console.log('error?'),
+                assign({ meta: { loading: false } })
+              ]
             },
             onDone: {
               target: '#review',
@@ -124,7 +128,46 @@ const workerChart = {
             path: '/worker/review'
           },
         },
-        finish: {}
+        finish: {
+          id: 'finish',
+          invoke: {
+            id: 'finishRegistration',
+            src: (ctx, _) => {
+              const registrationId = ctx.currentRegistration.client.id;
+              const approvalStatus = {
+                rules_service_approved: ctx.eligibility.eligible,
+                user_approved: ctx.approval
+              };
+              const results = {
+                approvedAt: null,
+                approvedBy: null,
+              };
+
+              return updateRegistrationStatus(registrationId, approvalStatus)
+                .then(({ approvedAt }) => {
+                  results.approvedAt = approvedAt;
+
+                  return getRegistrations({ id: registrationId });
+              });
+            },
+            onDone: {
+              actions: [             
+                assign({
+                  currentRegistration: (_, event) => ({
+                    client: event.data[0].client,
+                    server: event.data[0].server
+                  })
+                }),
+                (ctx, _) => {
+                  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                    ...(JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}),
+                    currentRegistration: ctx.currentRegistration
+                  }))
+                }
+              ]
+            }
+          }
+        }
       }
     },
   },

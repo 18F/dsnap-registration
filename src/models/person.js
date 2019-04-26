@@ -35,3 +35,16 @@ export const getJobs = person => getIncome(person).jobs;
 export const hasJob = person => isAffirmative(person.hasJobs);
 export const hasOtherJobs = person => isAffirmative(person.hasOtherJobs);
 export const getSSN = person => person.ssn;
+
+export const methods = {
+  getFirstName,
+  getMiddleName,
+  getLastName,
+  getDOB,
+  getFullName,
+  getIncome,
+  getJobs,
+  hasJob,
+  hasOtherJobs,
+  getSSN,
+}

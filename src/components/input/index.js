@@ -7,6 +7,7 @@ const propTypes = {
   autoComplete: PropTypes.string,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   type: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
@@ -42,6 +43,7 @@ class Input extends React.Component {
           className={this.props.className}
           name={this.props.name}
           onBlur={this.props.onBlur}
+          onFocus={this.props.onFocus}
           onChange={this.props.onChange}
           onInput={this.props.onInput}
           value={this.props.value}

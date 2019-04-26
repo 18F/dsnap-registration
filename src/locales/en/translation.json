@@ -22,6 +22,10 @@
       }
     },
     "review": {
+      "ebt": {
+        "header": "EBT",
+        "label": "EBT card number"
+      },
       "eligibility": {
         "header": "Based on the information below, this applicant appears to be:"
       },
@@ -37,6 +41,8 @@
     "quit": "Quit registration",
     "security": "This information is kept confidential and secure as required by law. <1>Learn more</1>",
     "loading": "Loading",
+    "person": "Person",
+    "people": "People",
     "select": "Please choose an option",
     "delete": "delete",
     "notApplicable": "Not applicable",
@@ -79,7 +85,6 @@
     "fullName": "Provide your full name",
     "language": "Select a language",
     "lastName": "Provide last name",
-    "matchingName": "Your signature must match the name you entered at the beignning of the form",
     "noMatch": "Invalid selection",
     "length": "{{ fieldName }} must be exactly {{ length }} digits",
     "positiveNumber": "This value can't be less than zero",
@@ -152,6 +157,7 @@
     "action": "Start registering"
   },
   "basicInfo": {
+    "moneyOnHand": "Money on hand",
     "name": {
       "id": "Name",
       "header": "Let’s start with the basics.",
@@ -260,14 +266,14 @@
   },
   "household": {
     "count": {
+      "justMeOption": "Just me", 
       "header": "Now tell us about people you share food with.",
-      "label": "On {{ benefitStartDate }}, how many people in your home did you regularly buy food for and prepare meals with?",
+      "label": "On {{ benefitStartDate }}, how many people in your home did you regularly buy food for and prepare meals with, including yourself?",
       "explanation": "Count your roommates if you often buy food and cook together."
     },
     "memberNames": {
       "header": "OK {{ customerName }}, you share meals with {{ count }} people.",
-      "lede": "Who are they?",
-      "person": "Person",
+      "lede": "People buying and sharing food:",
       "firstName": {
         "label": "Legal first name"
       },

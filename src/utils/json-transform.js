@@ -10,6 +10,7 @@ const toString = value => String(value);
 
 function toRegistrationServiceFormat(src) {
   return {
+    ebt_card_number: src.basicInfo.ebtCardNumber,
     disaster_id: Number(src.basicInfo.disasterId),
     preferred_language: emptyToNull(src.config.language.trim()) || 'en',
     phone: emptyToNull(stripSpecialChars(src.basicInfo.phone)),
@@ -35,6 +36,7 @@ function toRegistrationServiceFormat(src) {
 
 function fromRegistrationServiceFormat(id, src) {
   const basicInfo = {
+    ebtCardNumber: src.ebt_card_number,
     disasterId: src.disaster_id,
     county: src.county,
     phone: nullToEmpty(src.phone),
@@ -144,6 +146,9 @@ function fromRegistrationServiceFormat(id, src) {
 
   return {
     id,
+    approvedAt: src.approved_at,
+    approvedBy: src.approved_by,
+    approved: src.user_approved,
     basicInfo, 
     impact,
     household: {
@@ -210,19 +215,19 @@ function toRulesServiceFormat(registration) {
   };
 }
 
-function formatRegistrationForClient({ id, latest_data }) {
+function formatRegistrationForClient({ id, latest_data, approved_by, approved_at, user_approved }) {
   return {
     server: latest_data,
-    client: fromRegistrationServiceFormat(id, latest_data),
+    client: fromRegistrationServiceFormat(id, { ...latest_data, approved_at, approved_by, user_approved }),
   };
 }
 
-
 const totalIncome = (household) => {
-  const memberIncome = incomeSources =>
-    Object.values(incomeSources).reduce((acc, value) => acc + value);
+  const memberIncome = member =>
+    Object.values(member.income).reduce((acc, value) => acc + value, 0)
+    + member.jobs.reduce((acc, value) => acc + value.pay, 0);
 
-  return household.reduce((acc, value) => acc + memberIncome(value.income), 0);
+  return household.reduce((acc, value) => acc + memberIncome(value), 0);
 }
 
 export {

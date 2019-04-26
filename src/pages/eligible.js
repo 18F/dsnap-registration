@@ -1,11 +1,25 @@
 import React from 'react';
-import { withMachineState } from 'components/fsm';
+import { withMachineState, withMachineContext } from 'components/fsm';
 import withLocale from 'components/with-locale';
 import ReviewTable from 'components/review-table';
 import { getFullName } from 'models/person';
 import { getApplicant } from 'models/household';
 
 class EligiblePage extends React.Component {
+  componentWillMount() {
+    if (!this.props.context.registration) {
+      this.props.fsmTransition({
+        command: 'RESET'
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.fsmTransition({
+      command: 'RESET'
+    });
+  }
+
   getRegistrationData() {
     const { t, context } = this.props;
 
@@ -19,7 +33,11 @@ class EligiblePage extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, context } = this.props;
+
+    if (!context.registration) {
+      return null;
+    }
  
     return (
       <div>
@@ -39,4 +57,4 @@ class EligiblePage extends React.Component {
   }
 }
 
-export default withMachineState(withLocale(EligiblePage));
+export default withMachineContext(withMachineState(withLocale(EligiblePage)));
