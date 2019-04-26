@@ -63,7 +63,7 @@ class SnapshotReview extends React.Component {
         />
         {
           sections && sections.map((section, i) =>
-            React.cloneElement(section, { key: i })
+            React.cloneElement(section, { key: i, ...extraProps })
           )
         }
         { this.props.render && this.props.render(formik) }

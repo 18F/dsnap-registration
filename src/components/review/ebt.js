@@ -14,6 +14,24 @@ class EBTSection extends React.Component {
     title: PropTypes.string.isRequired
   }
 
+  handleBlur = (event, field, formik) => {
+    const hasError = this.validateEBT(field.value);
+
+    if (!hasError) {
+      this.props.handleUpdate(event, field, formik);
+    }
+  }
+
+  validateEBT = (value) => {
+    let message = '';
+
+    if (!/[\d]{16}/.test(value)) {
+      message = 'EBT input must be a 16 digit number.';
+    }
+
+    return message;
+  }
+
   render() {
     return (
       <section className="margin-bottom-4">
@@ -30,7 +48,8 @@ class EBTSection extends React.Component {
         <FormikField
           labelText={this.props.t('worker.review.ebt.label')}
           name="basicInfo.ebtCardNumber"
-          onBlur={this.props.handleUpdate}
+          validate={this.validateEBT}
+          onBlur={this.handleBlur}
         />
       </section>
     );
