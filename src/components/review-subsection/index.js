@@ -24,8 +24,10 @@ class ReviewSubSection extends React.Component {
   }
 
   state = {
-    editing: false
+    editing: false,
   }
+
+  ref = React.createRef()
 
   isEditMode() {
     return this.state.editing;
@@ -46,6 +48,7 @@ class ReviewSubSection extends React.Component {
 
     if (updated) {
       this.setState({ editing: false });
+      window.scrollTo(0, this.ref.current.getBoundingClientRect().top);
     }
   }
 
@@ -109,7 +112,7 @@ class ReviewSubSection extends React.Component {
     });
 
     return (
-      <div id={`review-subsection-${title}`} className="margin-top-2 margin-bottom-6">
+      <div id={`review-subsection-${title}`} className="margin-top-2 margin-bottom-6" ref={this.ref}>
         { this.renderHeader() }
         <div className={editClassName}>
           { this.props.children({ editing: this.state.editing }) }
