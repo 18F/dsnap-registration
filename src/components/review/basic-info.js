@@ -15,6 +15,7 @@ import DateInput from 'components/date-input';
 import AddressFields from 'components/address-input';
 import { getState, getDisaster } from 'models/disaster';
 import yourInfoReviewSchema, { infoReviewSchemaValidator } from 'schemas/snapshot-review/your-info';
+import { helpers } from 'locales';
 
 const formattedAddress = address => (
   !address ?
@@ -72,6 +73,18 @@ class InfoReviewForm extends React.Component {
             label: t(buildNestedKey('identity', 'personalInfo', 'sex', 'options', 'female')),
             value: "female"
           }]}
+        />
+        <FormikRadioGroup
+          name="household.members.0.ethnicity"
+          labelText={t('identity.personalInfo.ethnicity.label')}
+          explanation={t('general.leaveBlank')}
+          options={helpers.getEnumeratedValues('general.ethnicity.options')}
+        />
+        <FormikRadioGroup
+          name="household.members.0.race"
+          labelText={t('identity.personalInfo.race.label')}
+          explanation={t('general.leaveBlank')}
+          options={helpers.getEnumeratedValues('general.race.options')}
         />
         <AddressFields addressType="residenceAddress" />
         <YesNoField
@@ -131,6 +144,14 @@ class BasicInfoReview extends React.Component {
       {
         name: t('identity.personalInfo.sex.id'),
         data: applicant.sex,
+      },
+      {
+        name: t('identity.personalInfo.race.id'),
+        data: applicant.race || 'n/a',
+      },
+      {
+        name: t('identity.personalInfo.ethnicity.id'),
+        data: applicant.ethnicity || 'n/a',
       },
       {
         name: t('basicInfo.addresses.id'),
