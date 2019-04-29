@@ -37,7 +37,7 @@ class DateInput extends React.Component {
           name: `household.members.${memberIndex}.dob.year`,
           labelText: t(`${translationPath}.year`),
           onChange: handleChange,
-          className: 'desktop:grid-col-9'
+          className: 'tablet:grid-col-8'
         }]}
         {...rest}
       />
