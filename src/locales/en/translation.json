@@ -253,9 +253,11 @@
         }
       },
       "race": {
+        "id": "Race",
         "label": "What is your race?"
       },
       "ethnicity": {
+        "id": "Ethnicity",
         "label": "What is your ethnicity?"
       },
       "whyAsk": {

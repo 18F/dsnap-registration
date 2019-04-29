@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FieldArray, yupToFormErrors } from 'formik';
 import withLocale from 'components/with-locale';
 import withUpdateable from 'components/with-updateable';
-import FormikField, { FormikFieldDateGroup } from 'components/formik-field';
+import FormikField, { FormikFieldDateGroup, FormikRadioGroup } from 'components/formik-field';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTableCollection from 'components/review-table-collection';
 import ReviewTable, { Header, HeaderAction} from 'components/review-table';
@@ -13,6 +13,7 @@ import { getOtherMembers, addPeopleToHousehold, deleteMemberFromHousehold } from
 import { isAffirmative } from 'utils';
 import NameFields from 'components/name-input';
 import { householdReviewValidator } from 'schemas/snapshot-review/household';
+import { helpers } from 'locales';
 
 class HouseholdMemberReviewForm extends React.Component {
   static propTypes = {
@@ -72,6 +73,18 @@ class HouseholdMemberReviewForm extends React.Component {
           onChange={this.updateMask}
           labelText={t('household.memberDetails.ssn.label', { firstName: getFirstName(member) })}
         />
+        <FormikRadioGroup
+          name={`household.members.${memberIndex}.ethnicity`}
+          labelText={t('household.memberDetails.ethnicity.label', { firstName: getFirstName(member) })}
+          explanation={t('general.leaveBlank')}
+          options={helpers.getEnumeratedValues('general.ethnicity.options')}
+        />
+        <FormikRadioGroup
+          name={`household.members.${memberIndex}.race`}
+          labelText={t('household.memberDetails.race.label', { firstName: getFirstName(member) })}
+          explanation={t('general.leaveBlank')}
+          options={helpers.getEnumeratedValues('general.race.options')}
+        />
       </div>
     );
   }
@@ -93,6 +106,14 @@ class HouseholdReview extends React.Component {
       {
         name: t('identity.personalInfo.ssn.id'),
         data: member.ssn,
+      },
+      {
+        name: t('identity.personalInfo.race.id'),
+        data: member.race || 'n/a',
+      },
+      {
+        name: t('identity.personalInfo.ethnicity.id'),
+        data: member.ethnicity || 'n/a',
       },
     ];
   }
