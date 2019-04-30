@@ -48,7 +48,7 @@ class ReviewSubSection extends React.Component {
 
     if (updated) {
       this.setState({ editing: false });
-      window.scrollTo(0, this.ref.current.getBoundingClientRect().top);
+      window.scrollTo(0, Math.abs(this.ref.current.offsetTop));
     }
   }
 
@@ -81,7 +81,7 @@ class ReviewSubSection extends React.Component {
 
   renderHeader() {
     return (
-      <div className="border-bottom-1px border-base-lighter margin-bottom-2">
+      <div className="border-bottom-1px border-base-lighter margin-bottom-2" ref={this.ref}>
         <div className="grid-row margin-bottom-05">
           { this.renderTitle() }
           { this.renderEditAction() }
@@ -112,7 +112,7 @@ class ReviewSubSection extends React.Component {
     });
 
     return (
-      <div id={`review-subsection-${title}`} className="margin-top-2 margin-bottom-6" ref={this.ref}>
+      <div id={`review-subsection-${title}`} className="margin-top-2 margin-bottom-6">
         { this.renderHeader() }
         <div className={editClassName}>
           { this.props.children({ editing: this.state.editing }) }
