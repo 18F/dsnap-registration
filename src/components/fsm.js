@@ -158,6 +158,7 @@ class FSMRouter extends React.Component {
   }
 
   handleHistoryTransition = ({ pathname }, action, debounce = true) => {
+    //debugger
     if (this.historyTransitioning) {
       this.historyTransitioning = false;
       return;
@@ -228,7 +229,8 @@ class FSMRouter extends React.Component {
     this.service.send(path);
   }
 
-  transition = ({ command = 'NEXT', data = {} }) => {
+  transition = ({ command = 'NEXT', data = {}
+   }) => {
     this.service.send({ type: command, ...data });
   }
 

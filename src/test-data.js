@@ -9,7 +9,7 @@ export default {
         "street1":"250 Oakland Way",
         "street2":"",
         "city":"Oakland",
-        "state":"FL",
+        "state":"NC",
         "zipcode":"94612"
      },
      "mailingAddress":{
