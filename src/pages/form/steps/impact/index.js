@@ -86,12 +86,6 @@ class AdverseEffects extends React.Component {
             })
           }
         />
-        <FormikField
-          labelText={t(buildNestedKey(sectionName, modelName, 'none'))}
-          name={buildNestedKey(sectionName, 'noOtherExpenses')}
-          type="checkbox"
-          onChange={handleChange}
-        />
       </Wizard.Step>
     )
   }
