@@ -4,6 +4,8 @@ import classnames from 'classnames';
 import withLocale from 'components/with-locale';
 import Button from 'components/button';
 
+const SCROLL_OFFSET_PADDING = 40;
+
 class ReviewSubSection extends React.Component {
   static propTypes = {
     onEdit: PropTypes.func.isRequired,
@@ -45,10 +47,11 @@ class ReviewSubSection extends React.Component {
 
   handleUpdate = () => {
     const updated = this.props.onUpdate();
+    const scrollY = Math.abs(this.ref.current.offsetTop) - SCROLL_OFFSET_PADDING;
 
     if (updated) {
       this.setState({ editing: false });
-      window.scrollTo(0, Math.abs(this.ref.current.offsetTop));
+      window.scrollTo(0, scrollY > 0 ? scrollY : 0);
     }
   }
 

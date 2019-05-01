@@ -198,13 +198,16 @@ class HouseholdReview extends React.Component {
                   );
                 }}
               />
-              <Button
-                disabled={!isAffirmative(editing)}
-                type="button"
-                onClick={this.handleAddMember}
-              >
-                { t('review.addMember') }
-              </Button>
+              {
+                !editing ? null :
+                <Button
+                  disabled={!isAffirmative(editing)}
+                  type="button"
+                  onClick={this.handleAddMember}
+                >
+                  { t('review.addMember') }
+                </Button>
+              }
             </ReviewTableCollection>
           );
         }}

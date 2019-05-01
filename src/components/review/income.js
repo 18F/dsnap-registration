@@ -254,22 +254,24 @@ class IncomeReviewSection extends React.Component {
                           })
                         }
                       </ReviewTableCollection>
-                      <Button
-                        disabled={!isAffirmative(editing)}
-                        type="button"
-                        onClick={() => this.handleAddJob(memberIndex, member)}
-                        className="margin-y-4"
-                      >
-                        { t('review.addJob') }
-                      </Button>
                       {
                         editing ?
-                        <IncomeSourcesReviewForm
-                          handleChange={this.props.handleChange}
-                          t={t}
-                          memberIndex={memberIndex}
-                          incomeSources={income.incomeSources}
-                        /> :
+                        <React.Fragment>
+                          <Button
+                            disabled={!isAffirmative(editing)}
+                            type="button"
+                            onClick={() => this.handleAddJob(memberIndex, member)}
+                            className="margin-y-4"
+                          >
+                            { t('review.addJob') }
+                          </Button>
+                          <IncomeSourcesReviewForm
+                            handleChange={this.props.handleChange}
+                            t={t}
+                            memberIndex={memberIndex}
+                            incomeSources={income.incomeSources}
+                          />
+                        </React.Fragment> :
                         <ReviewTable
                           editing={editing}
                           primaryData={this.getPrimaryIncomeData(income)}
