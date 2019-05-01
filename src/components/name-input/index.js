@@ -4,22 +4,22 @@ import withLocale from 'components/with-locale';
 
 const NameFields = ({ memberIndex = 0, t }) => {
   const labelKey = memberIndex ? 
-    'household.memberNames.firstName' :
-    'basicInfo.name.firstName';
+    'household.memberNames' :
+    'basicInfo.name';
 
   return (
     <React.Fragment>
       <FormikField
         name={`household.members.${memberIndex}.name.firstName`}
-        labelText={t(`${labelKey}.label`)}
+        labelText={t(`${labelKey}.firstName.label`)}
       />
       <FormikField
         name={`household.members.${memberIndex}.name.middleName`}
-        labelText={t(`${labelKey}.label`)}
+        labelText={t(`${labelKey}.middleName.label`)}
       />
       <FormikField
         name={`household.members.${memberIndex}.name.lastName`}
-        labelText={t(`${labelKey}.label`)}
+        labelText={t(`${labelKey}.lastName.label`)}
       />
     </React.Fragment>
   );
