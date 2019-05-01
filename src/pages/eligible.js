@@ -2,8 +2,6 @@ import React from 'react';
 import { withMachineState, withMachineContext } from 'components/fsm';
 import withLocale from 'components/with-locale';
 import ReviewTable from 'components/review-table';
-import { getFullName } from 'models/person';
-import { getApplicant } from 'models/household';
 
 class EligiblePage extends React.Component {
   componentWillMount() {
@@ -25,7 +23,7 @@ class EligiblePage extends React.Component {
 
     return [{
       name: `${t('eligibility.registration.name')}:`,
-      data: getFullName(getApplicant(context.household)),
+      data: context.registration.applicantName,
     }, {
       name: `${t('eligibility.registration.id')}:`,
       data: context.registration.id

@@ -12,8 +12,9 @@ import {
   updateMemberAtIndex,
   decrementMemberIndex,
   getMemberAtIndex,
+  getApplicant,
 } from 'models/household';
-import { hasJob, hasOtherJobs, getIncome, getJobs } from 'models/person';
+import { hasJob, hasOtherJobs, getIncome, getJobs, getFullName } from 'models/person';
 import { getDisasters } from 'services/disaster';
 import { createRegistration } from 'services/registration';
 import { createEligibility } from 'services/eligibility';
@@ -36,6 +37,30 @@ const ignoreKeys = [
   'meta'
 ];
 
+const defaultAppState = {
+  ...modelState,
+  currentSection: 'welcome',
+  currentStep: '',
+  previousStep: '',
+  previousSection: '',
+  errors: '',
+  disasters: disaster(),
+  meta: {
+    loading: undefined
+  },
+  config: config(),
+  /**
+   * totalSteps refers to the number of sections a user will move through
+   * while filling out the form. It doesn't necessarily reflect
+   * the number of states the machine can be in.
+   *
+   * For example, the `quit` state is used internally by the state machine
+   * but is not exposed to the user. Therefore, it is not included in the total
+   * number of steps
+   */
+  totalSteps: 6,
+};
+
 const initialState = () => {
   const loadState = process.env.REACT_APP_LOAD_STATE;
   const stateExists = localStorage.getItem(STATE_KEY);
@@ -45,29 +70,8 @@ const initialState = () => {
     return testData;
   }
 
-  const machineState = {
-    ...modelState,
-    currentSection: 'welcome',
-    currentStep: '',
-    previousStep: '',
-    previousSection: '',
-    errors: '',
-    disasters: disaster(),
-    meta: {
-      loading: undefined
-    },
-    config: config(),
-    /**
-     * totalSteps refers to the number of sections a user will move through
-     * while filling out the form. It doesn't necessarily reflect
-     * the number of states the machine can be in.
-     * 
-     * For example, the `quit` state is used internally by the state machine
-     * but is not exposed to the user. Therefore, it is not included in the total
-     * number of steps
-     */
-    totalSteps: 6,
-  };
+  const machineState = defaultAppState;
+
   let state;
 
   try {
@@ -895,13 +899,20 @@ const submitChart = {
         onDone: {
           target: '#next-steps',
           actions: [
-            assign({
-              errors: () => ({ server: false }),
-              registration: (_, event) => ({
-                ...event.data.registration
-              })
+            () => localStorage.clear(),
+            assign((ctx, event) => {
+              const registration = {
+                ...event.data.registration,
+                applicantName: getFullName(getApplicant(ctx.household))
+              };
+              const nextState = {
+                ...defaultAppState,
+                errors: { server: false },
+                registration
+              };
+
+              return nextState;
             }),
-            (ctx) => localStorage.removeItem(STATE_KEY),
           ]
         },
         onError: {
@@ -1046,22 +1057,21 @@ const reviewChart = {
 
 const welcomeChart = {
   id: 'welcome',
-  internal: true,
   strict: true,
   initial: 'welcome',
-  onEntry: [
-    assign({
-      currentSection: 'welcome',
-      currentStep: ''
-    }),
-    'persist',
-  ],
-  onExit: [
-    assign({ previousSection: 'welcome' }),
-    'persist'
-  ],
   states: {
     welcome: {
+      onEntry: [
+        assign({
+          currentSection: 'welcome',
+          currentStep: ''
+        }),
+        'persist',
+      ],
+      onExit: [
+        assign({ previousSection: 'welcome' }),
+        'persist'
+      ],
       meta: {
         path: '/welcome'
       },
@@ -1146,7 +1156,7 @@ const formStateConfig = {
         src: () =>
           new Promise((resolve) => {
             localStorage.removeItem(STATE_KEY);
-            resolve(initialState())
+            return resolve(defaultAppState)
           }),
         onDone: {
           target: '#welcome',
@@ -1165,7 +1175,7 @@ const formStateConfig = {
       target: '.quit',
     },
     RESET: {
-      target: '.quit'
+      target: '#welcome'
     }
   }
 };
