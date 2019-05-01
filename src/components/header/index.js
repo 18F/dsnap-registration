@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import './header.css';
 
 const propTypes = {
@@ -13,13 +12,11 @@ const Header = ({ text, className }) => (
     <header className={`usa-header ${className} padding-x-1 padding-bottom-2`}>
       <div className="usa-navbar">
         <div className="usa-logo">
-          <Link to="/">
-            <em className="usa-logo-text text-white">
-              <span className="site-title font-sans-lg">
-                { text }
-              </span>
-            </em>
-          </Link>
+          <em className="usa-logo-text text-white">
+            <span className="site-title font-sans-lg">
+              { text }
+            </span>
+          </em>
         </div>
       </div>
     </header>

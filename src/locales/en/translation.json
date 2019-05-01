@@ -475,11 +475,14 @@
     },
     "ineligible": {
       "header": "It looks like you may not be eligible for D-SNAP.",
-      "lede": "You may still complete an interview at your designated D-SNAP application site."
+      "lede": "Please write down this registration number. You will need this number to locate this registration later.",
+      "body": "Even though you may not be eligible based on the information you gave us, you can still be interviewed by D-SNAP staff to confirm. Visit your state's D-SNAP website for details."
     },
     "eligible": {
       "header": "You are now ready for your interview.",
-      "lede": "It looks like you are potentially eligible to receive D-SNAP benefits."
-    }
+      "lede": "Please write down this registration number. You will need this number to locate this registration later.",
+      "body": "Next, you will need to be interviewed by D-SNAP staff. Visit your state's D-SNAP website for details."
+    },
+    "action": "Clear session and quit"
   }
 }

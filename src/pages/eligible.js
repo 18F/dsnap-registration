@@ -2,19 +2,20 @@ import React from 'react';
 import { withMachineState, withMachineContext } from 'components/fsm';
 import withLocale from 'components/with-locale';
 import ReviewTable from 'components/review-table';
-import { getFullName } from 'models/person';
-import { getApplicant } from 'models/household';
+import Button from 'components/button';
 
 class EligiblePage extends React.Component {
   componentWillMount() {
     if (!this.props.context.registration) {
-      this.props.fsmTransition({
-        command: 'RESET'
-      });
+      this.handleReset();
     }
   }
 
   componentWillUnmount() {
+    this.handleReset();
+  }
+
+  handleReset = () => {
     this.props.fsmTransition({
       command: 'RESET'
     });
@@ -25,7 +26,7 @@ class EligiblePage extends React.Component {
 
     return [{
       name: `${t('eligibility.registration.name')}:`,
-      data: getFullName(getApplicant(context.household)),
+      data: context.registration.applicantName,
     }, {
       name: `${t('eligibility.registration.id')}:`,
       data: context.registration.id
@@ -49,9 +50,15 @@ class EligiblePage extends React.Component {
         <p className="font-sans-lg">
           { t(`eligibility.${this.props.type}.lede`)}
         </p>
+        <p className="margin-y-2">
+          <b>{ t(`eligibility.${this.props.type}.body`)}</b>
+        </p>
         <div className="grid-col-6 margin-top-4">
           <ReviewTable primaryData={this.getRegistrationData()} />
         </div>
+        <Button type="button" onClick={this.handleReset}>
+          { t('eligibility.action') }
+        </Button>
       </div>
     );
   }
