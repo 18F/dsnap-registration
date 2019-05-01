@@ -166,7 +166,6 @@ export default {
      "lostOrInaccessibleIncome":"true",
      "inaccessibleMoney":"false",
      "buyFood":"true",
-     "noOtherExpenses":false,
      "otherExpenses":{
         "foodLoss":{
            "applicable":true,
