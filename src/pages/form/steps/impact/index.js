@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'formik';
 import withLocale from 'components/with-locale';
 import Wizard from 'components/wizard';
-import FormikField, { FormikFieldGroup } from 'components/formik-field';
+import { FormikFieldGroup } from 'components/formik-field';
 import YesNoField from 'components/yes-no-field';
 import ComboField from 'components/combo-field';
 import { buildNestedKey } from 'utils';
