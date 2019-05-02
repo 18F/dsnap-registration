@@ -83,7 +83,10 @@ class FormikField extends React.Component {
               <InputComponent
                 {...field}
                 type={type}
-                onChange={onChange || field.onChange}
+                onChange={(event) => {
+                  onChange && onChange(event);
+                  field.onChange(event);
+                }}
                 onBlur={(event) => {
                   onBlur && onBlur(event, field, form);
                   field.onBlur(event);
