@@ -1038,7 +1038,6 @@ const reviewChart = {
     edit: {
       internal: true,
       onEntry: [
-        () => console.log('executing edit actions'),
         'persist',
         assign((_, event) => {
           const { type, ...rest } = event;

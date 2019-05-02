@@ -108,6 +108,10 @@ class InfoReviewForm extends React.Component {
           name="basicInfo.email"
           labelText={t('basicInfo.email.label')}
         />
+        <YesNoField
+          name="household.members.0.hasFoodAssistance"
+          labelText={t('household.foodAssistance.id')}
+        />
       </div>
     );
   }
@@ -168,7 +172,11 @@ class BasicInfoReview extends React.Component {
       {
         name: t('basicInfo.email.id'),
         data: basicInfo.email,
-      }
+      },
+      {
+        name: t('household.foodAssistance.id'),
+        data: applicant.hasFoodAssistance ? t('general.yes'): t('general.no')
+      },
     ];
   }
 
