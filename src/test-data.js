@@ -24,7 +24,7 @@ export default {
      "moneyOnHand":"1000",
   },
   "household":{
-     "numMembers":1,
+     "numMembers":2,
      "currentMemberIndex":0,
      "members":[
         {
