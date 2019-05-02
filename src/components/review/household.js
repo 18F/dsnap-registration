@@ -4,6 +4,7 @@ import { FieldArray, yupToFormErrors } from 'formik';
 import withLocale from 'components/with-locale';
 import withUpdateable from 'components/with-updateable';
 import FormikField, { FormikFieldDateGroup, FormikRadioGroup } from 'components/formik-field';
+import YesNoField from 'components/yes-no-field';
 import ReviewSubSection from 'components/review-subsection';
 import ReviewTableCollection from 'components/review-table-collection';
 import ReviewTable, { Header, HeaderAction} from 'components/review-table';
@@ -85,6 +86,10 @@ class HouseholdMemberReviewForm extends React.Component {
           explanation={t('general.leaveBlank')}
           options={helpers.getEnumeratedValues('general.race.options')}
         />
+        <YesNoField
+          name={`household.members.${memberIndex}.hasFoodAssistance`}
+          labelText={t('household.foodAssistance.id')}
+        />
       </div>
     );
   }
@@ -114,6 +119,10 @@ class HouseholdReview extends React.Component {
       {
         name: t('identity.personalInfo.ethnicity.id'),
         data: member.ethnicity || 'n/a',
+      },
+      {
+        name: t('household.foodAssistance.id'),
+        data: member.hasFoodAssistance ? t('general.yes'): t('general.no')
       },
     ];
   }
