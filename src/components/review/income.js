@@ -116,7 +116,7 @@ class IncomeReviewSection extends React.Component {
       },
       {
         name: t(`${prefix}.stateAgency.id`),
-        data: isGovernmentAgency(job),
+        data: isGovernmentAgency(job) ? t('general.yes') : t('general.no'),
       }
     ]
   }
