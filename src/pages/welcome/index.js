@@ -6,10 +6,20 @@ import withLocale from 'components/with-locale';
 import languageSchema from 'schemas/language';
 import FormikField from 'components/formik-field';
 import Button from 'components/button';
+import i18n from 'i18n';
+import { supportedLanguages } from 'utils';
 
 class PreregistrationSection extends React.Component {
   handleSubmit = (values) => {
     this.props.onNext({ data: values });
+  }
+
+  handleChange = (event) => {
+    const language = event.target.value;
+    
+    if (supportedLanguages.includes(language)) {
+      i18n.changeLanguage(language);
+    }
   }
 
   getLanguageOptions() {
@@ -60,6 +70,7 @@ class PreregistrationSection extends React.Component {
                     labelText={t('welcome.language.header')}
                     name="config.language"
                     options={this.getLanguageOptions()}
+                    onChange={this.handleChange}
                   />
                   <div className="margin-y-2">
                     <Button disabled={disabled}>
