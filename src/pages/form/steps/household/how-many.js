@@ -47,7 +47,7 @@ class HowMany extends React.Component {
               })}
               explanation={t(buildNestedKey(sectionName, modelName, 'explanation'))}
               onChange={handleChange}
-              name={`${sectionName}.numMembers`}
+              name="household.numMembers"
               className="desktop:grid-col-1"
               type="select"
               options={this.buildOptions()}
