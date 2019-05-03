@@ -30,6 +30,10 @@ class WorkerReview extends React.Component {
 
     if (currentRegistration === null || currentRegistration === undefined) {
       this.props.transition({ command: 'worker.search' });
+    } else {
+      this.props.transition({ command: 'SEARCH', data: {
+        id: currentRegistration.client.id
+      }});
     }
   }
 

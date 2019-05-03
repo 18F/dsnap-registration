@@ -83,6 +83,7 @@ class SnapshotReview extends React.Component {
       <React.Fragment>
         <Wizard.Progress step={step} steps={totalSteps} />
         <Formik
+          enableReinitialize
           validateOnChange={false}
           initialValues={rest}
           render={this.renderReviewSections}

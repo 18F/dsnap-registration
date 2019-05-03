@@ -55,8 +55,23 @@ const workerChart = {
               actions: [
                 assign({
                   registrations: (_, data) => data.data,
+                  currentRegistration: (ctx, data) => {
+                    if (!ctx.registrations.length && ctx.currentRegistration) {
+                      // we are on the worker review page, set the current registration to the
+                      // newly fetched server data
+                      return data.data[0];
+                    }
+
+                    return null;
+                  },
                   meta: { loading: false }
                 }),
+                (ctx, _) => {
+                  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                    ...(JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}),
+                    currentRegistration: ctx.currentRegistration
+                  }))
+                },
               ]
             },
             onError: {
