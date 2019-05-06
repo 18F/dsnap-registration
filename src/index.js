@@ -1,3 +1,4 @@
+import 'react-app-polyfill/ie11';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -9,8 +10,6 @@ import 'app.scss';
 import Routes from './routes';
 import App from 'app';
 import './i18n';
-
-require('es6-promise').polyfill();
 
 // inject i18m library functions as props to the App component
 const LocalizedApp = withNamespaces()(App);
