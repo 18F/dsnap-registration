@@ -18,7 +18,7 @@ class App extends React.Component {
               <div className="margin-x-5">
                 <div className="font-sans-md">
                   <b>
-                    This
+                    This is a beta site. 
                   </b>
                 </div>
               </div>

@@ -10,6 +10,8 @@ import Routes from './routes';
 import App from 'app';
 import './i18n';
 
+require('es6-promise').polyfill();
+
 // inject i18m library functions as props to the App component
 const LocalizedApp = withNamespaces()(App);
 
