@@ -12,6 +12,19 @@ class App extends React.Component {
 
     return (
       <LocaleContext.Provider value={ t }>
+        <section className="usa-banner site-banner bg-yellow">
+          <div className="usa-accordion">
+            <header className="usa-banner-header">
+              <div className="margin-x-5">
+                <div className="font-sans-md">
+                  <b>
+                    This is a beta site. 
+                  </b>
+                </div>
+              </div>
+            </header>
+          </div>
+        </section>
         <Header text={t('general.header')} className={className} />
         <ScrollToTop>
           <main>
