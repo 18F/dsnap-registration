@@ -3,23 +3,25 @@ import i18n from 'i18n';
 
 // TODO: These can actually just be better-named components
 
-const renderListT = ({ name }) => (
-  <ul className="margin-y-0 bulleted">
-    {
-      i18n.t(`${name}`, { returnObjects: true })
-        .map((text, index) => {
-          return (
-            <li
-              className="margin-y-025"
-              key={`${name}.conditions.${index}`}
-            >
-              { i18n.t(text) }
-            </li>
-          );
-        })
-    }
-  </ul>
-);
+const renderListT = ({ name }) => {
+  return (
+    <ul className="margin-y-0 bulleted">
+      {
+        i18n.t(`${name}`, { returnObjects: true })
+          .map((text, index) => {
+            return (
+              <li
+                className="margin-y-025"
+                key={`${name}.conditions.${index}`}
+              >
+                { i18n.t(text) }
+              </li>
+            );
+          })
+      }
+    </ul>
+  );
+}
 
 const renderLineBreaksT = name => (
   <React.Fragment>
