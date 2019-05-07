@@ -2,8 +2,14 @@ import React from 'react';
 import i18n from 'i18n';
 
 // TODO: These can actually just be better-named components
-
 const renderListT = ({ name }) => {
+  const array = i18n.t(`${name}`, { returnObjects: true });
+  console.log(array, Array.isArray(array));
+
+  if (!Array.isArray(array)) {
+    return null;
+  }
+
   return (
     <ul className="margin-y-0 bulleted">
       {
