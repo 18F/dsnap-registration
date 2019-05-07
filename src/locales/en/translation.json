@@ -250,13 +250,12 @@
   "household": {
     "count": {
       "justMeOption": "Just me", 
-      "header": "Now tell us about people you share food with.",
-      "label": "On {{ benefitStartDate }}, how many people in your home did you regularly buy food for and prepare meals with, including yourself?",
-      "explanation": "Count your roommates if you often buy food and cook together."
+      "header": "Now, tell us if you share food with other people.",
+      "label": "On {{ benefitStartDate }}, how many people lived in your home that you regularly bought food for and share meals with? If you lived alone, answer 'Just me'"
     },
     "memberNames": {
       "header": "OK {{ customerName }}, you share meals with {{ count }} people.",
-      "lede": "People buying and sharing food:",
+      "lede": "Who are they?:",
       "firstName": {
         "label": "Legal first name"
       },
@@ -270,10 +269,10 @@
     "getPrepared": {
       "header": "Now, we'll need some info about each person.",
       "conditions": {
-        "header": "We’ll ask about the following from the people you listed so far:",
+        "header": "We’ll ask about the following from the other people you listed:",
         "body": [
-          "Social Security Number",
           "Date of birth",
+          "Social Security Number",
           "Sex",
           "Race"
         ]
@@ -291,7 +290,7 @@
       },
       "ssn": {
         "label": "What is {{ firstName }}'s Social Security Number (SSN)?",
-        "explanation": "You can leave this blank if you don't know it or if they don't have one. Providing one will help verify and move you faster in the application process."
+        "explanation": "You can leave this blank if you don't know it or don't have it available. Providing one will help verify your information faster."
       },
       "sex": {
         "label": "What is {{ firstName }}'s sex?",
@@ -309,10 +308,10 @@
       }
     },
     "foodAssistance": {
-      "header": "We need to ask you about food assistance",
+      "header": "We need to ask you about other food assistance.",
       "id": "Receiving food assistance",
-      "label": "Check all people who receive food assistance",
-      "explanation": "more text here"
+      "label": "Select any people below who received Supplemental Nutrition Assistance Program (SNAP) benefits from {{ benefitStartDate }} to {{ benefitEndDate }}?",
+      "explanation": "If nobody did, don't check anyone."
     }
   },
   "impact": {

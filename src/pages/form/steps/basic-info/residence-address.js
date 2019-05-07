@@ -8,9 +8,8 @@ import YesNoField from 'components/yes-no-field';
 import FormikField from 'components/formik-field';
 import states from 'data/states';
 import { hasMailingAddress } from 'models/basic-info';
-import { getDisaster, getState } from 'models/disaster';
+import { getDisaster, getState, getBeginDate } from 'models/disaster';
 import applicantInfoSchema from 'schemas/applicant-info';
-import { getBeginDate } from '../../../../models/disaster';
 
 const setMailingAddress = (basicInfo) => () => {
   if (!hasMailingAddress(basicInfo)) {

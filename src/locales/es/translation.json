@@ -41,8 +41,8 @@
     "quit": "Salir del registro",
     "security": "This information is kept confidential and secure as required by law. <1>Learn more</1>",
     "loading": "Loading",
-    "person": "Person",
-    "people": "People",
+    "person": "Persona",
+    "people": "Personas",
     "select": "Seleccione una",
     "delete": "delete",
     "notApplicable": "Not applicable",
@@ -252,69 +252,59 @@
   "household": {
     "count": {
       "justMeOption": "Just me", 
-      "header": "Now tell us about people you share food with.",
-      "label": "On {{ benefitStartDate }}, how many people in your home did you regularly buy food for and prepare meals with, including yourself?",
-      "explanation": "Count your roommates if you often buy food and cook together."
+      "header": "Ahora, díganos si comparte comida con otras personas.",
+      "label": "¿Cuántas personas para las que compra alimentos y con las que comparte comidas regularmente vivían en su hogar el {{ benefitStartDate }}? Si vivía solo, conteste 'Just me'."
     },
     "memberNames": {
-      "header": "OK {{ customerName }}, you share meals with {{ count }} people.",
-      "lede": "People buying and sharing food:",
+      "header": "De acuerdo {{ customerName }}, usted comparte las comidas con {{ count }} personas.",
+      "lede": "¿Quiénes son?:",
       "firstName": {
-        "label": "Legal first name"
+        "label": "Primer nombre legal"
       },
       "middleName": {
-        "label": "Middle name"
+        "label": "Segundo nombre"
       },
       "lastName":{
-        "label": "Last name"
+        "label": "Apellido"
       }
     },
     "getPrepared": {
-      "header": "Now, we'll need some info about each person.",
+      "header": "Ahora, necesitaremos información sobre cada persona.",
       "conditions": {
-        "header": "We’ll ask about the following from the people you listed so far:",
+        "header": "Preguntaremos los siguientes datos de las personas que enumeró:",
         "body": [
-          "Social Security Number",
-          "Date of birth",
-          "Sex",
-          "Race"
+          "Fecha de nacimiento",
+          "Número de Seguro Social",
+          "Sexo",
+          "Raza"
         ]
       }
     },
     "memberDetails": {
       "none": "You didn't indicate any other members of your household",
-      "header": "Great! Let’s get more info about {{ firstName }}.",
+      "header": "¡Genial! Vamos a obtener más información sobre {{ firstName }}.",
       "dob": {
-        "label": "What is {{ firstName }}'s date of birth?",
-        "explanation": "For example: 12 30 1975",
-        "month": "Month",
-        "day": "Day",
-        "year": "Year"
+        "label": "¿Cuál es la fecha de nacimiento de {{ firstname }}?"
       },
       "ssn": {
-        "label": "What is {{ firstName }}'s Social Security Number (SSN)?",
-        "explanation": "You can leave this blank if you don't know it or if they don't have one. Providing one will help verify and move you faster in the application process."
+        "label": "¿Cuál es el Número de Seguro Social (SSN) de {{ firstname }}?",
+        "explanation": "Puede dejar esta casilla vacía si no lo sabe o no lo tiene disponible. Proporcionarlo ayudará a verificar su información más rápido."
       },
       "sex": {
-        "label": "What is {{ firstName }}'s sex?",
-        "explanation": "As shown in legal documents such as a birth certificate.",
-        "options": {
-          "male": "Male",
-          "female": "Female"
-        }
+        "label": "¿Cuál es el sexo de {{ firstName }}?"
       },
       "race": {
-        "label": "What is {{ firstName }}'s race?"
+        "label": "¿Cuál es la raza de {{ firstName }}?"
       },
       "ethnicity": {
-        "label": "What is {{ firstName }}'s ethnicity?"
+        "label": "¿Cuál es la etnicidad de {{ firstName }}?"
       }
     },
     "foodAssistance": {
-      "header": "We need to ask you about food assistance",
+      "header": "Debemos preguntarle si usted recibe otra ayuda alimentaria.",
       "id": "Receiving food assistance",
-      "label": "Check all people who receive food assistance",
-      "explanation": "more text here"
+      "label": "Seleccione a las personas que hayan recibido beneficios del Programa de Asistencia de Nutrición Suplementaria (SNAP) desde {{ benefitStartDate }} hasta {{ benefitEndDate }}.",
+      "explanation": "Si nadie recibió, no seleccione a nadie."
     }
   },
   "impact": {
