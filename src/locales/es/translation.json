@@ -35,10 +35,10 @@
   },
   "general": {
     "header": "D-SNAP Benefits Registration",
-    "next": "Next",
-    "yes": "Yes",
+    "next": "Siguiente",
+    "yes": "Si",
     "no": "No",
-    "quit": "Quit registration",
+    "quit": "Salir del registro",
     "security": "This information is kept confidential and secure as required by law. <1>Learn more</1>",
     "loading": "Loading",
     "person": "Person",
@@ -70,7 +70,7 @@
     }
   },
   "errors": {
-    "city": "Provide city",
+    "city": "Proporcione ciudad",
     "county": "Por favor, selecione el condado del menú",
     "date": "Please provide a valid date",
     "dob": {
@@ -80,21 +80,21 @@
     },
     "dropdown": "Please choose a value from this list",
     "ethnicity": "Please choose from the available options",
-    "email": "Provide a valid email address",
-    "firstName": "Provide first name",
+    "email": "Proporcione una dirección de correo electrónico válida",
+    "firstName": "Proporcione primer nombre",
     "fullName": "Provide your full name",
     "language": "Select a language",
-    "lastName": "Provide last name",
+    "lastName": "Proporcione apellido",
     "noMatch": "Invalid selection",
     "length": "{{ fieldName }} must be exactly {{ length }} digits",
     "positiveNumber": "This value can't be less than zero",
     "phone": "Enter a 10 digit phone number staring with area code",
     "ssn": "The Social Security Number should be 9 numbers long",
-    "state": "Select a state from the menu options; This D-SNAP program is for {{ state }} residents only",
-    "street": "Provide street address",
+    "state": "Seleccione un estado entre las opciones del menú; Este programa D-SNAP es solo para residentes de {{ state }}",
+    "street": "Proporcione dirección",
     "required": "This field is required",
-    "yesNo": "Choose one",
-    "zipcode": "Provide 5 digit ZIP code - Ex. 48154"
+    "yesNo": "Seleccione una",
+    "zipcode": "Proporcione el código postal de 5 dígitos - Ej. 48154"
   },
   "welcome": {
     "header": "¡Bienvenido!",
@@ -139,89 +139,70 @@
     }
   },
   "preparation": {    
-    "header": "Before you apply, we'll need some info.",
-    "lede": "This will help us get you benefits faster.",
+    "header": "De acuerdo, deberá proporcionar algunos datos para registrarse.",
     "conditions": {
-      "header": "Here's some info we need:",
+      "header": "Necesitamos los siguientes datos:",
       "body": [
-        "You and your household, addresses, and date of birth",
-        "Phone number to follow-up, which helps you get benefits quicker",
-        "Money from jobs or other sources, and employer info"
+        "Nombre, dirección y fecha de nacimiento suyo y de los miembros de su hogar.",
+        "Dinero ingresado por empleo u otras fuentes, y datos del empleador"
       ]
     },
-    "immigrants": {
-      "header": "Info for immigrants",
-      "apply": "Applying for these programs will not affect your or your family's immigration status.",
-      "benefit": "If you or someone in your household is not a citizen, you may still be able to receive some benefits.",
-      "reassure": "We ask about citizenship so that we can help you find out what programs you qualify for."
-    },
-    "copy": "We'll take you through step-by-step",
+    "copy": "Le guiaremos paso a paso",
     "action": "Start registering"
   },
   "basicInfo": {
     "moneyOnHand": "Money on hand",
     "name": {
-      "id": "Name",
-      "header": "Let’s start with the basics.",
+      "id": "Nombre",
+      "header": "Empecemos con lo básico.",
       "firstName": {
-        "label": "What is your legal first name?",
-        "explanation": "As shown on legal documents such as a birth certificate. This helps us verify who you are."
+        "label": "¿Cuál es su primer nombre legal?",
+        "explanation": "Tal como se muestra en los documentos legales, como por ejemplo un certificado de nacimiento. Esto nos ayuda a verificar quién es."
       },
       "middleName": {
-        "label": "What is your middle name?"
+        "label": "¿Cuál es su segundo nombre?"
       },
       "lastName":{
-        "label": "What is your last name?"
+        "label": "¿Cuál es su apellido?"
       }
     },
     "addresses": {
       "id": "Residence address",
-      "header": "Where did you live on the date the disaster struck?",
+      "header": "¿Dónde vivía en {{ benefitStartDate }}?",
       "street1": {
-        "label": "Street address 1"
+        "label": "Dirección 1"
       },
       "street2": {
-        "label": "Street address 2"
+        "label": "Dirección 2 (opcional)"
       },
       "city": {
-        "label": "City"
+        "label": "Ciudad"
       },
       "state": {
-        "label": "State"
-      },
-      "county": {
-        "id": "County",
-        "label": "County"
+        "label": "Estado"
       },
       "zip": {
-        "label": "Zip code"
+        "label": "C.P."
       },
       "currentMailingAddress": {
-        "label": "Is this where you currently receive mail?",
-        "options": [
-          { "label": "Yes" },
-          { "label": "No" }
-        ]
+        "label": "¿Recibe actualmente su correo en esta dirección?"
       }
     },
     "phone": {
-      "id": "Phone",
-      "label": "What is your phone number?",
-      "explanation": "This is the best way for us to follow-up regarding your application."
+      "id": "Número telefónico",
+      "label": "¿Cuál es su número telefónico?"
     },
     "email": {
-      "id": "Email",
-      "label": "What is your email address, if you have one?"
+      "id": "Dirección de correo electrónico",
+      "label": "¿Cuál es su dirección de correo electrónico (si tiene una)?"
     },
     "mailingAddress": {
       "id": "Mailing address",
-      "header": "Where do you receive mail?"
+      "header": "¿Dónde recibe su correo?"
     },
     "offramp": {
-      "header": "Great start, {{ customerName }}! Let’s keep going.",
-      "copy": "You are legally allowed to submit your application with your name and address. This will take longer as we will mail you the rest of the paperwork to complete.",
-      "action": "Next",
-      "link": "Stop working now and submit application now"
+      "header": "¡Buen comienzo, {{ customerName }}! Continuemos.",
+      "copy": "Ahora le haremos una serie de preguntas sobre usted y las personas con las que compra y comparte la comida."
     }
   },
   "identity": {

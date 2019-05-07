@@ -4,15 +4,12 @@ import { withRouter } from 'react-router-dom';
 import { helpers } from 'locales';
 import withLocale from 'components/with-locale';
 import UI from 'components/ui';
-import Collapsible from 'components/collapsible';
 import Button from 'components/button';
 import SecurityAlert from 'components/security-alert';
 
-const tKey = 'preparation';
-
 class PreparePage extends React.Component {
   static propTypes = {
-    tKey: PropTypes.string,
+    preparation: PropTypes.string,
   }
 
   handleClick = () => {
@@ -25,26 +22,16 @@ class PreparePage extends React.Component {
     return (   
       <section>
         <UI.Header className="margin-bottom-4 font-sans-xl" type="h1" border>
-          {t(`${tKey}.header`)}
+          {t('preparation.header')}
         </UI.Header>
-        <p className="margin-bottom-4">{t(`${tKey}.lede`)}</p>
-        <b>{t(`${tKey}.conditions.header`)}</b>
-        { helpers.renderListT({ name: `${tKey}.conditions.body` }) }
-        <div className="margin-y-4">
-          <Collapsible name="immigrants" header={t(`${tKey}.immigrants.header`)}>
-            <div>
-              <p>{t(`${tKey}.immigrants.apply`)}</p>
-              <p><b>{t(`${tKey}.immigrants.benefit`)}</b></p>
-              <p>{t(`${tKey}.immigrants.reassure`)}</p>
-            </div>
-          </Collapsible>
-        </div>
+        <b>{t('preparation.conditions.header')}</b>
+        { helpers.renderListT({ name: 'preparation.conditions.body' }) }
         <SecurityAlert />
         <p className="margin-y-4">
-          <em>{ t(`${tKey}.copy`) }</em>
+          <em>{ t('preparation.copy') }</em>
         </p>
         <Button type="button" className="font-sans-md" onClick={this.handleClick}>
-          { t(`${tKey}.action`) }
+          { t('preparation.action') }
         </Button>
       </section>
     );

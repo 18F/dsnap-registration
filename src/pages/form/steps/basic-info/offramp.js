@@ -16,7 +16,7 @@ class BasicInfoOffRamp extends React.Component {
 
     return (
       <MachineState>
-        {({ basicInfo, household }) => (
+        {({ household }) => (
           <section>
             <UI.Header type="h1" border>
               { t('basicInfo.offramp.header', { customerName: getFirstName(getApplicant(household)) }) }

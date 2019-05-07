@@ -125,33 +125,25 @@
       "label": "Which area were you affected in?"
     },
     "storage": {
-      "label": "Are you using a public computer or private computer or phone now?",
+      "label": "What kind of device are you using to view this site?",
       "confirm": {
         "label": "Private computer or phone",
-        "explanation": "We’ll save your information on your computer or phone as you go."
+        "explanation": "We’ll save your information on your device as you go in case you need to leave and finish later."
       },
       "deny": {
         "label": "Public computer",
-        "explanation": "We won’t save your information on this computer, so be sure to finish registering now."
+        "explanation": "We won’t save your information, so be sure to finish registering before you leave."
       }
     }
   },
   "preparation": {    
-    "header": "Before you apply, we'll need some info.",
-    "lede": "This will help us get you benefits faster.",
+    "header": "OK, you'll need to provide some information to register.",
     "conditions": {
-      "header": "Here's some info we need:",
+      "header": "Here’s some information we need:",
       "body": [
-        "You and your household, addresses, and date of birth",
-        "Phone number to follow-up, which helps you get benefits quicker",
-        "Money from jobs or other sources, and employer info"
+        "Name, address, and date of birth for you and your household members.",
+        "Money from jobs or other sources, and employer information"
       ]
-    },
-    "immigrants": {
-      "header": "Info for immigrants",
-      "apply": "Applying for these programs will not affect your or your family's immigration status.",
-      "benefit": "If you or someone in your household is not a citizen, you may still be able to receive some benefits.",
-      "reassure": "We ask about citizenship so that we can help you find out what programs you qualify for."
     },
     "copy": "We'll take you through step-by-step",
     "action": "Start registering"
@@ -174,12 +166,12 @@
     },
     "addresses": {
       "id": "Residence address",
-      "header": "Where did you live on the date the disaster struck?",
+      "header": "Where did you live on {{ benefitStartDate }}?",
       "street1": {
         "label": "Street address 1"
       },
       "street2": {
-        "label": "Street address 2"
+        "label": "Street address 2 (optional)"
       },
       "city": {
         "label": "City"
@@ -187,25 +179,16 @@
       "state": {
         "label": "State"
       },
-      "county": {
-        "id": "County",
-        "label": "County"
-      },
       "zip": {
         "label": "Zip code"
       },
       "currentMailingAddress": {
-        "label": "Is this where you currently receive mail?",
-        "options": [
-          { "label": "Yes" },
-          { "label": "No" }
-        ]
+        "label": "Is this where you currently receive mail?"
       }
     },
     "phone": {
       "id": "Phone",
-      "label": "What is your phone number?",
-      "explanation": "This is the best way for us to follow-up regarding your application."
+      "label": "What is your phone number?"
     },
     "email": {
       "id": "Email",
@@ -217,9 +200,7 @@
     },
     "offramp": {
       "header": "Great start, {{ customerName }}! Let’s keep going.",
-      "copy": "You are legally allowed to submit your application with your name and address. This will take longer as we will mail you the rest of the paperwork to complete.",
-      "action": "Next",
-      "link": "Stop working now and submit application now"
+      "copy": "We're now going to ask you a series of questions about you and the people you buy and share food with."
     }
   },
   "identity": {
