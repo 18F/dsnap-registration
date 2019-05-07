@@ -54,7 +54,7 @@ class PreregistrationSection extends React.Component {
         <div className="grid-container">
           <section className="margin-x-5">
             <h2>{ t('welcome.conditions.header') }</h2>
-            { helpers.renderListT({ name: 'welcome.conditions.body' }) }
+            {/* helpers.renderListT({ name: 'welcome.conditions.body' }) */}
           </section>
           <Formik
             initialValues={this.props.values}
