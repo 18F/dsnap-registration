@@ -46,20 +46,20 @@
     "select": "Seleccione una",
     "delete": "delete",
     "notApplicable": "Not applicable",
-    "leaveBlank": "You can leave this blank if you don't want to answer",
+    "leaveBlank": "Puede dejar esta casilla vacía si no desea responder.",
     "ethnicity": {
       "options": [
-        "Hispanic or Latino",
-        "Not Hispanic or Latino"
+        "Hispano o latino",
+        "No hispano o latino"
       ]
     },
     "race": {
       "options": [
-        "American Indian or Alaskan Native",
-        "Asian",
-        "Black or African American",
-        "Native Hawaiian or Other Pacific Islander",
-        "White"
+        "Indio americano o nativo de Alaska",
+        "Asiático",
+        "Negro o afroamericano",
+        "Nativo de Hawái u otra isla del Pacífico",
+        "Blanco"
       ]
     },
     "language": {
@@ -72,7 +72,7 @@
   "errors": {
     "city": "Proporcione ciudad",
     "county": "Por favor, selecione el condado del menú",
-    "date": "Please provide a valid date",
+    "date": "Proporcione una fecha válida - Véase el ejemplo",
     "dob": {
       "day": "Provide a valid day - Ex 1 or 01",
       "month": "Provide a valid month - Ex 1 or 01",
@@ -89,7 +89,7 @@
     "length": "{{ fieldName }} must be exactly {{ length }} digits",
     "positiveNumber": "This value can't be less than zero",
     "phone": "Enter a 10 digit phone number staring with area code",
-    "ssn": "The Social Security Number should be 9 numbers long",
+    "ssn": "El Número de seguro social debe tener 9 dígitos",
     "state": "Seleccione un estado entre las opciones del menú; Este programa D-SNAP es solo para residentes de {{ state }}",
     "street": "Proporcione dirección",
     "required": "This field is required",
@@ -207,44 +207,44 @@
   },
   "identity": {
     "personalInfo": {
-      "header": "Now, a few more questions about you.",
+      "header": "Ahora, unas preguntas más sobre usted.",
       "dob": {
-        "id": "Date of birth",
-        "label": "What is your date of birth?",
-        "explanation": "For example: 12 30 1975",
-        "month": "Month",
-        "day": "Day",
-        "year": "Year"
+        "id": "Fecha de Nacimiento",
+        "label": "¿Cuál es su fecha de nacimiento?",
+        "explanation": "Por ejemplo: 12 30 1975",
+        "month": "Mes",
+        "day": "Día",
+        "year": "Año"
       },
       "stateId": {
         "id": "Driver's License / State ID",
-        "label": "What is your driver's license or state ID number?",
-        "explanation": "You can leave this blank if you don't know it or don't have one. Providing one will help verify and move you faster in the application process."
+        "label": "¿Cuál es su licencia de conducir o número de identificación estatal?",
+        "explanation": "Puede dejar esta casilla vacía si no lo sabe o no lo tiene disponible. Proporcionarlo nos ayudará a verificar su información más rápido."
       },
       "ssn": {
-        "id": "Social security number",
-        "label": "What is your Social Security Number (SSN)?",
-        "explanation": "You can leave this blank if you don't know it or don't have one. Providing one will help verify and move you faster in the application process."
+        "id": "Número de Seguro Social",
+        "label": "¿Cuál es su número de Seguro Social (SSN, Social Security Number)?",
+        "explanation": "Puede dejar esta casilla vacía si no lo sabe o no lo tiene disponible. Proporcionarlo nos ayudará a verificar su información más rápido."
       },
       "sex": {
-        "id": "Sex",
-        "label": "Sex?",
-        "explanation": "As shown in legal documents such as a birth certificate.",
+        "id": "Sexo",
+        "label": "¿Cuál es su sexo?",
+        "explanation": "Tal como se muestra en los documentos legales, como por ejemplo un certificado de nacimiento. Puede dejar esta casilla vacía si no desea responder.",
         "options": {
-          "male": "Male",
-          "female": "Female"
+          "male": "Masculino",
+          "female": "Femenino"
         }
       },
       "race": {
-        "id": "Race",
-        "label": "What is your race?"
+        "id": "Raza",
+        "label": "¿Cuál es su raza?"
       },
       "ethnicity": {
-        "id": "Ethnicity",
-        "label": "What is your ethnicity?"
+        "id": "Etnicidad",
+        "label": "¿Cuál es su etnicidad?"
       },
       "whyAsk": {
-        "header": "Why do we ask?",
+        "header": "¿Por qué preguntamos por sexo, etnicidad, raza?",
         "copy": "We use your Social Security Number to check information about to find out what you qualify for as we go through these steps.\n With your Social Security Number, we may be able to sign you up for services today.\n You do not have to provide your Social Security Number right now, but if you choose not to, you will be asked to provide documents that prove things like your income sources."
       }
     }
