@@ -5,6 +5,11 @@ import i18n from 'i18n';
 const renderListT = ({ name }) => {
   const array = i18n.t(`${name}`, { returnObjects: true });
   console.log(array);
+
+  if(!Array.isArray(array)) {
+    return null;
+  }
+
   return (
     <ul className="margin-y-0 bulleted">
       {
