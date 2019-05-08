@@ -3,7 +3,7 @@ import { setIn } from 'formik';
 
 const jobDetailsSchema = buildSchema(({ t }) => ({
   employerName: string()
-    .required(t('errors.required')),
+    .required(t('errors.employerName')),
   pay: string()
     .nullable()
     .required(t('errors.required')),

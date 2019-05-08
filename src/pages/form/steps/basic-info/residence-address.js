@@ -8,7 +8,7 @@ import YesNoField from 'components/yes-no-field';
 import FormikField from 'components/formik-field';
 import states from 'data/states';
 import { hasMailingAddress } from 'models/basic-info';
-import { getDisaster, getState } from 'models/disaster';
+import { getDisaster, getState, getBeginDate } from 'models/disaster';
 import applicantInfoSchema from 'schemas/applicant-info';
 
 const setMailingAddress = (basicInfo) => () => {
@@ -39,11 +39,12 @@ class ResidenceAddress extends React.Component {
     const { modelName, tKey } = ResidenceAddress;
     const { values } = this.props.formik;
     const { basicInfo, disasters } = values;
-    const disasterState = getState(getDisaster(disasters, basicInfo.disasterId))
+    const disaster = getDisaster(disasters, basicInfo.disasterId);
+    const disasterState = getState(disaster);
 
     return (
       <Wizard.Step
-        header={t(`${buildNestedKey(sectionName, tKey)}.header`)}
+        header={t(`${buildNestedKey(sectionName, tKey)}.header`, { benefitStartDate: getBeginDate(disaster) })}
         modelName={modelName}
         registerStep={this.props.registerStep}
         onNext={setMailingAddress(this.props.formik.values.basicInfo)}

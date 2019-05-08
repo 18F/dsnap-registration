@@ -45,7 +45,6 @@ class HowMany extends React.Component {
               labelText={t(buildNestedKey(sectionName, modelName, 'label'), {
                 benefitStartDate: getBeginDate(getDisaster(disasters, basicInfo.disasterId))
               })}
-              explanation={t(buildNestedKey(sectionName, modelName, 'explanation'))}
               onChange={handleChange}
               name="household.numMembers"
               className="desktop:grid-col-1"

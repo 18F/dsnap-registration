@@ -68,18 +68,18 @@ class MemberDetails extends React.Component {
                   name="dob"
                   showError={false}
                   labelText={t(`${buildNestedKey(sectionName, modelName, 'dob', 'label')}`, { firstName })}
-                  explanation={t(`${buildNestedKey(sectionName, modelName)}.dob.explanation`)}
+                  explanation={t('identity.personalInfo.dob.explanation')}
                   fields={[{
                     name: `${sectionName}.members.${memberIndex}.dob.month`,
-                    labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.month`),
+                    labelText: t('identity.personalInfo.dob.month'),
                     onChange: handleChange,
                   }, {
                     name: `${sectionName}.members.${memberIndex}.dob.day`,
-                    labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.day`),
+                    labelText: t('identity.personalInfo.dob.day'),
                     onChange: handleChange
                   }, {
                     name: `${sectionName}.members.${memberIndex}.dob.year`,
-                    labelText: t(`${buildNestedKey(sectionName, modelName)}.dob.year`),
+                    labelText: t('identity.personalInfo.dob.year'),
                     onChange: handleChange,
                     className: 'desktop:grid-col-9'
                   }]}
@@ -87,16 +87,16 @@ class MemberDetails extends React.Component {
                 <FormikRadioGroup
                   inline
                   options={[{
-                    label: t(buildNestedKey(sectionName, modelName, 'sex', 'options', 'male')),
+                    label: t('identity.personalInfo.sex.options.male'),
                     value: "male"
                   },
                   {
-                    label: t(buildNestedKey(sectionName, modelName, 'sex', 'options', 'female')),
+                    label: t('identity.personalInfo.sex.options.female'),
                     value: "female"
                   }]}
                   name={buildNestedKey(sectionName, 'members', memberIndex, 'sex')}
                   labelText={t(`${buildNestedKey(sectionName, modelName, 'sex', 'label')}`, { firstName })}
-                  explanation={t(`${buildNestedKey(sectionName, modelName, 'sex', 'explanation')}`)}
+                  explanation={t('general.leaveBlank')}
                 />
                 <FormikRadioGroup
                   name={`household.members.${memberIndex}.ethnicity`}
@@ -118,7 +118,7 @@ class MemberDetails extends React.Component {
                   delimiter="-"
                   name={buildNestedKey(sectionName, 'members', memberIndex, 'ssn')}
                   labelText={t(`${buildNestedKey(sectionName, modelName, 'ssn', 'label')}`, { firstName })}
-                  explanation={t(`${buildNestedKey(sectionName, modelName, 'ssn', 'explanation')}`)}
+                  explanation={t('identity.personalInfo.ssn.explanation')}
                   onChange={handleChange}
                 />
               </React.Fragment>

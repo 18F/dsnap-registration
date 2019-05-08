@@ -236,11 +236,11 @@ class Progress extends React.Component {
   }
   
   render() {
-    // TODO: sometimes steps is passed in as an empty object.
-    // probably an issue witht he way context is being updated in fsm-config
+    const { t, step, steps } = this.props;
+
     return !this.props.step ? null : (
       <section id="progress" className="text-green">
-        { `Step ${this.props.step} of ${this.props.steps}` }
+        { t('general.step', { step, steps }) }
       </section>
     );
   }
@@ -249,7 +249,7 @@ class Progress extends React.Component {
 class Wizard extends React.Component {
   static Step = Step
   static Section = connect(withLocale(Section))
-  static Progress = Progress
+  static Progress = withLocale(Progress)
   static Context = WizardContext.Consumer
   static propTypes = {
     handleSubmit: PropTypes.func,

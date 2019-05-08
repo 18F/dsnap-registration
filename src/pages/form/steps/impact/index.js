@@ -72,7 +72,7 @@ class AdverseEffects extends React.Component {
           Component={ComboField}
           fieldGroupClassname="margin-y-0"
           fields={
-            Object.entries(impact.otherExpenses).map(([name, values]) => {
+            Object.entries(impact.otherExpenses).map(([name]) => {
               return {
                 prefix: '$',
                 type: 'checkbox',

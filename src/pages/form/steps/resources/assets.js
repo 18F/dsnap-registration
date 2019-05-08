@@ -7,7 +7,7 @@ import { buildNestedKey } from 'utils';
 import { getMembers } from 'models/household';
 import { hasIncome } from 'models/assets-and-income';
 import { getIncome } from 'models/person';
-import { getDisaster } from 'models/disaster';
+import { getDisaster, getBeginDate, getEndDate } from 'models/disaster';
 import { getFirstName, getLastName } from 'models/person';
 import SecurityAlert from 'components/security-alert';
 import Collapsible from 'components/collapsible';
@@ -52,16 +52,21 @@ class Assets extends React.Component {
               validationSchema={assetsSchema}
             >
               <CurrencyField
-                labelText={t(buildNestedKey(sectionName, 'moneyOnHand', 'label'))}
-                explanation={t(buildNestedKey(sectionName, 'moneyOnHand', 'explanation'))}
+                labelText={t(buildNestedKey(sectionName, 'moneyOnHand', 'label'), {
+                  benefitBeginDate: getBeginDate(disaster)
+                })}
+                explanation={t(buildNestedKey(sectionName, 'moneyOnHand', 'explanation'), {
+                  benefitStartDate: getBeginDate(disaster),
+                  benefitEndDate: getEndDate(disaster)
+                })}
                 name="basicInfo.moneyOnHand"
                 onChange={handleChange}
                 className="grid-col-6"
               />
               <FormikFieldGroup
                 labelText={t(buildNestedKey(sectionName, 'incomeRecipients', 'label'), {
-                  benefitStartDate: disaster.benefit_begin_date,
-                  benefitEndDate: disaster.benefit_end_date
+                  benefitStartDate: getBeginDate(disaster),
+                  benefitEndDate: getEndDate(disaster)
                 })}
                 fieldGroupClassname="margin-y-0"
                 fields={
