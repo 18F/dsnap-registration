@@ -24,7 +24,9 @@ class PreparePage extends React.Component {
         <UI.Header className="margin-bottom-4 font-sans-xl" type="h1" border>
           {t('preparation.header')}
         </UI.Header>
-        <b>{t('preparation.conditions.header')}</b>
+        <div className="margin-top-4 margin-bottom-2">
+          <b>{t('preparation.conditions.header')}</b>
+        </div>
         { helpers.renderListT({ name: 'preparation.conditions.body' }) }
         <SecurityAlert />
         <p className="margin-y-4">

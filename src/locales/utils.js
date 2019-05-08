@@ -4,7 +4,6 @@ import i18n from 'i18n';
 // TODO: These can actually just be better-named components
 const renderListT = ({ name }) => {
   const array = i18n.t(`${name}`, { returnObjects: true });
-  console.log(array, Array.isArray(array));
 
   if (!Array.isArray(array)) {
     return null;
@@ -20,7 +19,7 @@ const renderListT = ({ name }) => {
                 className="margin-y-025"
                 key={`${name}.conditions.${index}`}
               >
-                { i18n.t(text) }
+                { i18n.t(text, {escapeValues: false}) }
               </li>
             );
           })
