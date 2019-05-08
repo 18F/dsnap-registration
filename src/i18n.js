@@ -25,7 +25,8 @@ i18n
     lng,
     interpolation: {
       escapeValue: false
-    }
+    },
+    nsSeparator: false,
   });
 
 export default i18n;

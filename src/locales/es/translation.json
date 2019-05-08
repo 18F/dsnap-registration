@@ -57,7 +57,7 @@
     "noMatch": "Invalid selection",
     "length": "{{ fieldName }} must be exactly {{ length }} digits",
     "positiveNumber": "This value can't be less than zero",
-    "phone": "Enter a 10 digit phone number staring with area code",
+    "phone": "Ingrese un número telefónico de 10 dígitos comenzando con el código de área",
     "ssn": "El Número de seguro social debe tener 9 dígitos",
     "state": "Seleccione un estado entre las opciones del menú; Este programa D-SNAP es solo para residentes de {{ state }}",
     "street": "Proporcione dirección",
@@ -72,10 +72,10 @@
       "header": "Usted puede calificar si:",
       "body": [
         "Vivió (o trabajó) en un área afectada durante el desastre.",
-        "Padeció un efecto adverso debido al desastre. Como por ejemplo:",
+        "Padeció un efecto adverso debido al desastre. Como por ejemplo: ",
         "Una pérdida, reducción o retraso en sus ingresos.",
         "Incapacidad de acceder a activos líquidos, tales como dinero de cuentas bancarias.",
-        "Pago de gastos relativos al desastre por los cuales no espera ser reembolsado antes de [end of benefit period]."
+        "Pago de gastos relativos al desastre por los cuales no espera ser reembolsado antes de end of benefit period."
       ]
     },
     "language": {
@@ -117,10 +117,10 @@
       ]
     },
     "copy": "Le guiaremos paso a paso",
-    "action": "Start registering"
+    "action": "Iniciar registro"
   },
   "basicInfo": {
-    "moneyOnHand": "Money on hand",
+    "moneyOnHand": "Efectivo en mano",
     "name": {
       "id": "Nombre",
       "header": "Empecemos con lo básico.",
