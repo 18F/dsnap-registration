@@ -82,6 +82,7 @@
     "dropdown": "Please choose a value from this list",
     "ethnicity": "Please choose from the available options",
     "email": "Provide a valid email address",
+    "employerName": "Provide employer's name",
     "firstName": "Provide first name",
     "fullName": "Provide your full name",
     "language": "Select a language",
@@ -353,8 +354,8 @@
     "header": "We need to ask you some money questions.",
     "moneyOnHand": {
       "id": "Money on hand",
-      "label": "How much money do you have on hand today?",
-      "explanation": "Give your best estimate. This includes money in checking accounts, savings accounts, and any other cash you have available. Do not include income you recieved between [disaster start date] and [disaster end date]."
+      "label": "How much money did you and your household have on hand on {{ benefitStartDate }}?",
+      "explanation": "Give your best estimate. This includes money in checking accounts, savings accounts, and any other cash you have available. Do not include income you recieved between {{ benefitStartDate }} and {{ benefitEndDate }}."
     },
     "incomeRecipients": {
       "label": "Who received income between {{ benefitStartDate }} and {{ benefitEndDate }}?"
@@ -365,10 +366,11 @@
     },
     "assetsAndIncome": {
       "header": "Now, tell us about {{ firstName }}’s income during the disaster.",
+      "lede": "If you don’t have job information to add, skip to the next step.",
       "incomeSources": {
         "id": "Other income",
         "total": "Total other income",
-        "label": "Check all sources of income {{ firstName }} received between {{ benefitStartDate }} and {{ benefitEndDate }}?",
+        "label": "Check all sources of income {{ firstName }} received between {{ benefitStartDate }} and {{ benefitEndDate }}",
         "explanation": "How much?",
         "hasJobs": "{{ firstName }} has one or more jobs",
         "selfEmployed": "{{ firstName }} is self-employed",

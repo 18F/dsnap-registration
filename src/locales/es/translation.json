@@ -82,6 +82,7 @@
     "dropdown": "Please choose a value from this list",
     "ethnicity": "Please choose from the available options",
     "email": "Proporcione una dirección de correo electrónico válida",
+    "employerName": "Proporcione el nombre del empleador",
     "firstName": "Proporcione primer nombre",
     "fullName": "Provide your full name",
     "language": "Select a language",
@@ -342,68 +343,69 @@
     }
   },
   "resources": {
-    "header": "We need to ask you some money questions.",
+    "header": "Debemos hacerle algunas preguntas sobre dinero.",
     "moneyOnHand": {
       "id": "Money on hand",
-      "label": "How much money do you have on hand today?",
-      "explanation": "Give your best estimate. This includes money in checking accounts, savings accounts, and any other cash you have available. Do not include income you recieved between [disaster start date] and [disaster end date]."
+      "label": "¿Cuánto dinero tenían usted y los miembros de su hogar en {{ benefitStartDate }}?",
+      "explanation": "Denos su mejor estimación. Esto incluye dinero en cuentas corrientes, cuentas de ahorro y cualquier otro efectivo que tenga disponible. No incluya los ingresos que recibió entre {{ benefitStartDate }} y {{ benefitEndDate }}."
     },
     "incomeRecipients": {
-      "label": "Who received income between {{ benefitStartDate }} and {{ benefitEndDate }}?"
+      "label": "¿Quién recibió ingresos entre {{ benefitStartDate }} y {{ benefitEndDate }}?"
     },
     "whyWeAsk": {
-      "header": "Why do we ask?",
+      "header": "¿Por qué preguntamos?",
       "copy": "TBD"
     },
     "assetsAndIncome": {
-      "header": "Now, tell us about {{ firstName }}’s income during the disaster.",
+      "header": "Ahora, cuéntenos sobre los ingresos de {{ firstName }} durante el desastre.",
+      "lede": "Si no tiene información de empleo para agregar, vaya al siguiente paso.",
       "incomeSources": {
         "id": "Other income",
         "total": "Total other income",
-        "label": "Check all sources of income {{ firstName }} received between {{ benefitStartDate }} and {{ benefitEndDate }}?",
-        "explanation": "How much?",
-        "hasJobs": "{{ firstName }} has one or more jobs",
-        "selfEmployed": "{{ firstName }} is self-employed",
-        "unemployment": "{{ firstName }} got unemployment benefits",
-        "cashAssistance": "{{ firstName }} got cash assistance (TANF)",
-        "disability": "{{ firstName }} got disability payments",
-        "socialSecurity": "{{ firstName }} got Social Security payments",
-        "veteransBenefits": "{{ firstName }} got Veteran’s benefits",
-        "alimony": "{{ firstName }} got alimony",
-        "childSupport": "{{ firstName }} got child support",
-        "otherSources": "{{ firstName }} has other sources of income"
+        "label": "Verifique todas las fuentes de ingresos que {{ firstName }} recibió entre {{ benefitStartDate }} y {{ benefitEndDate }}",
+        "explanation": "¿Cuánto cuesta?",
+        "hasJobs": "{{ firstName }} tiene uno o más trabajos",
+        "selfEmployed": "{{ firstName }} es autónomo",
+        "unemployment": "{{ firstName }} recibió beneficios de desempleo",
+        "cashAssistance": "{{ firstName }} recibió ayuda en efectivo (TANF)",
+        "disability": "{{ firstName }} recibió pagos por discapacidad",
+        "socialSecurity": "{{ firstName }} recibió pagos del Seguro Social",
+        "veteransBenefits": "{{ firstName }} recibió los beneficios de Veteranos",
+        "alimony": "{{ firstName }} recibió pensión alimenticia",
+        "childSupport": "{{ firstName }} recibió manutención infantil",
+        "otherSources": "{{ firstName }} tiene otras fuentes de ingresos"
       },
       "income": {
         "selfEmployed": "Self-employment income",
-        "unemployment": "Unemployment benefits",
-        "cashAssistance": "Cash assistance (TANF)",
-        "disability": "Disability payments",
-        "socialSecurity": "Social Security payments",
-        "veteransBenefits": "Veteran's benefits",
-        "alimony": "Alimony payments",
-        "childSupport": "Child support payments",
-        "otherSources": "Other sources of income"
+        "unemployment": "Beneficios de desempleo",
+        "cashAssistance": "Ayuda en efectivo (TANF)",
+        "disability": "Pagos por discapacidad",
+        "socialSecurity": "Pagos del Seguro Social",
+        "veteransBenefits": "Beneficios de Veteranos",
+        "alimony": "Pensión alimenticia",
+        "childSupport": "Manutención infantil",
+        "otherSources": "Otras fuentes de ingresos"
       }
     },
     "jobs": {
       "id": "Job",
-      "header": "Tell us about {{ firstName }}’s job(s).",
+      "header": "Cuéntenos sobre el (los) empleo(s) de {{ firstName }}.",
       "none": "No job income",
       "employerName": {
         "id": "Employer name",
-        "label": "What is the employer's name?"
+        "label": "¿Cuál es el nombre de su empleador?"
       },
       "pay": {
         "id": "Take home pay during disaster",
-        "label": "How much take home pay did {{ firstName }} receive from this job between {{ startDate }} and {{ endDate }}?"
+        "label": "¿Cuánto pago en efectivo recibió {{ firstName }} de este trabajo entre {{ startDate }} y {{ endDate }}?"
       },
       "stateAgency": {
         "id": "Employed by D-SNAP agency",
-        "label": "Is this employer a D-SNAP agency?"
+        "label": "¿Es este empleador una agencia D-SNAP?"
       },
       "otherJobs": {
         "id": "Add job",
-        "label": "Does {{ firstName }} have another job?"
+        "label": "¿Tiene {{ firstName }} otro empleo?"
       }
     }
   },
