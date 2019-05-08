@@ -71,9 +71,12 @@
     "conditions": {
       "header": "You may qualify if:",
       "body": [
-        "You do not get SNAP assistance already or other food assistance",
-        "You lived (or sometimes worked) in an affected area during the disaster. See the state's D-SNAP website for dates and locations affected by the disaster.",
-        "The disaster damaged your home or self-employment property, delayed, reduced, or stopped your income, caused you to lose food, or created any additional expense for your household"
+        "You do not receive SNAP benefits already",
+        "You lived (or worked) in an affected area during the disaster.",
+        "You experienced an adverse effect due to the disaster. Such as: ",
+        "A loss, reduction, or delay in income.",
+        "Inability to access liquid resources such as money in bank accounts.",
+        "Payment for disaster expenses you don’t expect to get reimbursed for by the end of the benefit period."
       ]
     },
     "language": {
