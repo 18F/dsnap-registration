@@ -34,6 +34,7 @@
     }
   },
   "general": {
+    "check": "Check all boxes that apply to you",
     "header": "D-SNAP Benefits Registration",
     "next": "Next",
     "yes": "Yes",
@@ -332,7 +333,7 @@
       "label": "What expenses caused by the disaster did your household pay or expect to pay between {{ benefitStartDate }} and {{ benefitEndDate }}?",
       "total": "Total disaster expenses",
       "explanation": "How much?",
-      "error": "Please enter an amount for this expense.",
+      "error": "Provide amount or uncheck this expense amount.",
       "repairs": "Home or business repairs",
       "tempShelter": "Temporary shelter expenses",
       "evacuation": "Evacuation exepenses",

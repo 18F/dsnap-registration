@@ -34,6 +34,7 @@
     }
   },
   "general": {
+    "check": "Marque todas las casillas que se apliquen a su caso",
     "header": "D-SNAP Benefits Registration",
     "next": "Siguiente",
     "yes": "Si",
@@ -308,37 +309,36 @@
     }
   },
   "impact": {
-    "header": "Now, tell us how you were impacted by the disaster.",
+    "header": "Ahora, cuéntenos cómo le afectó el desastre.",
     "buyFood": {
       "id": "Bought or buying food",
-      "label": "Has your household bought food or plan to buy food between {{ benefitStartDate }} and {{ benefitEndDate }}?"
+      "label": "¿En su hogar se compraron alimentos o se planea comprar entre {{ benefitStartDate }} y {{ benefitEndDate }}?"
     },
     "lostOrInaccessibleIncome": {
       "id": "Delayed, reduced, or stopped income",
-      "label": "Did the disaster delay, reduce, or stop your income or the income of any of the other members of your household?"
+      "label": "¿El desastre retrasó, redujo o detuvo sus ingresos o los ingresos de algún miembro de su hogar?"
     },
     "inaccessibleMoney": {
       "id": "Inaccessible money",
-      "label": "Are you or any other member of your household unable to access some of your money?"
+      "label": "¿Usted o algún otro miembro de su hogar no pudo acceder a parte de su dinero?"
     },
     "otherExpenses": {
-      "label": "What expenses caused by the disaster did your household pay or expect to pay between {{ benefitStartDate }} and {{ benefitEndDate }}?",
+      "label": "¿Qué gastos causados por el desastre pagó o espera pagar su hogar entre {{ benefitStartDate }} y {{ benefitEndDate }}?",
       "total": "Total disaster expenses",
-      "explanation": "How much?",
-      "error": "Please enter an amount for this expense.",
-      "repairs": "Home or business repairs",
-      "tempShelter": "Temporary shelter expenses",
-      "evacuation": "Evacuation exepenses",
-      "foodLoss": "Food lost or spoiled during disaster",
-      "other": "Other expenses",
-      "none": "None"
+      "explanation": "¿Cuánto cuesta?",
+      "error": "Indique el monto o deseleccione este gasto.",
+      "repairs": "Reparaciones del hogar o negocio",
+      "tempShelter": "Gastos de alojamiento temporal",
+      "evacuation": "Gastos de evacuación",
+      "foodLoss": "Alimentos perdidos o estropeados durante el desastre",
+      "other": "Otro"
     },
     "expenses": {
-      "repairs": "Home/business repair expenses",
-      "tempShelter": "Temporary shelter expenses",
-      "evacuation": "Evacuation expenses",
-      "foodLoss": "Food loss expenses",
-      "other": "Other expenses"
+      "repairs": "Reparaciones del hogar o negocio",
+      "tempShelter": "Gastos de alojamiento temporal",
+      "evacuation": "Gastos de evacuación",
+      "foodLoss": "Alimentos perdidos o estropeados durante el desastre",
+      "other": "Otro"
     }
   },
   "resources": {
