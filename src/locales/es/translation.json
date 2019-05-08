@@ -1,38 +1,4 @@
 {
-  "worker": {
-    "search": {
-      "action": "Search",
-      "header": "Find a registration",
-      "lede": "Fill in at least one of these fields to find a registration",
-      "results": "Results",
-      "id": {
-        "label": "Registration id"
-      },
-      "ssn": {
-        "label": "Registrant's social security number"
-      },
-      "dob": {
-        "label": "Registrant's date of birth"
-      },
-      "lastName": {
-        "label": "Registrant's last name"
-      },
-      "stateId": {
-        "label": "Registrant's state id number"
-      }
-    },
-    "review": {
-      "ebt": {
-        "header": "EBT",
-        "label": "EBT card number"
-      },
-      "eligibility": {
-        "header": "Based on the information below, this applicant appears to be:"
-      },
-      "eligible": "Eligible",
-      "ineligible": "Ineligible"
-    }
-  },
   "general": {
     "check": "Marque todas las casillas que se apliquen a su caso",
     "header": "D-SNAP Benefits Registration",
@@ -45,6 +11,7 @@
     "person": "Persona",
     "people": "Personas",
     "select": "Seleccione una",
+    "step": "Paso {{ step }} de {{ steps }}",
     "delete": "delete",
     "notApplicable": "Not applicable",
     "leaveBlank": "Puede dejar esta casilla vacía si no desea responder.",
@@ -169,7 +136,7 @@
       }
     },
     "addresses": {
-      "id": "Residence address",
+      "id": "Dirección residencial",
       "header": "¿Dónde vivía en {{ benefitStartDate }}?",
       "street1": {
         "label": "Dirección 1"
@@ -199,7 +166,7 @@
       "label": "¿Cuál es su dirección de correo electrónico (si tiene una)?"
     },
     "mailingAddress": {
-      "id": "Mailing address",
+      "id": "Dirección postal",
       "header": "¿Dónde recibe su correo?"
     },
     "offramp": {
@@ -219,7 +186,7 @@
         "year": "Año"
       },
       "stateId": {
-        "id": "Driver's License / State ID",
+        "id": "Licencia de conducir / Identificación estatal",
         "label": "¿Cuál es su licencia de conducir o número de identificación estatal?",
         "explanation": "Puede dejar esta casilla vacía si no lo sabe o no lo tiene disponible. Proporcionarlo nos ayudará a verificar su información más rápido."
       },
@@ -247,13 +214,13 @@
       },
       "whyAsk": {
         "header": "¿Por qué preguntamos por sexo, etnicidad, raza?",
-        "copy": "We use your Social Security Number to check information about to find out what you qualify for as we go through these steps.\n With your Social Security Number, we may be able to sign you up for services today.\n You do not have to provide your Social Security Number right now, but if you choose not to, you will be asked to provide documents that prove things like your income sources."
+        "copy": "Por determinar"
       }
     }
   },
   "household": {
     "count": {
-      "justMeOption": "Just me", 
+      "justMeOption": "Sólo yo", 
       "header": "Ahora, díganos si comparte comida con otras personas.",
       "label": "¿Cuántas personas para las que compra alimentos y con las que comparte comidas regularmente vivían en su hogar el {{ benefitStartDate }}? Si vivía solo, conteste 'Just me'."
     },
@@ -304,7 +271,7 @@
     },
     "foodAssistance": {
       "header": "Debemos preguntarle si usted recibe otra ayuda alimentaria.",
-      "id": "Receiving food assistance",
+      "id": "Recibiendo ayuda alimentaria",
       "label": "Seleccione a las personas que hayan recibido beneficios del Programa de Asistencia de Nutrición Suplementaria (SNAP) desde {{ benefitStartDate }} hasta {{ benefitEndDate }}.",
       "explanation": "Si nadie recibió, no seleccione a nadie."
     }
@@ -312,20 +279,20 @@
   "impact": {
     "header": "Ahora, cuéntenos cómo le afectó el desastre.",
     "buyFood": {
-      "id": "Bought or buying food",
+      "id": "Comprado o comprando comida",
       "label": "¿En su hogar se compraron alimentos o se planea comprar entre {{ benefitStartDate }} y {{ benefitEndDate }}?"
     },
     "lostOrInaccessibleIncome": {
-      "id": "Delayed, reduced, or stopped income",
+      "id": "Ingresos retrasados, reducidos o detenidos",
       "label": "¿El desastre retrasó, redujo o detuvo sus ingresos o los ingresos de algún miembro de su hogar?"
     },
     "inaccessibleMoney": {
-      "id": "Inaccessible money",
+      "id": "Recursos inaccesibles",
       "label": "¿Usted o algún otro miembro de su hogar no pudo acceder a parte de su dinero?"
     },
     "otherExpenses": {
       "label": "¿Qué gastos causados por el desastre pagó o espera pagar su hogar entre {{ benefitStartDate }} y {{ benefitEndDate }}?",
-      "total": "Total disaster expenses",
+      "total": "Gastos totales por desastre",
       "explanation": "¿Cuánto cuesta?",
       "error": "Indique el monto o deseleccione este gasto.",
       "repairs": "Reparaciones del hogar o negocio",
@@ -335,17 +302,17 @@
       "other": "Otro"
     },
     "expenses": {
-      "repairs": "Reparaciones del hogar o negocio",
+      "repairs": "Gastos de reparación de casa o negocio",
       "tempShelter": "Gastos de alojamiento temporal",
       "evacuation": "Gastos de evacuación",
-      "foodLoss": "Alimentos perdidos o estropeados durante el desastre",
+      "foodLoss": "Gastos de pérdida de comida",
       "other": "Otro"
     }
   },
   "resources": {
     "header": "Debemos hacerle algunas preguntas sobre dinero.",
     "moneyOnHand": {
-      "id": "Money on hand",
+      "id": "Efectivo en mano",
       "label": "¿Cuánto dinero tenían usted y los miembros de su hogar en {{ benefitStartDate }}?",
       "explanation": "Denos su mejor estimación. Esto incluye dinero en cuentas corrientes, cuentas de ahorro y cualquier otro efectivo que tenga disponible. No incluya los ingresos que recibió entre {{ benefitStartDate }} y {{ benefitEndDate }}."
     },
@@ -360,8 +327,8 @@
       "header": "Ahora, cuéntenos sobre los ingresos de {{ firstName }} durante el desastre.",
       "lede": "Si no tiene información de empleo para agregar, vaya al siguiente paso.",
       "incomeSources": {
-        "id": "Other income",
-        "total": "Total other income",
+        "id": "Otros ingresos",
+        "total": "Total de otros ingresos",
         "label": "Verifique todas las fuentes de ingresos que {{ firstName }} recibió entre {{ benefitStartDate }} y {{ benefitEndDate }}",
         "explanation": "¿Cuánto cuesta?",
         "hasJobs": "{{ firstName }} tiene uno o más trabajos",
@@ -384,23 +351,23 @@
         "veteransBenefits": "Beneficios de Veteranos",
         "alimony": "Pensión alimenticia",
         "childSupport": "Manutención infantil",
-        "otherSources": "Otras fuentes de ingresos"
+        "otherSources": "Otras ingresos"
       }
     },
     "jobs": {
-      "id": "Job",
+      "id": "Empleo",
       "header": "Cuéntenos sobre el (los) empleo(s) de {{ firstName }}.",
-      "none": "No job income",
+      "none": "Sin ingresos por empleo",
       "employerName": {
-        "id": "Employer name",
+        "id": "Nombre del empleador",
         "label": "¿Cuál es el nombre de su empleador?"
       },
       "pay": {
-        "id": "Take home pay during disaster",
+        "id": "Salario neto durante el desastre",
         "label": "¿Cuánto pago en efectivo recibió {{ firstName }} de este trabajo entre {{ startDate }} y {{ endDate }}?"
       },
       "stateAgency": {
-        "id": "Employed by D-SNAP agency",
+        "id": "Empleado por agencia D-SNAP",
         "label": "¿Es este empleador una agencia D-SNAP?"
       },
       "otherJobs": {
@@ -410,37 +377,37 @@
     }
   },
   "review": {
-    "header": "Please review your information.",
+    "header": "Por favor verifique su información.",
     "sections": {
-      "info": "Your info",
-      "household": "Your household",
-      "householdMatters": "Household matters",
-      "impact": "Disaster expenses",
-      "money": "Money",
-      "income": "{{ firstName }}'s income"
+      "info": "Su información",
+      "household": "Miembros de su hogar",
+      "householdMatters": "Asuntos del hogar",
+      "impact": "Gastos por desastre",
+      "money": "Dinero",
+      "income": "Ingreso de {{ firstName }}"
     },
-    "next": "Looks good!",
+    "next": "¡Se ve bien!",
     "edit": {
-      "inactive": "Edit",
+      "inactive": "Editar",
       "active": "Stop editing"
     },
     "details": {
-      "inactive": "See details",
-      "active": "Hide details"
+      "inactive": "Ver detalles",
+      "active": "Ocultar detalles"
     },
     "update": "Update",
     "addJob": "Add job",
     "addMember": "Add new household member"
   },
   "submit": {
-    "header": "Please review the terms and sign below, then you’re done!",
-    "lede": "Scroll down to agree and sign below.",
+    "header": "Revise los términos y firme abajo, ¡listo!",
+    "lede": "Desplácese hacia abajo para aceptar y firmar debajo.",
     "eula": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis vel eros donec ac odio tempor orci dapibus. In egestas erat imperdiet sed euismod nisi. Non sodales neque sodales ut etiam. Accumsan tortor posuere ac ut. Elit sed vulputate mi sit amet mauris commodo quis imperdiet. Elit ullamcorper dignissim cras tincidunt lobortis. Purus in massa tempor nec feugiat nisl. Cursus metus aliquam eleifend mi in nulla. Tortor pretium viverra suspendisse potenti. Morbi tristique senectus et netus et malesuada. Aliquam sem et tortor consequat id porta. Enim lobortis scelerisque fermentum dui faucibus in. Proin libero nunc consequat interdum varius. Lectus urna duis convallis convallis. Non nisi est sit amet facilisis magna etiam tempor orci. Sit amet nulla facilisi morbi tempus iaculis urna id volutpat. Commodo elit at imperdiet dui accumsan sit. Aliquam ut porttitor leo a diam. Sed ullamcorper morbi tincidunt ornare massa eget egestas. Quis commodo odio aenean sed adipiscing diam donec adipiscing tristique. Massa eget egestas purus viverra accumsan. Ut tortor pretium viverra suspendisse potenti nullam ac tortor vitae. Tortor consequat id porta nibh venenatis cras sed. Augue eget arcu dictum varius duis at consectetur. Semper auctor neque vitae tempus. Massa placerat duis ultricies lacus sed turpis tincidunt. Tempor orci dapibus ultrices in iaculis nunc sed. Morbi leo urna molestie at elementum eu facilisis sed. Consequat interdum varius sit amet mattis vulputate. Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Amet risus nullam eget felis. Vitae aliquet nec ullamcorper sit amet. Nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Volutpat est velit egestas dui id ornare arcu odio ut. Egestas congue quisque egestas diam in arcu cursus. Sagittis purus sit amet volutpat consequat. Dignissim sodales ut eu sem integer vitae justo eget magna. Semper quis lectus nulla at volutpat diam ut venenatis. Egestas erat imperdiet sed euismod nisi porta lorem mollis aliquam. Luctus accumsan tortor posuere ac ut consequat. Enim neque volutpat ac tincidunt vitae semper. Quam lacus suspendisse faucibus interdum posuere lorem. In egestas erat imperdiet sed euismod nisi. Sed adipiscing diam donec adipiscing tristique. Eu tincidunt tortor aliquam nulla facilisi. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Pulvinar proin gravida hendrerit lectus. Ac orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Vivamus arcu felis bibendum ut tristique et egestas quis ipsum. Dolor sit amet consectetur adipiscing elit ut. A iaculis at erat pellentesque adipiscing commodo elit at. Vivamus arcu felis bibendum ut tristique et. Duis ultricies lacus sed turpis. Bibendum est ultricies integer quis auctor elit sed vulputate. Turpis tincidunt id aliquet risus feugiat. Faucibus vitae aliquet nec ullamcorper sit amet. Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna. Nunc scelerisque viverra mauris in aliquam sem fringilla ut morbi. Sit amet mauris commodo quis imperdiet massa tincidunt nunc. Facilisis gravida neque convallis a cras semper auctor. Pharetra sit amet aliquam id diam maecenas ultricies mi. At imperdiet dui accumsan sit amet. Hac habitasse platea dictumst vestibulum rhoncus est pellentesque elit. Lacinia quis vel eros donec ac odio tempor",
-    "agree": "I agree",
-    "disagree": "I do not agree",
-    "label": "Enter your full legal name to sign this registration",
+    "agree": "Estoy de acuerdo",
+    "disagree": "No estoy de acuerdo",
+    "label": "Ingrese su nombre legal completo para firmar este registro",
     "body": [],
-    "next": "Submit registration",
+    "next": "Enviar registro",
     "error": "Something went wrong with your submission. Please wait a moment and try again."
   },
   "eligibility": {
@@ -449,15 +416,49 @@
       "id": "Registration number"
     },
     "ineligible": {
-      "header": "It looks like you may not be eligible for D-SNAP.",
-      "lede": "Please write down this registration number. You will need this number to locate this registration later.",
-      "body": "Even though you may not be eligible based on the information you gave us, you can still be interviewed by D-SNAP staff to confirm. Visit your state's D-SNAP website for details."
+      "header": "Parece que podría no ser elegible para D-SNAP.",
+      "lede": "Por favor, anote este número de registro. Necesitará este número para localizar su registro más adelante.",
+      "body": " Aunque no sea elegible en base a la información que nos proporcionó, igual puede ser entrevistado por el personal de D-SNAP para confirmar. Visite el sitio web de D-SNAP de su estado para obtener detalles."
     },
     "eligible": {
-      "header": "You are now ready for your interview.",
-      "lede": "Please write down this registration number. You will need this number to locate this registration later.",
-      "body": "Next, you will need to be interviewed by D-SNAP staff. Visit your state's D-SNAP website for details."
+      "header": "Ya está listo para su entrevista.",
+      "lede": "Por favor, anote este número de registro. Necesitará este número para localizar su registro más adelante.",
+      "body": " A continuación, deberá ser entrevistado por el personal de D-SNAP. Visite el sitio web de D-SNAP de su estado para obtener detalles."
     },
     "action": "Clear session and quit"
+  },
+  "worker": {
+    "search": {
+      "action": "Search",
+      "header": "Find a registration",
+      "lede": "Fill in at least one of these fields to find a registration",
+      "results": "Results",
+      "id": {
+        "label": "Registration id"
+      },
+      "ssn": {
+        "label": "Registrant's social security number"
+      },
+      "dob": {
+        "label": "Registrant's date of birth"
+      },
+      "lastName": {
+        "label": "Registrant's last name"
+      },
+      "stateId": {
+        "label": "Registrant's state id number"
+      }
+    },
+    "review": {
+      "ebt": {
+        "header": "EBT",
+        "label": "EBT card number"
+      },
+      "eligibility": {
+        "header": "Based on the information below, this applicant appears to be:"
+      },
+      "eligible": "Eligible",
+      "ineligible": "Ineligible"
+    }
   }
 }

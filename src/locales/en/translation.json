@@ -1,38 +1,4 @@
 {
-  "worker": {
-    "search": {
-      "action": "Search",
-      "header": "Find a registration",
-      "lede": "Fill in at least one of these fields to find a registration",
-      "results": "Results",
-      "id": {
-        "label": "Registration id"
-      },
-      "ssn": {
-        "label": "Registrant's social security number"
-      },
-      "dob": {
-        "label": "Registrant's date of birth"
-      },
-      "lastName": {
-        "label": "Registrant's last name"
-      },
-      "stateId": {
-        "label": "Registrant's state id number"
-      }
-    },
-    "review": {
-      "ebt": {
-        "header": "EBT",
-        "label": "EBT card number"
-      },
-      "eligibility": {
-        "header": "Based on the information below, this applicant appears to be:"
-      },
-      "eligible": "Eligible",
-      "ineligible": "Ineligible"
-    }
-  },
   "general": {
     "check": "Check all boxes that apply to you",
     "header": "D-SNAP Benefits Registration",
@@ -45,6 +11,7 @@
     "person": "Person",
     "people": "People",
     "select": "Please choose an option",
+    "step": "Step {{ step }} of {{ steps }}",
     "delete": "delete",
     "notApplicable": "Not applicable",
     "leaveBlank": "You can leave this blank if you don't want to answer",
@@ -151,7 +118,7 @@
     "action": "Start registering"
   },
   "basicInfo": {
-    "moneyOnHand": "Money on hand",
+    "moneyOnHand": "Cash on hand",
     "name": {
       "id": "Name",
       "header": "Let’s start with the basics.",
@@ -327,7 +294,7 @@
       "label": "Did the disaster delay, reduce, or stop your income or the income of any of the other members of your household?"
     },
     "inaccessibleMoney": {
-      "id": "Inaccessible money",
+      "id": "Inaccessible resources",
       "label": "Are you or any other member of your household unable to access some of your money?"
     },
     "otherExpenses": {
@@ -353,7 +320,7 @@
   "resources": {
     "header": "We need to ask you some money questions.",
     "moneyOnHand": {
-      "id": "Money on hand",
+      "id": "Cash on hand",
       "label": "How much money did you and your household have on hand on {{ benefitStartDate }}?",
       "explanation": "Give your best estimate. This includes money in checking accounts, savings accounts, and any other cash you have available. Do not include income you recieved between {{ benefitStartDate }} and {{ benefitEndDate }}."
     },
@@ -467,5 +434,39 @@
       "body": "Next, you will need to be interviewed by D-SNAP staff. Visit your state's D-SNAP website for details."
     },
     "action": "Clear session and quit"
+  },
+  "worker": {
+    "search": {
+      "action": "Search",
+      "header": "Find a registration",
+      "lede": "Fill in at least one of these fields to find a registration",
+      "results": "Results",
+      "id": {
+        "label": "Registration id"
+      },
+      "ssn": {
+        "label": "Registrant's social security number"
+      },
+      "dob": {
+        "label": "Registrant's date of birth"
+      },
+      "lastName": {
+        "label": "Registrant's last name"
+      },
+      "stateId": {
+        "label": "Registrant's state id number"
+      }
+    },
+    "review": {
+      "ebt": {
+        "header": "EBT",
+        "label": "EBT card number"
+      },
+      "eligibility": {
+        "header": "Based on the information below, this applicant appears to be:"
+      },
+      "eligible": "Eligible",
+      "ineligible": "Ineligible"
+    }
   }
 }
