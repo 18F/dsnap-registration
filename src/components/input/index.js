@@ -38,7 +38,7 @@ class Input extends React.Component {
         { this.renderPrefix() }
         <input
           id={this.props.name}
-          autoComplete="new-password"
+          autoComplete="off"
           type={this.props.type}
           className={this.props.className}
           name={this.props.name}
