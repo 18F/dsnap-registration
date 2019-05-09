@@ -34,9 +34,12 @@ const workerChart = {
       states: {
         idle: {},
         search: {
-          onEntry: () => {
-            localStorage.removeItem(STORAGE_KEY)
-          },
+          onEntry: [
+            () => {
+              localStorage.removeItem(STORAGE_KEY);
+            },
+            assign(initialState())
+          ],
           meta: {
             path: '/worker/search'
           }
@@ -46,7 +49,7 @@ const workerChart = {
             meta: { loading: true }
           }),
           invoke: {
-            id: 'search',
+            id: 'loadCurrentRegistration',
             src: (_, { type, ...searchParams }) => {
               return getRegistrations(searchParams);
             },
@@ -56,13 +59,7 @@ const workerChart = {
                 assign({
                   registrations: (_, data) => data.data,
                   currentRegistration: (ctx, data) => {
-                    if (!ctx.registrations.length && ctx.currentRegistration) {
-                      // we are on the worker review page, set the current registration to the
-                      // newly fetched server data
-                      return data.data[0];
-                    }
-
-                    return null;
+                    return data.data[0];
                   },
                   meta: { loading: false }
                 }),
@@ -92,7 +89,6 @@ const workerChart = {
             },
             onError: {
               actions: [
-                () => console.log('error?'),
                 assign({ meta: { loading: false } })
               ]
             },

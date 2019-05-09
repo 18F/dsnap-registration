@@ -23,6 +23,14 @@ class Collapsible extends React.Component {
     collapsed: this.props.collapsed,
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.collapsed !== this.props.collapsed) {
+      this.setState({
+        collapsed: this.props.collapsed
+      });
+    }
+  }
+
   handleClick = (event) => {
     event.preventDefault();
 
