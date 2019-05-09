@@ -17,9 +17,7 @@ class App extends React.Component {
             <header className="usa-banner-header">
               <div className="margin-x-5">
                 <div className="font-sans-md">
-                  <b>
-                    This is a beta site. 
-                  </b>
+                  <b>Demonstration website only.</b> No D-SNAP benefits will be issued. Do not enter private or personal data. <a className="cursor-pointer" href="https://github.com/18F/eligibility-rules-service/blob/master/dsnap.md">Read more</a>
                 </div>
               </div>
             </header>
