@@ -32,7 +32,7 @@ class ReviewSubSection extends React.Component {
   ref = React.createRef()
 
   isEditMode() {
-    return this.state.editing;
+    return this.state.editing && !this.isReadonly();
   }
 
   isReadonly() {
@@ -67,7 +67,7 @@ class ReviewSubSection extends React.Component {
   }
 
   renderEditAction() {
-    if (this.isEditMode() || this.isReadonly()) {
+    if (this.isEditMode()) {
       return null;
     }
 
@@ -94,7 +94,7 @@ class ReviewSubSection extends React.Component {
   }
 
   renderUpdateAction() {
-    if (!this.isEditMode() || this.isReadonly()) {
+    if (!this.isEditMode()) {
       return null;
     }
 
@@ -111,14 +111,14 @@ class ReviewSubSection extends React.Component {
   render() {
     const { title } = this.props;
     const editClassName = classnames({
-      'bg-primary-lighter padding-2': this.state.editing
+      'bg-primary-lighter padding-2': this.isEditMode()
     });
 
     return (
       <div id={`review-subsection-${title}`} className="margin-top-2 margin-bottom-6">
         { this.renderHeader() }
         <div className={editClassName}>
-          { this.props.children({ editing: this.state.editing }) }
+          { this.props.children({ editing: this.isEditMode() }) }
           { this.renderUpdateAction() }
         </div>
       </div>

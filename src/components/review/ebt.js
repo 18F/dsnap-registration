@@ -25,7 +25,7 @@ class EBTSection extends React.Component {
   validateEBT = (value) => {
     let message = '';
 
-    if (!/[\d]{16}/.test(value)) {
+    if (!/[\d]{16}/.test(value) && value !== null) {
       message = 'EBT input must be a 16 digit number.';
     }
 
