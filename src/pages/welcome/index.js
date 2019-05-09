@@ -52,10 +52,6 @@ class PreregistrationSection extends React.Component {
           </div>
         </div>
         <div className="grid-container">
-          <section className="margin-x-5">
-            <h2>{ t('welcome.conditions.header') }</h2>
-            { helpers.renderListT({ name: 'welcome.conditions.body' }) }
-          </section>
           <Formik
             initialValues={this.props.values}
             onSubmit={this.handleSubmit}
@@ -72,6 +68,10 @@ class PreregistrationSection extends React.Component {
                     options={this.getLanguageOptions()}
                     onChange={this.handleChange}
                   />
+                  <section className="margin-y-4">
+                    <h2>{ t('welcome.conditions.header') }</h2>
+                    { helpers.renderListT({ name: 'welcome.conditions.body' }) }
+                  </section>
                   <div className="margin-y-2">
                     <Button disabled={disabled}>
                       {t('welcome.language.action')}
