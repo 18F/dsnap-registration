@@ -44,7 +44,9 @@ class ResidenceAddress extends React.Component {
 
     return (
       <Wizard.Step
-        header={t(`${buildNestedKey(sectionName, tKey)}.header`, { benefitStartDate: getBeginDate(disaster) })}
+        header={t(`${buildNestedKey(sectionName, tKey)}.header`, {
+          benefitStartDate: getBeginDate(disaster)
+        })}
         modelName={modelName}
         registerStep={this.props.registerStep}
         onNext={setMailingAddress(this.props.formik.values.basicInfo)}
