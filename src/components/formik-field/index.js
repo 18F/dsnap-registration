@@ -163,21 +163,13 @@ const FormikFieldGroup = ({
 class FormikFieldDateGroup extends React.Component {
   manageErrors() {
     const { formik: { errors } } = this.props;
-    const resolved = getIn(errors, this.props.name);
+    const message = getIn(errors, this.props.name);
 
-    if (!resolved) {
+    if (!message) {
       return false;
     }
 
-    const formatted = Array.isArray(resolved) ?
-      resolved :
-      Object.values(resolved).map(v => v);
-
-    if (!formatted.length) {
-      return null;
-    }
-
-    return formatted.map(message => <InputError message={message} key={message} />);
+    return <InputError message={message} key={message} />;
   }
 
   hasErrors() {
@@ -188,11 +180,7 @@ class FormikFieldDateGroup extends React.Component {
       return false;
     }
 
-    if (Array.isArray(resolved)) {
-      return resolved.length
-    } else {
-      return Object.keys(resolved).length;
-    }
+    return Object.keys(resolved).length;
   }
 
   render() {
