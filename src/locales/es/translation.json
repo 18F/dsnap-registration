@@ -75,7 +75,7 @@
         "Padeció un efecto adverso debido al desastre. Como por ejemplo: ",
         "Una pérdida, reducción o retraso en sus ingresos.",
         "Incapacidad de acceder a activos líquidos, tales como dinero de cuentas bancarias.",
-        "Pago de gastos relativos al desastre por los cuales no espera ser reembolsado antes de end of benefit period."
+        "Pago de gastos relativos al desastre por los cuales no espera ser reembolsado antes de que finalice el período del beneficio."
       ]
     },
     "language": {
@@ -250,7 +250,7 @@
       }
     },
     "memberDetails": {
-      "none": "You didn't indicate any other members of your household",
+      "none": "Usted no indicó ningún otro miembro de su hogar.",
       "header": "¡Genial! Vamos a obtener más información sobre {{ firstName }}.",
       "dob": {
         "label": "¿Cuál es la fecha de nacimiento de {{ firstname }}?"
@@ -343,7 +343,7 @@
         "otherSources": "{{ firstName }} tiene otras fuentes de ingresos"
       },
       "income": {
-        "selfEmployed": "Self-employment income",
+        "selfEmployed": "Ingreso por trabajo independiente",
         "unemployment": "Beneficios de desempleo",
         "cashAssistance": "Ayuda en efectivo (TANF)",
         "disability": "Pagos por discapacidad",
@@ -371,7 +371,7 @@
         "label": "¿Es este empleador una agencia D-SNAP?"
       },
       "otherJobs": {
-        "id": "Add job",
+        "id": "Agregue un trabajo",
         "label": "¿Tiene {{ firstName }} otro empleo?"
       }
     }
@@ -389,15 +389,15 @@
     "next": "¡Se ve bien!",
     "edit": {
       "inactive": "Editar",
-      "active": "Stop editing"
+      "active": "Deje de editar"
     },
     "details": {
       "inactive": "Ver detalles",
       "active": "Ocultar detalles"
     },
-    "update": "Update",
-    "addJob": "Add job",
-    "addMember": "Add new household member"
+    "update": "Actualización",
+    "addJob": "Agregue un trabajo",
+    "addMember": "Agregue un nuevo miembro de su familia "
   },
   "submit": {
     "header": "Revise los términos y firme abajo, ¡listo!",
@@ -408,7 +408,7 @@
     "label": "Ingrese su nombre legal completo para firmar este registro",
     "body": [],
     "next": "Enviar registro",
-    "error": "Something went wrong with your submission. Please wait a moment and try again."
+    "error": "Algo no funcionó con su envío. Por favor espere un momento y vuelva a intentar."
   },
   "eligibility": {
     "registration": {
@@ -425,7 +425,7 @@
       "lede": "Por favor, anote este número de registro. Necesitará este número para localizar su registro más adelante.",
       "body": " A continuación, deberá ser entrevistado por el personal de D-SNAP. Visite el sitio web de D-SNAP de su estado para obtener detalles."
     },
-    "action": "Clear session and quit"
+    "action": "Cerrar sesión y salir"
   },
   "worker": {
     "search": {
