@@ -20,9 +20,10 @@ The project has been set up for continuous integration and deployment through Ci
 
 | Space | URL | Deployment trigger |
 |-------|-----|--------------------|
-| dev   | https://dsnap-registration-dev.app.cloud.gov | Any push to a branch other than `master` or `develop`|
-| staging   | https://dsnap-registration-staging.app.cloud.gov | Any push to `develop`|
-| prod   | https://dsnap-registration.app.cloud.gov | Any push to `master` |
+| dev   | https://dsnap-registration-dev.app.cloud.gov | Any push to a branch other than `master`|
+| staging   | https://dsnap-registration-staging.app.cloud.gov | Any push to `master`|
+| prod   | https://dsnap-registration.app.cloud.gov | Any tag push with a tag that begins with 'v'|
+| demo   | https://dsnap-registration-demo.app.cloud.gov | Any tag push with a tag that begins with 'v'|
 
 ### Tests
 
