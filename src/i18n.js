@@ -5,10 +5,12 @@ import { en, es } from './locales';
 let lng;
 
 try {
-  lng = JSON.parse(localStorage.getItem('dsnap-registration')).config.language;
+  const registrationCache = JSON.parse(localStorage.getItem('dsnap-registration'));
+  lng = registrationCache.config.language;
 } catch(e) {
   lng = 'en';
 }
+
 const resources = {
   en: {
     translation: en

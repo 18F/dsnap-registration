@@ -1,4 +1,4 @@
 export default () => ({
   useLocalStorage: null,
-  language: '',
+  language: 'en',
 });
