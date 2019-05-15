@@ -32,7 +32,7 @@ class ReviewSubSection extends React.Component {
   ref = React.createRef()
 
   isEditMode() {
-    return this.state.editing && !this.isReadonly();
+    return this.state.editing;
   }
 
   isReadonly() {
@@ -67,7 +67,7 @@ class ReviewSubSection extends React.Component {
   }
 
   renderEditAction() {
-    if (this.isEditMode()) {
+    if (this.isEditMode() || this.isReadonly()) {
       return null;
     }
 
@@ -94,7 +94,7 @@ class ReviewSubSection extends React.Component {
   }
 
   renderUpdateAction() {
-    if (!this.isEditMode()) {
+    if (!this.isEditMode() || this.isReadonly()) {
       return null;
     }
 
