@@ -15,18 +15,18 @@ export const dateSchema = shapeOf({
   year: string()
 })
 .test('isValidDOB', t('errors.date'), ({ month, day, year }) => {
-  if (month && day && year) {
-    const safeDay = leftPad(day);
-    const safeMonth = leftPad(month);
-
-    const dob = `${year}-${safeMonth}-${safeDay}`;
-    const fullDate = moment(dob, DATE_FORMAT, true);
-
-    return fullDate.isValid() &&
-      fullDate.isAfter(OLDEST_VALID_DOB);
+  if (!month && !day && !year) {
+    return true;
   }
 
-  return true;
+  const safeDay = leftPad(day);
+  const safeMonth = leftPad(month);
+
+  const dob = `${year}-${safeMonth}-${safeDay}`;
+  const fullDate = moment(dob, DATE_FORMAT, true);
+
+  return fullDate.isValid() &&
+    fullDate.isAfter(OLDEST_VALID_DOB);
 });
 
 export const ssnSchema = string()
