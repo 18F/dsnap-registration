@@ -286,15 +286,15 @@
       "label": "¿Usted o algún otro miembro de su hogar no pudo acceder a parte de su dinero?"
     },
     "otherExpenses": {
-      "label": "¿Qué gastos causados por el desastre pagó o espera pagar su hogar entre {{ benefitStartDate }} y {{ benefitEndDate }}?",
+      "label": "¿Qué gastos causados por el desastre pagó o espera pagar entre {{ benefitStartDate }} y {{ benefitEndDate }}?",
       "total": "Gastos totales por desastre",
       "explanation": "¿Cuánto cuesta?",
       "error": "Indique el monto o deseleccione este gasto.",
-      "repairs": "Reparaciones del hogar o negocio",
-      "tempShelter": "Gastos de alojamiento temporal",
-      "evacuation": "Gastos de evacuación",
-      "foodLoss": "Alimentos perdidos o estropeados durante el desastre",
-      "other": "Otro"
+      "repairs": "Reparaciones de su hogar o negocio (por ejemplo, reparación de estructuras o remoción de escombros)",
+      "tempShelter": "Gastos de alojamiento temporal (por ejemplo, el alquiler de una vivienda o alojamiento en un hotel)",
+      "evacuation": "Gastos de evacuación (por ejemplo transporte o alojamiento temporal)",
+      "foodLoss": "Alimentos perdidos o estropeados durante el desastre (por ejemplo debide a cortes de luz o inundación)",
+      "other": "Otros gastos o pagos por necesidades debido al desastre"
     },
     "expenses": {
       "repairs": "Gastos de reparación de casa o negocio",
@@ -338,7 +338,7 @@
         "otherSources": "{{ firstName }} tiene otras fuentes de ingresos"
       },
       "income": {
-        "selfEmployed": "Ingreso por trabajo independiente",
+        "selfEmployed": "Ingreso por trabajo autónomo",
         "unemployment": "Beneficios de desempleo",
         "cashAssistance": "Ayuda en efectivo (TANF)",
         "disability": "Pagos por discapacidad",
@@ -392,7 +392,7 @@
     },
     "update": "Actualización",
     "addJob": "Agregue un trabajo",
-    "addMember": "Agregue un nuevo miembro de su familia "
+    "addMember": "Agregue un nuevo miembro de su hogar"
   },
   "submit": {
     "header": "Revise los términos y firme abajo, ¡listo!",
