@@ -300,11 +300,11 @@
       "total": "Total disaster expenses",
       "explanation": "How much?",
       "error": "Provide amount or uncheck this expense amount.",
-      "repairs": "Home or business repairs",
-      "tempShelter": "Temporary shelter expenses",
-      "evacuation": "Evacuation exepenses",
-      "foodLoss": "Food lost or spoiled during disaster",
-      "other": "Other expenses",
+      "repairs": "Repairs to your home or business (for example, repair to structures or debris removal)",
+      "tempShelter": "Temporary shelter expenses (for example, renting a new home or staying in a hotel)",
+      "evacuation": "Evacuation expenses (for example, transportation or temporary lodging)",
+      "foodLoss": "Food lost or spoiled during disaster (for example, due to power outages or flooding)",
+      "other": "Other expenses or payments for serious and necessary needs due to the disaster",
       "none": "None"
     },
     "expenses": {
